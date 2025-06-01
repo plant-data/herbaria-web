@@ -11,15 +11,29 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SearchRouteImport } from './routes/search/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as SearchIndexImport } from './routes/search/index'
 import { Route as DemoTanstackQueryImport } from './routes/demo.tanstack-query'
 
 // Create/Update Routes
+
+const SearchRouteRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const SearchIndexRoute = SearchIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SearchRouteRoute,
 } as any)
 
 const DemoTanstackQueryRoute = DemoTanstackQueryImport.update({
@@ -39,6 +53,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/demo/tanstack-query': {
       id: '/demo/tanstack-query'
       path: '/demo/tanstack-query'
@@ -46,43 +67,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoTanstackQueryImport
       parentRoute: typeof rootRoute
     }
+    '/search/': {
+      id: '/search/'
+      path: '/'
+      fullPath: '/search/'
+      preLoaderRoute: typeof SearchIndexImport
+      parentRoute: typeof SearchRouteImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface SearchRouteRouteChildren {
+  SearchIndexRoute: typeof SearchIndexRoute
+}
+
+const SearchRouteRouteChildren: SearchRouteRouteChildren = {
+  SearchIndexRoute: SearchIndexRoute,
+}
+
+const SearchRouteRouteWithChildren = SearchRouteRoute._addFileChildren(
+  SearchRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/search': typeof SearchRouteRouteWithChildren
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/search/': typeof SearchIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/search': typeof SearchIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/search': typeof SearchRouteRouteWithChildren
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/search/': typeof SearchIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/demo/tanstack-query'
+  fullPaths: '/' | '/search' | '/demo/tanstack-query' | '/search/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/demo/tanstack-query'
-  id: '__root__' | '/' | '/demo/tanstack-query'
+  to: '/' | '/demo/tanstack-query' | '/search'
+  id: '__root__' | '/' | '/search' | '/demo/tanstack-query' | '/search/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SearchRouteRoute: typeof SearchRouteRouteWithChildren
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SearchRouteRoute: SearchRouteRouteWithChildren,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
 }
 
@@ -97,14 +144,25 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/search",
         "/demo/tanstack-query"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
+    "/search": {
+      "filePath": "search/route.tsx",
+      "children": [
+        "/search/"
+      ]
+    },
     "/demo/tanstack-query": {
       "filePath": "demo.tanstack-query.tsx"
+    },
+    "/search/": {
+      "filePath": "search/index.tsx",
+      "parent": "/search"
     }
   }
 }

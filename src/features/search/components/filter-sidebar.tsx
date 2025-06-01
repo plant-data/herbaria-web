@@ -1,4 +1,3 @@
-
 import { FilterAutocomplete } from '@/components/filters/filter-autocomplete'
 import {
   Sidebar,
@@ -10,8 +9,7 @@ import {
 } from '@/components/ui/sidebar'
 
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-
-import { FilterTrashButton } from '@/components/filters/filter-trash-button'
+import { FilterResetButton } from '@/features/search/components/filter-reset-button'
 
 export function FilterSidebar({
   ...props

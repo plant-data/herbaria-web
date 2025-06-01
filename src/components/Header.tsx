@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { ThemeToggle } from './theme-toggle'
+import { LanguageToggle } from './language-toggle'
 
 export default function Header() {
   return (
@@ -13,6 +14,7 @@ export default function Header() {
           <Link to="/demo/tanstack-query">TanStack Query</Link>
         </div>
         <ThemeToggle />
+        <LanguageToggle />
       </nav>
     </header>
   )

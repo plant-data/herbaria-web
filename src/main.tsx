@@ -1,3 +1,4 @@
+import { scan } from 'react-scan'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
@@ -6,6 +7,10 @@ import { routeTree } from '@/routeTree.gen'
 import reportWebVitals from '@/reportWebVitals.ts'
 import { ThemeProvider } from '@/components/theme-provider'
 import '@/styles.css'
+
+scan({
+  enabled: true,
+})
 
 // create a new router instance
 const router = createRouter({

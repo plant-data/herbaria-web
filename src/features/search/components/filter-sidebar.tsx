@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Autocomplete } from '@/features/search/components/autocomplete'
 import {
   Sidebar,
@@ -32,6 +33,7 @@ export function FilterSidebar({
     activeFiltersCount,
     resetFilters,
   } = useFilterStore()
+  const { t } = useTranslation()
 
   const handleSetYears = useDebouncedCallback((value: [number, number]) => {
     console.log('AppSidebar: Debounced setYears called with:', value)
@@ -61,8 +63,8 @@ export function FilterSidebar({
       </SidebarHeader>
       <SidebarContent className="px-2">
         <Autocomplete
-          label="Plant:"
-          placeholder="Search name"
+          label={t('search.filters.scientific-name-label')}
+          placeholder={t('search.filters.scientific-name-placeholder')}
           selectedValues={scientificNames}
           onSelectedValuesChange={setScientificNames}
           queryKey="plantscientificnamesearch"
@@ -79,8 +81,8 @@ export function FilterSidebar({
         />
 
         <Autocomplete
-          label="Locality:"
-          placeholder="Search a locality"
+          label={t('search.filters.locality-label')}
+          placeholder={t('search.filters.locality-placeholder')}
           selectedValues={locality}
           onSelectedValuesChange={setLocality}
           queryKey="localitysearch"
@@ -88,8 +90,8 @@ export function FilterSidebar({
           minLength={4}
         />
         <Autocomplete
-          label="Name in FlorItaly:"
-          placeholder="Search a name in checklist"
+          label={t('search.filters.floritaly-name-label')}
+          placeholder={t('search.filters.floritaly-name-placeholder')}
           selectedValues={floritalyNames}
           onSelectedValuesChange={setFloritalyNames}
           queryKey="floritalysearch"

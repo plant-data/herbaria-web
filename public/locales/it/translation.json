@@ -1,3 +1,13 @@
 {
-  "herbaria-hero": "test"
+  "herbaria-hero": "test",
+  "search": {
+    "filters": {
+      "scientific-name-label": "Nome scientifico",
+      "scientific-name-placeholder": "Cerca un nome scientifico",
+      "locality-label": "Località",
+      "locality-placeholder": "Cerca una località",
+      "floritaly-name-label": "Nome in Floritaly",
+      "floritaly-name-placeholder": "Cerca un nome in Floritaly"
+    }
+  }
 }

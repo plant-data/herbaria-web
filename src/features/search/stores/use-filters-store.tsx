@@ -5,9 +5,8 @@ export interface AutocompleteItem {
   id: number
   value: string
 }
-// Define the state interface for clear typing
-interface FilterState {
-  // State properties
+
+interface FilterStateData {
   scientificNames: Array<AutocompleteItem>
   floritalyNames: Array<AutocompleteItem>
   countries: Array<AutocompleteItem>
@@ -16,8 +15,8 @@ interface FilterState {
   months: Array<number>
   hasCoordinates: boolean
   activeFiltersCount: number
-
-  // Actions
+}
+interface FilterActions {
   setScientificNames: (
     scientificNames:
       | Array<AutocompleteItem>
@@ -48,8 +47,10 @@ interface FilterState {
   resetFilters: () => void
 }
 
+interface FilterState extends FilterStateData, FilterActions {}
+
 // Initial state values
-const initialState = {
+const initialState: FilterStateData = {
   scientificNames: [],
   floritalyNames: [],
   countries: [],
@@ -60,143 +61,81 @@ const initialState = {
   activeFiltersCount: 0,
 }
 
-// Helper function to calculate active filters count
-const calculateActiveFiltersCount = (state: Omit<FilterState, 'activeFiltersCount' | 'setScientificNames' | 'setFloritalyNames' | 'setCountries' | 'setLocality' | 'setYears' | 'setMonths' | 'setHasCoordinates' | 'resetFilters'>) => {
+// helper function to calculate active filters count
+function calculateActiveFiltersCount(state: FilterStateData) {
   let count = 0
-  
-  // Count array filters
+
   count += state.scientificNames.length
   count += state.floritalyNames.length
   count += state.countries.length
   count += state.locality.length
   count += state.months.length
-  
-  // Count years - +1 if first value changed, +1 if second value changed
   if (state.years[0] !== initialState.years[0]) count += 1
   if (state.years[1] !== initialState.years[1]) count += 1
-  
-  // Count boolean - +1 if changed from initial state
   if (state.hasCoordinates !== initialState.hasCoordinates) count += 1
-  
+
   return count
 }
 
-// Create the store with devtools middleware for better debugging
+// function for creating setters is style of react useState
+function createSetter<TKey extends keyof FilterStateData>(
+  key: TKey,
+  actionName: string,
+  set: any,
+) {
+  return (
+    value:
+      | FilterStateData[TKey]
+      | ((prev: FilterStateData[TKey]) => FilterStateData[TKey]),
+  ) =>
+    set(
+      (state: FilterState) => {
+        const newValue =
+          typeof value === 'function'
+            ? (value as (prev: FilterStateData[TKey]) => FilterStateData[TKey])(
+                state[key],
+              )
+            : value
+
+        const newState = { [key]: newValue } as Partial<FilterStateData>
+        const updatedState = { ...state, ...newState }
+
+        return {
+          ...newState,
+          activeFiltersCount: calculateActiveFiltersCount(updatedState),
+        }
+      },
+      false,
+      actionName,
+    )
+}
+
 export const useFilterStore = create<FilterState>()(
   devtools(
     (set, get) => ({
       // Initial state
       ...initialState,
 
-      // Actions
-      setScientificNames: (scientificNames) =>
-        set(
-          (state) => {
-            const newValue =
-              typeof scientificNames === 'function'
-                ? scientificNames(state.scientificNames)
-                : scientificNames
-            const newState = { scientificNames: newValue }
-            return { 
-              ...newState, 
-              activeFiltersCount: calculateActiveFiltersCount({ ...state, ...newState })
-            }
-          },
-          false,
-          'setScientificNames',
-        ),
-
-      setFloritalyNames: (floritalyNames) =>
-        set(
-          (state) => {
-            const newValue =
-              typeof floritalyNames === 'function'
-                ? floritalyNames(state.floritalyNames)
-                : floritalyNames
-            const newState = { floritalyNames: newValue }
-            return { 
-              ...newState, 
-              activeFiltersCount: calculateActiveFiltersCount({ ...state, ...newState })
-            }
-          },
-          false,
-          'setFloritalyNames',
-        ),
-
-      setCountries: (countries) =>
-        set(
-          (state) => {
-            const newValue =
-              typeof countries === 'function'
-                ? countries(state.countries)
-                : countries
-            const newState = { countries: newValue }
-            return { 
-              ...newState, 
-              activeFiltersCount: calculateActiveFiltersCount({ ...state, ...newState })
-            }
-          },
-          false,
-          'setCountries',
-        ),
-
-      setLocality: (locality) =>
-        set(
-          (state) => {
-            const newValue =
-              typeof locality === 'function'
-                ? locality(state.locality)
-                : locality
-            const newState = { locality: newValue }
-            return { 
-              ...newState, 
-              activeFiltersCount: calculateActiveFiltersCount({ ...state, ...newState })
-            }
-          },
-          false,
-          'setLocality',
-        ),
-      setYears: (years) =>
-        set(
-          (state) => {
-            const newValue =
-              typeof years === 'function' ? years(state.years) : years
-            const newState = { years: newValue }
-            return { 
-              ...newState, 
-              activeFiltersCount: calculateActiveFiltersCount({ ...state, ...newState })
-            }
-          },
-          false,
-          'setYears',
-        ),
-
-      setMonths: (months) =>
-        set(
-          (state) => {
-            const newValue =
-              typeof months === 'function' ? months(state.months) : months
-            const newState = { months: newValue }
-            return { 
-              ...newState, 
-              activeFiltersCount: calculateActiveFiltersCount({ ...state, ...newState })
-            }
-          },
-          false,
-          'setMonths',
-        ),
-      setHasCoordinates: (hasCoordinates) =>
-        set(
-          (state) => {
-            const newState = { hasCoordinates }
-            return { 
-              ...newState, 
-              activeFiltersCount: calculateActiveFiltersCount({ ...state, ...newState })
-            }
-          }, 
-          false, 
-          'setHasCoordinates'
-        ),
+      // Actions using the helper
+      setScientificNames: createSetter(
+        'scientificNames',
+        'setScientificNames',
+        set,
+      ),
+      setFloritalyNames: createSetter(
+        'floritalyNames',
+        'setFloritalyNames',
+        set,
+      ),
+      setCountries: createSetter('countries', 'setCountries', set),
+      setLocality: createSetter('locality', 'setLocality', set),
+      setYears: createSetter('years', 'setYears', set),
+      setMonths: createSetter('months', 'setMonths', set),
+      setHasCoordinates: createSetter(
+        'hasCoordinates',
+        'setHasCoordinates',
+        set,
+      ),
 
       // Reset all filters to initial values
       resetFilters: () => set(initialState, false, 'resetFilters'),

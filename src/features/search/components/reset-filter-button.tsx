@@ -43,6 +43,7 @@ export function ResetFilterButton({
         size="icon"
         className={cn(
           sizeClasses[size],
+          'peer',
           'rounded-full border-1 transition-all duration-200',
           'hover:border-destructive hover:text-destructive',
           'focus:border-destructive focus:text-destructive',
@@ -56,7 +57,7 @@ export function ResetFilterButton({
         aria-label={`Delete ${itemCount} item${itemCount !== 1 ? 's' : ''}`}
       >
         <Trash2
-          className={`${iconSizes[size]} transition-transform duration-200 ${isHovered ? 'scale-110' : ''}`}
+          className={`${iconSizes[size]}`}
         />
       </Button>
 
@@ -65,6 +66,7 @@ export function ResetFilterButton({
           className={cn(
             'absolute -top-1 -right-1',
             badgeSizes[size],
+            'peer-hover:bg-destructive',
             'bg-primary text-secondary rounded-full',
             'flex items-center justify-center font-semibold text-[10px]',
             'shadow-md border-1 p-1 border-background',

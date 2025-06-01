@@ -3,19 +3,19 @@ import { Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 
-interface FilterResetButtonProps {
+interface ResetFilterButtonProps {
   itemCount?: number
   onResetClick?: () => void
   disabled?: boolean
   size?: 'sm' | 'md' | 'lg'
 }
 
-export function FilterResetButton({
+export function ResetFilterButton({
   itemCount = 0,
   onResetClick,
   disabled = false,
   size = 'md',
-}: FilterResetButtonProps) {
+}: ResetFilterButtonProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   const sizeClasses = {
@@ -44,8 +44,8 @@ export function FilterResetButton({
         className={cn(
           sizeClasses[size],
           'rounded-full border-1 transition-all duration-200',
-          'hover:border-destructive hover:bg-destructive hover:text-destructive',
-          'focus:border-destructive focus:bg-destructive focus:text-destructive',
+          'hover:border-destructive hover:text-destructive',
+          'focus:border-destructive focus:text-destructive',
           'disabled:opacity-50 disabled:cursor-not-allowed',
           isHovered ? 'shadow-sm' : 'shadow-xs',
         )}
@@ -66,8 +66,8 @@ export function FilterResetButton({
             'absolute -top-1 -right-1',
             badgeSizes[size],
             'bg-primary text-secondary rounded-full',
-            'flex items-center justify-center font-semibold',
-            'shadow-lg border-2 border-white',
+            'flex items-center justify-center font-semibold text-[10px]',
+            'shadow-md border-1 p-1 border-background',
             'animate-in zoom-in-50 duration-200',
           )}
           aria-label={`${itemCount} items selected`}

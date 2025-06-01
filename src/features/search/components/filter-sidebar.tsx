@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/sidebar'
 import { useDebouncedCallback } from '@/hooks/use-debounce'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-import { FilterResetButton } from '@/features/search/components/filter-reset-button'
+import { ResetFilterButton } from '@/features/search/components/reset-filter-button'
 
 export function FilterSidebar({
   ...props
@@ -50,7 +50,7 @@ export function FilterSidebar({
           </SidebarMenuItem>
           {activeFiltersCount > 0 && (
             <span className="absolute right-2 top-1">
-              <FilterResetButton
+              <ResetFilterButton
                 itemCount={activeFiltersCount}
                 onResetClick={resetFilters}
                 size="sm"

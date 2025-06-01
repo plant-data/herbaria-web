@@ -37,7 +37,9 @@ interface AutocompleteAsyncProps {
   >
   minLength?: number
 }
-
+// !!! mai cambiare questo
+// fetchInProgress={isFetching || search === '' || debouncedSearch !== search}
+// focusa il primo elemento quando fetchInProgress passa da true a false
 export function Autocomplete({
   label,
   placeholder,
@@ -75,9 +77,10 @@ export function Autocomplete({
     gcTime: 24 * 60 * 60,
   })
 
-  const isGettingData =
+  /* const isGettingData =
     (search !== '' && isFetching) ||
-    (search !== debouncedSearch && search !== '')
+    (search !== debouncedSearch && search !== '') */
+  const isGettingData = search !== '' && debouncedSearch !== '' && isFetching
 
   const handleUnselect = useCallback(
     (item: AutocompleteItem) => {
@@ -122,10 +125,10 @@ export function Autocomplete({
       {/* 2: Command for input and list */}
       <Command
         onKeyDown={handleKeyDown}
-        className="overflow-visible bg-transparent max-w-64"
+        className="overflow-visible bg-transparent max-w-full"
         shouldFilter={false}
         async={true}
-        fetchInProgress={isGettingData}
+        fetchInProgress={isFetching || search === '' || debouncedSearch !== search}
       >
         {/* input part */}
         <div className="relative py-1">
@@ -150,7 +153,7 @@ export function Autocomplete({
         {/* list part */}
         <div className="relative">
           <CommandList>
-            {open && search !== '' && debouncedSearch !== '' && (
+            {open && search !== '' && debouncedSearch !== '' && !isGettingData && (
               <CommandEmpty className="text-sm absolute top-0 z-10 w-full rounded-md border bg-popover p-2 text-popover-foreground shadow-sm outline-none animate-in">
                 {error
                   ? 'Error getting data'

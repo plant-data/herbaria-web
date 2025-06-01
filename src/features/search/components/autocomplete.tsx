@@ -12,7 +12,7 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command'
-import { FilterCheckboxSelected } from '@/components/filters/filter-checkbox-selected'
+import { CheckboxSelected } from '@/features/search/components/checkbox-selected'
 
 export interface AutocompleteItem {
   id: number
@@ -35,17 +35,17 @@ interface AutocompleteAsyncProps {
   onSelectedValuesChange: React.Dispatch<
     React.SetStateAction<Array<AutocompleteItem>>
   >
-  minLenght?: number
+  minLength?: number
 }
 
-export function FilterAutocomplete({
+export function Autocomplete({
   label,
   placeholder,
   queryKey,
   query,
   selectedValues,
   onSelectedValuesChange,
-  minLenght = 1,
+  minLength = 1,
 }: AutocompleteAsyncProps) {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
@@ -68,7 +68,7 @@ export function FilterAutocomplete({
     },
     placeholderData: (prev) => prev,
     retry: false,
-    enabled: debouncedSearch.length >= minLenght,
+    enabled: debouncedSearch.length >= minLength,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     staleTime: 24 * 60 * 60,
@@ -112,7 +112,7 @@ export function FilterAutocomplete({
       <div className="text-sm font-bold pl-1 pb-1">{label}</div>
 
       {/* 1: checkbox part - OUTSIDE Command */}
-      <FilterCheckboxSelected
+      <CheckboxSelected
         items={selectedValues}
         onItemRemove={handleUnselect}
         onClearAll={handleClearAll}
@@ -154,16 +154,16 @@ export function FilterAutocomplete({
               <CommandEmpty className="text-sm absolute top-0 z-10 w-full rounded-md border bg-popover p-2 text-popover-foreground shadow-sm outline-none animate-in">
                 {error
                   ? 'Error getting data'
-                  : debouncedSearch.length < minLenght ||
-                      (debouncedSearch.length === minLenght && isFetching)
-                    ? `${minLenght} char min`
+                  : debouncedSearch.length < minLength ||
+                      (debouncedSearch.length === minLength && isFetching)
+                    ? `${minLength} char min`
                     : 'No results found'}
               </CommandEmpty>
             )}
             {open &&
             search !== '' &&
             debouncedSearch !== '' &&
-            debouncedSearch.length >= minLenght &&
+            debouncedSearch.length >= minLength &&
             selectables &&
             selectables.length > 0 ? (
               <CommandGroup className="absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-sm outline-none animate-in">

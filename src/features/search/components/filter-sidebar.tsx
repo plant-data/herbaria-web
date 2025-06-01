@@ -1,4 +1,4 @@
-import { FilterAutocomplete } from '@/components/filters/filter-autocomplete'
+import { Autocomplete } from '@/features/search/components/autocomplete'
 import {
   Sidebar,
   SidebarContent,
@@ -7,7 +7,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
-
+import { useDebouncedCallback } from '@/hooks/use-debounce'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { FilterResetButton } from '@/features/search/components/filter-reset-button'
 
@@ -50,9 +50,9 @@ export function FilterSidebar({
           </SidebarMenuItem>
           {activeFiltersCount > 0 && (
             <span className="absolute right-2 top-1">
-              <FilterTrashButton
+              <FilterResetButton
                 itemCount={activeFiltersCount}
-                onTrashClick={resetFilters}
+                onResetClick={resetFilters}
                 size="sm"
               />
             </span>
@@ -60,7 +60,7 @@ export function FilterSidebar({
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent className="px-2">
-        <FilterAutocomplete
+        <Autocomplete
           label="Plant:"
           placeholder="Search name"
           selectedValues={scientificNames}
@@ -69,7 +69,7 @@ export function FilterSidebar({
           query="http://localhost:8000/api/v1/autocomplete?field=scientificName&value="
         />
 
-        <FilterAutocomplete
+        <Autocomplete
           label="Country:"
           placeholder="Search country"
           selectedValues={countries}
@@ -78,16 +78,16 @@ export function FilterSidebar({
           query="http://localhost:8000/api/v1/autocomplete?field=scientificName&value="
         />
 
-        <FilterAutocomplete
+        <Autocomplete
           label="Locality:"
           placeholder="Search a locality"
           selectedValues={locality}
           onSelectedValuesChange={setLocality}
           queryKey="localitysearch"
           query="http://localhost:8000/api/v1/autocomplete?field=locality&value="
-          minLenght={4}
+          minLength={4}
         />
-        <FilterAutocomplete
+        <Autocomplete
           label="Name in FlorItaly:"
           placeholder="Search a name in checklist"
           selectedValues={floritalyNames}

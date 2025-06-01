@@ -1,8 +1,8 @@
-import { Outlet, createFileRoute} from '@tanstack/react-router'
-import { AppSidebar } from '@/components/sidebar/specimens-sidebar'
-import { SidebarToggle } from '@/components//sidebar/sidebar-toggle'
+import { Outlet, createFileRoute } from '@tanstack/react-router'
+import { FilterSidebar } from '@/features/search/components/filter-sidebar'
+//import { SidebarToggle } from '@/components//sidebar/sidebar-toggle'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
-import { ResultLayout } from '@/components/search/result-layout'
+//import { ResultLayout } from '@/components/search/result-layout'
 
 export const Route = createFileRoute('/search')({
   component: RouteComponent,
@@ -12,15 +12,12 @@ function RouteComponent() {
   return (
     <SidebarProvider className="flex flex-col">
       <div className="flex flex-1">
-        <AppSidebar />
+        <FilterSidebar />
         <SidebarInset>
-          <ResultLayout>
-            <Outlet />
-          </ResultLayout>
+          <Outlet />
         </SidebarInset>
       </div>
-      <SidebarToggle />
+      {/*  <SidebarToggle /> */}
     </SidebarProvider>
   )
 }
-

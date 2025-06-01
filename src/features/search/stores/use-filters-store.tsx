@@ -1,7 +1,10 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import type { AutocompleteItem } from '@/components/autocomplete/autocomplete-generic-box'
 
+export interface AutocompleteItem {
+  id: number
+  value: string
+}
 // Define the state interface for clear typing
 interface FilterState {
   // State properties

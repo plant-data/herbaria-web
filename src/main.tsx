@@ -1,17 +1,13 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
-import { ThemeProvider } from '@/components/theme-provider'
-
 import * as TanStackQueryProvider from './integrations/tanstack-query/root-provider.tsx'
+import { routeTree } from '@/routeTree.gen'
+import reportWebVitals from '@/reportWebVitals.ts'
+import { ThemeProvider } from '@/components/theme-provider'
+import '@/styles.css'
 
-// Import the generated route tree
-import { routeTree } from './routeTree.gen'
-
-import './styles.css'
-import reportWebVitals from './reportWebVitals.ts'
-
-// Create a new router instance
+// create a new router instance
 const router = createRouter({
   routeTree,
   context: {
@@ -23,14 +19,14 @@ const router = createRouter({
   defaultPreloadStaleTime: 0,
 })
 
-// Register the router instance for type safety
+// register the router instance for type safety
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router
   }
 }
 
-// Render the app
+// render the app
 const rootElement = document.getElementById('app')
 if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)

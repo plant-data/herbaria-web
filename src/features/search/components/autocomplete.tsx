@@ -63,8 +63,8 @@ export function Autocomplete({
       }
       const resData: AutocompleteApiResponse = await res.json()
 
-      return resData.data.map((item, idx) => ({
-        id: idx,
+      return resData.data.map((item) => ({
+        id: item,
         value: item,
       }))
     },

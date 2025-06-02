@@ -15,7 +15,8 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { ResetFilterButton } from '@/features/search/components/reset-filter-button'
 import { RangeSlider } from '@/features/search/components/range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
-import {MONTHS} from '@/features/search/constants/months'
+import { MONTHS } from '@/features/search/constants/months'
+import { SwitchOption } from './switch-option'
 
 export function FilterSidebar({
   ...props
@@ -68,6 +69,7 @@ export function FilterSidebar({
           )}
         </SidebarMenu>
       </SidebarHeader>
+      <hr className="text-input mx-2" />
       <SidebarContent className="px-2 gap-4">
         <Autocomplete
           label={t('search.filters.scientific-name-label')}
@@ -102,14 +104,6 @@ export function FilterSidebar({
           queryKey="floritalysearch"
           query={`${baseApiUrl}autocomplete?field=floritalyName&value=`}
         />
-        <Autocomplete
-          label={t('search.filters.floritaly-name-label')}
-          placeholder={t('search.filters.floritaly-name-placeholder')}
-          selectedValues={floritalyNames}
-          onSelectedValuesChange={setFloritalyNames}
-          queryKey="gbifsearch"
-          query={`${baseApiUrl}autocomplete?field=gbifName&value=`}
-        />
         <RangeSlider
           label={t('search.filters.year-label')}
           initialValues={years}
@@ -126,16 +120,21 @@ export function FilterSidebar({
           selectedValues={months}
           onSelectedValuesChange={setMonths}
           sortBy="id"
-
         />
-        <div className='min-h-60 w-full'></div>
+        <SwitchOption
+          label={t('search.filters.has-coordinates-label')}
+          field="coordinates"
+          checked={hasCoordinates}
+          onCheckedChange={setHasCoordinates}
+        />
+        <div className="min-h-60 w-full"></div>
       </SidebarContent>
+      <hr className="text-input m-2" />
       <SidebarFooter className="h-[60px] pt-0">
-        <hr className="text-input" />
         <SidebarTrigger
           className="z-[51] fixed left-3 bottom-3 text-transparent bg-transparent border-transparent hover:bg-transparent"
-          textShow=''
-          textHide=''
+          textShow=""
+          textHide=""
         ></SidebarTrigger>
       </SidebarFooter>
     </Sidebar>

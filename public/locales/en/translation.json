@@ -17,6 +17,7 @@
       "month-label": "Month",
       "month-placeholder": "Select a month",
       "month-all-selected": "All months selected",
+      "has-coordinates-label": "Show only georeferenced records",
 
       "clear-all": "Clear all",
       "show-filters": "Show filters",

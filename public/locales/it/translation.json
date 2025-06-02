@@ -17,6 +17,7 @@
       "month-label": "Mese",
       "month-placeholder": "Seleziona un mese",
       "month-all-selected": "Tutti i mesi selezionati",
+      "has-coordinates-label": "Mostra solo i record georeferenziati",
       "clear-all": "Rimuovi tutto",
       "show-filters": "Mostra filtri",
       "hide-filters": "Nascondi filtri"

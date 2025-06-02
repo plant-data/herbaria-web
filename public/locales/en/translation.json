@@ -10,7 +10,9 @@
       "locality-placeholder": "Search by locality",
       "floritaly-name-label": "Name in Floritaly",
       "floritaly-name-placeholder": "Search by name in Floritaly",
-      "clear-all": "Clear all"
+      "clear-all": "Clear all",
+      "show-filters": "Show filters",
+      "hide-filters": "Hide filters"
     }
   }
 }

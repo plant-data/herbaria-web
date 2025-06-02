@@ -1,7 +1,12 @@
+
 import { Outlet, createFileRoute } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { FilterSidebar } from '@/features/search/components/filter-sidebar'
-//import { SidebarToggle } from '@/components//sidebar/sidebar-toggle'
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar'
 //import { ResultLayout } from '@/components/search/result-layout'
 
 export const Route = createFileRoute('/search')({
@@ -9,6 +14,8 @@ export const Route = createFileRoute('/search')({
 })
 
 function RouteComponent() {
+  const { t } = useTranslation()
+
   return (
     <SidebarProvider className="flex flex-col">
       <div className="flex flex-1">
@@ -17,7 +24,11 @@ function RouteComponent() {
           <Outlet />
         </SidebarInset>
       </div>
-      {/*  <SidebarToggle /> */}
+      <SidebarTrigger
+        className="z-[51] fixed left-3 bottom-3 hover:bg-background"
+        textShow={t('search.filters.show-filters')}
+        textHide={t('search.filters.hide-filters')}
+      ></SidebarTrigger>
     </SidebarProvider>
   )
 }

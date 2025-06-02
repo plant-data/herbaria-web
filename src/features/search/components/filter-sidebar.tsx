@@ -8,6 +8,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
+  SidebarTrigger
 } from '@/components/ui/sidebar'
 import { useDebouncedCallback } from '@/hooks/use-debounce'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
@@ -41,8 +42,7 @@ export function FilterSidebar({
     setYears(value)
   }, 500)
 
-  console.log(`${baseApiUrl}autocomplete?field=scientificName&value=`);
-  
+  console.log(`${baseApiUrl}autocomplete?field=scientificName&value=`)
 
   return (
     <Sidebar
@@ -102,7 +102,14 @@ export function FilterSidebar({
           query={`${baseApiUrl}autocomplete?field=floritalyName&value=`}
         />
       </SidebarContent>
-      <SidebarFooter>{''}</SidebarFooter>
+      <SidebarFooter className='h-[60px] pt-0'>
+        <hr className='text-input'/>
+        <SidebarTrigger
+          className="z-[51] fixed left-3 bottom-3 text-transparent bg-transparent border-transparent hover:bg-transparent"
+          textShow={t('search.filters.show-filters')}
+          textHide={t('search.filters.hide-filters')}
+        ></SidebarTrigger>
+      </SidebarFooter>
     </Sidebar>
   )
 }

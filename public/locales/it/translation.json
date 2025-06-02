@@ -10,7 +10,9 @@
       "locality-placeholder": "Cerca una località",
       "floritaly-name-label": "Nome in Floritaly",
       "floritaly-name-placeholder": "Cerca un nome in Floritaly",
-      "clear-all": "Rimuovi tutto"
+      "clear-all": "Rimuovi tutto",
+      "show-filters": "Mostra filtri",
+      "hide-filters": "Nascondi filtri"
     }
   }
 }

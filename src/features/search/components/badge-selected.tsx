@@ -66,7 +66,7 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
         <Badge
           variant="destructive"
           onClick={onClearAll}
-          className="bg-destructive/5 text-primary border-destructive self-start text-xs font-normal cursor-pointer hover:bg-destructive/30 transition-colors focus:border-destructive focus:outline-none focus:ring-2 focus:ring-destructive"
+          className="bg-destructive/10 text-primary border-destructive self-start text-xs font-normal cursor-pointer hover:bg-destructive/30 transition-colors focus-visible:border-destructive focus:outline-none focus:ring-2 focus:ring-destructive"
           tabIndex={0}
           role="button"
           aria-label="Clear all filters"

@@ -253,19 +253,25 @@ function Sidebar({
 }
 
 function SidebarTrigger({
+  textShow,
+  textHide,
   className,
   onClick,
   ...props
-}: React.ComponentProps<typeof Button>) {
-  const { toggleSidebar } = useSidebar()
+}: React.ComponentProps<typeof Button> & {
+  textShow?: string
+  textHide: string
+}) {
+  const { toggleSidebar, open, isMobile, openMobile } = useSidebar()
+
+  const isOpen = isMobile ? openMobile : open 
 
   return (
     <Button
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
-      variant="ghost"
-      size="icon"
-      className={cn('size-7', className)}
+      variant="outline"
+      className={cn(className)}
       onClick={(event) => {
         onClick?.(event)
         toggleSidebar()
@@ -273,7 +279,9 @@ function SidebarTrigger({
       {...props}
     >
       <PanelLeftIcon />
-      <span className="sr-only">Toggle Sidebar</span>
+      <span className="w-[90px]">
+        {isOpen ? textHide : textShow}
+      </span>
     </Button>
   )
 }

@@ -90,7 +90,7 @@ export function FilterSidebar({
           selectedValues={locality}
           onSelectedValuesChange={setLocality}
           queryKey="localitysearch"
-          query={`${baseApiUrl}autocomplete?field=locality&value="`}
+          query={`${baseApiUrl}autocomplete?field=locality&value=`}
           minLength={4}
         />
         <Autocomplete

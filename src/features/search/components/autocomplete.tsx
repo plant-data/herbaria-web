@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { LoaderCircle, Search } from 'lucide-react'
 import { Command as CommandPrimitive } from 'cmdk'
@@ -49,6 +50,7 @@ export function Autocomplete({
   onSelectedValuesChange,
   minLength = 1,
 }: AutocompleteAsyncProps) {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 300)
@@ -76,7 +78,6 @@ export function Autocomplete({
     staleTime: 24 * 60 * 60,
     gcTime: 24 * 60 * 60,
   })
-
 
   const isGettingData =
     (search !== '' && isFetching) ||
@@ -165,11 +166,11 @@ export function Autocomplete({
               !isGettingData && (
                 <CommandEmpty className="text-sm absolute top-0 z-10 w-full rounded-md border bg-popover p-2 text-popover-foreground shadow-sm outline-none animate-in">
                   {error
-                    ? 'Error getting data'
+                    ? t('search.filters.autocomplete-error')
                     : debouncedSearch.length < minLength ||
                         (debouncedSearch.length === minLength && isFetching)
-                      ? `${minLength} char min`
-                      : 'No results found'}
+                    ? t('search.filters.autocomplete-min-length', { number: minLength })
+                      : t('search.filters.autocomplete-no-results')}
                 </CommandEmpty>
               )}
             {open &&

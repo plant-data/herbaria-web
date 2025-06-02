@@ -2,6 +2,9 @@
   "herbaria-hero": "test engl",
   "search": {
     "filters": {
+      "autocomplete-error": "Error getting data",
+      "autocomplete-min-length": "Enter {{number}} characters",
+      "autocomplete-no-results": "No results found",
       "scientific-name-label": "Scientific Name",
       "scientific-name-placeholder": "Search by scientific name",
       "country-label": "Country",

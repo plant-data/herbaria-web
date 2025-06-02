@@ -13,9 +13,28 @@
       "locality-placeholder": "Search by locality",
       "floritaly-name-label": "Name in Floritaly",
       "floritaly-name-placeholder": "Search by name in Floritaly",
+      "year-label": "Year range",
+      "month-label": "Month",
+      "month-placeholder": "Select a month",
+      "month-all-selected": "All months selected",
+
       "clear-all": "Clear all",
       "show-filters": "Show filters",
       "hide-filters": "Hide filters"
     }
-  }
+    
+  }, "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    }
 }

@@ -13,7 +13,9 @@ import {
 import { useDebouncedCallback } from '@/hooks/use-debounce'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { ResetFilterButton } from '@/features/search/components/reset-filter-button'
-import { RangeSlider } from './range-slider'
+import { RangeSlider } from '@/features/search/components/range-slider'
+import { SelectItems } from '@/features/search/components/select-items'
+import {MONTHS} from '@/features/search/constants/months'
 
 export function FilterSidebar({
   ...props
@@ -100,13 +102,30 @@ export function FilterSidebar({
           queryKey="floritalysearch"
           query={`${baseApiUrl}autocomplete?field=floritalyName&value=`}
         />
-        // max value current year
+        <Autocomplete
+          label={t('search.filters.floritaly-name-label')}
+          placeholder={t('search.filters.floritaly-name-placeholder')}
+          selectedValues={floritalyNames}
+          onSelectedValuesChange={setFloritalyNames}
+          queryKey="gbifsearch"
+          query={`${baseApiUrl}autocomplete?field=gbifName&value=`}
+        />
         <RangeSlider
+          label={t('search.filters.year-label')}
           initialValues={years}
           onValuesChange={handleSetYears}
           min={1800}
           max={new Date().getFullYear()}
           step={1}
+        />
+        <SelectItems
+          label={t('search.filters.month-label')}
+          placeholder={t('search.filters.month-placeholder')}
+          allSelectedMessage={t('search.filters.month-all-selected')}
+          items={MONTHS}
+          selectedValues={months}
+          onSelectedValuesChange={setMonths}
+
         />
       </SidebarContent>
       <SidebarFooter className="h-[60px] pt-0">

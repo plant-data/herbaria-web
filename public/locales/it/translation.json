@@ -13,9 +13,27 @@
       "locality-placeholder": "Cerca una località",
       "floritaly-name-label": "Nome in Floritaly",
       "floritaly-name-placeholder": "Cerca un nome in Floritaly",
+      "year-label": "Range di anni",
+      "month-label": "Mese",
+      "month-placeholder": "Seleziona un mese",
+      "month-all-selected": "Tutti i mesi selezionati",
       "clear-all": "Rimuovi tutto",
       "show-filters": "Mostra filtri",
       "hide-filters": "Nascondi filtri"
     }
-  }
+  },
+    "months": {
+      "january": "Gennaio",
+      "february": "Febbraio",
+      "march": "Marzo",
+      "april": "Aprile",
+      "may": "Maggio",
+      "june": "Giugno",
+      "july": "Luglio",
+      "august": "Agosto",
+      "september": "Settembre",
+      "october": "Ottobre",
+      "november": "Novembre",
+      "december": "Dicembre"
+    }
 }

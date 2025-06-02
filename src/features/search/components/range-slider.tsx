@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react' // Add useEffect
+import { useEffect, useState } from 'react'
 import { DualSlider } from '@/components/ui/dual-slider'
 
 interface RangeSliderProps {
   label: string
-  initialValues: Array<number>
-  onValuesChange?: (values: Array<number>) => void
+  initialValues: [number, number] // Change to tuple type
+  onValuesChange?: (values: [number, number]) => void // Change to tuple type
   min?: number
   max?: number
   step?: number
@@ -19,18 +19,18 @@ export function RangeSlider({
   step = 1,
 }: RangeSliderProps) {
   const [currentSliderValues, setCurrentSliderValues] =
-    useState<Array<number>>(initialValues)
+    useState<[number, number]>(initialValues) // Change to tuple type
 
   useEffect(() => {
     setCurrentSliderValues(initialValues)
   }, [initialValues])
 
   function handleSliderInteraction(newValues: Array<number>): void {
-    setCurrentSliderValues(newValues)
+    setCurrentSliderValues(newValues as [number, number]) // Cast to tuple
   }
   function handleSliderInteraction2(newValues: Array<number>): void {
     if (onValuesChange) {
-      onValuesChange(newValues)
+      onValuesChange(newValues as [number, number]) // Cast to tuple
     }
   }
 
@@ -39,8 +39,8 @@ export function RangeSlider({
       <div className="text-sm font-bold pl-1 pb-3">{label}</div>
       <DualSlider
         className="bg-background"
-        value={currentSliderValues} // Use local state for the slider's value
-        onValueChange={handleSliderInteraction} // Local handler for immediate update + parent notification
+        value={currentSliderValues}
+        onValueChange={handleSliderInteraction}
         onValueCommit={handleSliderInteraction2}
         min={min}
         max={max}
@@ -50,7 +50,6 @@ export function RangeSlider({
         id="year-range-values"
         className="flex justify-between mt-2 font-semibold text-sm"
       >
-        {/* Display values from local state for immediate feedback */}
         <div>{currentSliderValues[0]}</div>
         <div>{currentSliderValues[1]}</div>
       </div>

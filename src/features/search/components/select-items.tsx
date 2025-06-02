@@ -20,6 +20,7 @@ interface SelectItemsProps {
   label: string
   placeholder: string
   items: Array<FilterItem>
+  sortBy?: 'value' | 'id'
   selectedValues: Array<number>
   onSelectedValuesChange: React.Dispatch<React.SetStateAction<Array<number>>>
   allSelectedMessage: string
@@ -29,6 +30,7 @@ export function SelectItems({
   label,
   placeholder,
   items,
+  sortBy = 'value',
   selectedValues = [],
   onSelectedValuesChange,
   allSelectedMessage
@@ -74,8 +76,8 @@ export function SelectItems({
   const availableItems = items.filter((item) => !selectedIds.has(item.id))
 
   return (
-    <div className="max-w-64">
-      <div className="text-sm font-bold pl-1 pb-1">{label}</div>
+    <div className="max-w-full">
+      <div className="text-sm font-bold pl-1">{label}</div>
 
       {/* 1: badge part */}
       <BadgeSelected
@@ -83,6 +85,7 @@ export function SelectItems({
         onItemRemove={handleUnselect}
         onClearAll={handleClearAll}
         showClearAll={selectedValues.length > 1}
+        sortBy={sortBy}
       />
 
       {/* 2: select part */}
@@ -97,7 +100,7 @@ export function SelectItems({
           <SelectTrigger
             ref={inputRef}
             className={cn(
-              'h-8 w-full',
+              'h-8 w-full max-w-full bg-background',
               availableItems.length === 0 && 'opacity-50 cursor-not-allowed',
             )}
             disabled={availableItems.length === 0}

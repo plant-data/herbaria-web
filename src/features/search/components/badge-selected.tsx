@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next'
 import { X } from 'lucide-react'
 import type { AutocompleteItem } from '@/features/search/types/filters'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 
 interface BadgeListProps {
   items: Array<AutocompleteItem>
   onItemRemove: (item: AutocompleteItem) => void
   onClearAll: () => void
   showClearAll?: boolean
+  sortBy?: 'value' | 'id'
 }
 /**
  * A controlled checkbox list component that displays selected items with individual
@@ -26,15 +26,22 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
   onItemRemove,
   onClearAll,
   showClearAll = true,
+  sortBy = 'value',
 }: BadgeListProps) {
+  console.log('BadgeSelected rendered with items:', items)
 
   const { t } = useTranslation()
 
   const shouldShowClearAll = showClearAll
   // sort items alphabetically by value
-  const sortedItems = [...items].sort((a, b) =>
-    String(a.value).localeCompare(String(b.value)),
-  )
+  let sortedItems = []
+  if (sortBy === 'id') {
+    sortedItems = [...items].sort((a, b) => a.id - b.id)
+  } else {
+    sortedItems = [...items].sort((a, b) =>
+      String(a.value).localeCompare(String(b.value)),
+    )
+  }
 
   return (
     <div className="group pl-1 text-sm flex flex-col gap-1">
@@ -56,9 +63,7 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
             }}
           >
             <X className="h-3 w-3 mr-1" />
-            <span className="truncate max-w-[220px]">
-              {String(item.value)}
-            </span>
+            <span className="truncate max-w-[220px]">{String(item.value)}</span>
           </Badge>
         ))}
       </div>

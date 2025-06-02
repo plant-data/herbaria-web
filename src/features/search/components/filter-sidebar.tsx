@@ -125,15 +125,17 @@ export function FilterSidebar({
           items={MONTHS}
           selectedValues={months}
           onSelectedValuesChange={setMonths}
+          sortBy="id"
 
         />
+        <div className='min-h-60 w-full'></div>
       </SidebarContent>
       <SidebarFooter className="h-[60px] pt-0">
         <hr className="text-input" />
         <SidebarTrigger
           className="z-[51] fixed left-3 bottom-3 text-transparent bg-transparent border-transparent hover:bg-transparent"
-          textShow={t('search.filters.show-filters')}
-          textHide={t('search.filters.hide-filters')}
+          textShow=''
+          textHide=''
         ></SidebarTrigger>
       </SidebarFooter>
     </Sidebar>

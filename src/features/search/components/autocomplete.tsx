@@ -12,7 +12,7 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command'
-import { CheckboxSelected } from '@/features/search/components/checkbox-selected'
+import { BadgeSelected } from '@/features/search/components/badge-selected'
 
 export interface AutocompleteItem {
   id: number
@@ -77,9 +77,7 @@ export function Autocomplete({
     gcTime: 24 * 60 * 60,
   })
 
-  /* const isGettingData =
-    (search !== '' && isFetching) ||
-    (search !== debouncedSearch && search !== '') */
+
   const isGettingData =
     (search !== '' && isFetching) ||
     (search !== debouncedSearch && search !== '')
@@ -117,7 +115,7 @@ export function Autocomplete({
       <div className="text-sm font-bold pl-1 pb-1">{label}</div>
 
       {/* 1: checkbox part - OUTSIDE Command */}
-      <CheckboxSelected
+      <BadgeSelected
         items={selectedValues}
         onItemRemove={handleUnselect}
         onClearAll={handleClearAll}
@@ -151,7 +149,7 @@ export function Autocomplete({
             onFocus={() => setOpen(true)}
             placeholder={placeholder}
             className={cn(
-              ' pl-7 pr-3 py-1 file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-8 w-full min-w-0 rounded-md border bg-transparent text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
+              ' pl-7 pr-3 py-1 file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-8 w-full min-w-0 rounded-md border bg-background text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
               'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[2px]',
               'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
             )}

@@ -65,7 +65,7 @@ export function FilterSidebar({
           )}
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent className="px-2">
+      <SidebarContent className="px-2 gap-4">
         <Autocomplete
           label={t('search.filters.scientific-name-label')}
           placeholder={t('search.filters.scientific-name-placeholder')}

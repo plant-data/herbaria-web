@@ -112,7 +112,7 @@ export function Autocomplete({
 
   return (
     <div>
-      <div className="text-sm font-bold pl-1 pb-1">{label}</div>
+      <div className="text-sm font-bold pl-1">{label}</div>
 
       {/* 1: checkbox part - OUTSIDE Command */}
       <BadgeSelected

@@ -143,6 +143,7 @@ export function Autocomplete({
             )}
           </div>
           <CommandPrimitive.Input
+            autoComplete='off'
             ref={inputRef}
             value={search}
             onValueChange={setSearch}

@@ -8,11 +8,12 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
-  SidebarTrigger
+  SidebarTrigger,
 } from '@/components/ui/sidebar'
 import { useDebouncedCallback } from '@/hooks/use-debounce'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { ResetFilterButton } from '@/features/search/components/reset-filter-button'
+import { RangeSlider } from './range-slider'
 
 export function FilterSidebar({
   ...props
@@ -74,7 +75,6 @@ export function FilterSidebar({
           queryKey="plantscientificnamesearch"
           query={`${baseApiUrl}autocomplete?field=scientificName&value=`}
         />
-
         <Autocomplete
           label={t('search.filters.country-label')}
           placeholder={t('search.filters.country-placeholder')}
@@ -83,7 +83,6 @@ export function FilterSidebar({
           queryKey="countrysearch"
           query={`${baseApiUrl}autocomplete?field=scientificName&value=`}
         />
-
         <Autocomplete
           label={t('search.filters.locality-label')}
           placeholder={t('search.filters.locality-placeholder')}
@@ -101,9 +100,17 @@ export function FilterSidebar({
           queryKey="floritalysearch"
           query={`${baseApiUrl}autocomplete?field=floritalyName&value=`}
         />
+        // max value current year
+        <RangeSlider
+          initialValues={years}
+          onValuesChange={handleSetYears}
+          min={1800}
+          max={new Date().getFullYear()}
+          step={1}
+        />
       </SidebarContent>
-      <SidebarFooter className='h-[60px] pt-0'>
-        <hr className='text-input'/>
+      <SidebarFooter className="h-[60px] pt-0">
+        <hr className="text-input" />
         <SidebarTrigger
           className="z-[51] fixed left-3 bottom-3 text-transparent bg-transparent border-transparent hover:bg-transparent"
           textShow={t('search.filters.show-filters')}

@@ -1,7 +1,7 @@
 import { memo } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { AutocompleteItem } from '@/features/search/types/filters'
 import { CheckboxSmall } from '@/components/ui/checkbox-small'
-import { useTranslation } from 'react-i18next'
 
 interface CheckboxListProps {
   items: Array<AutocompleteItem>

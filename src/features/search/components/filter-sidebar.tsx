@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { baseApiUrl } from '@/config'
 import { Autocomplete } from '@/features/search/components/autocomplete'
 import {
   Sidebar,
@@ -40,6 +41,9 @@ export function FilterSidebar({
     setYears(value)
   }, 500)
 
+  console.log(`${baseApiUrl}autocomplete?field=scientificName&value=`);
+  
+
   return (
     <Sidebar
       className="top-[var(--header-height)] !h-[calc(100svh-var(--header-height))]"
@@ -68,7 +72,7 @@ export function FilterSidebar({
           selectedValues={scientificNames}
           onSelectedValuesChange={setScientificNames}
           queryKey="plantscientificnamesearch"
-          query="http://localhost:8000/api/v1/autocomplete?field=scientificName&value="
+          query={`${baseApiUrl}autocomplete?field=scientificName&value=`}
         />
 
         <Autocomplete
@@ -77,7 +81,7 @@ export function FilterSidebar({
           selectedValues={countries}
           onSelectedValuesChange={setCountries}
           queryKey="countrysearch"
-          query="http://localhost:8000/api/v1/autocomplete?field=scientificName&value="
+          query={`${baseApiUrl}autocomplete?field=scientificName&value=`}
         />
 
         <Autocomplete
@@ -86,7 +90,7 @@ export function FilterSidebar({
           selectedValues={locality}
           onSelectedValuesChange={setLocality}
           queryKey="localitysearch"
-          query="http://localhost:8000/api/v1/autocomplete?field=locality&value="
+          query={`${baseApiUrl}autocomplete?field=locality&value="`}
           minLength={4}
         />
         <Autocomplete
@@ -95,7 +99,7 @@ export function FilterSidebar({
           selectedValues={floritalyNames}
           onSelectedValuesChange={setFloritalyNames}
           queryKey="floritalysearch"
-          query="http://localhost:8000/api/v1/autocomplete?field=floritalyName&value="
+          query={`${baseApiUrl}autocomplete?field=floritalyName&value=`}
         />
       </SidebarContent>
       <SidebarFooter>{''}</SidebarFooter>

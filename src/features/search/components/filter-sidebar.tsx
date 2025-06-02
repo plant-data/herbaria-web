@@ -18,6 +18,7 @@ import { RangeSlider } from '@/features/search/components/range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
 import { MONTHS } from '@/features/search/constants/months'
 import { SwitchOption } from './switch-option'
+import { SelectedFiltersTree } from '@/features/search/components/selected-filters-tree'
 
 export function FilterSidebar({
   ...props
@@ -153,8 +154,12 @@ export function FilterSidebar({
             />
             <div className="min-h-60 w-full"></div>
           </TabsContent>
-          <TabsContent key="selected-filters" value="selected-filters">
-            topo
+          <TabsContent 
+            key="selected-filters" 
+            value="selected-filters"
+            className="flex min-h-0 flex-1 flex-col overflow-auto group-data-[collapsible=icon]:overflow-hidden px-3"
+          >
+            <SelectedFiltersTree />
           </TabsContent>
         </SidebarContent>
         <hr className="text-input mx-2" />

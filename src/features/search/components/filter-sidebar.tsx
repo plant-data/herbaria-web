@@ -76,8 +76,8 @@ export function FilterSidebar({
         />
 
         <Autocomplete
-          label="Country:"
-          placeholder="Search country"
+          label={t('search.filters.country-label')}
+          placeholder={t('search.filters.country-placeholder')}
           selectedValues={countries}
           onSelectedValuesChange={setCountries}
           queryKey="countrysearch"

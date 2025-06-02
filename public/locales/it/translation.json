@@ -4,6 +4,8 @@
     "filters": {
       "scientific-name-label": "Nome scientifico",
       "scientific-name-placeholder": "Cerca un nome scientifico",
+      "country-label": "Stato",
+      "country-placeholder": "Cerca uno stato",
       "locality-label": "Località",
       "locality-placeholder": "Cerca una località",
       "floritaly-name-label": "Nome in Floritaly",

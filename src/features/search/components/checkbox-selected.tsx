@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import type { AutocompleteItem } from '@/features/search/types/filters'
-import { Checkbox } from '@/components/ui/checkbox'
+import { CheckboxSmall } from '@/components/ui/checkbox-small'
+import { useTranslation } from 'react-i18next'
 
 interface CheckboxListProps {
   items: Array<AutocompleteItem>
@@ -24,6 +25,9 @@ export const CheckboxSelected = memo(function FilterCheckboxSelected({
   onClearAll,
   showClearAll = true,
 }: CheckboxListProps) {
+
+  const { t } = useTranslation()
+
   const shouldShowClearAll = showClearAll
   // sort items alphabetically by value
   const sortedItems = [...items].sort((a, b) =>
@@ -34,7 +38,7 @@ export const CheckboxSelected = memo(function FilterCheckboxSelected({
     <div className="group pl-1 text-sm flex flex-col gap-1">
       {sortedItems.map((item) => (
         <div key={item.value} className="flex items-center space-x-1">
-          <Checkbox
+          <CheckboxSmall
             id={String(item.value)}
             checked={true}
             onCheckedChange={() => onItemRemove(item)}
@@ -58,7 +62,7 @@ export const CheckboxSelected = memo(function FilterCheckboxSelected({
       ))}
       {shouldShowClearAll && (
         <div className="flex items-center space-x-1">
-          <Checkbox
+          <CheckboxSmall
             id="clear-all"
             variant="delete"
             checked={true}
@@ -77,7 +81,7 @@ export const CheckboxSelected = memo(function FilterCheckboxSelected({
               e.stopPropagation()
             }}
           >
-            Clear All
+            {t('search.filters.clear-all')}
           </label>
         </div>
       )}

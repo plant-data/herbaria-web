@@ -7,7 +7,8 @@
       "locality-label": "Locality",
       "locality-placeholder": "Search by locality",
       "floritaly-name-label": "Name in Floritaly",
-      "floritaly-name-placeholder": "Search by name in Floritaly"
+      "floritaly-name-placeholder": "Search by name in Floritaly",
+      "clear-all": "Clear all"
     }
   }
 }

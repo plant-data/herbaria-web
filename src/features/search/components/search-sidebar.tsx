@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import {
   Sidebar,
   SidebarContent,
@@ -18,7 +17,6 @@ export function SearchSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const { activeFiltersCount, resetFilters } = useFilterStore()
-  const { t } = useTranslation()
 
   return (
     <Tabs defaultValue="filters" asChild>
@@ -28,7 +26,7 @@ export function SearchSidebar({
       >
         <SidebarHeader>
           <SidebarMenu className="relative">
-            <SidebarMenuItem className='flex items-center justify-center'>
+            <SidebarMenuItem className="flex items-center justify-center">
               <TabsList className="p-0.5 h-auto bg-background border border-input gap-1">
                 <TabsTrigger
                   key="filters"
@@ -67,9 +65,10 @@ export function SearchSidebar({
           >
             <SearchFilters />
           </TabsContent>
-          <TabsContent 
-            key="selected-filters" 
+          <TabsContent
+            key="selected-filters"
             value="selected-filters"
+            tabIndex={-1}
             className="flex min-h-0 flex-1 flex-col overflow-auto group-data-[collapsible=icon]:overflow-hidden px-3"
           >
             <SelectedFiltersTree />

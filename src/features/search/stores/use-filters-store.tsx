@@ -3,33 +3,33 @@ import { devtools } from 'zustand/middleware'
 import { MAX_YEAR, MIN_YEAR } from '@/features/search/constants/years'
 
 interface FilterStateData {
-  scientificNames: Array<string>
-  floritalyNames: Array<string>
-  countries: Array<string>
+  scientificName: Array<string>
+  floritalyName: Array<string>
+  country: Array<string>
   locality: Array<string>
-  years: [number, number]
-  months: Array<number>
+  year: [number, number]
+  month: Array<number>
   hasCoordinates: boolean
   activeFiltersCount: number
 }
 interface FilterActions {
-  setScientificNames: (
-    scientificNames: Array<string> | ((prev: Array<string>) => Array<string>),
+  setScientificName: (
+    scientificName: Array<string> | ((prev: Array<string>) => Array<string>),
   ) => void
-  setFloritalyNames: (
-    floritalyNames: Array<string> | ((prev: Array<string>) => Array<string>),
+  setFloritalyName: (
+    floritalyName: Array<string> | ((prev: Array<string>) => Array<string>),
   ) => void
-  setCountries: (
-    countries: Array<string> | ((prev: Array<string>) => Array<string>),
+  setCountry: (
+    country: Array<string> | ((prev: Array<string>) => Array<string>),
   ) => void
   setLocality: (
     locality: Array<string> | ((prev: Array<string>) => Array<string>),
   ) => void
-  setYears: (
-    years: [number, number] | ((prev: [number, number]) => [number, number]),
+  setYear: (
+    year: [number, number] | ((prev: [number, number]) => [number, number]),
   ) => void
-  setMonths: (
-    months: Array<number> | ((prev: Array<number>) => Array<number>),
+  setMonth: (
+    month: Array<number> | ((prev: Array<number>) => Array<number>),
   ) => void
   setHasCoordinates: (hasCoordinates: boolean) => void
   resetFilters: () => void
@@ -39,12 +39,12 @@ interface FilterState extends FilterStateData, FilterActions {}
 
 // Initial state values
 const initialState: FilterStateData = {
-  scientificNames: [],
-  floritalyNames: [],
-  countries: [],
+  scientificName: [],
+  floritalyName: [],
+  country: [],
   locality: [],
-  years: [MIN_YEAR, MAX_YEAR],
-  months: [],
+  year: [MIN_YEAR, MAX_YEAR],
+  month: [],
   hasCoordinates: false,
   activeFiltersCount: 0,
 }
@@ -53,13 +53,13 @@ const initialState: FilterStateData = {
 function calculateActiveFiltersCount(state: FilterStateData) {
   let count = 0
 
-  count += state.scientificNames.length
-  count += state.floritalyNames.length
-  count += state.countries.length
+  count += state.scientificName.length
+  count += state.floritalyName.length
+  count += state.country.length
   count += state.locality.length
-  count += state.months.length
-  if (state.years[0] !== initialState.years[0]) count += 1
-  if (state.years[1] !== initialState.years[1]) count += 1
+  count += state.month.length
+  if (state.year[0] !== initialState.year[0]) count += 1
+  if (state.year[1] !== initialState.year[1]) count += 1
   if (state.hasCoordinates !== initialState.hasCoordinates) count += 1
 
   return count
@@ -112,22 +112,22 @@ export const useFilterStore = create<FilterState>()(
       ...initialState,
 
       // Actions using the helper
-      setScientificNames: createSetter(
-        'scientificNames',
-        'setScientificNames',
+      setScientificName: createSetter(
+        'scientificName',
+        'setScientificName',
         set,
         true, 
       ),
-      setFloritalyNames: createSetter(
-        'floritalyNames',
-        'setFloritalyNames',
+      setFloritalyName: createSetter(
+        'floritalyName',
+        'setFloritalyName',
         set,
         true, 
       ),
-      setCountries: createSetter('countries', 'setCountries', set, true),
+      setCountry: createSetter('country', 'setCountry', set, true),
       setLocality: createSetter('locality', 'setLocality', set, true),
-      setYears: createSetter('years', 'setYears', set),
-      setMonths: createSetter('months', 'setMonths', set, true),
+      setYear: createSetter('year', 'setYear', set),
+      setMonth: createSetter('month', 'setMonth', set, true),
       setHasCoordinates: createSetter(
         'hasCoordinates',
         'setHasCoordinates',

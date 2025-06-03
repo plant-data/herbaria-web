@@ -81,12 +81,12 @@ function FilterGroup({ label, count, children }: FilterGroupProps) {
 export function SelectedFiltersTree() {
   const { t } = useTranslation()
   const {
-    scientificNames,
-    floritalyNames,
-    countries,
+    scientificName,
+    floritalyName,
+    country,
     locality,
-    years,
-    months,
+    year,
+    month,
     hasCoordinates,
     activeFiltersCount,
   } = useFilterStore()
@@ -103,18 +103,18 @@ export function SelectedFiltersTree() {
   // Unified filter configuration
   const filterConfigs: Array<FilterConfig> = useMemo(() => [
     {
-      key: 'scientificNames',
-      items: scientificNames,
+      key: 'scientificName',
+      items: scientificName,
       label: t('search.filters.scientific-name-label'),
     },
     {
-      key: 'floritalyNames',
-      items: floritalyNames,
+      key: 'floritalyName',
+      items: floritalyName,
       label: t('search.filters.floritaly-name-label'),
     },
     {
-      key: 'countries',
-      items: countries,
+      key: 'country',
+      items: country,
       label: t('search.filters.country-label'),
     },
     {
@@ -123,14 +123,14 @@ export function SelectedFiltersTree() {
       label: t('search.filters.locality-label'),
     },
     {
-      key: 'years',
-      items: years,
+      key: 'year',
+      items: year,
       label: t('search.filters.year-label'),
-      condition: () => years[0] !== MIN_YEAR || years[1] !== MAX_YEAR
+      condition: () => year[0] !== MIN_YEAR || year[1] !== MAX_YEAR
     },
     {
-      key: 'months',
-      items: months,
+      key: 'month',
+      items: month,
       label: t('search.filters.month-label'),
       displayValue: (monthId: number) => getMonthName(monthId),
     },
@@ -140,7 +140,7 @@ export function SelectedFiltersTree() {
       label: t('search.filters.has-coordinates-label'),
       displayValue: () => t('common.yes'),
     },
-  ], [t, scientificNames, floritalyNames, countries, locality, years, months, hasCoordinates, getMonthName])
+  ], [t, scientificName, floritalyName, country, locality, year, month, hasCoordinates, getMonthName])
 
   if (activeFiltersCount === 0) {
     return (

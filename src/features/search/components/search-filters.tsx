@@ -11,26 +11,26 @@ import { SwitchOption } from '@/features/search/components/switch-option'
 
 export function SearchFilters() {
   const {
-    scientificNames,
-    floritalyNames,
-    countries,
+    scientificName,
+    floritalyName,
+    country,
     locality,
-    years,
-    months,
+    year,
+    month,
     hasCoordinates,
-    setScientificNames,
-    setFloritalyNames,
-    setCountries,
+    setScientificName,
+    setFloritalyName,
+    setCountry,
     setLocality,
-    setYears,
-    setMonths,
+    setYear,
+    setMonth,
     setHasCoordinates,
   } = useFilterStore()
   const { t } = useTranslation()
 
-  const handleSetYears = useDebouncedCallback((value: [number, number]) => {
+  const handleSetYear = useDebouncedCallback((value: [number, number]) => {
     console.log('SearchFilters: Debounced setYears called with:', value)
-    setYears(value)
+    setYear(value)
   }, 500)
 
   console.log(`${baseApiUrl}autocomplete?field=scientificName&value=`)
@@ -41,16 +41,16 @@ export function SearchFilters() {
       <Autocomplete
         label={t('search.filters.scientific-name-label')}
         placeholder={t('search.filters.scientific-name-placeholder')}
-        selectedValues={scientificNames}
-        onSelectedValuesChange={setScientificNames}
+        selectedValues={scientificName}
+        onSelectedValuesChange={setScientificName}
         queryKey="plantscientificnamesearch"
         query={`${baseApiUrl}autocomplete?field=scientificName&value=`}
       />
       <Autocomplete
         label={t('search.filters.country-label')}
         placeholder={t('search.filters.country-placeholder')}
-        selectedValues={countries}
-        onSelectedValuesChange={setCountries}
+        selectedValues={country}
+        onSelectedValuesChange={setCountry}
         queryKey="countrysearch"
         query={`${baseApiUrl}autocomplete?field=scientificName&value=`}
       />
@@ -66,15 +66,15 @@ export function SearchFilters() {
       <Autocomplete
         label={t('search.filters.floritaly-name-label')}
         placeholder={t('search.filters.floritaly-name-placeholder')}
-        selectedValues={floritalyNames}
-        onSelectedValuesChange={setFloritalyNames}
+        selectedValues={floritalyName}
+        onSelectedValuesChange={setFloritalyName}
         queryKey="floritalysearch"
         query={`${baseApiUrl}autocomplete?field=floritalyName&value=`}
       />
       <RangeSlider
         label={t('search.filters.year-label')}
-        initialValues={years}
-        onValuesChange={handleSetYears}
+        initialValues={year}
+        onValuesChange={handleSetYear}
         min={MIN_YEAR}
         max={MAX_YEAR}
         step={1}
@@ -84,8 +84,8 @@ export function SearchFilters() {
         placeholder={t('search.filters.month-placeholder')}
         allSelectedMessage={t('search.filters.month-all-selected')}
         items={MONTHS}
-        selectedValues={months}
-        onSelectedValuesChange={setMonths}
+        selectedValues={month}
+        onSelectedValuesChange={setMonth}
       />
       <SwitchOption
         label={t('search.filters.has-coordinates-label')}

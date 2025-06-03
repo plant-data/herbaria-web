@@ -159,18 +159,20 @@ export function SelectedFiltersTree() {
   if (activeFiltersCount === 0) {
     return (
       <div className="text-center py-6 text-sm text-muted-foreground">
-        {t('search.filters.no-filters-selected')}
+        {t('search.filters.no-active-filters')}
       </div>
     )
   }
 
   return (
     <div className="space-y-2">
+      <div className='h-3 w-full'></div>
       <div className="flex items-center justify-between mb-3">
-        <span className="text-sm font-medium">
+        <span className="text-sm font-semibold">
           {t('search.filters.active-filters')} ({activeFiltersCount})
         </span>
       </div>
+      
 
       <div className="space-y-1 text-sm">
         {/* Render array-based filters */}
@@ -228,10 +230,10 @@ export function SelectedFiltersTree() {
         {hasCoordinates && (
           <FilterGroup label={t('search.filters.has-coordinates-label')} count={1}>
             <FilterItem
-              item={{ id: 'coordinates', value: t('search.filters.coordinates-enabled') }}
+              item={{ id: 'coordinates', value: t('common.yes') }}
               index={0}
               total={1}
-              displayValue={t('search.filters.coordinates-enabled')}
+              displayValue={t('common.yes')}
               ariaLabel="Remove coordinates filter"
             />
           </FilterGroup>

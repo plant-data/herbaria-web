@@ -44,7 +44,7 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
   }
 
   return (
-    <div className="group pl-1 text-sm flex flex-col gap-1">
+    <div className="pl-1 text-sm flex flex-col gap-1">
       <div className="flex flex-col gap-1">
         {sortedItems.map((item) => (
           <Badge
@@ -71,7 +71,7 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
         <Badge
           variant="destructive"
           onClick={onClearAll}
-          className="bg-destructive/10 text-primary border-destructive self-start text-xs font-normal cursor-pointer hover:bg-destructive/30 transition-colors focus-visible:border-destructive focus:outline-none focus:ring-2 focus:ring-destructive"
+          className="bg-red-600/10 dark:bg-red-600/20 hover:bg-red-600/5 text-red-500 border-red-600/60 shadow-none self-start text-xs font-normal cursor-pointer transition-colors focus-visible:border-destructive focus:outline-none focus:ring-2 focus:ring-destructive"
           tabIndex={0}
           role="button"
           aria-label="Clear all filters"

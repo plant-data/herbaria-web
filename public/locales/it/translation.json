@@ -20,21 +20,28 @@
       "has-coordinates-label": "Mostra solo i record georeferenziati",
       "clear-all": "Rimuovi tutto",
       "show-filters": "Mostra filtri",
-      "hide-filters": "Nascondi filtri"
+      "hide-filters": "Nascondi filtri",
+      "active-filters": "Filtri attivi",
+      "no-active-filters": "Nessun filtro selezionato"
+
     }
   },
-    "months": {
-      "january": "Gennaio",
-      "february": "Febbraio",
-      "march": "Marzo",
-      "april": "Aprile",
-      "may": "Maggio",
-      "june": "Giugno",
-      "july": "Luglio",
-      "august": "Agosto",
-      "september": "Settembre",
-      "october": "Ottobre",
-      "november": "Novembre",
-      "december": "Dicembre"
-    }
+  "months": {
+    "january": "Gennaio",
+    "february": "Febbraio",
+    "march": "Marzo",
+    "april": "Aprile",
+    "may": "Maggio",
+    "june": "Giugno",
+    "july": "Luglio",
+    "august": "Agosto",
+    "september": "Settembre",
+    "october": "Ottobre",
+    "november": "Novembre",
+    "december": "Dicembre"
+  },
+  "common": {
+    "yes": "Sì",
+    "no": "No"
+  }
 }

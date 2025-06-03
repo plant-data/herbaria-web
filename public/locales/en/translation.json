@@ -21,7 +21,9 @@
 
       "clear-all": "Clear all",
       "show-filters": "Show filters",
-      "hide-filters": "Hide filters"
+      "hide-filters": "Hide filters",
+      "active-filters": "Active filters",
+      "no-active-filters": "No selected filters"
     }
     
   }, "months": {
@@ -37,5 +39,9 @@
       "october": "October",
       "november": "November",
       "december": "December"
+    },
+    "common" :{
+      "yes": "Yes",
+      "no": "No"
     }
 }

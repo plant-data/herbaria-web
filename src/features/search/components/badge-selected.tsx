@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { X } from 'lucide-react'
-import type { AutocompleteItem } from '@/features/search/types/filters'
+import type { AutocompleteItem } from '@/features/search/components/autocomplete'
 import { Badge } from '@/components/ui/badge'
 
 interface BadgeListProps {
@@ -34,9 +34,17 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
 
   const shouldShowClearAll = showClearAll
   // sort items alphabetically by value
+  // da migliorare o spostare nel useFilterStore
   let sortedItems = []
   if (sortBy === 'id') {
-    sortedItems = [...items].sort((a, b) => a.id - b.id)
+    if (typeof items[0]?.id === 'number') {
+      sortedItems = [...items].sort((a, b) => a.id - b.id)
+    }
+    else {
+      sortedItems = [...items].sort((a, b) =>
+        String(a.id).localeCompare(String(b.id)),
+      )
+    }
   } else {
     sortedItems = [...items].sort((a, b) =>
       String(a.value).localeCompare(String(b.value)),

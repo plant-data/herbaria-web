@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 export interface AutocompleteItem {
-  id: number
+  id: string
   value: string
 }
 

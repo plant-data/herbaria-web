@@ -16,7 +16,6 @@ import {
 import { BadgeSelected } from '@/features/search/components/badge-selected'
 
 export interface AutocompleteItem {
-  id: number
   value: string
 }
 
@@ -65,10 +64,7 @@ export function Autocomplete({
       }
       const resData: AutocompleteApiResponse = await res.json()
 
-      return resData.data.map((item, index) => ({
-        id: index,
-        value: item,
-      }))
+      return resData.data
     },
     placeholderData: (prev) => prev,
     retry: false,
@@ -109,7 +105,7 @@ export function Autocomplete({
     selectedValues.map((selected) => selected.value),
   )
   const selectables =
-    search === '' ? [] : data?.filter((item) => !selectedLabels.has(item.value))
+    search === '' ? [] : data?.filter((item) => !selectedLabels.has(item))
 
   return (
     <div>
@@ -143,7 +139,7 @@ export function Autocomplete({
             )}
           </div>
           <CommandPrimitive.Input
-            autoComplete='off'
+            autoComplete="off"
             ref={inputRef}
             value={search}
             onValueChange={setSearch}
@@ -170,7 +166,9 @@ export function Autocomplete({
                     ? t('search.filters.autocomplete-error')
                     : debouncedSearch.length < minLength ||
                         (debouncedSearch.length === minLength && isFetching)
-                    ? t('search.filters.autocomplete-min-length', { number: minLength })
+                      ? t('search.filters.autocomplete-min-length', {
+                          number: minLength,
+                        })
                       : t('search.filters.autocomplete-no-results')}
                 </CommandEmpty>
               )}
@@ -185,7 +183,7 @@ export function Autocomplete({
                   {selectables.map((item) => {
                     return (
                       <CommandItem
-                        key={item.value}
+                        key={item}
                         onMouseDown={(e) => {
                           e.preventDefault()
                           e.stopPropagation()
@@ -193,11 +191,14 @@ export function Autocomplete({
                         onSelect={() => {
                           setSearch('')
                           queryClient.setQueryData([queryKey, ''], [])
-                          onSelectedValuesChange((prev) => [...prev, item])
+                          onSelectedValuesChange((prev) => [
+                            ...prev,
+                            { value: item },
+                          ])
                         }}
                         className="cursor-pointer "
                       >
-                        {item.value}
+                        {item}
                       </CommandItem>
                     )
                   })}

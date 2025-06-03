@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import { MAX_YEAR, MIN_YEAR } from '@/features/search/constants/years'
 
-interface FilterStateData {
+export interface FilterStateData {
   scientificName: Array<string>
   floritalyName: Array<string>
   country: Array<string>

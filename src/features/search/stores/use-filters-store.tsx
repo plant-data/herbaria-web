@@ -89,7 +89,13 @@ function createSetter<TKey extends keyof FilterStateData>(
         // Order the value if it's an array and shouldOrder is true
         const orderedValue =
           shouldOrder && Array.isArray(newValue)
-            ? [...newValue].sort()
+            ? [...newValue].sort((a, b) => {
+                // Sort numbers numerically, strings alphabetically
+                if (typeof a === 'number' && typeof b === 'number') {
+                  return a - b
+                }
+                return String(a).localeCompare(String(b))
+              })
             : newValue
 
         const newState = { [key]: orderedValue } as Partial<FilterStateData>

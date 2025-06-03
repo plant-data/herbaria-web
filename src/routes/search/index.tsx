@@ -6,6 +6,5 @@ export const Route = createFileRoute('/search/')({
 })
 
 function RouteComponent() {
-  const { activeFiltersCount } = useFilterStore()
-  return <div>Hello "/search/"! {activeFiltersCount}</div>
+  return <>Hello</>
 }

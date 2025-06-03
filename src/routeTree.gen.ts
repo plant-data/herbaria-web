@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SearchRouteImport } from './routes/search/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as SearchIndexImport } from './routes/search/index'
+import { Route as SearchDebugFiltersImport } from './routes/search/debug-filters'
 import { Route as DemoTanstackQueryImport } from './routes/demo.tanstack-query'
 
 // Create/Update Routes
@@ -33,6 +34,12 @@ const IndexRoute = IndexImport.update({
 const SearchIndexRoute = SearchIndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => SearchRouteRoute,
+} as any)
+
+const SearchDebugFiltersRoute = SearchDebugFiltersImport.update({
+  id: '/debug-filters',
+  path: '/debug-filters',
   getParentRoute: () => SearchRouteRoute,
 } as any)
 
@@ -67,6 +74,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoTanstackQueryImport
       parentRoute: typeof rootRoute
     }
+    '/search/debug-filters': {
+      id: '/search/debug-filters'
+      path: '/debug-filters'
+      fullPath: '/search/debug-filters'
+      preLoaderRoute: typeof SearchDebugFiltersImport
+      parentRoute: typeof SearchRouteImport
+    }
     '/search/': {
       id: '/search/'
       path: '/'
@@ -80,10 +94,12 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface SearchRouteRouteChildren {
+  SearchDebugFiltersRoute: typeof SearchDebugFiltersRoute
   SearchIndexRoute: typeof SearchIndexRoute
 }
 
 const SearchRouteRouteChildren: SearchRouteRouteChildren = {
+  SearchDebugFiltersRoute: SearchDebugFiltersRoute,
   SearchIndexRoute: SearchIndexRoute,
 }
 
@@ -95,12 +111,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/search': typeof SearchRouteRouteWithChildren
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/search/debug-filters': typeof SearchDebugFiltersRoute
   '/search/': typeof SearchIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/search/debug-filters': typeof SearchDebugFiltersRoute
   '/search': typeof SearchIndexRoute
 }
 
@@ -109,15 +127,27 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/search': typeof SearchRouteRouteWithChildren
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/search/debug-filters': typeof SearchDebugFiltersRoute
   '/search/': typeof SearchIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/search' | '/demo/tanstack-query' | '/search/'
+  fullPaths:
+    | '/'
+    | '/search'
+    | '/demo/tanstack-query'
+    | '/search/debug-filters'
+    | '/search/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/demo/tanstack-query' | '/search'
-  id: '__root__' | '/' | '/search' | '/demo/tanstack-query' | '/search/'
+  to: '/' | '/demo/tanstack-query' | '/search/debug-filters' | '/search'
+  id:
+    | '__root__'
+    | '/'
+    | '/search'
+    | '/demo/tanstack-query'
+    | '/search/debug-filters'
+    | '/search/'
   fileRoutesById: FileRoutesById
 }
 
@@ -154,11 +184,16 @@ export const routeTree = rootRoute
     "/search": {
       "filePath": "search/route.tsx",
       "children": [
+        "/search/debug-filters",
         "/search/"
       ]
     },
     "/demo/tanstack-query": {
       "filePath": "demo.tanstack-query.tsx"
+    },
+    "/search/debug-filters": {
+      "filePath": "search/debug-filters.tsx",
+      "parent": "/search"
     },
     "/search/": {
       "filePath": "search/index.tsx",

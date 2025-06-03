@@ -93,6 +93,7 @@ export function FilterSidebar({
           <TabsContent
             key="filters"
             value="filters"
+            tabIndex={-1}
             className="flex min-h-0 flex-1 flex-col overflow-auto group-data-[collapsible=icon]:overflow-hidden px-3 gap-4"
           >
             <div className='pt-1'></div>

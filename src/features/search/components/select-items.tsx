@@ -20,7 +20,6 @@ interface SelectItemsProps {
   label: string
   placeholder: string
   items: Array<FilterItem>
-  sortBy?: 'value' | 'id'
   selectedValues: Array<number>
   onSelectedValuesChange: React.Dispatch<React.SetStateAction<Array<number>>>
   allSelectedMessage: string
@@ -30,21 +29,26 @@ export function SelectItems({
   label,
   placeholder,
   items,
-  sortBy = 'value',
   selectedValues = [],
   onSelectedValuesChange,
-  allSelectedMessage
+  allSelectedMessage,
 }: SelectItemsProps) {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const inputRef = useRef<HTMLButtonElement>(null)
 
   const handleUnselect = useCallback(
-    (item: FilterItem) => {
-      onSelectedValuesChange((prev) => prev.filter((id) => id !== item.id))
+    (itemValue: string) => {
+      // Find the original item by matching the translated value
+      const originalItem = items.find((item) => t(item.value) === itemValue)
+      if (originalItem) {
+        onSelectedValuesChange((prev) =>
+          prev.filter((id) => id !== originalItem.id),
+        )
+      }
       inputRef.current?.focus()
     },
-    [onSelectedValuesChange],
+    [onSelectedValuesChange, items, t],
   )
 
   const handleClearAll = useCallback(() => {
@@ -64,13 +68,13 @@ export function SelectItems({
     [selectedValues, onSelectedValuesChange],
   )
 
-  // Convert selected IDs to FilterItem objects with translated values
+  // Convert selected IDs to translated strings for BadgeSelected
   const selectedItems = selectedValues
     .map((id) => {
-      const item = items.find((item) => item.id === id)
-      return item ? { ...item, value: t(item.value) } : null
+      const foundItem = items.find((item) => item.id === id)
+      return foundItem ? t(foundItem.value) : null
     })
-    .filter(Boolean) as Array<FilterItem>
+    .filter(Boolean) as Array<string>
 
   const selectedIds = new Set(selectedValues)
   const availableItems = items.filter((item) => !selectedIds.has(item.id))
@@ -85,7 +89,6 @@ export function SelectItems({
         onItemRemove={handleUnselect}
         onClearAll={handleClearAll}
         showClearAll={selectedValues.length > 1}
-        sortBy={sortBy}
       />
 
       {/* 2: select part */}

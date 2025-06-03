@@ -36,7 +36,7 @@ export function SearchFilters() {
 
   return (
     <>
-      <div className='pt-1'></div>
+      <div className="pt-1"></div>
       <Autocomplete
         label={t('search.filters.scientific-name-label')}
         placeholder={t('search.filters.scientific-name-placeholder')}
@@ -85,7 +85,6 @@ export function SearchFilters() {
         items={MONTHS}
         selectedValues={months}
         onSelectedValuesChange={setMonths}
-        sortBy="id"
       />
       <SwitchOption
         label={t('search.filters.has-coordinates-label')}

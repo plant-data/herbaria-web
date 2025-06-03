@@ -9,7 +9,6 @@ interface BadgeListProps {
   onItemRemove: (item: AutocompleteItem) => void
   onClearAll: () => void
   showClearAll?: boolean
-  sortBy?: 'value' | 'id'
 }
 /**
  * A controlled checkbox list component that displays selected items with individual
@@ -26,7 +25,6 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
   onItemRemove,
   onClearAll,
   showClearAll = true,
-  sortBy = 'value',
 }: BadgeListProps) {
   console.log('BadgeSelected rendered with items:', items)
 
@@ -35,34 +33,20 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
   const shouldShowClearAll = showClearAll
   // sort items alphabetically by value
   // da migliorare o spostare nel useFilterStore
-  let sortedItems = []
-  if (sortBy === 'id') {
-    if (typeof items[0]?.id === 'number') {
-      sortedItems = [...items].sort((a, b) => a.id - b.id)
-    }
-    else {
-      sortedItems = [...items].sort((a, b) =>
-        String(a.id).localeCompare(String(b.id)),
-      )
-    }
-  } else {
-    sortedItems = [...items].sort((a, b) =>
-      String(a.value).localeCompare(String(b.value)),
-    )
-  }
+  const sortedItems = [...items].sort((a, b) => a.localeCompare(b))
 
   return (
     <div className="pl-1 text-sm flex flex-col gap-1">
       <div className="flex flex-col gap-1">
         {sortedItems.map((item) => (
           <Badge
-            key={item.value}
+            key={item}
             variant="secondary"
             className="bg-background dark:bg-input border-input text-xs font-normal cursor-pointer hover:bg-background/80 transition-colors focus:outline-none focus:ring-2 focus:ring-ring "
             onClick={() => onItemRemove(item)}
             tabIndex={0}
             role="button"
-            aria-label={`Remove ${String(item.value)} filter`}
+            aria-label={`Remove ${item} filter`}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault()
@@ -71,7 +55,7 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
             }}
           >
             <X className="h-3 w-3 mr-1" />
-            <span className="truncate max-w-[220px]">{String(item.value)}</span>
+            <span className="truncate max-w-[220px]">{item}</span>
           </Badge>
         ))}
       </div>

@@ -6,13 +6,9 @@ import { MONTHS } from '@/features/search/constants/months'
 
 // Constants
 const YEAR_RANGE = { min: 1800, max: 2025 }
-const MAX_DISPLAY_WIDTH = 220
 
 // Types
-interface FilterItem {
-  id: string | number
-  value: string
-}
+
 
 interface FilterGroupProps {
   label: string
@@ -21,11 +17,9 @@ interface FilterGroupProps {
 }
 
 interface FilterItemProps {
-  item: FilterItem | number | string
   index: number
   total: number
   displayValue: string
-  ariaLabel: string
 }
 
 interface TreeLinesProps {
@@ -52,21 +46,17 @@ function TreeLines({ index, total }: TreeLinesProps) {
 }
 
 // Component: Individual filter item with badge
-function FilterItem({ index, total, displayValue, ariaLabel }: FilterItemProps) {
-
-  
+function FilterItem({ index, total, displayValue }: FilterItemProps) {
 
   return (
     <div className="flex items-center">
       <TreeLines index={index} total={total} />
       <Badge
         variant="secondary"
-        className="bg-background dark:bg-input border-input text-xs font-normal hover:bg-background/80 transition-colors focus:outline-none focus:ring-2 focus:ring-ring"
-        tabIndex={0}
-        role="button"
-        aria-label={ariaLabel}
+        className="bg-background dark:bg-input border-input text-xs font-normal hover:bg-background/80 transition-colors"
+        tabIndex={-1}
       >
-        <span className={`truncate max-w-[${MAX_DISPLAY_WIDTH}px]`}>{displayValue}</span>
+        <span className={`truncate max-w-full`}>{displayValue}</span>
       </Badge>
     </div>
   )
@@ -96,13 +86,6 @@ export function SelectedFiltersTree() {
     years,
     months,
     hasCoordinates,
-    setScientificNames,
-    setFloritalyNames,
-    setCountries,
-    setLocality,
-    setYears,
-    setMonths,
-    setHasCoordinates,
     activeFiltersCount,
   } = useFilterStore()
 
@@ -126,35 +109,24 @@ export function SelectedFiltersTree() {
       key: 'scientificNames',
       items: scientificNames,
       label: t('search.filters.scientific-name-label'),
-      onRemove: (item: FilterItem) => setScientificNames(prev => prev.filter(i => i.id !== item.id)),
-      getValue: (item: FilterItem) => item.value,
-      getAriaLabel: (item: FilterItem) => `Remove ${item.value} filter`,
     },
     {
       key: 'floritalyNames',
       items: floritalyNames,
       label: t('search.filters.floritaly-name-label'),
-      onRemove: (item: FilterItem) => setFloritalyNames(prev => prev.filter(i => i.id !== item.id)),
-      getValue: (item: FilterItem) => item.value,
-      getAriaLabel: (item: FilterItem) => `Remove ${item.value} filter`,
     },
     {
       key: 'countries',
       items: countries,
       label: t('search.filters.country-label'),
-      onRemove: (item: FilterItem) => setCountries(prev => prev.filter(i => i.id !== item.id)),
-      getValue: (item: FilterItem) => item.value,
-      getAriaLabel: (item: FilterItem) => `Remove ${item.value} filter`,
     },
     {
       key: 'locality',
       items: locality,
       label: t('search.filters.locality-label'),
-      onRemove: (item: FilterItem) => setLocality(prev => prev.filter(i => i.id !== item.id)),
-      getValue: (item: FilterItem) => item.value,
-      getAriaLabel: (item: FilterItem) => `Remove ${item.value} filter`,
+
     },
-  ], [scientificNames, floritalyNames, countries, locality, t, setScientificNames, setFloritalyNames, setCountries, setLocality])
+  ], [t, scientificNames, floritalyNames, countries, locality])
 
   if (activeFiltersCount === 0) {
     return (
@@ -185,12 +157,10 @@ export function SelectedFiltersTree() {
             >
               {config.items.map((item, index) => (
                 <FilterItem
-                  key={typeof item === 'object' ? item.id : item}
-                  item={item}
+                  key={item}
                   index={index}
                   total={config.items.length}
-                  displayValue={config.getValue(item)}
-                  ariaLabel={config.getAriaLabel(item)}
+                  displayValue={item}
                 />
               ))}
             </FilterGroup>
@@ -201,11 +171,9 @@ export function SelectedFiltersTree() {
         {hasYearFilter && (
           <FilterGroup label={t('search.filters.year-label')} count={1}>
             <FilterItem
-              item={{ id: 'year', value: `${years[0]} - ${years[1]}` }}
               index={0}
               total={1}
               displayValue={`${years[0]} - ${years[1]}`}
-              ariaLabel={`Remove year filter ${years[0]} - ${years[1]}`}
             />
           </FilterGroup>
         )}
@@ -216,11 +184,9 @@ export function SelectedFiltersTree() {
             {months.map((monthId, index) => (
               <FilterItem
                 key={monthId}
-                item={monthId}
                 index={index}
                 total={months.length}
                 displayValue={getMonthName(monthId)}
-                ariaLabel={`Remove ${getMonthName(monthId)} filter`}
               />
             ))}
           </FilterGroup>
@@ -230,11 +196,9 @@ export function SelectedFiltersTree() {
         {hasCoordinates && (
           <FilterGroup label={t('search.filters.has-coordinates-label')} count={1}>
             <FilterItem
-              item={{ id: 'coordinates', value: t('common.yes') }}
               index={0}
               total={1}
               displayValue={t('common.yes')}
-              ariaLabel="Remove coordinates filter"
             />
           </FilterGroup>
         )}

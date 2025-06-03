@@ -1,16 +1,11 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
-export interface AutocompleteItem {
-  id: string
-  value: string
-}
-
 interface FilterStateData {
-  scientificNames: Array<AutocompleteItem>
-  floritalyNames: Array<AutocompleteItem>
-  countries: Array<AutocompleteItem>
-  locality: Array<AutocompleteItem>
+  scientificNames: Array<string>
+  floritalyNames: Array<string>
+  countries: Array<string>
+  locality: Array<string>
   years: [number, number]
   months: Array<number>
   hasCoordinates: boolean
@@ -18,24 +13,16 @@ interface FilterStateData {
 }
 interface FilterActions {
   setScientificNames: (
-    scientificNames:
-      | Array<AutocompleteItem>
-      | ((prev: Array<AutocompleteItem>) => Array<AutocompleteItem>),
+    scientificNames: Array<string> | ((prev: Array<string>) => Array<string>),
   ) => void
   setFloritalyNames: (
-    floritalyNames:
-      | Array<AutocompleteItem>
-      | ((prev: Array<AutocompleteItem>) => Array<AutocompleteItem>),
+    floritalyNames: Array<string> | ((prev: Array<string>) => Array<string>),
   ) => void
   setCountries: (
-    countries:
-      | Array<AutocompleteItem>
-      | ((prev: Array<AutocompleteItem>) => Array<AutocompleteItem>),
+    countries: Array<string> | ((prev: Array<string>) => Array<string>),
   ) => void
   setLocality: (
-    locality:
-      | Array<AutocompleteItem>
-      | ((prev: Array<AutocompleteItem>) => Array<AutocompleteItem>),
+    locality: Array<string> | ((prev: Array<string>) => Array<string>),
   ) => void
   setYears: (
     years: [number, number] | ((prev: [number, number]) => [number, number]),
@@ -112,7 +99,7 @@ function createSetter<TKey extends keyof FilterStateData>(
 
 export const useFilterStore = create<FilterState>()(
   devtools(
-    (set, get) => ({
+    (set) => ({
       // Initial state
       ...initialState,
 

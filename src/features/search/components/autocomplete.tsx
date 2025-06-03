@@ -15,9 +15,7 @@ import {
 } from '@/components/ui/command'
 import { BadgeSelected } from '@/features/search/components/badge-selected'
 
-export interface AutocompleteItem {
-  value: string
-}
+export type AutocompleteItem = string
 
 interface AutocompleteApiResponse {
   data: Array<string>
@@ -81,9 +79,7 @@ export function Autocomplete({
 
   const handleUnselect = useCallback(
     (item: AutocompleteItem) => {
-      onSelectedValuesChange((prev) =>
-        prev.filter((s) => s.value !== item.value),
-      )
+      onSelectedValuesChange((prev) => prev.filter((s) => s !== item))
       inputRef.current?.focus()
     },
     [onSelectedValuesChange],
@@ -101,9 +97,7 @@ export function Autocomplete({
     }
   }
 
-  const selectedLabels = new Set(
-    selectedValues.map((selected) => selected.value),
-  )
+  const selectedLabels = new Set(selectedValues)
   const selectables =
     search === '' ? [] : data?.filter((item) => !selectedLabels.has(item))
 
@@ -191,10 +185,7 @@ export function Autocomplete({
                         onSelect={() => {
                           setSearch('')
                           queryClient.setQueryData([queryKey, ''], [])
-                          onSelectedValuesChange((prev) => [
-                            ...prev,
-                            { value: item },
-                          ])
+                          onSelectedValuesChange((prev) => [...prev, item])
                         }}
                         className="cursor-pointer "
                       >

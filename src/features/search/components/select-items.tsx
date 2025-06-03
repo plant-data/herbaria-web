@@ -77,7 +77,7 @@ export function SelectItems({
 
   return (
     <div className="max-w-full">
-      <div className="text-sm font-bold pl-1">{label}</div>
+      <div className="text-sm font-semibold pl-1">{label}</div>
 
       {/* 1: badge part */}
       <BadgeSelected

@@ -36,7 +36,7 @@ export function RangeSlider({
 
   return (
     <div className="max-w-full">
-      <div className="text-sm font-bold pl-1 pb-2">{label}</div>
+      <div className="text-sm font-semibold pl-1 pb-2">{label}</div>
       <DualSlider
         className="bg-background"
         value={currentSliderValues}

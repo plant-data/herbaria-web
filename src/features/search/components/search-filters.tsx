@@ -6,6 +6,7 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { RangeSlider } from '@/features/search/components/range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
 import { MONTHS } from '@/features/search/constants/months'
+import { MAX_YEAR, MIN_YEAR } from '@/features/search/constants/years'
 import { SwitchOption } from '@/features/search/components/switch-option'
 
 export function SearchFilters() {
@@ -74,8 +75,8 @@ export function SearchFilters() {
         label={t('search.filters.year-label')}
         initialValues={years}
         onValuesChange={handleSetYears}
-        min={1800}
-        max={new Date().getFullYear()}
+        min={MIN_YEAR}
+        max={MAX_YEAR}
         step={1}
       />
       <SelectItems

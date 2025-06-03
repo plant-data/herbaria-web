@@ -3,12 +3,7 @@ import { useMemo } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { MONTHS } from '@/features/search/constants/months'
-
-// Constants
-const YEAR_RANGE = { min: 1800, max: 2025 }
-
-// Types
-
+import { MAX_YEAR, MIN_YEAR } from '@/features/search/constants/years'
 
 interface FilterGroupProps {
   label: string
@@ -25,6 +20,14 @@ interface FilterItemProps {
 interface TreeLinesProps {
   index: number
   total: number
+}
+
+interface FilterConfig {
+  key: string
+  label: string
+  items: Array<any>
+  displayValue?: (item: any, index?: number) => string
+  condition?: () => boolean
 }
 
 // Component: Tree connection lines
@@ -47,7 +50,6 @@ function TreeLines({ index, total }: TreeLinesProps) {
 
 // Component: Individual filter item with badge
 function FilterItem({ index, total, displayValue }: FilterItemProps) {
-
   return (
     <div className="flex items-center">
       <TreeLines index={index} total={total} />
@@ -89,12 +91,7 @@ export function SelectedFiltersTree() {
     activeFiltersCount,
   } = useFilterStore()
 
-  // Memoized calculations
-  const hasYearFilter = useMemo(
-    () => years[0] !== YEAR_RANGE.min || years[1] !== YEAR_RANGE.max,
-    [years]
-  )
-
+  // Memoized month name mapping
   const monthNameMap = useMemo(
     () => new Map(MONTHS.map(month => [month.id, t(month.value)])),
     [t]
@@ -103,8 +100,8 @@ export function SelectedFiltersTree() {
   const getMonthName = (monthId: number) => 
     monthNameMap.get(monthId) || `Month ${monthId}`
 
-  // Filter configuration
-  const filterConfigs = useMemo(() => [
+  // Unified filter configuration
+  const filterConfigs: Array<FilterConfig> = useMemo(() => [
     {
       key: 'scientificNames',
       items: scientificNames,
@@ -124,9 +121,26 @@ export function SelectedFiltersTree() {
       key: 'locality',
       items: locality,
       label: t('search.filters.locality-label'),
-
     },
-  ], [t, scientificNames, floritalyNames, countries, locality])
+    {
+      key: 'years',
+      items: years,
+      label: t('search.filters.year-label'),
+      condition: () => years[0] !== MIN_YEAR || years[1] !== MAX_YEAR
+    },
+    {
+      key: 'months',
+      items: months,
+      label: t('search.filters.month-label'),
+      displayValue: (monthId: number) => getMonthName(monthId),
+    },
+    {
+      key: 'hasCoordinates',
+      items: hasCoordinates ? [hasCoordinates] : [],
+      label: t('search.filters.has-coordinates-label'),
+      displayValue: () => t('common.yes'),
+    },
+  ], [t, scientificNames, floritalyNames, countries, locality, years, months, hasCoordinates, getMonthName])
 
   if (activeFiltersCount === 0) {
     return (
@@ -144,12 +158,15 @@ export function SelectedFiltersTree() {
           {t('search.filters.active-filters')} ({activeFiltersCount})
         </span>
       </div>
-      
 
       <div className="space-y-1 text-sm">
-        {/* Render array-based filters */}
-        {filterConfigs.map(config => 
-          config.items.length > 0 && (
+        {filterConfigs.map(config => {
+          // Check if filter should be displayed
+          const shouldDisplay = config.condition ? config.condition() : config.items.length > 0
+          
+          if (!shouldDisplay) return null
+
+          return (
             <FilterGroup 
               key={config.key}
               label={config.label} 
@@ -157,51 +174,15 @@ export function SelectedFiltersTree() {
             >
               {config.items.map((item, index) => (
                 <FilterItem
-                  key={item}
+                  key={typeof item === 'string' ? item : `${config.key}-${index}`}
                   index={index}
                   total={config.items.length}
-                  displayValue={item}
+                  displayValue={config.displayValue ? config.displayValue(item, index) : String(item)}
                 />
               ))}
             </FilterGroup>
           )
-        )}
-
-        {/* Year filter */}
-        {hasYearFilter && (
-          <FilterGroup label={t('search.filters.year-label')} count={1}>
-            <FilterItem
-              index={0}
-              total={1}
-              displayValue={`${years[0]} - ${years[1]}`}
-            />
-          </FilterGroup>
-        )}
-
-        {/* Month filters */}
-        {months.length > 0 && (
-          <FilterGroup label={t('search.filters.month-label')} count={months.length}>
-            {months.map((monthId, index) => (
-              <FilterItem
-                key={monthId}
-                index={index}
-                total={months.length}
-                displayValue={getMonthName(monthId)}
-              />
-            ))}
-          </FilterGroup>
-        )}
-
-        {/* Coordinates filter */}
-        {hasCoordinates && (
-          <FilterGroup label={t('search.filters.has-coordinates-label')} count={1}>
-            <FilterItem
-              index={0}
-              total={1}
-              displayValue={t('common.yes')}
-            />
-          </FilterGroup>
-        )}
+        })}
       </div>
     </div>
   )

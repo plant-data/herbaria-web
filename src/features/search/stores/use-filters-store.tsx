@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import { MAX_YEAR, MIN_YEAR } from '@/features/search/constants/years'
 
 interface FilterStateData {
   scientificNames: Array<string>
@@ -42,7 +43,7 @@ const initialState: FilterStateData = {
   floritalyNames: [],
   countries: [],
   locality: [],
-  years: [1800, 2025],
+  years: [MIN_YEAR, MAX_YEAR],
   months: [],
   hasCoordinates: false,
   activeFiltersCount: 0,
@@ -69,6 +70,7 @@ function createSetter<TKey extends keyof FilterStateData>(
   key: TKey,
   actionName: string,
   set: any,
+  shouldOrder: boolean = false,
 ) {
   return (
     value:
@@ -84,7 +86,13 @@ function createSetter<TKey extends keyof FilterStateData>(
               )
             : value
 
-        const newState = { [key]: newValue } as Partial<FilterStateData>
+        // Order the value if it's an array and shouldOrder is true
+        const orderedValue =
+          shouldOrder && Array.isArray(newValue)
+            ? [...newValue].sort()
+            : newValue
+
+        const newState = { [key]: orderedValue } as Partial<FilterStateData>
         const updatedState = { ...state, ...newState }
 
         return {
@@ -108,20 +116,23 @@ export const useFilterStore = create<FilterState>()(
         'scientificNames',
         'setScientificNames',
         set,
+        true, 
       ),
       setFloritalyNames: createSetter(
         'floritalyNames',
         'setFloritalyNames',
         set,
+        true, 
       ),
-      setCountries: createSetter('countries', 'setCountries', set),
-      setLocality: createSetter('locality', 'setLocality', set),
+      setCountries: createSetter('countries', 'setCountries', set, true),
+      setLocality: createSetter('locality', 'setLocality', set, true),
       setYears: createSetter('years', 'setYears', set),
-      setMonths: createSetter('months', 'setMonths', set),
+      setMonths: createSetter('months', 'setMonths', set, true),
       setHasCoordinates: createSetter(
         'hasCoordinates',
         'setHasCoordinates',
         set,
+
       ),
 
       // Reset all filters to initial values

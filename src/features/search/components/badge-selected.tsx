@@ -31,14 +31,11 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
   const { t } = useTranslation()
 
   const shouldShowClearAll = showClearAll
-  // sort items alphabetically by value
-  // da migliorare o spostare nel useFilterStore
-  const sortedItems = [...items].sort((a, b) => a.localeCompare(b))
 
   return (
     <div className="pl-1 text-sm flex flex-col gap-1">
       <div className="flex flex-col gap-1">
-        {sortedItems.map((item) => (
+        {items.map((item) => (
           <Badge
             key={item}
             variant="secondary"

@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react'
+
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
+
+
+
 
 export function usePrepareFilters() {
 
@@ -15,7 +18,6 @@ export function usePrepareFilters() {
     setSkip
   } = useFilterStore()
 
-  // reset pagination when filters change
 
   // uniform to API format
   const filters = {

@@ -11,8 +11,10 @@ export interface FilterStateData {
   month: Array<number>
   hasCoordinates: boolean
   activeFiltersCount: number
-  skip: number
+  skip?: number
 }
+
+
 
 interface FilterActions {
   setScientificName: (

@@ -8,7 +8,7 @@ type SearchSort = {
   locality?: SortOptions
 }
 
-type SearchFilters = Omit<FilterStateData, 'activeFiltersCount'>
+type SearchFilters = Omit<FilterStateData, 'activeFiltersCount' | 'skip'>
 
 const SEARCH_URL = 'http://localhost:8000/api/v1/occurrences/search'
 

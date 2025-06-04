@@ -16,12 +16,12 @@ export function ResultSwitch() {
   ]
 
   return (
-    <div className="m-4">
+    <div className="m-6 mb-0 flex justify-between items-center">
       <div className="flex justify-center">
         <ResultOccurrencesCounter />
       </div>
 
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center">
         <nav className="flex gap-2 p-1 bg-muted rounded-lg">
           {navItems.map(({ path, icon: Icon, label }) => (
             <Link
@@ -63,6 +63,6 @@ function ResultOccurrencesCounter() {
   }
 
   return (
-    <div className="text-sm text-gray-500">{data.count} occurrences found</div>
+    <div className="text-sm text-gray-500">{data.count} Occurrences</div>
   )
 }

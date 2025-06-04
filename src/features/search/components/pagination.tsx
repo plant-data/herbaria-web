@@ -30,7 +30,7 @@ export function Pagination({
   }
 
   return (
-    <div className="flex items-center justify-between py-2">
+    <div className="h-[50px] flex items-center justify-between my-2">
       <div className="flex-1 text-sm text-muted-foreground">
         Page {page} of {totalPages}
       </div>

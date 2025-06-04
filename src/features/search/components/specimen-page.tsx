@@ -2,7 +2,10 @@ import Map, { Marker as MapLibreMarker } from 'react-map-gl/maplibre'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { MAP_STYLE } from '@/features/search/constants/constants'
+import { BASE_IMAGE_URL } from '@/config'
 import 'maplibre-gl/dist/maplibre-gl.css'
+
 
 type SpecimenImageProps = Pick<SpecimenData, 'scientificName' | 'multimedia'>
 
@@ -10,32 +13,6 @@ type SpecimenMapProps = Pick<
   SpecimenData,
   'decimalLatitude' | 'decimalLongitude'
 >
-
-const mapStyle = {
-  version: 8,
-  sources: {
-    osm: {
-      type: 'raster',
-      tiles: [
-        'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      ],
-      tileSize: 256,
-      attribution:
-        '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
-  },
-  layers: [
-    {
-      id: 'osm',
-      type: 'raster',
-      source: 'osm',
-      minzoom: 0,
-      maxzoom: 22, // Or your preferred max zoom
-    },
-  ],
-}
 
 export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
   return (
@@ -76,7 +53,7 @@ function SpecimenMap({ decimalLatitude, decimalLongitude }: SpecimenMapProps) {
               zoom: 2,
             }}
             style={{ width: '100%', height: '100%' }}
-            mapStyle={mapStyle}
+            mapStyle={MAP_STYLE}
             scrollZoom={false} // Disables zoom on scroll, similar to scrollWheelZoom={false}
           >
             <MapLibreMarker
@@ -102,7 +79,7 @@ export function SpecimenImage({
           {multimedia.length > 0 ? (
             <img
               className="w-full h-full object-fill"
-              src={`http://137.204.21.175:8000/unsafe/704x1000/${multimedia[0].identifier}`}
+              src={`${BASE_IMAGE_URL}unsafe/704x1000/${multimedia[0].identifier}`}
               alt={scientificName}
             />
           ) : (

@@ -1,11 +1,15 @@
 import { useTranslation } from 'react-i18next'
-import { baseApiUrl } from '@/config'
+import { BASE_API_URL } from '@/config'
 import { Autocomplete } from '@/features/search/components/autocomplete'
 import { useDebouncedCallback } from '@/hooks/use-debounce'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { RangeSlider } from '@/features/search/components/range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
-import { MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
+import {
+  MAX_YEAR,
+  MIN_YEAR,
+  MONTHS,
+} from '@/features/search/constants/constants'
 import { SwitchOption } from '@/features/search/components/switch-option'
 
 export function SearchFilters() {
@@ -32,7 +36,7 @@ export function SearchFilters() {
     setYear(value)
   }, 500)
 
-  console.log(`${baseApiUrl}autocomplete?field=scientificName&value=`)
+  console.log(`${BASE_API_URL}autocomplete?field=scientificName&value=`)
 
   return (
     <>
@@ -43,7 +47,7 @@ export function SearchFilters() {
         selectedValues={scientificName}
         onSelectedValuesChange={setScientificName}
         queryKey="plantscientificnamesearch"
-        query={`${baseApiUrl}autocomplete?field=scientificName&value=`}
+        query={`${BASE_API_URL}autocomplete?field=scientificName&value=`}
       />
       <Autocomplete
         label={t('search.filters.country-label')}
@@ -51,7 +55,7 @@ export function SearchFilters() {
         selectedValues={country}
         onSelectedValuesChange={setCountry}
         queryKey="countrysearch"
-        query={`${baseApiUrl}autocomplete?field=scientificName&value=`}
+        query={`${BASE_API_URL}autocomplete?field=scientificName&value=`}
       />
       <Autocomplete
         label={t('search.filters.locality-label')}
@@ -59,7 +63,7 @@ export function SearchFilters() {
         selectedValues={locality}
         onSelectedValuesChange={setLocality}
         queryKey="localitysearch"
-        query={`${baseApiUrl}autocomplete?field=locality&value=`}
+        query={`${BASE_API_URL}autocomplete?field=locality&value=`}
         minLength={4}
       />
       <Autocomplete
@@ -68,7 +72,7 @@ export function SearchFilters() {
         selectedValues={floritalyName}
         onSelectedValuesChange={setFloritalyName}
         queryKey="floritalysearch"
-        query={`${baseApiUrl}autocomplete?field=floritalyName&value=`}
+        query={`${BASE_API_URL}autocomplete?field=floritalyName&value=`}
       />
       <RangeSlider
         label={t('search.filters.year-label')}

@@ -1,8 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
+import Map, { Marker as MapLibreMarker } from 'react-map-gl/maplibre'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { useState } from 'react'
-import Map, { Marker as MapLibreMarker, Popup as MapLibrePopup } from 'react-map-gl/maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 export const Route = createFileRoute('/specimens/$occurrenceID')({
@@ -23,7 +22,7 @@ function OccurrenceDetail() {
 
   const hasCoordinates =
     occurrence.decimalLatitude && occurrence.decimalLongitude
-  
+
   let initialLongitude, initialLatitude
   if (hasCoordinates) {
     initialLongitude = parseFloat(occurrence.decimalLongitude)
@@ -36,12 +35,13 @@ function OccurrenceDetail() {
       osm: {
         type: 'raster',
         tiles: [
-            'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
+          'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png',
         ],
         tileSize: 256,
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        attribution:
+          '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       },
     },
     layers: [
@@ -50,7 +50,7 @@ function OccurrenceDetail() {
         type: 'raster',
         source: 'osm',
         minzoom: 0,
-        maxzoom: 22 // Or your preferred max zoom
+        maxzoom: 22, // Or your preferred max zoom
       },
     ],
   }
@@ -65,18 +65,20 @@ function OccurrenceDetail() {
         <div className="space-y-6">
           {/* Image Placeholder Card */}
           <Card className="p-0 rounded-md shadow-xs max-w-[280px] sm:max-w-full mx-auto">
-            <CardContent className="sm:w-[254px] sm:h-[370px] md:w-[352px] md:h-[500px] p-0 m-0">
-              {occurrence.multimedia && occurrence.multimedia.length > 0 ? (
-                <img
-                  className="w-full h-full object-fill rounded-md"
-                  src={`http://137.204.21.175:8000/unsafe/704x1000/${occurrence.multimedia[0].identifier}`}
-                  alt={occurrence.scientificName}
-                />
-              ) : (
-                <div className="w-full h-full bg-gray-200 flex items-center justify-center rounded-md">
-                  <span className="text-gray-500">No image available</span>
-                </div>
-              )}
+            <CardContent className="sm:w-[254px] sm:h-[370px] md:w-[352px] md:h-[500px] p-1 m-0">
+              <div className='w-full h-full overflow-hidden rounded-[4px] border border-input'>
+                {occurrence.multimedia && occurrence.multimedia.length > 0 ? (
+                  <img
+                    className="w-full h-full object-fill"
+                    src={`http://137.204.21.175:8000/unsafe/704x1000/${occurrence.multimedia[0].identifier}`}
+                    alt={occurrence.scientificName}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center rounded-md">
+                    <span className="text-gray-500">No image available</span>
+                  </div>
+                )}
+              </div>
             </CardContent>
           </Card>
 

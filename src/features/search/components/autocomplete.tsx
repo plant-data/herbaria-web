@@ -54,6 +54,7 @@ export function Autocomplete({
   const inputRef = useRef<HTMLInputElement>(null)
   const queryClient = useQueryClient()
   const { data, error, isFetching } = useQuery({
+    
     queryKey: [queryKey, debouncedSearch],
     queryFn: async ({ signal }) => {
       const res = await fetch(`${query}${debouncedSearch}`, { signal })

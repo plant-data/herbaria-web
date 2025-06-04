@@ -6,6 +6,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar'
+import { ResultSwitch } from '@/features/search/components/result-switch'
 
 export const Route = createFileRoute('/search')({
   component: RouteComponent,
@@ -19,6 +20,7 @@ function RouteComponent() {
       <div className="flex flex-1">
         <SearchSidebar />
         <SidebarInset>
+          <ResultSwitch />
           <Outlet />
         </SidebarInset>
       </div>

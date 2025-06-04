@@ -18,16 +18,16 @@ export default function SpecimensGallery() {
   )
 
   return isPending ? (
-    <div className="@container px-4 py-2  md:px-6">
+    <>
       <div className="h-[50px] m-2"></div>
       <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-3 gap-4">
         {Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
           <DataItemCardSkeleton key={index} />
         ))}
       </div>
-    </div>
+    </>
   ) : (
-    <div className="@container px-4 py-2  md:px-6">
+    <>
       <Pagination
         count={data.count}
         skip={skip}
@@ -51,7 +51,7 @@ export default function SpecimensGallery() {
         limit={ITEMS_PER_PAGE}
         setSkip={setSkip}
       />
-    </div>
+    </>
   )
 }
 

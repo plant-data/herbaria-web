@@ -126,7 +126,7 @@ export function SpecimensTable() {
   return isPending ? (
     <div>'Loading...'</div>
   ) : (
-    <div className="@container px-4 py-2  md:px-6">
+    <>
       {/* pagination and select  */}
       <div className="flex items-center justify-between">
         <Pagination
@@ -221,6 +221,6 @@ export function SpecimensTable() {
         limit={ITEMS_PER_PAGE}
         setSkip={setSkip}
       />
-    </div>
+    </>
   )
 }

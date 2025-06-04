@@ -20,8 +20,10 @@ function RouteComponent() {
       <div className="flex flex-1">
         <SearchSidebar />
         <SidebarInset>
-          <ResultSwitch />
-          <Outlet />
+          <div className="@container px-4 pt-4 pb-2  md:px-6">
+            <ResultSwitch />
+            <Outlet />
+          </div>
         </SidebarInset>
       </div>
       <SidebarTrigger

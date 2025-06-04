@@ -16,7 +16,7 @@ export function ResultSwitch() {
   ]
 
   return (
-    <div className="m-6 mb-0 flex justify-between items-center">
+    <div className="flex justify-between items-center">
       <div className="flex justify-center">
         <ResultOccurrencesCounter />
       </div>

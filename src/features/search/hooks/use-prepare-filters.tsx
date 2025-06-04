@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 
 export function usePrepareFilters() {
-  const [skip, setSkip] = useState(0)
+
   const {
     scientificName,
     floritalyName,
@@ -10,13 +10,12 @@ export function usePrepareFilters() {
     locality,
     year,
     month,
-    hasCoordinates
+    hasCoordinates,
+    skip,
+    setSkip
   } = useFilterStore()
 
   // reset pagination when filters change
-  useEffect(() => {
-    setSkip(0)
-  }, [scientificName, country, locality, year, month, floritalyName, hasCoordinates])
 
   // uniform to API format
   const filters = {

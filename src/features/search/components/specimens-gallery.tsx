@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
-import { Card, CardContent } from '@/components/ui/card' // Adjust path based on your shadcn setup
-import { Skeleton } from '@/components/ui/skeleton' // Add skeleton import
+import { Card, CardContent } from '@/components/ui/card' 
+import { Skeleton } from '@/components/ui/skeleton'
 import useSearchOccurrences from '@/features/search/api/get-occurrences'
 import { usePrepareFilters } from '@/features/search/hooks/use-prepare-filters'
 import { Pagination } from '@/features/search/components/pagination'

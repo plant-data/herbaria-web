@@ -11,7 +11,9 @@ export interface FilterStateData {
   month: Array<number>
   hasCoordinates: boolean
   activeFiltersCount: number
+  skip: number
 }
+
 interface FilterActions {
   setScientificName: (
     scientificName: Array<string> | ((prev: Array<string>) => Array<string>),
@@ -33,6 +35,7 @@ interface FilterActions {
   ) => void
   setHasCoordinates: (hasCoordinates: boolean) => void
   resetFilters: () => void
+  setSkip: (skip: number) => void
 }
 
 interface FilterState extends FilterStateData, FilterActions {}
@@ -47,6 +50,7 @@ const initialState: FilterStateData = {
   month: [],
   hasCoordinates: false,
   activeFiltersCount: 0,
+  skip: 0,
 }
 
 // helper function to calculate active filters count
@@ -104,6 +108,7 @@ function createSetter<TKey extends keyof FilterStateData>(
         return {
           ...newState,
           activeFiltersCount: calculateActiveFiltersCount(updatedState),
+          skip: 0,
         }
       },
       false,
@@ -122,13 +127,13 @@ export const useFilterStore = create<FilterState>()(
         'scientificName',
         'setScientificName',
         set,
-        true, 
+        true,
       ),
       setFloritalyName: createSetter(
         'floritalyName',
         'setFloritalyName',
         set,
-        true, 
+        true,
       ),
       setCountry: createSetter('country', 'setCountry', set, true),
       setLocality: createSetter('locality', 'setLocality', set, true),
@@ -138,11 +143,12 @@ export const useFilterStore = create<FilterState>()(
         'hasCoordinates',
         'setHasCoordinates',
         set,
-
       ),
 
       // Reset all filters to initial values
       resetFilters: () => set(initialState, false, 'resetFilters'),
+      // replace skip with number
+      setSkip: (newSkip: number) => set({ skip: newSkip }, false, 'setSkip'),
     }),
     {
       name: 'filter-store',

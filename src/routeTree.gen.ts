@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SearchRouteImport } from './routes/search/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as SearchIndexImport } from './routes/search/index'
+import { Route as SpecimensOccurrenceIDImport } from './routes/specimens/$occurrenceID'
 import { Route as SearchTableImport } from './routes/search/table'
 import { Route as SearchDebugFiltersImport } from './routes/search/debug-filters'
 import { Route as DemoTanstackQueryImport } from './routes/demo.tanstack-query'
@@ -36,6 +37,12 @@ const SearchIndexRoute = SearchIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => SearchRouteRoute,
+} as any)
+
+const SpecimensOccurrenceIDRoute = SpecimensOccurrenceIDImport.update({
+  id: '/specimens/$occurrenceID',
+  path: '/specimens/$occurrenceID',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const SearchTableRoute = SearchTableImport.update({
@@ -95,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchTableImport
       parentRoute: typeof SearchRouteImport
     }
+    '/specimens/$occurrenceID': {
+      id: '/specimens/$occurrenceID'
+      path: '/specimens/$occurrenceID'
+      fullPath: '/specimens/$occurrenceID'
+      preLoaderRoute: typeof SpecimensOccurrenceIDImport
+      parentRoute: typeof rootRoute
+    }
     '/search/': {
       id: '/search/'
       path: '/'
@@ -129,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/search/debug-filters': typeof SearchDebugFiltersRoute
   '/search/table': typeof SearchTableRoute
+  '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/search/': typeof SearchIndexRoute
 }
 
@@ -137,6 +152,7 @@ export interface FileRoutesByTo {
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/search/debug-filters': typeof SearchDebugFiltersRoute
   '/search/table': typeof SearchTableRoute
+  '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/search': typeof SearchIndexRoute
 }
 
@@ -147,6 +163,7 @@ export interface FileRoutesById {
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/search/debug-filters': typeof SearchDebugFiltersRoute
   '/search/table': typeof SearchTableRoute
+  '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/search/': typeof SearchIndexRoute
 }
 
@@ -158,6 +175,7 @@ export interface FileRouteTypes {
     | '/demo/tanstack-query'
     | '/search/debug-filters'
     | '/search/table'
+    | '/specimens/$occurrenceID'
     | '/search/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -165,6 +183,7 @@ export interface FileRouteTypes {
     | '/demo/tanstack-query'
     | '/search/debug-filters'
     | '/search/table'
+    | '/specimens/$occurrenceID'
     | '/search'
   id:
     | '__root__'
@@ -173,6 +192,7 @@ export interface FileRouteTypes {
     | '/demo/tanstack-query'
     | '/search/debug-filters'
     | '/search/table'
+    | '/specimens/$occurrenceID'
     | '/search/'
   fileRoutesById: FileRoutesById
 }
@@ -181,12 +201,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SearchRouteRoute: typeof SearchRouteRouteWithChildren
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
+  SpecimensOccurrenceIDRoute: typeof SpecimensOccurrenceIDRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SearchRouteRoute: SearchRouteRouteWithChildren,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
+  SpecimensOccurrenceIDRoute: SpecimensOccurrenceIDRoute,
 }
 
 export const routeTree = rootRoute
@@ -201,7 +223,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/search",
-        "/demo/tanstack-query"
+        "/demo/tanstack-query",
+        "/specimens/$occurrenceID"
       ]
     },
     "/": {
@@ -225,6 +248,9 @@ export const routeTree = rootRoute
     "/search/table": {
       "filePath": "search/table.tsx",
       "parent": "/search"
+    },
+    "/specimens/$occurrenceID": {
+      "filePath": "specimens/$occurrenceID.tsx"
     },
     "/search/": {
       "filePath": "search/index.tsx",

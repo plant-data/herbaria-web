@@ -38,7 +38,7 @@ export default function SpecimensGallery() {
         {data.occurrences.map((item) => (
           <Link
             key={item.occurrenceID}
-            to={`/${item.occurrenceID}`}
+            to={`/specimens/${item.occurrenceID}`}
             className="rounded-md"
           >
             <DataItemCard item={item} />

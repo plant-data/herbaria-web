@@ -1,18 +1,15 @@
 import { useState } from 'react'
+import { Link } from '@tanstack/react-router'
 import {
   Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription, // Optional, if you want a subtitle or smaller text
+  CardContent
 } from '@/components/ui/card' // Adjust path based on your shadcn setup
 import { Skeleton } from '@/components/ui/skeleton' // Add skeleton import
-import { Link } from '@tanstack/react-router'
 import useSearchOccurrences from '@/features/search/api/get-occurrences'
 import { usePrepareFilters } from '@/features/search/hooks/use-prepare-filters'
-import { Pagination} from '@/features/search/components/pagination'
+import { Pagination } from '@/features/search/components/pagination'
+import { ITEMS_PER_PAGE } from '@/config'
 
-const ITEMS_PER_PAGE = 24
 
 export default function SpecimensGallery() {
   
@@ -42,8 +39,6 @@ export default function SpecimensGallery() {
   )
 }
 
-
-// src/components/DataItemCard.tsx
 
 // deve diventare un pick
 interface DataItem {

@@ -5,8 +5,7 @@ import { useDebouncedCallback } from '@/hooks/use-debounce'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { RangeSlider } from '@/features/search/components/range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
-import { MONTHS } from '@/features/search/constants/months'
-import { MAX_YEAR, MIN_YEAR } from '@/features/search/constants/years'
+import { MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
 import { SwitchOption } from '@/features/search/components/switch-option'
 
 export function SearchFilters() {

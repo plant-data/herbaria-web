@@ -1,4 +1,5 @@
-
+const MIN_YEAR = 1800;
+const MAX_YEAR = new Date().getFullYear()
 
 const MONTHS = [
   { id: 1, value: 'months.january' },
@@ -15,4 +16,4 @@ const MONTHS = [
   { id: 12, value: 'months.december' },
 ]
 
-export {MONTHS}
+export {MIN_YEAR, MAX_YEAR, MONTHS};

@@ -2,8 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-import { MONTHS } from '@/features/search/constants/months'
-import { MAX_YEAR, MIN_YEAR } from '@/features/search/constants/years'
+import { MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
 
 interface FilterGroupProps {
   label: string

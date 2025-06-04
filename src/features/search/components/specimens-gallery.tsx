@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
+import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent } from '@/components/ui/card' 
 import { Skeleton } from '@/components/ui/skeleton'
 import useSearchOccurrences from '@/features/search/api/get-occurrences'
@@ -55,19 +56,7 @@ export default function SpecimensGallery() {
   )
 }
 
-// deve diventare un pick
-interface DataItem {
-  catalogNumber: string
-  scientificName: string | null
-  eventDate: string | null
-  occurrenceID: string // Good for React key
-}
-
-interface DataItemCardProps {
-  item: DataItem
-}
-
-function DataItemCard({ item }: DataItemCardProps) {
+function DataItemCard({ item }: { item: SpecimenData }) {
   const [imageLoaded, setImageLoaded] = useState(false)
   return (
     <Card className="w-full h-full min-h-40 rounded-md shadow-xs p-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] hover:cursor-pointer">

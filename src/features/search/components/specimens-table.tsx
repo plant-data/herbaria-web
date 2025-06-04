@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Settings2 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import {
@@ -26,7 +26,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import { ITEMS_PER_PAGE } from '@/config'
+import { BASE_IMAGE_URL, ITEMS_PER_PAGE } from '@/config'
 
 interface DataTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
@@ -48,7 +48,7 @@ const createColumns = (): Array<ColumnDef<SpecimenData>> => [
           <span className="flex gap-2 w-7 h-8 ">
           <img
             className='object-contain'
-            src={`http://137.204.21.175:8000/unsafe/110x150${row.original.multimedia[0].identifier}`}
+            src={`${BASE_IMAGE_URL}unsafe/110x150${row.original.multimedia[0].identifier}`}
             alt=""
           />
         </span>

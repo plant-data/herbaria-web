@@ -1,5 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router'
-import { Image, Table, MapPinned, ChartColumn } from 'lucide-react'
+import { ChartColumn, Image, MapPinned, Table } from 'lucide-react'
 import useSearchOccurrences from '@/features/search/api/get-occurrences'
 import { usePrepareFilters } from '@/features/search/hooks/use-prepare-filters'
 import { cn } from '@/lib/utils'

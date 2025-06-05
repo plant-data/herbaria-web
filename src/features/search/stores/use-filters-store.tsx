@@ -23,6 +23,8 @@ export interface FilterMapData {
 
 
 
+
+
 interface FilterActions {
   setScientificName: (
     scientificName: Array<string> | ((prev: Array<string>) => Array<string>),

@@ -51,15 +51,15 @@ const SKIP = 0;
 
 const SEARCH_CONFIG = {
   data: {
-    url: `${BASE_API_URL}/occurrences/search`,
+    url: `${BASE_API_URL}occurrences/search`,
     key: 'specimens-data',
   },
   map: {
-    url: `${BASE_API_URL}/occurrences/map/search`,
+    url: `${BASE_API_URL}occurrences/map/search`,
     key: 'specimens-map',
   },
   graph: {
-    url: `${BASE_API_URL}/occurrences/graph/search`,
+    url: `${BASE_API_URL}occurrences/graph/search`,
     key: 'specimens-graph',
   },
 } as const;

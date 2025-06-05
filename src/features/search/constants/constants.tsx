@@ -42,4 +42,9 @@ const MAP_STYLE = {
   ],
 }
 
-export {MIN_YEAR, MAX_YEAR, MONTHS, MAP_STYLE};
+const ZOOM = 2;
+const BBOX: [number, number, number, number] = [-170, -80, 170, 80];
+
+const SKIP = 0;
+
+export {MIN_YEAR, MAX_YEAR, MONTHS, MAP_STYLE, ZOOM, BBOX, SKIP};

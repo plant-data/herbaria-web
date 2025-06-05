@@ -1,7 +1,8 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import { MAX_YEAR, MIN_YEAR } from '@/features/search/constants/constants'
+import { BBOX, MAX_YEAR, MIN_YEAR, SKIP, ZOOM } from '@/features/search/constants/constants'
 
+// skip zoom and bb aren't considered visible filters
 export interface FilterStateData {
   scientificName: Array<string>
   floritalyName: Array<string>
@@ -13,6 +14,12 @@ export interface FilterStateData {
   activeFiltersCount: number
   skip: number
 }
+
+export interface FilterMapData {
+  zoom: number
+  bbox: [number, number, number, number]
+}
+
 
 
 
@@ -38,9 +45,12 @@ interface FilterActions {
   setHasCoordinates: (hasCoordinates: boolean) => void
   resetFilters: () => void
   setSkip: (skip: number) => void
+  setZoom: (zoom: number) => void
+  setBbox: (bbox: [number, number, number, number]) => void
+  resetMap: () => void
 }
 
-interface FilterState extends FilterStateData, FilterActions {}
+interface FilterState extends FilterStateData, FilterMapData, FilterActions {}
 
 // Initial state values
 const initialState: FilterStateData = {
@@ -52,7 +62,11 @@ const initialState: FilterStateData = {
   month: [],
   hasCoordinates: false,
   activeFiltersCount: 0,
-  skip: 0,
+  skip: SKIP,
+}
+const initialMapState: FilterMapData = {
+  zoom: ZOOM,
+  bbox: BBOX,
 }
 
 // helper function to calculate active filters count
@@ -110,7 +124,7 @@ function createSetter<TKey extends keyof FilterStateData>(
         return {
           ...newState,
           activeFiltersCount: calculateActiveFiltersCount(updatedState),
-          skip: 0,
+          skip: SKIP,
         }
       },
       false,
@@ -123,6 +137,7 @@ export const useFilterStore = create<FilterState>()(
     (set) => ({
       // Initial state
       ...initialState,
+      ...initialMapState,
 
       // Actions using the helper
       setScientificName: createSetter(
@@ -151,6 +166,9 @@ export const useFilterStore = create<FilterState>()(
       resetFilters: () => set(initialState, false, 'resetFilters'),
       // replace skip with number
       setSkip: (newSkip: number) => set({ skip: newSkip }, false, 'setSkip'),
+      setZoom: (newZoom: number) => set({ zoom: newZoom }, false, 'setZoom'),
+      setBbox: (newBbox: [number, number, number, number]) => set({ bbox: newBbox }, false, 'setBbox'),
+      resetMap: () => set(initialMapState, false, 'resetMap'),
     }),
     {
       name: 'filter-store',

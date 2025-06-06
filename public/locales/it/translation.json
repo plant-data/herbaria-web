@@ -30,7 +30,11 @@
       "error-no-data": "Nessun dato",
       "map-max": "Max",
       "map-min": "Min",
-      "specimens": "Campioni"
+      "specimens": "Campioni",
+      "specimens-by-scientific-name": "Campioni per Nome Scientifico",
+      "specimens-by-year": "Campioni per Anno",
+      "specimens-by-floritaly-name": "Campioni per Nome Floritaly",
+      "specimens-by-month": "Campioni per Mese"
     }
   },
   "months": {

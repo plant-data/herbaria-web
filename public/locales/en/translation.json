@@ -31,7 +31,11 @@
       "error-no-data": "No data",
       "map-max": "Max",
       "map-min": "Min",
-      "specimens": "Specimens"
+      "specimens": "Specimens",
+      "specimens-by-scientific-name": "Specimens by Scientific Name",
+      "specimens-by-year": "Specimens by Year",
+      "specimens-by-floritaly-name": "Specimens by Floritaly Name",
+      "specimens-by-month": "Specimens by Month"
     }
   },
   "months": {

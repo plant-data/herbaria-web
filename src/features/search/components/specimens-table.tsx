@@ -39,7 +39,7 @@ const createColumns = (): Array<ColumnDef<SpecimenData>> => [
 
     cell: ({ row }) => (
       <Link
-        to={`/${row.original.occurrenceID}`}
+        to={`/specimens/${row.original.occurrenceID}`}
         className="text-blue-500 hover:underline"
       >
         <span className="flex gap-2 items-center min-w-50">

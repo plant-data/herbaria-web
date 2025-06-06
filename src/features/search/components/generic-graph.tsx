@@ -11,8 +11,6 @@ import {
   MONTHS,
 } from '@/features/search/constants/constants'
 
-// NOTE: Assumes useSpecimensGraph is configured for Suspense.
-// It will suspend rendering until data is available.
 
 // Helper function to fill missing intervals for line charts
 function fillMissingIntervals(data: Array<any>, groupBy: string) {
@@ -105,8 +103,7 @@ export function GenericGraph({
   topN = null,
 }: GenericGraphProps) {
   const { t } = useTranslation()
-  // This hook will now suspend if data is not ready.
-  // It will throw an error if the fetch fails, to be caught by an Error Boundary.
+
   const { data, isPending } = useSpecimensGraph({
     customGroupBy: groupBy as any,
   })

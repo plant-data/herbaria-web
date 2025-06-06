@@ -11,7 +11,6 @@ import {
   MONTHS,
 } from '@/features/search/constants/constants'
 
-
 // Helper function to fill missing intervals for line charts
 function fillMissingIntervals(data: Array<any>, groupBy: string) {
   if (!data.length) return []
@@ -55,19 +54,6 @@ function fillMissingIntervals(data: Array<any>, groupBy: string) {
   }
 
   return data
-}
-
-function ChartSkeleton() {
-  return (
-    <Card className="shadow-xs">
-      <CardHeader>
-        <Skeleton className="h-6 w-48" />
-      </CardHeader>
-      <CardContent>
-        <Skeleton className="h-[400px] w-full" />
-      </CardContent>
-    </Card>
-  )
 }
 
 function ChartError({ error }: { error: Error }) {
@@ -153,6 +139,7 @@ export function GenericGraph({
                     return year % 20 === 0 ? value : ''
                   },
                   fontSize: 10,
+                  rotate: 0,
                   interval: 19, // Show every 20th label (0-based, so 19 means every 20th)
                 }
               : groupBy === 'month'
@@ -164,7 +151,7 @@ export function GenericGraph({
                       return monthKey ? t(monthKey) : value
                     },
                     fontSize: 10,
-                    rotate: 90, // Display month labels vertically
+                    rotate: 70, // Display month labels vertically
                   }
                 : undefined,
         axisTick:
@@ -193,12 +180,33 @@ export function GenericGraph({
   }, [data, xAxisKey, chartType, color, topN, groupBy, t])
 
   if (!chartOptions && !isPending) {
-    return <ChartError error={new Error('No data available')} />
+    return (
+      <Card className="shadow-xs">
+        <CardHeader>
+          <CardTitle className="h-6">{title}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="h-[400px] w-full flex justify-center items-center">
+            {t('search.results.error-no-data')}
+          </p>
+        </CardContent>
+      </Card>
+    )
+  }
+  if (isPending) {
+    return (
+      <Card className="shadow-xs">
+        <CardHeader>
+          <Skeleton className="h-6 w-48" />
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-[400px] w-full" />
+        </CardContent>
+      </Card>
+    )
   }
 
-  return isPending ? (
-    <ChartSkeleton />
-  ) : (
+  return (
     <Card className="shadow-xs">
       <CardHeader>
         <CardTitle>{title}</CardTitle>

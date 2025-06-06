@@ -34,7 +34,8 @@
       "specimens-by-scientific-name": "Campioni per Nome Scientifico",
       "specimens-by-year": "Campioni per Anno",
       "specimens-by-floritaly-name": "Campioni per Nome Floritaly",
-      "specimens-by-month": "Campioni per Mese"
+      "specimens-by-month": "Campioni per Mese",
+      "count": "Conteggio"
     }
   },
   "months": {

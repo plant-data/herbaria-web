@@ -161,10 +161,10 @@ export function GenericGraph({
               }
             : undefined,
       },
-      yAxis: { type: 'value', name: 'Count' },
+      yAxis: { type: 'value', name: t('search.results.count') },
       series: [
         {
-          name: 'Occurrences',
+          name: t('search.results.specimens'),
           type: chartType,
           smooth: chartType === 'line',
           data: chartData.map((item: any) => item.count),

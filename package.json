@@ -35,6 +35,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "file:mod_modules/cmdk-1.1.1.tgz",
+    "echarts": "^5.6.0",
+    "echarts-for-react": "^3.0.2",
     "i18next": "^25.2.1",
     "i18next-browser-languagedetector": "^8.1.0",
     "i18next-http-backend": "^3.0.2",

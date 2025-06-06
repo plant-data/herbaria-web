@@ -55,11 +55,11 @@ const SEARCH_CONFIG = {
     key: 'specimens-data',
   },
   map: {
-    url: `${BASE_API_URL}occurrences/map/search`,
+    url: `${BASE_API_URL}map/search`,
     key: 'specimens-map',
   },
   graph: {
-    url: `${BASE_API_URL}occurrences/graph/search`,
+    url: `${BASE_API_URL}group/search`,
     key: 'specimens-graph',
   },
 } as const;

@@ -43,12 +43,16 @@ const prepareQueryPayload = (
     customGroupBy?: keyof CustomFilters | 'count'
   },
 ) => {
-  const { searchType, customFilters = {}, customSort = {}, customGroupBy = {} } = options
-  const { ...baseFiltersFromStore } = storeState
+  const {
+    searchType,
+    customFilters = {},
+    customSort = {},
+    customGroupBy = {},
+  } = options
 
   // costruiamo il filter
   const filters: CustomFilters = {
-    ...baseFiltersFromStore,
+    ...storeState,
     ...customFilters,
   }
 
@@ -68,7 +72,6 @@ const prepareQueryPayload = (
     delete filters.bbox
   }
 
-
   // Construct the final payload based on the search type.
   switch (searchType) {
     case 'data':
@@ -81,7 +84,7 @@ const prepareQueryPayload = (
     case 'graph':
       return {
         filters,
-        groupBy: customGroupBy
+        groupBy: customGroupBy,
       }
     default:
       // 'map' and 'graph' only require filters.
@@ -120,7 +123,14 @@ function useSpecimensQuery({
   return useQuery({
     // The query key should uniquely identify the data being fetched.
     // The payload's filters object is a good candidate for this.
-    queryKey: [config.key, payload.filters, payload.sort, payload.limit, payload.skip],
+    queryKey: [
+      config.key,
+      payload.filters,
+      payload.sort,
+      payload.limit,
+      payload.skip,
+      payload.groupBy, // Add this for graph queries
+    ].filter(Boolean),
     queryFn: ({ signal }) => postApiClient(config.url, payload, signal),
     ...COMMON_QUERY_OPTIONS,
   })
@@ -130,18 +140,39 @@ function useSpecimensQuery({
 // 4. Specific, Public-Facing Hooks (The API for our components)
 // ============================================================================
 
-export function useSpecimensMap(customFilters: CustomFilters = {}) {
+interface UseSpecimensMapOptions {
+  customFilters?: CustomFilters
+}
+
+interface UseSpecimensDataOptions {
+  customFilters?: CustomFilters
+  customSort?: Record<string, 'asc' | 'desc'>
+}
+
+interface UseSpecimensGraphOptions {
+  customFilters?: CustomFilters
+  customGroupBy?: keyof CustomFilters | 'count'
+}
+
+export function useSpecimensMap(options: UseSpecimensMapOptions = {}) {
+  const { customFilters } = options
   return useSpecimensQuery({ searchType: 'map', customFilters })
 }
 
-export function useSpecimensData(customFilters: CustomFilters = {}) {
+export function useSpecimensData(options: UseSpecimensDataOptions = {}) {
+  const { customFilters, customSort = { scientificName: 'asc' } } = options
   return useSpecimensQuery({
     searchType: 'data',
     customFilters,
-    customSort: { scientificName: 'asc' },
+    customSort,
   })
 }
 
-export function useSpecimensGraph(customFilters: CustomFilters = {}) {
-  return useSpecimensQuery({ searchType: 'graph', customFilters })
+export function useSpecimensGraph(options: UseSpecimensGraphOptions = {}) {
+  const { customFilters, customGroupBy } = options
+  return useSpecimensQuery({
+    searchType: 'graph',
+    customFilters,
+    customGroupBy,
+  })
 }

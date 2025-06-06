@@ -3,20 +3,15 @@ import { Link } from '@tanstack/react-router'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent } from '@/components/ui/card' 
 import { Skeleton } from '@/components/ui/skeleton'
-import useSearchOccurrences from '@/features/search/api/get-occurrences'
-import { usePrepareFilters } from '@/features/search/hooks/use-prepare-filters'
+import { useSpecimensData } from '@/features/search/api/get-occurrences3'
 import { Pagination } from '@/features/search/components/pagination'
 import { ITEMS_PER_PAGE } from '@/config'
+import { useFilterStore } from '@/features/search/stores/use-filters-store'
 
-export default function SpecimensGallery() {
-  const { filters, skip, setSkip } = usePrepareFilters()
-
-  const { data, isPending, error } = useSearchOccurrences(
-    filters,
-    { scientificName: 'asc' },
-    ITEMS_PER_PAGE,
-    skip,
-  )
+export default function SpecimensGallery({ customFilters = {} }) {
+  
+  const { skip, setSkip } = useFilterStore()
+  const { data, isPending, error } = useSpecimensData(customFilters)
 
   return isPending ? (
     <>

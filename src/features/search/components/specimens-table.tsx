@@ -9,8 +9,8 @@ import {
 import type { ColumnDef } from '@tanstack/react-table'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Pagination } from '@/features/search/components/pagination'
-import useSearchOccurrences from '@/features/search/api/get-occurrences'
-import { usePrepareFilters } from '@/features/search/hooks/use-prepare-filters'
+import { useFilterStore } from '@/features/search/stores/use-filters-store'
+import { useSpecimensData } from '@/features/search/api/get-occurrences3'
 import {
   Table,
   TableBody,
@@ -96,13 +96,9 @@ const createColumns = (): Array<ColumnDef<SpecimenData>> => [
 ]
 
 export function SpecimensTable() {
-  const { filters, skip, setSkip } = usePrepareFilters()
-  const { data, isPending, error } = useSearchOccurrences(
-    filters,
-    { scientificName: 'asc' },
-    ITEMS_PER_PAGE,
-    skip,
-  )
+  
+    const { skip, setSkip } = useFilterStore()
+    const { data, isPending, error } = useSpecimensData()
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     recordedBy: false,

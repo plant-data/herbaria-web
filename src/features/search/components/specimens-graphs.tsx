@@ -28,7 +28,7 @@ export function SpecimensGraphs() {
           color="#91cc75"
         />
 
-        <MapGraph className="col-span-2" />
+        <MapGraph className="col-span-1 lg:col-span-2" />
 
         <GenericChart
           title="Occurrences by Month"

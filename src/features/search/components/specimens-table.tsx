@@ -10,7 +10,7 @@ import type { ColumnDef } from '@tanstack/react-table'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Pagination } from '@/features/search/components/pagination'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-import { useSpecimensData } from '@/features/search/api/get-occurrences3'
+import { useSpecimensData } from '@/features/search/api/get-occurrences'
 import {
   Table,
   TableBody,
@@ -32,9 +32,7 @@ interface DataTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
 }
 
-
 const createColumns = (): Array<ColumnDef<SpecimenData>> => [
-
   {
     accessorKey: 'occurrenceID',
     header: 'ID',
@@ -46,12 +44,12 @@ const createColumns = (): Array<ColumnDef<SpecimenData>> => [
       >
         <span className="flex gap-2 items-center min-w-50">
           <span className="flex gap-2 w-7 h-8 ">
-          <img
-            className='object-contain'
-            src={`${BASE_IMAGE_URL}unsafe/110x150${row.original.multimedia[0].identifier}`}
-            alt=""
-          />
-        </span>
+            <img
+              className="object-contain"
+              src={`${BASE_IMAGE_URL}unsafe/110x150${row.original.multimedia[0].identifier}`}
+              alt=""
+            />
+          </span>
           {row.getValue('occurrenceID')}
         </span>
       </Link>
@@ -96,9 +94,8 @@ const createColumns = (): Array<ColumnDef<SpecimenData>> => [
 ]
 
 export function SpecimensTable() {
-  
-    const { skip, setSkip } = useFilterStore()
-    const { data, isPending, error } = useSpecimensData()
+  const { skip, setSkip } = useFilterStore()
+  const { data, isPending, error } = useSpecimensData()
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     recordedBy: false,

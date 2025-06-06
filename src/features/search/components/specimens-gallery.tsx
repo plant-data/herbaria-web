@@ -1,15 +1,14 @@
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import type { SpecimenData } from '@/features/search/types/types'
-import { Card, CardContent } from '@/components/ui/card' 
+import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useSpecimensData } from '@/features/search/api/get-occurrences3'
+import { useSpecimensData } from '@/features/search/api/get-occurrences'
 import { Pagination } from '@/features/search/components/pagination'
 import { ITEMS_PER_PAGE } from '@/config'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 
 export default function SpecimensGallery({ customFilters = {} }) {
-  
   const { skip, setSkip } = useFilterStore()
   const { data, isPending, error } = useSpecimensData(customFilters)
 

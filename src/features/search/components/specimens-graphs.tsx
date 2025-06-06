@@ -60,6 +60,9 @@ export function SpecimensGraphs() {
             />
           </Suspense>
         </ErrorBoundary>
+        <Suspense fallback={<ChartSkeleton />}>
+          <MapGraph className='col-span-2' />
+        </Suspense>
         
         <ErrorBoundary fallback={<ChartErrorBoundaryFallback />}>
           <Suspense fallback={<ChartSkeleton />}>
@@ -87,9 +90,7 @@ export function SpecimensGraphs() {
         </ErrorBoundary>
 
 
-        <Suspense fallback={<ChartSkeleton />}>
-          <MapGraph />
-        </Suspense>
+        
       </div>
     </div>
   )

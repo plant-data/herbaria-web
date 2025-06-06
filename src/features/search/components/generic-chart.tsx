@@ -2,7 +2,7 @@
 import { useMemo } from 'react'
 import ReactECharts from 'echarts-for-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useSpecimensGraph } from '@/features/search/api/get-occurrences3'
+import { useSpecimensGraph } from '@/features/search/api/get-occurrences'
 
 // NOTE: Assumes useSpecimensGraph is configured for Suspense.
 // It will suspend rendering until data is available.
@@ -32,7 +32,8 @@ export function GenericChart({
       xAxis: {
         type: 'category',
         data: chartData.map((item) => item[xAxisKey]),
-        axisLabel: chartType === 'bar' ? { rotate: 70, fontSize: 8 } : undefined,
+        axisLabel:
+          chartType === 'bar' ? { rotate: 70, fontSize: 8 } : undefined,
       },
       yAxis: { type: 'value', name: 'Count' },
       series: [

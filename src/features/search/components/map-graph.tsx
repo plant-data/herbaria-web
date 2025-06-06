@@ -1,10 +1,11 @@
 // Your CountryMap.tsx component file
 import { useMemo } from 'react'
 import ReactECharts from 'echarts-for-react'
+import { useSpecimensGraph } from '@/features/search/api/get-occurrences'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useEchartsMap } from '@/features/search/hooks/use-echart-map'
-import { useSpecimensGraph } from '../api/get-occurrences3'
+import { cn } from '@/lib/utils'
 
 interface CountryMapProps {
   data: Array<{ country: string; count: number }>
@@ -26,13 +27,12 @@ function MapSkeleton() {
   )
 }
 
-export function MapGraph() {
+export function MapGraph({className = ''}) {
   const {
     data,
     isPending,
     error: dataError,
   } = useSpecimensGraph({ customGroupBy: 'country' })
-
 
   // 1. Use the custom hook to handle all GeoJSON logic. Clean!
   const {
@@ -41,19 +41,18 @@ export function MapGraph() {
     error: geoError,
   } = useEchartsMap('countries', '/maps/countries.json')
 
-
   // 2. Memoize the transformation of occurrence data into a fast-lookup map.
   const countryCountMap = useMemo(() => {
-  const map = new Map<string, number>()
-  // Fix: Access the occurrences array from the data object
-  if (data && data.occurrences && Array.isArray(data.occurrences)) {
-    data.occurrences.forEach((item) => {
-      // These are FIPS codes (NH, UZ, NR, etc.)
-      map.set(item.country, item.count)
-    })
-  }
-  return map
-}, [data])
+    const map = new Map<string, number>()
+    // Fix: Access the occurrences array from the data object
+    if (data && data.occurrences && Array.isArray(data.occurrences)) {
+      data.occurrences.forEach((item) => {
+        // These are FIPS codes (NH, UZ, NR, etc.)
+        map.set(item.country, item.count)
+      })
+    }
+    return map
+  }, [data])
 
   // 3. Memoize the final series data by combining GeoJSON and occurrence counts.
   const seriesData = useMemo(() => {
@@ -131,7 +130,7 @@ export function MapGraph() {
   }
 
   return (
-    <Card className="shadow-xs overflow-hidden">
+    <Card className={cn('shadow-xs overflow-hidden', className)}>
       {isLoading ? (
         <MapSkeleton />
       ) : countryOptions ? (

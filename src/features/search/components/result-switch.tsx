@@ -1,9 +1,8 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { ChartColumn, Image, MapPinned, Table } from 'lucide-react'
-import useSearchOccurrences from '@/features/search/api/get-occurrences'
-import { usePrepareFilters } from '@/features/search/hooks/use-prepare-filters'
+import { useSpecimensData } from '@/features/search/api/get-occurrences'
 import { cn } from '@/lib/utils'
-import { ITEMS_PER_PAGE } from '@/config'
+import { LoaderCircle } from 'lucide-react'
 
 export function ResultSwitch() {
   const location = useLocation()
@@ -46,13 +45,7 @@ export function ResultSwitch() {
 }
 
 function ResultOccurrencesCounter() {
-  const { filters, skip } = usePrepareFilters()
-  const { data, isPending, error } = useSearchOccurrences(
-    filters,
-    { scientificName: 'asc' },
-    ITEMS_PER_PAGE,
-    skip,
-  )
+  const { data, isPending, isFetching, error } = useSpecimensData()
 
   if (isPending) {
     return <div>Loading...</div>
@@ -63,6 +56,11 @@ function ResultOccurrencesCounter() {
   }
 
   return (
-    <div className="text-sm text-gray-500">{data.count} Occurrences</div>
+    <div className="text-sm text-gray-500 flex gap-2">
+      {data.count} Occurrences
+      {isFetching && (
+        <LoaderCircle className="h-4 w-4 shrink-0 text-ring opacity-80 animate-spin" />
+      )}
+    </div>
   )
 }

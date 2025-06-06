@@ -21,6 +21,19 @@ function ChartSkeleton() {
   )
 }
 
+function ChartError({ error }) {
+  return (
+    <Card className="shadow-xs">
+      <CardHeader>
+        <CardTitle className='h-6'>Error</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="h-[400px] w-full flex justify-center items-center">{error.message}</p>
+      </CardContent>
+    </Card>
+  )
+}
+
 
 export function GenericChart({
   title,
@@ -64,16 +77,7 @@ export function GenericChart({
   }, [data, xAxisKey, chartType, color, topN])
 
   if (!chartOptions && !isPending) {
-    return (
-      <Card className="shadow-xs">
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p>No data available for this chart.</p>
-        </CardContent>
-      </Card>
-    )
+    return ChartError({ error: new Error('No data available') })
   }
 
   return isPending ? (

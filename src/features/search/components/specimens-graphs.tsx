@@ -1,10 +1,5 @@
 // The main component file
-import { Suspense } from 'react'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
 import { GenericChart } from '@/features/search/components/generic-chart' // Import the new component
-// You would also need a simple ErrorBoundary component
-import { ErrorBoundary } from '@/features/search/components/error-boundary'
 import { MapGraph } from '@/features/search/components/map-graph'
 
 export function SpecimensGraphs() {

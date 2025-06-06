@@ -33,28 +33,25 @@ export function MapGraph({ className = '' }) {
       })
     }
     return map
-  }, [data])
-
-  // 3. Memoize the final series data by combining GeoJSON and occurrence counts.
+  }, [data]) // 3. Memoize the final series data by combining GeoJSON and occurrence counts.
   const seriesData = useMemo(() => {
     if (!geoJson) return []
 
-    return geoJson.features
-      .map((feature) => {
-        const fipsCode = feature.properties.fips_10 // FIPS code from GeoJSON
-        const count = countryCountMap.get(fipsCode) || 0
+    return geoJson.features.map((feature) => {
+      const fipsCode = feature.properties.fips_10 // FIPS code from GeoJSON
+      const count = countryCountMap.get(fipsCode) || 0
 
-        return {
-          name: feature.properties.name, // Keep original name for ECharts map matching
-          value: count,
-          // Add localized name for display in tooltips
-          displayName:
-            i18n.language === 'it' && feature.properties.name_it
-              ? feature.properties.name_it
-              : feature.properties.name,
-        }
-      })
-      .filter((item) => item.value > 0) // Only include countries with data
+      return {
+        name: feature.properties.name, // Keep original name for ECharts map matching
+        value: count,
+        // Add localized name for display in tooltips
+        displayName:
+          i18n.language === 'it' && feature.properties.name_it
+            ? feature.properties.name_it
+            : feature.properties.name,
+      }
+    })
+    // Include all countries, even those with 0 occurrences
   }, [geoJson, countryCountMap, i18n.language])
 
   // 4. Memoize the final chart options.
@@ -71,7 +68,7 @@ export function MapGraph({ className = '' }) {
         formatter: function (params: any) {
           const itemData = params.data
           const displayName = itemData?.displayName || params.name
-          return `${displayName}<br/>${params.value} occurrences`
+          return `${displayName}<br/>${params.value} ${t('search.results.specimens')}`
         },
       },
       visualMap: {
@@ -81,8 +78,12 @@ export function MapGraph({ className = '' }) {
         realtime: false,
         calculable: true,
         inRange: {
-          color: ['#e0f3ff', '#5470c6', '#fac858'], // Adjusted color scheme
+          color: ['#ffffff', '#e0f3ff', '#5470c6'], // White for 0, then color gradient
         },
+        pieces: [
+          { min: 0, max: 0, color: '#ffffff' }, // White for exactly 0
+          { min: 1, max: maxValue, color: ['#e0f3ff', '#5470c6'] },
+        ],
         left: 'left',
         bottom: 20,
       },

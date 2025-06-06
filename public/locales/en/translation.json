@@ -24,24 +24,31 @@
       "hide-filters": "Hide filters",
       "active-filters": "Active filters",
       "no-active-filters": "No selected filters"
-    }
-    
-  }, "months": {
-      "january": "January",
-      "february": "February",
-      "march": "March",
-      "april": "April",
-      "may": "May",
-      "june": "June",
-      "july": "July",
-      "august": "August",
-      "september": "September",
-      "october": "October",
-      "november": "November",
-      "december": "December"
     },
-    "common" :{
-      "yes": "Yes",
-      "no": "No"
+    "results": {
+      "specimens-country": "Specimens per country",
+      "error-graph": "Error generating the graph",
+      "error-no-data": "No data",
+      "map-max": "Max",
+      "map-min": "Min"
     }
+  },
+  "months": {
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No"
+  }
 }

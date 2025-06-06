@@ -35,7 +35,7 @@ function ChartError({ error }) {
 }
 
 
-export function GenericChart({
+export function GenericGraph({
   title,
   groupBy,
   xAxisKey,

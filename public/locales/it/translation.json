@@ -23,7 +23,13 @@
       "hide-filters": "Nascondi filtri",
       "active-filters": "Filtri attivi",
       "no-active-filters": "Nessun filtro selezionato"
-
+    },
+    "results": {
+      "specimens-country": "Campioni per stato",
+      "error-graph": "Errore generazione grafico",
+      "error-no-data": "Nessun dato",
+      "map-max": "Max",
+      "map-min": "Min"
     }
   },
   "months": {

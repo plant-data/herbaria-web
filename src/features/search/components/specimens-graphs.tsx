@@ -1,12 +1,12 @@
 // The main component file
-import { GenericChart } from '@/features/search/components/generic-chart' // Import the new component
+import { GenericGraph } from '@/features/search/components/generic-graph' // Import the new component
 import { MapGraph } from '@/features/search/components/map-graph'
 
 export function SpecimensGraphs() {
   return (
     <div className="space-y-8 p-4 max-w-full">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <GenericChart
+        <GenericGraph
           title="Occurrences by Scientific Name"
           groupBy="scientificName"
           xAxisKey="scientificName"
@@ -15,7 +15,7 @@ export function SpecimensGraphs() {
           topN={20}
         />
 
-        <GenericChart
+        <GenericGraph
           title="Occurrences by Year"
           groupBy="year"
           xAxisKey="year"
@@ -25,7 +25,7 @@ export function SpecimensGraphs() {
 
         <MapGraph className="col-span-1 lg:col-span-2" />
 
-        <GenericChart
+        <GenericGraph
           title="Occurrences by Month"
           groupBy="month"
           xAxisKey="month"
@@ -33,7 +33,7 @@ export function SpecimensGraphs() {
           color="#fa4858"
         />
 
-        <GenericChart
+        <GenericGraph
           title="Occurrences by Floritaly Name"
           groupBy="floritalyName"
           xAxisKey="floritalyName"

@@ -6,7 +6,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar'
-import { ResultSwitch } from '@/features/search/components/result-switch'
+import { SpecimensNavbar } from '@/features/search/components/specimens-navbar'
 
 export const Route = createFileRoute('/search')({
   component: RouteComponent,
@@ -21,7 +21,7 @@ function RouteComponent() {
         <SearchSidebar />
         <SidebarInset>
           <div className="@container px-4 pt-4 pb-2  md:px-6">
-            <ResultSwitch />
+            <SpecimensNavbar />
             <Outlet />
           </div>
         </SidebarInset>

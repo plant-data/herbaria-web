@@ -1,10 +1,9 @@
 import { Link, useLocation } from '@tanstack/react-router'
-import { ChartColumn, Image, MapPinned, Table } from 'lucide-react'
+import { ChartColumn, Image, LoaderCircle, MapPinned, Table  } from 'lucide-react'
 import { useSpecimensData } from '@/features/search/api/get-occurrences'
 import { cn } from '@/lib/utils'
-import { LoaderCircle } from 'lucide-react'
 
-export function ResultSwitch() {
+export function SpecimensNavbar() {
   const location = useLocation()
 
   const navItems = [

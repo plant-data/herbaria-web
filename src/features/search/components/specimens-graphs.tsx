@@ -6,7 +6,7 @@ export function SpecimensGraphs() {
   const { t } = useTranslation()
 
   return (
-    <div className="space-y-8 p-4 max-w-full">
+    <div className="space-y-8 py-4 max-w-full">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <GenericGraph
           title={t('search.results.specimens-by-scientific-name')}

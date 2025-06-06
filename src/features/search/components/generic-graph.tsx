@@ -194,11 +194,11 @@ export function GenericGraph({
 
   if (!chartOptions && !isPending) {
     return (
-      <Card className="shadow-xs">
+      <Card className="shadow-xs gap-0 pb-1">
         <CardHeader>
           <CardTitle className="h-6">{title}</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className='px-1'>
           <p className="h-[400px] w-full flex justify-center items-center">
             {t('search.results.error-no-data')}
           </p>
@@ -208,7 +208,7 @@ export function GenericGraph({
   }
   if (isPending) {
     return (
-      <Card className="shadow-xs">
+      <Card className="shadow-xs gap-0 pb-1">
         <CardHeader>
           <Skeleton className="h-6 w-48" />
         </CardHeader>
@@ -220,11 +220,11 @@ export function GenericGraph({
   }
 
   return (
-    <Card className="shadow-xs">
+    <Card className="shadow-xs gap-0 pb-1">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className='px-1'>
         <ReactECharts
           option={chartOptions}
           style={{ height: '400px', width: '100%' }}

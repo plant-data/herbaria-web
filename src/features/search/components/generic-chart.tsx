@@ -3,9 +3,24 @@ import { useMemo } from 'react'
 import ReactECharts from 'echarts-for-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useSpecimensGraph } from '@/features/search/api/get-occurrences'
+import { Skeleton } from '@/components/ui/skeleton'
 
 // NOTE: Assumes useSpecimensGraph is configured for Suspense.
 // It will suspend rendering until data is available.
+
+function ChartSkeleton() {
+  return (
+    <Card className="shadow-xs">
+      <CardHeader>
+        <Skeleton className="h-6 w-48" />
+      </CardHeader>
+      <CardContent>
+        <Skeleton className="h-[400px] w-full" />
+      </CardContent>
+    </Card>
+  )
+}
+
 
 export function GenericChart({
   title,
@@ -17,7 +32,7 @@ export function GenericChart({
 }) {
   // This hook will now suspend if data is not ready.
   // It will throw an error if the fetch fails, to be caught by an Error Boundary.
-  const { data } = useSpecimensGraph({ customGroupBy: groupBy })
+  const { data, isPending, isError } = useSpecimensGraph({ customGroupBy: groupBy })
 
   const chartOptions = useMemo(() => {
     if (!data?.occurrences || data.occurrences.length === 0) {
@@ -48,7 +63,7 @@ export function GenericChart({
     }
   }, [data, xAxisKey, chartType, color, topN])
 
-  if (!chartOptions) {
+  if (!chartOptions && !isPending) {
     return (
       <Card className="shadow-xs">
         <CardHeader>
@@ -61,7 +76,9 @@ export function GenericChart({
     )
   }
 
-  return (
+  return isPending ? (
+    <ChartSkeleton />
+  ) : (
     <Card className="shadow-xs">
       <CardHeader>
         <CardTitle>{title}</CardTitle>

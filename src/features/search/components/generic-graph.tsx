@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useSpecimensGraph } from '@/features/search/api/get-occurrences'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useTheme } from '@/components/theme-provider'
 import {
   MAX_YEAR,
   MIN_YEAR,
@@ -26,7 +27,10 @@ interface ChartData {
 }
 
 // Helper functions
-function fillMissingIntervals(data: Array<ChartData>, groupBy: string): Array<ChartData> {
+function fillMissingIntervals(
+  data: Array<ChartData>,
+  groupBy: string,
+): Array<ChartData> {
   if (!data.length) return []
 
   const dataMap = new Map<string, number>()
@@ -60,15 +64,23 @@ function fillMissingIntervals(data: Array<ChartData>, groupBy: string): Array<Ch
   return data
 }
 
-function createXAxisConfig(groupBy: string, chartType: string, t: any) {
+function createXAxisConfig(
+  groupBy: string,
+  chartType: string,
+  t: any,
+  textColor: string,
+) {
   const baseConfig = {
     type: 'category' as const,
+    axisLabel: { color: textColor },
+    axisLine: { lineStyle: { color: textColor } },
+    axisTick: { lineStyle: { color: textColor } },
   }
 
   if (chartType === 'bar') {
     return {
       ...baseConfig,
-      axisLabel: { rotate: 70, fontSize: 8 },
+      axisLabel: { rotate: 70, fontSize: 8, color: textColor },
     }
   }
 
@@ -83,8 +95,9 @@ function createXAxisConfig(groupBy: string, chartType: string, t: any) {
         fontSize: 10,
         rotate: 0,
         interval: 19,
+        color: textColor,
       },
-      axisTick: { interval: 19 },
+      axisTick: { interval: 19, lineStyle: { color: textColor } },
     }
   }
 
@@ -99,6 +112,7 @@ function createXAxisConfig(groupBy: string, chartType: string, t: any) {
         },
         fontSize: 10,
         rotate: 70,
+        color: textColor,
       },
     }
   }
@@ -121,7 +135,12 @@ function createTooltipFormatter(groupBy: string, t: any) {
   }
 }
 
-function createSeriesConfig(chartType: string, color: string, data: Array<number>, t: any) {
+function createSeriesConfig(
+  chartType: string,
+  color: string,
+  data: Array<number>,
+  t: any,
+) {
   const baseConfig = {
     name: t('search.results.specimens'),
     type: chartType,
@@ -152,6 +171,7 @@ export function GenericGraph({
   topN = null,
 }: GenericGraphProps) {
   const { t } = useTranslation()
+  const { theme } = useTheme()
   const { data, isPending } = useSpecimensGraph({
     customGroupBy: groupBy as any,
   })
@@ -161,6 +181,13 @@ export function GenericGraph({
       return null
     }
 
+    // Determine text color based on theme
+    const isDark =
+      theme === 'dark' ||
+      (theme === 'system' &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    const textColor = isDark ? '#ffffff' : '#000000'
+
     let chartData = topN ? data.occurrences.slice(0, topN) : data.occurrences
 
     // Fill missing intervals for line charts with temporal data
@@ -168,12 +195,12 @@ export function GenericGraph({
       chartData = fillMissingIntervals(chartData, groupBy)
     }
 
-    const xAxisConfig = createXAxisConfig(groupBy, chartType, t)
+    const xAxisConfig = createXAxisConfig(groupBy, chartType, t, textColor)
     const seriesConfig = createSeriesConfig(
       chartType,
       color,
       chartData.map((item: any) => item.count),
-      t
+      t,
     )
 
     return {
@@ -187,10 +214,18 @@ export function GenericGraph({
         ...xAxisConfig,
         data: chartData.map((item: any) => item[xAxisKey]),
       },
-      yAxis: { type: 'value', name: t('search.results.count') },
+      yAxis: {
+        type: 'value',
+        name: t('search.results.count'),
+        nameTextStyle: { color: textColor },
+        axisLabel: { color: textColor },
+        axisLine: { lineStyle: { color: textColor } },
+        axisTick: { lineStyle: { color: textColor } },
+        splitLine: { lineStyle: { color: isDark ? '#333' : '#e0e0e0' } },
+      },
       series: [seriesConfig],
     }
-  }, [data, xAxisKey, chartType, color, topN, groupBy, t])
+  }, [data, xAxisKey, chartType, color, topN, groupBy, t, theme])
 
   if (!chartOptions && !isPending) {
     return (
@@ -198,7 +233,7 @@ export function GenericGraph({
         <CardHeader>
           <CardTitle className="h-6">{title}</CardTitle>
         </CardHeader>
-        <CardContent className='px-1'>
+        <CardContent className="px-1">
           <p className="h-[400px] w-full flex justify-center items-center">
             {t('search.results.error-no-data')}
           </p>
@@ -224,7 +259,7 @@ export function GenericGraph({
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent className='px-1'>
+      <CardContent className="px-1">
         <ReactECharts
           option={chartOptions}
           style={{ height: '400px', width: '100%' }}

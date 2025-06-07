@@ -6,10 +6,12 @@ import { useSpecimensGraph } from '@/features/search/api/get-occurrences'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useEchartsMap } from '@/features/search/api/get-echart-map'
+import { useTheme } from '@/components/theme-provider'
 import { cn } from '@/lib/utils'
 
 export function MapGraph({ className = '' }) {
   const { t, i18n } = useTranslation()
+  const { theme } = useTheme()
   const {
     data,
     isPending,
@@ -58,6 +60,13 @@ export function MapGraph({ className = '' }) {
   const countryOptions = useMemo(() => {
     if (seriesData.length === 0) return null
 
+    // Determine text color based on theme
+    const isDark =
+      theme === 'dark' ||
+      (theme === 'system' &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    const textColor = isDark ? '#ffffff' : '#000000'
+
     const values = seriesData.map((item) => item.value)
     const minValue = values.length > 0 ? Math.min(...values) : 0
     const maxValue = values.length > 0 ? Math.max(...values) : 1
@@ -75,6 +84,7 @@ export function MapGraph({ className = '' }) {
         min: minValue,
         max: maxValue,
         text: [t('search.results.map-max'), t('search.results.map-min')],
+        textStyle: { color: textColor },
         realtime: false,
         calculable: true,
         inRange: {
@@ -101,7 +111,7 @@ export function MapGraph({ className = '' }) {
         },
       ],
     }
-  }, [seriesData])
+  }, [seriesData, theme, t])
 
   // 5. Clean, explicit render logic.
   const isLoading = isPending || isLoadingGeo

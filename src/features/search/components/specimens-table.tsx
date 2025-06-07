@@ -121,14 +121,15 @@ export function SpecimensTable() {
   ) : (
     <>
       {/* pagination and select  */}
-      <div className="flex items-center justify-between">
+        {/* <div className="flex items-center justify-between"> */}
+          <>
         <Pagination
           count={data.count}
           skip={skip}
           limit={ITEMS_PER_PAGE}
           setSkip={setSkip}
         />
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="ml-auto">
               <Settings2 className="h-4 w-4 mr-2" />
@@ -157,8 +158,9 @@ export function SpecimensTable() {
                 )
               })}
           </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+        </DropdownMenu> */}
+            </>
+      {/* </div> */}
       {/* table */}
       <div className="rounded-md border overflow-hidden">
         <Table>

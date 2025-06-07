@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 import { BASE_API_URL } from '@/config'
 import { Autocomplete } from '@/features/search/components/autocomplete'
 import { useDebouncedCallback } from '@/hooks/use-debounce'
@@ -28,7 +29,24 @@ export function SearchFilters() {
     setYear,
     setMonth,
     setHasCoordinates,
-  } = useFilterStore()
+  } = useFilterStore(
+    useShallow((state) => ({
+      scientificName: state.scientificName,
+      floritalyName: state.floritalyName,
+      country: state.country,
+      locality: state.locality,
+      year: state.year,
+      month: state.month,
+      hasCoordinates: state.hasCoordinates,
+      setScientificName: state.setScientificName,
+      setFloritalyName: state.setFloritalyName,
+      setCountry: state.setCountry,
+      setLocality: state.setLocality,
+      setYear: state.setYear,
+      setMonth: state.setMonth,
+      setHasCoordinates: state.setHasCoordinates,
+    }))
+  )
   const { t } = useTranslation()
 
   const handleSetYear = useDebouncedCallback((value: [number, number]) => {

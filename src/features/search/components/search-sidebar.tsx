@@ -1,3 +1,4 @@
+import { useShallow } from 'zustand/react/shallow'
 import {
   Sidebar,
   SidebarContent,
@@ -16,7 +17,12 @@ import { SearchFilters } from '@/features/search/components/search-filters'
 export function SearchSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
-  const { activeFiltersCount, resetFilters } = useFilterStore()
+  const { activeFiltersCount, resetFilters } = useFilterStore(
+    useShallow((state) => ({
+      activeFiltersCount: state.activeFiltersCount,
+      resetFilters: state.resetFilters,
+    }))
+  )
 
   return (
     <Tabs defaultValue="filters" asChild>

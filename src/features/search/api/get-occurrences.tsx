@@ -70,6 +70,11 @@ const prepareQueryPayload = (
   if (searchType !== 'map') {
     delete filters.zoom
     delete filters.bbox
+  } else {
+    // Ensure zoom is an integer for the map API
+    if (filters.zoom !== undefined) {
+      filters.zoom = Math.round(filters.zoom)
+    }
   }
 
   // Construct the final payload based on the search type.

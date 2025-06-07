@@ -45,7 +45,7 @@ export function SearchFilters() {
       setYear: state.setYear,
       setMonth: state.setMonth,
       setHasCoordinates: state.setHasCoordinates,
-    }))
+    })),
   )
   const { t } = useTranslation()
 

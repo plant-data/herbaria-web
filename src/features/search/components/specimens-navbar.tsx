@@ -25,6 +25,7 @@ export function SpecimensNavbar() {
             <Link
               key={path}
               to={path}
+              preload="intent"
               className={cn(
                 'flex items-center gap-2 px-1 @xs:px-2 @sm:px-4 py-1.5 rounded-md text-xs font-medium transition-colors',
                 'hover:bg-background hover:shadow-sm',

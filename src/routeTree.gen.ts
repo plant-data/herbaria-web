@@ -16,6 +16,7 @@ import { Route as IndexImport } from './routes/index'
 import { Route as SearchIndexImport } from './routes/search/index'
 import { Route as SpecimensOccurrenceIDImport } from './routes/specimens/$occurrenceID'
 import { Route as SearchTableImport } from './routes/search/table'
+import { Route as SearchMapImport } from './routes/search/map'
 import { Route as SearchGraphsImport } from './routes/search/graphs'
 import { Route as SearchDebugFiltersImport } from './routes/search/debug-filters'
 import { Route as DemoTanstackQueryImport } from './routes/demo.tanstack-query'
@@ -49,6 +50,12 @@ const SpecimensOccurrenceIDRoute = SpecimensOccurrenceIDImport.update({
 const SearchTableRoute = SearchTableImport.update({
   id: '/table',
   path: '/table',
+  getParentRoute: () => SearchRouteRoute,
+} as any)
+
+const SearchMapRoute = SearchMapImport.update({
+  id: '/map',
+  path: '/map',
   getParentRoute: () => SearchRouteRoute,
 } as any)
 
@@ -109,6 +116,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchGraphsImport
       parentRoute: typeof SearchRouteImport
     }
+    '/search/map': {
+      id: '/search/map'
+      path: '/map'
+      fullPath: '/search/map'
+      preLoaderRoute: typeof SearchMapImport
+      parentRoute: typeof SearchRouteImport
+    }
     '/search/table': {
       id: '/search/table'
       path: '/table'
@@ -138,6 +152,7 @@ declare module '@tanstack/react-router' {
 interface SearchRouteRouteChildren {
   SearchDebugFiltersRoute: typeof SearchDebugFiltersRoute
   SearchGraphsRoute: typeof SearchGraphsRoute
+  SearchMapRoute: typeof SearchMapRoute
   SearchTableRoute: typeof SearchTableRoute
   SearchIndexRoute: typeof SearchIndexRoute
 }
@@ -145,6 +160,7 @@ interface SearchRouteRouteChildren {
 const SearchRouteRouteChildren: SearchRouteRouteChildren = {
   SearchDebugFiltersRoute: SearchDebugFiltersRoute,
   SearchGraphsRoute: SearchGraphsRoute,
+  SearchMapRoute: SearchMapRoute,
   SearchTableRoute: SearchTableRoute,
   SearchIndexRoute: SearchIndexRoute,
 }
@@ -159,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/search/debug-filters': typeof SearchDebugFiltersRoute
   '/search/graphs': typeof SearchGraphsRoute
+  '/search/map': typeof SearchMapRoute
   '/search/table': typeof SearchTableRoute
   '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/search/': typeof SearchIndexRoute
@@ -169,6 +186,7 @@ export interface FileRoutesByTo {
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/search/debug-filters': typeof SearchDebugFiltersRoute
   '/search/graphs': typeof SearchGraphsRoute
+  '/search/map': typeof SearchMapRoute
   '/search/table': typeof SearchTableRoute
   '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/search': typeof SearchIndexRoute
@@ -181,6 +199,7 @@ export interface FileRoutesById {
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/search/debug-filters': typeof SearchDebugFiltersRoute
   '/search/graphs': typeof SearchGraphsRoute
+  '/search/map': typeof SearchMapRoute
   '/search/table': typeof SearchTableRoute
   '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/search/': typeof SearchIndexRoute
@@ -194,6 +213,7 @@ export interface FileRouteTypes {
     | '/demo/tanstack-query'
     | '/search/debug-filters'
     | '/search/graphs'
+    | '/search/map'
     | '/search/table'
     | '/specimens/$occurrenceID'
     | '/search/'
@@ -203,6 +223,7 @@ export interface FileRouteTypes {
     | '/demo/tanstack-query'
     | '/search/debug-filters'
     | '/search/graphs'
+    | '/search/map'
     | '/search/table'
     | '/specimens/$occurrenceID'
     | '/search'
@@ -213,6 +234,7 @@ export interface FileRouteTypes {
     | '/demo/tanstack-query'
     | '/search/debug-filters'
     | '/search/graphs'
+    | '/search/map'
     | '/search/table'
     | '/specimens/$occurrenceID'
     | '/search/'
@@ -257,6 +279,7 @@ export const routeTree = rootRoute
       "children": [
         "/search/debug-filters",
         "/search/graphs",
+        "/search/map",
         "/search/table",
         "/search/"
       ]
@@ -270,6 +293,10 @@ export const routeTree = rootRoute
     },
     "/search/graphs": {
       "filePath": "search/graphs.tsx",
+      "parent": "/search"
+    },
+    "/search/map": {
+      "filePath": "search/map.tsx",
       "parent": "/search"
     },
     "/search/table": {

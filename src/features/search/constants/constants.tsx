@@ -1,6 +1,6 @@
-import { BASE_API_URL } from "@/config";
+import { BASE_API_URL } from '@/config'
 
-const MIN_YEAR = 1800;
+const MIN_YEAR = 1800
 const MAX_YEAR = new Date().getFullYear()
 
 const MONTHS = [
@@ -44,10 +44,10 @@ const MAP_STYLE = {
   ],
 }
 
-const ZOOM = 2;
-const BBOX: [number, number, number, number] = [-170, -80, 170, 80];
+const ZOOM = 2
+const BBOX: [number, number, number, number] = [-170, -80, 170, 80]
 
-const SKIP = 0;
+const SKIP = 0
 
 const SEARCH_CONFIG = {
   data: {
@@ -55,25 +55,32 @@ const SEARCH_CONFIG = {
     key: 'specimens-data',
   },
   map: {
-    url: `${BASE_API_URL}map/search`,
+    url: `${BASE_API_URL}map/clusters`,
     key: 'specimens-map',
   },
   graph: {
     url: `${BASE_API_URL}group/search`,
     key: 'specimens-graph',
   },
-} as const;
-
-
-
+} as const
 
 const COMMON_QUERY_OPTIONS = {
   refetchOnMount: false,
   refetchOnWindowFocus: false,
   retry: false,
-  staleTime: 24 * 60 * 60 * 1000, 
+  staleTime: 24 * 60 * 60 * 1000,
   gcTime: 24 * 60 * 60 * 1000,
   placeholderData: (previousData: any) => previousData,
-};
+}
 
-export {MIN_YEAR, MAX_YEAR, MONTHS, MAP_STYLE, ZOOM, BBOX, SKIP, SEARCH_CONFIG, COMMON_QUERY_OPTIONS};
+export {
+  MIN_YEAR,
+  MAX_YEAR,
+  MONTHS,
+  MAP_STYLE,
+  ZOOM,
+  BBOX,
+  SKIP,
+  SEARCH_CONFIG,
+  COMMON_QUERY_OPTIONS,
+}

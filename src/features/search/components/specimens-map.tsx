@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-import { DeckGL } from '@deck.gl/react'
+import { DeckGL, ZoomWidget } from '@deck.gl/react'
 import { ColumnLayer } from '@deck.gl/layers'
 import { Map } from 'react-map-gl/maplibre'
 import maplibregl from 'maplibre-gl'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import 'maplibre-gl/dist/maplibre-gl.css' // Essential MapLibre CSS
+import '@deck.gl/widgets/stylesheet.css';
 
 import { useSpecimensMap } from '@/features/search/api/get-occurrences'
 
@@ -363,6 +364,7 @@ export function SpecimensMap() {
         onViewStateChange={handleViewStateChange}
         
       >
+        <ZoomWidget id='zoom' placement='top-right'/>
         <Map
           ref={mapRef}
           reuseMaps

@@ -1,5 +1,11 @@
 import { Link, useLocation } from '@tanstack/react-router'
-import { ChartColumn, Image, LoaderCircle, MapPinned, Table  } from 'lucide-react'
+import {
+  ChartColumn,
+  Image,
+  LoaderCircle,
+  MapPinned,
+  Table,
+} from 'lucide-react'
 import { useSpecimensData } from '@/features/search/api/get-occurrences'
 import { cn } from '@/lib/utils'
 

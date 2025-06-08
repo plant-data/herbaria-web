@@ -235,8 +235,9 @@ export function SpecimensMap() {
           // coordinates is [longitude, latitude]
           const [lng, lat] = d.coordinates
           // Snap to grid for square alignment
-          const [gridLng, gridLat] = snapToGrid(lng, lat, getGridSize)
-          return [gridLng, gridLat]
+          //const [gridLng, gridLat] = snapToGrid(lng, lat, getGridSize)
+          //return [gridLng, gridLat]
+          return [lng, lat] 
         },
         radius: getColumnRadius,
         updateTriggers: {

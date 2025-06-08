@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { DeckGL } from '@deck.gl/react'
 import { ColumnLayer } from '@deck.gl/layers'
@@ -60,6 +60,8 @@ export function SpecimensMap() {
   const [isZooming, setIsZooming] = useState<boolean>(false)
 
   const { data, isPending, error } = useSpecimensMap()
+
+  const mapRef = useRef<MapRef>()
 
   // Initialize bbox on component mount
   useEffect(() => {
@@ -237,7 +239,7 @@ export function SpecimensMap() {
           // Snap to grid for square alignment
           //const [gridLng, gridLat] = snapToGrid(lng, lat, getGridSize)
           //return [gridLng, gridLat]
-          return [lng, lat] 
+          return [lng, lat]
         },
         radius: getColumnRadius,
         updateTriggers: {
@@ -319,6 +321,8 @@ export function SpecimensMap() {
     }
   }
 
+  console.log(mapRef.current?.getBounds())
+
   if (isPending) {
     return (
       <div className="flex h-[70vh] w-full items-center justify-center text-lg">
@@ -357,7 +361,12 @@ export function SpecimensMap() {
         getTooltip={getTooltip}
         onViewStateChange={handleViewStateChange}
       >
-        <Map reuseMaps mapLib={maplibregl} mapStyle={GBIF_MAP_STYLE} />
+        <Map
+          ref={mapRef}
+          reuseMaps
+          mapLib={maplibregl}
+          mapStyle={GBIF_MAP_STYLE}
+        />
       </DeckGL>
     </div>
   )

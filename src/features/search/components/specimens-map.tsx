@@ -42,7 +42,7 @@ const GBIF_MAP_STYLE = {
       type: 'raster' as const,
       source: 'gbif-tiles',
       minzoom: 0,
-      maxzoom: 22, // Adjust maxzoom as appropriate for the tile source
+      maxzoom: 22,
     },
   ],
 }
@@ -348,18 +348,20 @@ export function SpecimensMap() {
   }
 
   return (
-    <div className="relative h-[70vh] w-full">
+    <div className="mt-6 relative h-[70vh] w-full rounded-lg overflow-hidden">
       {isZooming && layerData.length > 200 && (
         <div className="absolute top-2 left-2 bg-white/80 px-3 py-1 rounded-md z-10 text-sm">
           Zooming, please wait...
         </div>
       )}
+      
       <DeckGL
         layers={layers}
         initialViewState={INITIAL_VIEW_STATE}
         controller={true}
         getTooltip={getTooltip}
         onViewStateChange={handleViewStateChange}
+        
       >
         <Map
           ref={mapRef}

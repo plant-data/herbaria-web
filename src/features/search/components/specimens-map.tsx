@@ -357,7 +357,7 @@ export function SpecimensMap() {
         getTooltip={getTooltip}
         onViewStateChange={handleViewStateChange}
       >
-        <Map mapLib={maplibregl} mapStyle={GBIF_MAP_STYLE} />
+        <Map reuseMaps mapLib={maplibregl} mapStyle={GBIF_MAP_STYLE} />
       </DeckGL>
     </div>
   )

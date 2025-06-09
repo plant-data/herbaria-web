@@ -1,352 +1,275 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-
-import {
-  DeckGL,
-  ZoomWidget,
-  CompassWidget,
-  FullscreenWidget,
-} from '@deck.gl/react'
-import { ColumnLayer } from '@deck.gl/layers'
-import { Map } from 'react-map-gl/maplibre'
-import maplibregl from 'maplibre-gl'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
+import L from 'leaflet'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-import 'maplibre-gl/dist/maplibre-gl.css' // Essential MapLibre CSS
-import '@deck.gl/widgets/stylesheet.css'
-
 import { useSpecimensMap } from '@/features/search/api/get-occurrences'
+import 'leaflet/dist/leaflet.css'
 
-// Type for cluster data from the map API
-type ClusterData = {
-  coordinates: Array<number>
-  count: number
-}
+// Import our palettes and types
+import {
+  palettes,
+  type PaletteName,
+} from '@/features/search/constants/map-palettes'
 
-// Initial map view state (e.g., centered on Italy given 'floritalyName')
+// Import shadcn/ui components
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Button } from '@/components/ui/button'
+
+type ClusterData = { coordinates: [number, number]; count: number }
 const INITIAL_VIEW_STATE = {
-  longitude: 12.496366, // Rome
-  latitude: 41.902782, // Rome
-  zoom: 4.5,
+  center: [41.902782, 12.496366] as [number, number],
+  zoom: 5,
 }
 
-// Publicly available MapLibre style
-const GBIF_MAP_STYLE = {
-  version: 8 as const,
-  sources: {
-    'gbif-tiles': {
-      type: 'raster' as const,
-      tiles: [
-        'https://tile.gbif.org/3857/omt/{z}/{x}/{y}@2x.png?style=gbif-geyser-en',
-      ] as Array<string>,
-      tileSize: 512, // For @2x tiles, tileSize is typically 512
-      attribution:
-        '<a href="https://www.gbif.org/citation-guidelines" target="_blank">© GBIF</a>',
-    },
-  },
-  layers: [
-    {
-      id: 'gbif-raster-layer',
-      type: 'raster' as const,
-      source: 'gbif-tiles',
-      minzoom: 0,
-      maxzoom: 22,
-    },
-  ],
-}
+type PaletteFn = (count: number) => string
 
-export function SpecimensMap() {
-  const {
-    zoom: currentZoom,
-    setZoom: setCurrentZoom,
-    setBbox,
-  } = useFilterStore()
+class CanvasMarkerLayer extends L.Layer {
+  private canvas: HTMLCanvasElement
+  private ctx: CanvasRenderingContext2D
+  private clusters: ClusterData[] = []
+  private getCircleColor: PaletteFn // The active palette function
 
-  const [debouncedZoom, setDebouncedZoom] = useState<number>(
-    INITIAL_VIEW_STATE.zoom,
-  )
-  const [isZooming, setIsZooming] = useState<boolean>(false)
+  constructor(options?: L.LayerOptions & { initialPalette: PaletteFn }) {
+    super(options)
+    this.canvas = document.createElement('canvas')
+    this.canvas.style.imageRendering = 'pixelated'
+    this.ctx = this.canvas.getContext('2d')!
+    this.getCircleColor = options?.initialPalette || palettes.Classic
+  }
 
-  const { data, isPending, error } = useSpecimensMap()
+  // Public method to dynamically update the palette
+  public updatePalette(newPalette: PaletteFn): void {
+    this.getCircleColor = newPalette
+    this.redraw() // Redraw with new colors
+  }
 
-  const mapRef = useRef<MapRef>()
+  // Other methods (onAdd, onRemove, updateData, redraw) are mostly the same,
+  // but with click logic removed and using this.getCircleColor
 
-  // Initialize bbox on component mount
-  useEffect(() => {
-    // Set initial bounding box based on initial view state with more accurate calculation
-    const { longitude, latitude, zoom } = INITIAL_VIEW_STATE
+  onAdd(map: L.Map): this {
+    map.getPanes().overlayPane.appendChild(this.canvas)
+    map.on('viewreset zoom movend resize', this.redraw, this)
+    this.redraw()
+    return this
+  }
 
-    // More accurate bounding box calculation using Web Mercator projection
-    // Approximate visible area based on zoom level and standard map dimensions
-    const earthCircumference = 40075016.686 // meters
-    const metersPerPixel =
-      (earthCircumference * Math.cos((latitude * Math.PI) / 180)) /
-      Math.pow(2, zoom + 8)
+  onRemove(map: L.Map): this {
+    map.getPanes().overlayPane.removeChild(this.canvas)
+    map.off('viewreset zoom movend resize', this.redraw, this)
+    return this
+  }
 
-    // Assume a standard map viewport size (roughly 800x600 pixels)
-    const viewportWidth = 800
-    const viewportHeight = 600
+  updateData(clusters: ClusterData[]): void {
+    this.clusters = clusters
+    this.redraw()
+  }
 
-    const latOffset = (metersPerPixel * viewportHeight) / 2 / 111319.5 // Convert meters to degrees lat
-    const lngOffset =
-      (metersPerPixel * viewportWidth) /
-      2 /
-      (111319.5 * Math.cos((latitude * Math.PI) / 180)) // Convert meters to degrees lng
+  private redraw = (): void => {
+    const map = this._map
+    if (!map) return
+    const size = map.getSize()
+    const bounds = map.getBounds()
+    const dpr = window.devicePixelRatio || 1
+    this.canvas.width = size.x * dpr
+    this.canvas.height = size.y * dpr
+    this.canvas.style.width = `${size.x}px`
+    this.canvas.style.height = `${size.y}px`
+    this.ctx.scale(dpr, dpr)
+    const topLeft = map.latLngToLayerPoint(bounds.getNorthWest())
+    L.DomUtil.setPosition(this.canvas, topLeft)
+    this.ctx.clearRect(0, 0, size.x, size.y)
+    const mapZoom = map.getZoom()
+    const markerSize = (baseSize: number, factor: number) => {
+      if (factor > 7) {
+        return baseSize * Math.max(0.5, factor / 15)
+      } else if (factor > 3) {
+        return baseSize * Math.max(0.7, Math.min(2, factor / 10))
+      } else {
+        return baseSize * Math.max(0.5, Math.min(2, factor / 15))
+      }
+    }
 
-    const initialBbox: [number, number, number, number] = [
-      Math.max(-180, longitude - lngOffset), // west
-      Math.max(-90, latitude - latOffset), // south
-      Math.min(180, longitude + lngOffset), // east
-      Math.min(90, latitude + latOffset), // north
-    ]
-
-    setBbox(initialBbox)
-    setCurrentZoom(zoom)
-  }, [setBbox, setCurrentZoom])
-
-  // Debounce zoom changes to improve performance
-  useEffect(() => {
-    setIsZooming(true)
-    const timer = setTimeout(() => {
-      setDebouncedZoom(currentZoom)
-      setIsZooming(false)
-    }, 800)
-
-    return () => clearTimeout(timer)
-  }, [currentZoom])
-
-  // Memoize and filter data for the ColumnLayer, ensuring valid coordinates
-  const layerData = useMemo(() => {
-    if (!data?.clusters) return []
-
-    const filtered = data.clusters.filter((cluster: ClusterData) => {
-      // coordinates is [longitude, latitude]
+    this.clusters.forEach((cluster) => {
       const [lng, lat] = cluster.coordinates
+      if (!bounds.contains([lat, lng])) return
+      const point = map.latLngToLayerPoint(new L.LatLng(lat, lng))
+      const x = point.x - topLeft.x
+      const y = point.y - topLeft.y
 
-      // Validate coordinates - check if they're valid numbers and in reasonable range
-      return (
-        !isNaN(lat) &&
-        !isNaN(lng) &&
-        lat !== 0 && // Filter out 0,0 coordinates which are often default placeholders
-        lng !== 0 &&
-        lat >= -90 &&
-        lat <= 90 && // Valid latitude range
-        lng >= -180 &&
-        lng <= 180
-      ) // Valid longitude range
+      this.ctx.fillStyle = this.getCircleColor(cluster.count) // Use the instance's palette
+      this.ctx.globalAlpha = 0.8
+
+      const size = markerSize(8, mapZoom)
+      const roundedX = Math.round(x - size / 2)
+      const roundedY = Math.round(y - size / 2)
+      this.ctx.fillRect(roundedX, roundedY, size, size)
     })
-    return filtered
-  }, [data])
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0)
+  }
+}
 
-  // Color interpolation function based on occurrence count with fixed range 0-100+
-  const getColorFromCount = (
-    count: number,
-  ): [number, number, number, number] => {
-    // Fixed range from 0 to 100+ (clamped at 100 for color calculation)
-    const clampedCount = Math.min(count, 100)
-    const normalizedValue = clampedCount / 100
+function CanvasMarkers({
+  clusters,
+  palette,
+}: {
+  clusters: ClusterData[]
+  palette: PaletteFn
+}) {
+  const map = useMap()
+  const layerRef = useRef(new CanvasMarkerLayer({ initialPalette: palette }))
 
-    // GBIF-inspired violet to yellow color palette
-    if (normalizedValue < 0.2) {
-      // Dark violet to violet
-      const t = normalizedValue / 0.2
-      return [
-        Math.round(68 + (102 - 68) * t), // R: 68 -> 102
-        Math.round(1 + (37 - 1) * t), // G: 1 -> 37
-        Math.round(84 + (144 - 84) * t), // B: 84 -> 144
-        240, // Less transparent
-      ]
-    } else if (normalizedValue < 0.4) {
-      // Violet to blue
-      const t = (normalizedValue - 0.2) / 0.2
-      return [
-        Math.round(102 + (32 - 102) * t), // R: 102 -> 32
-        Math.round(37 + (107 - 37) * t), // G: 37 -> 107
-        Math.round(144 + (196 - 144) * t), // B: 144 -> 196
-        240,
-      ]
-    } else if (normalizedValue < 0.6) {
-      // Blue to cyan
-      const t = (normalizedValue - 0.4) / 0.2
-      return [
-        Math.round(32 + (35 - 32) * t), // R: 32 -> 35
-        Math.round(107 + (161 - 107) * t), // G: 107 -> 161
-        Math.round(196 + (181 - 196) * t), // B: 196 -> 181
-        240,
-      ]
-    } else if (normalizedValue < 0.8) {
-      // Cyan to green
-      const t = (normalizedValue - 0.6) / 0.2
-      return [
-        Math.round(35 + (65 - 35) * t), // R: 35 -> 65
-        Math.round(161 + (182 - 161) * t), // G: 161 -> 182
-        Math.round(181 + (96 - 181) * t), // B: 181 -> 96
-        240,
-      ]
-    } else {
-      // Green to yellow
-      const t = (normalizedValue - 0.8) / 0.2
-      return [
-        Math.round(65 + (253 - 65) * t), // R: 65 -> 253
-        Math.round(182 + (231 - 182) * t), // G: 182 -> 231
-        Math.round(96 + (37 - 96) * t), // B: 96 -> 37
-        240,
-      ]
+  useEffect(() => {
+    const layer = layerRef.current
+    map.addLayer(layer)
+    return () => {
+      map.removeLayer(layer)
     }
+  }, [map])
+
+  useEffect(() => {
+    layerRef.current.updateData(clusters)
+  }, [clusters])
+
+  // Effect to update the layer's palette when the prop changes
+  useEffect(() => {
+    layerRef.current.updatePalette(palette)
+  }, [palette])
+
+  return null
+}
+
+function MapEventHandler() {
+  const { setZoom, setBbox } = useFilterStore()
+  const map = useMap()
+  const updateFilters = useCallback(() => {
+    const bounds = map.getBounds()
+    const zoom = map.getZoom()
+    setZoom(zoom)
+    setBbox([
+      bounds.getWest(),
+      bounds.getSouth(),
+      bounds.getEast(),
+      bounds.getNorth(),
+    ])
+  }, [map, setZoom, setBbox])
+  useEffect(() => {
+    map.whenReady(updateFilters)
+  }, [map, updateFilters])
+  useMapEvents({ moveend: updateFilters, zoomend: updateFilters })
+  return null
+}
+
+function MapControls() {
+  const map = useMap()
+
+  const handleResetView = () => {
+    map.setView(INITIAL_VIEW_STATE.center, INITIAL_VIEW_STATE.zoom)
   }
 
-  // Calculate column radius based on debounced zoom level
-  const getColumnRadius = useMemo(() => {
-    if (debouncedZoom < 4) {
-      return 15000 // Larger radius for zoomed out view
-    } else if (debouncedZoom >= 4 && debouncedZoom <= 6) {
-      return 8000 // Medium radius for mid-range zoom
-    } else {
-      return 1000 // Smaller radius for zoomed in view
-    }
-  }, [debouncedZoom])
-
-  // Only create layers when zoom is stable or on initial render
-  const layers = useMemo(() => {
-    if (isZooming && layerData.length > 0) {
-      // During zooming with large datasets, return a simplified layer or previous layer
-      // This prevents expensive recalculations during zoom operations
-      return []
-    }
-
-    return [
-      new ColumnLayer<ClusterData>({
-        id: 'column-layer',
-        data: layerData,
-        getPosition: (d: ClusterData) => {
-          // coordinates is [longitude, latitude]
-          const [lng, lat] = d.coordinates
-
-          return [lng, lat]
-        },
-        radius: 5000,
-
-        diskResolution: 4, // Use 4 sides to create square shapes
-        angle: 45, // Rotate squares by 45 degrees
-        elevationScale: 0, // Set to 0 to make it 2D (flat)
-        getElevation: 0, // No elevation for 2D effect
-        extruded: false, // Make it 2D instead of 3D
-        pickable: true,
-        autoHighlight: true,
-        getFillColor: (d: ClusterData) => getColorFromCount(d.count),
-      }),
-    ]
-  }, [layerData, getColumnRadius, isZooming, getColorFromCount])
-
-  const getTooltip = (info: any) => {
-    if (!info.object) {
-      return null
-    }
-
-    const cluster = info.object as ClusterData
-    const [lng, lat] = cluster.coordinates
-    const displayCount =
-      cluster.count > 100 ? `${cluster.count} (100+)` : cluster.count.toString()
-
-    return {
-      html: `
-        <div style="background-color: white; padding: 8px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          <strong>Cluster Details</strong><br/>
-          Specimen Count: ${displayCount}<br/>
-          Coordinates: ${lat.toFixed(4)}, ${lng.toFixed(4)}
-        </div>
-      `,
-    }
-  }
-
-  // Handle view state changes with throttling
-  const handleViewStateChange = ({ viewState }: { viewState: any }) => {
-    // Only update if zoom changed by a meaningful amount
-    if (Math.abs(viewState.zoom - currentZoom) > 0.1) {
-      setCurrentZoom(viewState.zoom)
-
-      // Calculate more accurate bounding box based on the viewport
-      const { longitude, latitude, zoom } = viewState
-
-      // More accurate bounding box calculation using Web Mercator projection
-      const earthCircumference = 40075016.686 // meters
-      const metersPerPixel =
-        (earthCircumference * Math.cos((latitude * Math.PI) / 180)) /
-        Math.pow(2, zoom + 8)
-
-      // Assume a standard map viewport size (roughly 800x600 pixels)
-      const viewportWidth = 800
-      const viewportHeight = 600
-
-      const latOffset = (metersPerPixel * viewportHeight) / 2 / 111319.5 // Convert meters to degrees lat
-      const lngOffset =
-        (metersPerPixel * viewportWidth) /
-        2 /
-        (111319.5 * Math.cos((latitude * Math.PI) / 180)) // Convert meters to degrees lng
-
-      const newBbox: [number, number, number, number] = [
-        Math.max(-180, longitude - lngOffset), // west
-        Math.max(-90, latitude - latOffset), // south
-        Math.min(180, longitude + lngOffset), // east
-        Math.min(90, latitude + latOffset), // north
-      ]
-
-      setBbox(newBbox)
-    }
-  }
-
-  console.log(mapRef.current?.getBounds())
-  //log zoom level
-  console.log('Current Zoom Level:', currentZoom)
-
-  if (isPending) {
-    return (
-      <div className="flex h-[70vh] w-full items-center justify-center text-lg">
-        Loading occurrences for map...
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="flex h-[70vh] w-full items-center justify-center text-red-600">
-        Error loading data: {error.message || 'Unknown error'}
-      </div>
-    )
-  }
-
-  if (layerData.length === 0) {
-    return (
-      <div className="flex h-[70vh] w-full items-center justify-center text-muted-foreground">
-        No occurrences found for the current filters.
-      </div>
-    )
+  const handleWorldView = () => {
+    map.setView([40, 0], 2)
   }
 
   return (
-    <div className="mt-6 relative h-[70vh] w-full rounded-lg overflow-hidden">
-      {isZooming && layerData.length > 200 && (
-        <div className="absolute top-2 left-2 bg-white/80 px-3 py-1 rounded-md z-10 text-sm">
-          Zooming, please wait...
-        </div>
-      )}
-
-      <DeckGL
-        layers={layers}
-        initialViewState={INITIAL_VIEW_STATE}
-        controller={true}
-        getTooltip={getTooltip}
-        onViewStateChange={handleViewStateChange}
-    
+    <div className="absolute top-20 left-4 z-[1000] flex flex-col gap-2">
+      <Button
+        size="sm"
+        variant="secondary"
+        onClick={handleResetView}
+        className="bg-white/80 backdrop-blur-sm hover:bg-white/90 text-xs px-2 py-1 h-8"
+        title="Reset to initial view"
       >
-        <Map
-          ref={mapRef}
-          reuseMaps
-          mapLib={maplibregl}
-          mapStyle={GBIF_MAP_STYLE}
+        🏠
+      </Button>
+      <Button
+        size="sm"
+        variant="secondary"
+        onClick={handleWorldView}
+        className="bg-white/80 backdrop-blur-sm hover:bg-white/90 text-xs px-2 py-1 h-8"
+        title="Show world view"
+      >
+        🌍
+      </Button>
+    </div>
+  )
+}
+
+export function SpecimensMap() {
+  const { data, isPending, error } = useSpecimensMap()
+  const [activePalette, setActivePalette] = useState<PaletteName>('Classic')
+
+  const layerData = useMemo(() => {
+    if (!data?.clusters) return []
+    return data.clusters.filter(
+      (c: ClusterData) => !isNaN(c.coordinates[0]) && !isNaN(c.coordinates[1]),
+    )
+  }, [data?.clusters])
+
+  if (isPending)
+    return (
+      <div className="h-[70vh] flex items-center justify-center">
+        Loading...
+      </div>
+    )
+  if (error)
+    return (
+      <div className="h-[70vh] flex items-center justify-center text-red-500">
+        Error.
+      </div>
+    )
+
+  return (
+    <div className="mt-6 relative h-[70vh] w-full rounded-lg overflow-hidden">
+      <MapContainer
+        center={INITIAL_VIEW_STATE.center}
+        zoom={INITIAL_VIEW_STATE.zoom}
+        style={{ height: '100%', width: '100%' }}
+        zoomControl={true}
+      >
+        <TileLayer
+          url="https://tile.gbif.org/3857/omt/{z}/{x}/{y}@2x.png?style=gbif-geyser-en"
+          attribution='© <a href="https://www.gbif.org/citation-guidelines">GBIF</a>'
         />
-        <ZoomWidget />
-        <CompassWidget />
-        <FullscreenWidget />
-      </DeckGL>
+        <MapEventHandler />
+        <MapControls />
+        {layerData.length > 0 && (
+          <CanvasMarkers
+            clusters={layerData}
+            palette={palettes[activePalette]}
+          />
+        )}
+      </MapContainer>
+
+      {/* GODLIKE UI: Palette Selector */}
+      <Card className="absolute top-4 right-4 z-[1000] w-[180px] bg-white/80 backdrop-blur-sm">
+        <CardHeader className="p-4">
+          <CardTitle className="text-sm font-medium">Color Palette</CardTitle>
+        </CardHeader>
+        <CardContent className="p-4 pt-0">
+          <Select
+            value={activePalette}
+            onValueChange={(value: PaletteName) => setActivePalette(value)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select a palette" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.keys(palettes).map((paletteName) => (
+                <SelectItem key={paletteName} value={paletteName}>
+                  {paletteName}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </CardContent>
+      </Card>
     </div>
   )
 }

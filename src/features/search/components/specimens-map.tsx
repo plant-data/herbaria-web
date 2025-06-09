@@ -89,10 +89,12 @@ class CanvasMarkerLayer extends L.Layer {
     const markerSize = (baseSize: number, factor: number) => {
       if (factor > 7) {
         return baseSize * Math.max(0.5, factor / 15)
+      } else if (factor == 5) {
+        return baseSize * Math.max(factor / 9)
       } else if (factor > 3) {
         return baseSize * Math.max(0.7, Math.min(2, factor / 10))
       } else {
-        return baseSize * Math.max(0.5, Math.min(2, factor / 15))
+        return baseSize * Math.max( factor / 6)
       }
     }
 
@@ -174,16 +176,16 @@ function MapControls() {
   }
 
   const handleWorldView = () => {
-    map.setView([40, 0], 2)
+    map.setView([20, 5], 2)
   }
 
   return (
-    <div className="absolute top-20 left-4 z-[1000] flex flex-col gap-2">
+    <div className="absolute top-20 left-3 z-[1000] flex flex-col gap-2">
       <Button
         size="sm"
         variant="secondary"
         onClick={handleResetView}
-        className="bg-white/80 backdrop-blur-sm hover:bg-white/90 text-xs px-2 py-1 h-8"
+        className="bg-white text-xs size-[30px] rounded-[3px] ring-2 ring-gray-400"
         title="Reset to initial view"
       >
         🏠
@@ -192,7 +194,7 @@ function MapControls() {
         size="sm"
         variant="secondary"
         onClick={handleWorldView}
-        className="bg-white/80 backdrop-blur-sm hover:bg-white/90 text-xs px-2 py-1 h-8"
+        className="bg-white text-xs size-[30px] rounded-[3px] ring-2 ring-gray-400"
         title="Show world view"
       >
         🌍
@@ -226,50 +228,46 @@ export function SpecimensMap() {
     )
 
   return (
-    <div className="mt-6 relative h-[70vh] w-full rounded-lg overflow-hidden">
-      <MapContainer
-        center={INITIAL_VIEW_STATE.center}
-        zoom={INITIAL_VIEW_STATE.zoom}
-        style={{ height: '100%', width: '100%' }}
-        zoomControl={true}
-      >
-        <TileLayer
-          url="https://tile.gbif.org/3857/omt/{z}/{x}/{y}@2x.png?style=gbif-geyser-en"
-          attribution='© <a href="https://www.gbif.org/citation-guidelines">GBIF</a>'
-        />
-        <MapEventHandler />
-        <MapControls />
-        {layerData.length > 0 && (
-          <CanvasMarkers
-            clusters={layerData}
-            palette={palettes[activePalette]}
+    <>
+      <div className="mt-6 relative h-[70vh] w-full rounded-lg overflow-hidden">
+        <MapContainer
+          center={INITIAL_VIEW_STATE.center}
+          zoom={INITIAL_VIEW_STATE.zoom}
+          style={{ height: '100%', width: '100%' }}
+          zoomControl={true}
+        >
+          <TileLayer
+            url="https://tile.gbif.org/3857/omt/{z}/{x}/{y}@2x.png?style=gbif-geyser-en"
+            attribution='© <a href="https://www.gbif.org/citation-guidelines">GBIF</a>'
           />
-        )}
-      </MapContainer>
+          <MapEventHandler />
+          <MapControls />
+          {layerData.length > 0 && (
+            <CanvasMarkers
+              clusters={layerData}
+              palette={palettes[activePalette]}
+            />
+          )}
+        </MapContainer>
+      </div>
 
-      {/* GODLIKE UI: Palette Selector */}
-      <Card className="absolute top-4 right-4 z-[1000] w-[180px] bg-white/80 backdrop-blur-sm">
-        <CardHeader className="p-4">
-          <CardTitle className="text-sm font-medium">Color Palette</CardTitle>
-        </CardHeader>
-        <CardContent className="p-4 pt-0">
-          <Select
-            value={activePalette}
-            onValueChange={(value: PaletteName) => setActivePalette(value)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select a palette" />
-            </SelectTrigger>
-            <SelectContent>
-              {Object.keys(palettes).map((paletteName) => (
-                <SelectItem key={paletteName} value={paletteName}>
-                  {paletteName}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </CardContent>
-      </Card>
-    </div>
+      <div className="isolate z-50">
+        <Select
+          value={activePalette}
+          onValueChange={(value: PaletteName) => setActivePalette(value)}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select a palette" />
+          </SelectTrigger>
+          <SelectContent className="z-[999999]">
+            {Object.keys(palettes).map((paletteName) => (
+              <SelectItem key={paletteName} value={paletteName}>
+                {paletteName}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+    </>
   )
 }

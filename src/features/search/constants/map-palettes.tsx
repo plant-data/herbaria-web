@@ -2,17 +2,11 @@
 // Each function takes a 'count' and returns a color string.
 
 const classic = (count: number): string => {
-  if (count > 50) return '#FDE725'
-  if (count > 40) return '#B8E186'
-  if (count > 30) return '#7AD151'
-  if (count > 25) return '#5BC85E'
-  if (count > 20) return '#41B06E'
-  if (count > 15) return '#2E8B57'
-  if (count > 10) return '#2A9D8F'
-  if (count > 8) return '#357F7F'
-  if (count > 3) return '#3F4A75'
+  if (count > 100) return '#7AD151'
+  if (count > 50) return '#2A9D8F'
+  if (count > 20) return '#357F7F'
+  if (count > 10) return '#3F4A75'
   if (count > 5) return '#3A528B'
-  if (count > 2) return '#440154'
   return '#482878'
 }
 

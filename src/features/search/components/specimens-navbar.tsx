@@ -26,17 +26,17 @@ export function SpecimensNavbar() {
       </div>
 
       <div className="flex justify-center">
-        <nav className="flex gap-2 p-1 bg-muted rounded-lg">
+        <nav className="flex gap-2 p-0.5 bg-muted dark:bg-card rounded-lg dark:border dark:border-input">
           {navItems.map(({ path, icon: Icon, label }) => (
             <Link
               key={path}
               to={path}
               preload="intent"
               className={cn(
-                'flex items-center gap-2 px-1 @xs:px-2 @sm:px-4 py-1.5 rounded-md text-xs font-medium transition-colors',
+                'flex items-center gap-2 px-1 @xs:px-2 @sm:px-3 py-[7px] rounded-md text-xs font-medium transition-colors',
                 'hover:bg-background hover:shadow-sm',
                 location.pathname === path
-                  ? 'bg-background shadow-sm text-foreground'
+                  ? 'bg-background shadow-sm text-foreground dark:border dark:border-input'
                   : 'text-muted-foreground',
               )}
             >

@@ -204,6 +204,35 @@ function MapControls() {
   )
 }
 
+function ColorLegend({ palette }: { palette: PaletteFn }) {
+  const ranges = [
+    { label: '> 100', value: 101 },
+    { label: '51-100', value: 75 },
+    { label: '21-50', value: 35 },
+    { label: '11-20', value: 15 },
+    { label: '6-10', value: 8 },
+    { label: '1-5', value: 3 },
+  ]
+
+  return (
+    <Card className="p-2.5 rounded-sm shadow-xs">
+      <CardContent className="p-0">
+        <div className="flex flex-wrap gap-4">
+          {ranges.map((range, index) => (
+            <div key={index} className="flex items-center gap-1 text-xs">
+              <div
+                className="w-4 h-4 rounded-sm border border-gray-300"
+                style={{ backgroundColor: palette(range.value) }}
+              />
+              <span className="text-gray-700">{range.label}</span>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
 export function SpecimensMap() {
   const { data, isPending, error } = useSpecimensMap()
   const [activePalette, setActivePalette] = useState<PaletteName>('Classic')
@@ -252,7 +281,7 @@ export function SpecimensMap() {
         </MapContainer>
       </div>
 
-      <div className="mt-2">
+      <div className="mt-2 flex items-center justify-between">
         <Select
           value={activePalette}
           onValueChange={(value: PaletteName) => setActivePalette(value)}
@@ -268,6 +297,8 @@ export function SpecimensMap() {
             ))}
           </SelectContent>
         </Select>
+        
+        <ColorLegend palette={palettes[activePalette]} />
       </div>
     </>
   )

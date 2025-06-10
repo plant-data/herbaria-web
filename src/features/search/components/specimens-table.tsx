@@ -97,11 +97,11 @@ export function SpecimensTable() {
   const { skip, setSkip } = useFilterStore()
   const { data, isPending, error } = useSpecimensData()
 
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+  /* const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     recordedBy: false,
     identifiedBy: false,
     country: false,
-  })
+  }) */
 
   const columns = useMemo(() => createColumns(), [])
 
@@ -109,10 +109,10 @@ export function SpecimensTable() {
     data: data?.occurrences ?? [],
     columns,
     getCoreRowModel: getCoreRowModel(),
-    state: {
+    /* state: {
       columnVisibility,
-    },
-    onColumnVisibilityChange: setColumnVisibility,
+    }, */
+    /* onColumnVisibilityChange: setColumnVisibility, */
     debugTable: true,
   })
 

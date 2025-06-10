@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom'
 import { Move, RotateCcw, X, ZoomIn, ZoomOut } from 'lucide-react'
 import { Viewer, ViewerContext, ViewerProvider } from 'react-viewer-pan-zoom'
 import { Skeleton } from './ui/skeleton'
-
+/* 
+!!! TODO add minimap
+*/
 // --- Generic Image Lightbox Component ---
 interface ImageLightboxProps {
   src: string
@@ -113,18 +115,21 @@ export function ImageLightbox({
           },
           resetView: {
             enabled: true,
+            keyboardShortcut: 'r', // The keyboard shortcut to reset the view (set to `false` to disable).
           },
 
           minimap: {
             enabled: true,
             width: '160px', // Width of the minimap.
             keyboardShortcut: 'm', // The keyboard shortcut to toggle the minimap (set to `false` to disable).
-            outlineStyle: '1px solid #ccc', // Outline style for the minimap.
+            outlineStyle: '1px solid black', // Outline style for the minimap.
             viewportAreaOutlineStyle: '2px solid #333', // Outline style for the viewpor
           },
         }}
       >
         <div className="w-full h-full flex flex-col">
+
+
           <Viewer
             viewportContent={content}
             style={{
@@ -134,8 +139,8 @@ export function ImageLightbox({
               alignItems: 'center',
               justifyContent: 'center',
             }}
-            minimapContent={content}
           />
+
           <LightboxToolbar onClose={onClose} />
         </div>
       </ViewerProvider>
@@ -175,7 +180,6 @@ const LightboxToolbar = ({ onClose }: { onClose: () => void }) => {
         >
           <ZoomIn size={20} />
         </button>
-        
       </div>
 
       <button
@@ -185,10 +189,6 @@ const LightboxToolbar = ({ onClose }: { onClose: () => void }) => {
       >
         <RotateCcw size={20} />
       </button>
-
-      <button className='cursor-pointer' onClick={() => toggleMinimap()}>Minimap</button>
-
-
       <button
         onClick={onClose}
         className="p-2 rounded-full hover:bg-white/20 transition-colors bg-black/20"

@@ -180,7 +180,7 @@ export function SpecimensTable() {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className='dark:bg-card'>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow

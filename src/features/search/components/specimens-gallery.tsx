@@ -15,7 +15,7 @@ export default function SpecimensGallery({ customFilters = {} }) {
   return isPending ? (
     <>
       <div className="h-[50px] m-2"></div>
-      <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-3 @7xl:grid-cols-4 gap-4">
         {Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
           <DataItemCardSkeleton key={index} />
         ))}
@@ -29,7 +29,7 @@ export default function SpecimensGallery({ customFilters = {} }) {
         limit={ITEMS_PER_PAGE}
         setSkip={setSkip}
       />
-      <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-3 @7xl:grid-cols-4 gap-4">
         {data.occurrences.map((item) => (
           <Link
             key={item.occurrenceID}

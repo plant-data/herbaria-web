@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
+import { useRouter } from '@tanstack/react-router'
+import { ArrowLeft } from 'lucide-react'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { ImageLightbox } from '@/components/image-lightbox'
 import { BASE_IMAGE_URL } from '@/config'
 import 'leaflet/dist/leaflet.css' // Import Leaflet's CSS
+import { Button } from '@/components/ui/button'
 
 type SpecimenImageProps = Pick<SpecimenData, 'scientificName' | 'multimedia'>
 
@@ -15,8 +18,11 @@ type SpecimenMapProps = Pick<
 >
 
 export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
+  const router = useRouter()
+
   return (
-    <div className="container mx-auto px-4 py-6 max-w-6xl">
+    <div className="relative container mx-auto px-4 py-6 max-w-6xl">
+      <Button variant='outline' onClick={() => router.history.back()} className='absolute top-4 right-2 md:top-6 md:right-4 h-9 w-9 rounded-full border border-input shadow-xs bg-background'><ArrowLeft className='size-4' /></Button>
       <h1 className="px-2 text-center sm:text-left sm:px-0 text-2xl sm:text-3xl font-bold mb-6">
         {occurrence.scientificName}
       </h1>

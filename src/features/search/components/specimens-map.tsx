@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
+import { Earth, House } from 'lucide-react'
 
 type ClusterData = { coordinates: [number, number]; count: number }
 const INITIAL_VIEW_STATE = {
@@ -188,7 +189,7 @@ function MapControls() {
         className="bg-white text-xs size-[30px] rounded-[3px] ring-2 ring-gray-400"
         title="Reset to initial view"
       >
-        🏠
+        <House className="size-4" />
       </Button>
       <Button
         size="sm"
@@ -197,7 +198,7 @@ function MapControls() {
         className="bg-white text-xs size-[30px] rounded-[3px] ring-2 ring-gray-400"
         title="Show world view"
       >
-        🌍
+        <Earth className="size-4" />
       </Button>
     </div>
   )
@@ -251,7 +252,7 @@ export function SpecimensMap() {
         </MapContainer>
       </div>
 
-      <div className="isolate z-50">
+      <div className="mt-2">
         <Select
           value={activePalette}
           onValueChange={(value: PaletteName) => setActivePalette(value)}

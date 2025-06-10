@@ -62,7 +62,7 @@ function ResultOccurrencesCounter() {
   }
 
   return (
-    <div className="text-sm text-gray-500 flex gap-2">
+    <div className="text-sm text-muted-foreground flex gap-2">
       {data.count} Occurrences
       {isFetching && (
         <LoaderCircle className="h-4 w-4 shrink-0 text-ring opacity-80 animate-spin" />

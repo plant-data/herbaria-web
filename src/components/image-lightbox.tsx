@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { Move, RotateCcw, X, ZoomIn, ZoomOut } from 'lucide-react'
 import { Viewer, ViewerContext, ViewerProvider } from 'react-viewer-pan-zoom'
-import { Skeleton } from './ui/skeleton'
 /* 
 !!! TODO add minimap
 */
@@ -99,7 +98,7 @@ export function ImageLightbox({
     >
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <Skeleton className="w-[40vw] h-[80vh] max-h-[95vh]" />
+          <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
         </div>
       )}
 
@@ -128,8 +127,6 @@ export function ImageLightbox({
         }}
       >
         <div className="w-full h-full flex flex-col">
-
-
           <Viewer
             viewportContent={content}
             style={{

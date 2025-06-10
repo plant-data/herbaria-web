@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { ImageLightbox } from '@/components/image-lightbox'
 import { BASE_IMAGE_URL } from '@/config'
 import 'leaflet/dist/leaflet.css' // Import Leaflet's CSS
 
@@ -68,24 +70,51 @@ export function SpecimenImage({
   multimedia,
   scientificName,
 }: SpecimenImageProps) {
+  // State to control the lightbox visibility
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false)
+
+  const hasImage = multimedia.length > 0
+  if (!hasImage) {
+    return (
+      <Card className="p-0 rounded-md shadow-xs max-w-[280px] sm:max-w-full mx-auto">
+        <CardContent className="sm:w-[254px] sm:h-[370px] md:w-[352px] md:h-[500px] p-1 m-0">
+          <div className="w-full h-full bg-gray-200 flex items-center justify-center rounded-md">
+            <span className="text-gray-500">No image available</span>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  // Define URLs for both the thumbnail and the full-resolution lightbox image
+  const imageIdentifier = multimedia[0].identifier
+  const thumbnailUrl = `${BASE_IMAGE_URL}unsafe/704x1000/${imageIdentifier}`
+  const highResUrl = `${BASE_IMAGE_URL}unsafe/0x0/${imageIdentifier}` // Use max resolution for lightbox
+
   return (
-    <Card className="p-0 rounded-md shadow-xs max-w-[280px] sm:max-w-full mx-auto">
-      <CardContent className="sm:w-[254px] sm:h-[370px] md:w-[352px] md:h-[500px] p-1 m-0">
-        <div className="w-full h-full overflow-hidden rounded-[4px] border border-input">
-          {multimedia.length > 0 ? (
+    <>
+      <Card className="p-0 rounded-md shadow-xs max-w-[280px] sm:max-w-full mx-auto">
+        <CardContent className="sm:w-[254px] sm:h-[370px] md:w-[352px] md:h-[500px] p-1 m-0">
+          <div className="w-full h-full overflow-hidden rounded-[4px] border border-input">
             <img
-              className="w-full h-full object-fill"
-              src={`${BASE_IMAGE_URL}unsafe/704x1000/${multimedia[0].identifier}`}
+              className="w-full h-full object-fill cursor-pointer hover:opacity-90 transition-opacity"
+              src={thumbnailUrl}
               alt={scientificName}
+              onClick={() => setIsLightboxOpen(true)}
+              title="Click to enlarge"
             />
-          ) : (
-            <div className="w-full h-full bg-gray-200 flex items-center justify-center rounded-md">
-              <span className="text-gray-500">No image available</span>
-            </div>
-          )}
-        </div>
-      </CardContent>
-    </Card>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Render the imported lightbox component, controlled by state */}
+      <ImageLightbox
+        isOpen={isLightboxOpen}
+        onClose={() => setIsLightboxOpen(false)}
+        src={highResUrl}
+        alt={scientificName ? scientificName : 'Specimen Image'}
+      />
+    </>
   )
 }
 

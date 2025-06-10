@@ -1,0 +1,201 @@
+import React, { useContext, useEffect, useState } from 'react'
+import ReactDOM from 'react-dom'
+import { Move, RotateCcw, X, ZoomIn, ZoomOut } from 'lucide-react'
+import { Viewer, ViewerContext, ViewerProvider } from 'react-viewer-pan-zoom'
+import { Skeleton } from './ui/skeleton'
+
+// --- Generic Image Lightbox Component ---
+interface ImageLightboxProps {
+  src: string
+  alt: string
+  isOpen: boolean
+  onClose: () => void
+}
+
+/**
+ * A generic and reusable lightbox component for displaying and interacting with images.
+ * Uses react-viewer-pan-zoom for advanced pan and zoom functionality.
+ * Renders into a portal to avoid z-index issues.
+ *
+ * @param src The source URL for the high-resolution image.
+ * @param alt The alternative text for the image.
+ * @param isOpen Controls the visibility of the lightbox.
+ * @param onClose A callback function to close the lightbox.
+ */
+export function ImageLightbox({
+  src,
+  alt,
+  isOpen,
+  onClose,
+}: ImageLightboxProps) {
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Effect to handle Escape key press for closing the lightbox
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [onClose])
+
+  // Effect to manage body scroll when the lightbox is opened or closed
+  useEffect(() => {
+    if (isOpen) {
+      setIsLoading(true)
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  }, [isOpen])
+
+  // Don't render anything if the lightbox is not open
+  if (!isOpen) return null
+
+  const handleImageLoad = () => {
+    setIsLoading(false)
+  }
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    // Only close if clicking the backdrop, not the viewer content
+    if (e.target === e.currentTarget) {
+      onClose()
+    }
+  }
+
+  const contentStyle: React.CSSProperties = {
+    willChange: 'transform',
+    width: '100%',
+    height: '100%',
+    objectFit: 'contain',
+    objectPosition: 'center',
+    maxWidth: '95vw',
+    maxHeight: '100dvh',
+  }
+
+  const content = (
+    <img
+      style={contentStyle}
+      draggable="false"
+      src={src}
+      alt={alt}
+      onLoad={handleImageLoad}
+      className={isLoading ? 'opacity-0' : 'opacity-100 transition-opacity'}
+    />
+  )
+
+  // --- Render into a Portal ---
+  return ReactDOM.createPortal(
+    <div
+      className="fixed inset-0 z-[999999] bg-black bg-opacity-80 backdrop-blur-sm"
+      onClick={handleBackdropClick}
+    >
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Skeleton className="w-[40vw] h-[80vh] max-h-[95vh]" />
+        </div>
+      )}
+
+      <ViewerProvider
+        settings={{
+          zoom: {
+            enabled: true,
+            default: 1, // Default zoom level when the viewer is opened.
+            min: 1,
+            max: 10,
+            mouseWheelStep: 0.5, // How much zoom per mouse wheel step.
+            zoomButtonStep: 2,
+          },
+          resetView: {
+            enabled: true,
+          },
+
+          minimap: {
+            enabled: true,
+            width: '160px', // Width of the minimap.
+            keyboardShortcut: 'm', // The keyboard shortcut to toggle the minimap (set to `false` to disable).
+            outlineStyle: '1px solid #ccc', // Outline style for the minimap.
+            viewportAreaOutlineStyle: '2px solid #333', // Outline style for the viewpor
+          },
+        }}
+      >
+        <div className="w-full h-full flex flex-col">
+          <Viewer
+            viewportContent={content}
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            minimapContent={content}
+          />
+          <LightboxToolbar onClose={onClose} />
+        </div>
+      </ViewerProvider>
+    </div>,
+    document.body,
+  )
+}
+
+const LightboxToolbar = ({ onClose }: { onClose: () => void }) => {
+  const { zoomOut, zoomIn, resetView, crop, toggleMinimap } =
+    useContext(ViewerContext)
+
+  const handleToolbarClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+  }
+
+  return (
+    <div
+      className="absolute top-4 right-4 flex items-center gap-3 text-white"
+      onClick={handleToolbarClick}
+    >
+      <div className="flex items-center gap-1 bg-black/20 rounded-lg px-2 py-1">
+        <button
+          onClick={zoomOut}
+          className="p-2 rounded-full hover:bg-white/20 transition-colors"
+          aria-label="Zoom Out"
+        >
+          <ZoomOut size={20} />
+        </button>
+        <span className="text-sm font-medium min-w-[3rem] text-center">
+          {(crop.zoom * 100).toFixed(0)}%
+        </span>
+        <button
+          onClick={zoomIn}
+          className="p-2 rounded-full hover:bg-white/20 transition-colors"
+          aria-label="Zoom In"
+        >
+          <ZoomIn size={20} />
+        </button>
+        
+      </div>
+
+      <button
+        onClick={resetView}
+        className="p-2 rounded-full hover:bg-white/20 transition-colors bg-black/20"
+        aria-label="Reset View"
+      >
+        <RotateCcw size={20} />
+      </button>
+
+      <button className='cursor-pointer' onClick={() => toggleMinimap()}>Minimap</button>
+
+
+      <button
+        onClick={onClose}
+        className="p-2 rounded-full hover:bg-white/20 transition-colors bg-black/20"
+        aria-label="Close Lightbox"
+      >
+        <X size={20} />
+      </button>
+    </div>
+  )
+}

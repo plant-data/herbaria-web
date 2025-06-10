@@ -95,7 +95,7 @@ class CanvasMarkerLayer extends L.Layer {
       } else if (factor > 3) {
         return baseSize * Math.max(0.7, Math.min(2, factor / 10))
       } else {
-        return baseSize * Math.max( factor / 6)
+        return baseSize * Math.max(factor / 6)
       }
     }
 
@@ -297,7 +297,7 @@ export function SpecimensMap() {
             ))}
           </SelectContent>
         </Select>
-        
+
         <ColorLegend palette={palettes[activePalette]} />
       </div>
     </>

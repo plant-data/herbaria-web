@@ -1,18 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
+import { Earth, House } from 'lucide-react'
+import type { PaletteName } from '@/features/search/constants/map-palettes'
+import { palettes } from '@/features/search/constants/map-palettes'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { useSpecimensMap } from '@/features/search/api/get-occurrences'
 import 'leaflet/dist/leaflet.css'
-
-// Import our palettes and types
-import {
-  palettes,
-  type PaletteName,
-} from '@/features/search/constants/map-palettes'
-
-// Import shadcn/ui components
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import {
   Select,
   SelectContent,
@@ -21,7 +16,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
-import { Earth, House } from 'lucide-react'
 
 type ClusterData = { coordinates: [number, number]; count: number }
 const INITIAL_VIEW_STATE = {
@@ -34,7 +28,7 @@ type PaletteFn = (count: number) => string
 class CanvasMarkerLayer extends L.Layer {
   private canvas: HTMLCanvasElement
   private ctx: CanvasRenderingContext2D
-  private clusters: ClusterData[] = []
+  private clusters: Array<ClusterData> = []
   private getCircleColor: PaletteFn // The active palette function
 
   constructor(options?: L.LayerOptions & { initialPalette: PaletteFn }) {
@@ -67,7 +61,7 @@ class CanvasMarkerLayer extends L.Layer {
     return this
   }
 
-  updateData(clusters: ClusterData[]): void {
+  updateData(clusters: Array<ClusterData>): void {
     this.clusters = clusters
     this.redraw()
   }
@@ -122,7 +116,7 @@ function CanvasMarkers({
   clusters,
   palette,
 }: {
-  clusters: ClusterData[]
+  clusters: Array<ClusterData>
   palette: PaletteFn
 }) {
   const map = useMap()

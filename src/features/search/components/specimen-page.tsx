@@ -1,11 +1,9 @@
-import Map, { Marker as MapLibreMarker } from 'react-map-gl/maplibre'
+import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { MAP_STYLE } from '@/features/search/constants/constants'
 import { BASE_IMAGE_URL } from '@/config'
-import 'maplibre-gl/dist/maplibre-gl.css'
-
+import 'leaflet/dist/leaflet.css' // Import Leaflet's CSS
 
 type SpecimenImageProps = Pick<SpecimenData, 'scientificName' | 'multimedia'>
 
@@ -42,26 +40,24 @@ export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
 function SpecimenMap({ decimalLatitude, decimalLongitude }: SpecimenMapProps) {
   if (!decimalLatitude || !decimalLongitude) return null
 
+  const position: [number, number] = [decimalLatitude, decimalLongitude]
+
   return (
     <Card className="rounded-md shadow-xs p-0 overflow-hidden">
       <CardContent className="p-1">
         <div className="h-64 w-full overflow-hidden rounded-[3px]">
-          <Map
-            initialViewState={{
-              longitude: decimalLongitude,
-              latitude: decimalLatitude,
-              zoom: 2,
-            }}
-            style={{ width: '100%', height: '100%' }}
-            mapStyle={MAP_STYLE}
-            scrollZoom={false} // Disables zoom on scroll, similar to scrollWheelZoom={false}
+          <MapContainer
+            center={position}
+            zoom={2}
+            scrollWheelZoom={false}
+            style={{ height: '100%', width: '100%' }}
           >
-            <MapLibreMarker
-              longitude={decimalLongitude}
-              latitude={decimalLatitude}
-              // No onClick needed if popup is managed by `showPopup` state and initially true
+            <TileLayer
+              attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-          </Map>
+            <Marker position={position}></Marker>
+          </MapContainer>
         </div>
       </CardContent>
     </Card>

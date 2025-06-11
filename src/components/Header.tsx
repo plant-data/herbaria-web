@@ -20,11 +20,11 @@ export function Header() {
         </div>
 
         {/* Display previous route if available */}
-        {previousRoute && (
+        {/* {previousRoute && (
           <div className="px-2 text-sm text-muted-foreground">
             From: {previousRoute}
           </div>
-        )}
+        )} */}
 
         <div className="px-2 font-bold">
           <Link to="/">Home</Link>
@@ -33,9 +33,9 @@ export function Header() {
           <Link to="/search">Search</Link>
         </div>
 
-        <div className="px-2 font-bold">
+        {/* <div className="px-2 font-bold">
           <Link to="/demo/tanstack-query">TanStack Query</Link>
-        </div>
+        </div> */}
         <div className="flex gap-2">
           <ThemeToggle />
           <LanguageToggle />

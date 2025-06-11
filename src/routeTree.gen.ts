@@ -21,6 +21,8 @@ import { Route as SearchMapImport } from './routes/search/map'
 import { Route as SearchGraphsImport } from './routes/search/graphs'
 import { Route as SearchDebugFiltersImport } from './routes/search/debug-filters'
 import { Route as DemoTanstackQueryImport } from './routes/demo.tanstack-query'
+import { Route as HerbariaIdSearchRouteImport } from './routes/$herbariaId/search/route'
+import { Route as HerbariaIdSearchIndexImport } from './routes/$herbariaId/search/index'
 
 // Create/Update Routes
 
@@ -84,6 +86,18 @@ const DemoTanstackQueryRoute = DemoTanstackQueryImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const HerbariaIdSearchRouteRoute = HerbariaIdSearchRouteImport.update({
+  id: '/$herbariaId/search',
+  path: '/$herbariaId/search',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const HerbariaIdSearchIndexRoute = HerbariaIdSearchIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HerbariaIdSearchRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -100,6 +114,13 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/$herbariaId/search': {
+      id: '/$herbariaId/search'
+      path: '/$herbariaId/search'
+      fullPath: '/$herbariaId/search'
+      preLoaderRoute: typeof HerbariaIdSearchRouteImport
       parentRoute: typeof rootRoute
     }
     '/demo/tanstack-query': {
@@ -158,6 +179,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchIndexImport
       parentRoute: typeof SearchRouteImport
     }
+    '/$herbariaId/search/': {
+      id: '/$herbariaId/search/'
+      path: '/'
+      fullPath: '/$herbariaId/search/'
+      preLoaderRoute: typeof HerbariaIdSearchIndexImport
+      parentRoute: typeof HerbariaIdSearchRouteImport
+    }
   }
 }
 
@@ -183,9 +211,23 @@ const SearchRouteRouteWithChildren = SearchRouteRoute._addFileChildren(
   SearchRouteRouteChildren,
 )
 
+interface HerbariaIdSearchRouteRouteChildren {
+  HerbariaIdSearchIndexRoute: typeof HerbariaIdSearchIndexRoute
+}
+
+const HerbariaIdSearchRouteRouteChildren: HerbariaIdSearchRouteRouteChildren = {
+  HerbariaIdSearchIndexRoute: HerbariaIdSearchIndexRoute,
+}
+
+const HerbariaIdSearchRouteRouteWithChildren =
+  HerbariaIdSearchRouteRoute._addFileChildren(
+    HerbariaIdSearchRouteRouteChildren,
+  )
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/search': typeof SearchRouteRouteWithChildren
+  '/$herbariaId/search': typeof HerbariaIdSearchRouteRouteWithChildren
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/search/debug-filters': typeof SearchDebugFiltersRoute
   '/search/graphs': typeof SearchGraphsRoute
@@ -194,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/$herbariaId': typeof HerbariaIdIndexRoute
   '/search/': typeof SearchIndexRoute
+  '/$herbariaId/search/': typeof HerbariaIdSearchIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -206,12 +249,14 @@ export interface FileRoutesByTo {
   '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/$herbariaId': typeof HerbariaIdIndexRoute
   '/search': typeof SearchIndexRoute
+  '/$herbariaId/search': typeof HerbariaIdSearchIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/search': typeof SearchRouteRouteWithChildren
+  '/$herbariaId/search': typeof HerbariaIdSearchRouteRouteWithChildren
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/search/debug-filters': typeof SearchDebugFiltersRoute
   '/search/graphs': typeof SearchGraphsRoute
@@ -220,6 +265,7 @@ export interface FileRoutesById {
   '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/$herbariaId/': typeof HerbariaIdIndexRoute
   '/search/': typeof SearchIndexRoute
+  '/$herbariaId/search/': typeof HerbariaIdSearchIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -227,6 +273,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/search'
+    | '/$herbariaId/search'
     | '/demo/tanstack-query'
     | '/search/debug-filters'
     | '/search/graphs'
@@ -235,6 +282,7 @@ export interface FileRouteTypes {
     | '/specimens/$occurrenceID'
     | '/$herbariaId'
     | '/search/'
+    | '/$herbariaId/search/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -246,10 +294,12 @@ export interface FileRouteTypes {
     | '/specimens/$occurrenceID'
     | '/$herbariaId'
     | '/search'
+    | '/$herbariaId/search'
   id:
     | '__root__'
     | '/'
     | '/search'
+    | '/$herbariaId/search'
     | '/demo/tanstack-query'
     | '/search/debug-filters'
     | '/search/graphs'
@@ -258,12 +308,14 @@ export interface FileRouteTypes {
     | '/specimens/$occurrenceID'
     | '/$herbariaId/'
     | '/search/'
+    | '/$herbariaId/search/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SearchRouteRoute: typeof SearchRouteRouteWithChildren
+  HerbariaIdSearchRouteRoute: typeof HerbariaIdSearchRouteRouteWithChildren
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
   SpecimensOccurrenceIDRoute: typeof SpecimensOccurrenceIDRoute
   HerbariaIdIndexRoute: typeof HerbariaIdIndexRoute
@@ -272,6 +324,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SearchRouteRoute: SearchRouteRouteWithChildren,
+  HerbariaIdSearchRouteRoute: HerbariaIdSearchRouteRouteWithChildren,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
   SpecimensOccurrenceIDRoute: SpecimensOccurrenceIDRoute,
   HerbariaIdIndexRoute: HerbariaIdIndexRoute,
@@ -289,6 +342,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/search",
+        "/$herbariaId/search",
         "/demo/tanstack-query",
         "/specimens/$occurrenceID",
         "/$herbariaId/"
@@ -305,6 +359,12 @@ export const routeTree = rootRoute
         "/search/map",
         "/search/table",
         "/search/"
+      ]
+    },
+    "/$herbariaId/search": {
+      "filePath": "$herbariaId/search/route.tsx",
+      "children": [
+        "/$herbariaId/search/"
       ]
     },
     "/demo/tanstack-query": {
@@ -335,6 +395,10 @@ export const routeTree = rootRoute
     "/search/": {
       "filePath": "search/index.tsx",
       "parent": "/search"
+    },
+    "/$herbariaId/search/": {
+      "filePath": "$herbariaId/search/index.tsx",
+      "parent": "/$herbariaId/search"
     }
   }
 }

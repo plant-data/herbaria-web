@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute  } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/$herbariaId/')({
   loader: async ({ params }) => {
@@ -9,5 +9,5 @@ export const Route = createFileRoute('/$herbariaId/')({
 
 function RouteComponent() {
   const { herbariaId } = Route.useParams()
-  return <div>{herbariaId}</div>
+  return <div>{herbariaId}<Link to='/$herbariaId/search' params={{ herbariaId }}>Search</Link></div>
 }

@@ -22,7 +22,13 @@ export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
 
   return (
     <div className="relative container mx-auto px-4 py-6 max-w-6xl">
-      <Button variant='outline' onClick={() => router.history.back()} className='absolute top-4 right-2 md:top-6 md:right-4 h-9 w-9 rounded-full border border-input shadow-xs bg-background'><ArrowLeft className='size-4' /></Button>
+      <Button
+        variant="outline"
+        onClick={() => router.history.back()}
+        className="absolute top-4 right-2 md:top-6 md:right-4 h-9 w-9 rounded-full border border-input shadow-xs bg-background"
+      >
+        <ArrowLeft className="size-4" />
+      </Button>
       <h1 className="px-2 text-center sm:text-left sm:px-0 text-2xl sm:text-3xl font-bold mb-6">
         {occurrence.scientificName}
       </h1>

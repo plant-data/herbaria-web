@@ -14,12 +14,7 @@ interface PaginationProps {
   setSkip: (skip: number) => void
 }
 
-export function Pagination({
-  count,
-  limit,
-  skip,
-  setSkip,
-}: PaginationProps) {
+export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
   const page = skip === 0 ? 1 : Math.floor(skip / limit) + 1
   const totalPages = Math.ceil(count / limit)
   const firstPageSkip = 0

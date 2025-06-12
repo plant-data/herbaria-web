@@ -51,7 +51,7 @@ function RouteComponent() {
                   className="h-10 pl-10 pr-4 py-3 w-full sm:w-60 text-base"
                 />
               </div>
-              <Button asChild variant='default' className='bg-ring' size="lg">
+              <Button asChild variant="default" className="bg-ring" size="lg">
                 <Link to="/search">
                   <Database className="w-5 h-5 mr-2" />
                   Dolor Sit Amet

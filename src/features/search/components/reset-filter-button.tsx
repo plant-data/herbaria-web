@@ -56,9 +56,7 @@ export function ResetFilterButton({
         onMouseLeave={() => setIsHovered(false)}
         aria-label={`Delete ${itemCount} item${itemCount !== 1 ? 's' : ''}`}
       >
-        <Trash2
-          className={`${iconSizes[size]}`}
-        />
+        <Trash2 className={`${iconSizes[size]}`} />
       </Button>
 
       {itemCount > 0 && (

@@ -17,7 +17,6 @@ import { SearchFilters } from '@/features/search/components/search-filters'
 export function SearchSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
-  
   const { activeFiltersCount, resetFilters } = useFilterStore(
     useShallow((state) => ({
       activeFiltersCount: state.activeFiltersCount,

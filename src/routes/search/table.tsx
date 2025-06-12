@@ -6,5 +6,9 @@ export const Route = createFileRoute('/search/table')({
 })
 
 function RouteComponent() {
-  return <div><SpecimensTable/></div>
+  return (
+    <div>
+      <SpecimensTable />
+    </div>
+  )
 }

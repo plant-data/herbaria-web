@@ -264,7 +264,7 @@ function SidebarTrigger({
 }) {
   const { toggleSidebar, open, isMobile, openMobile } = useSidebar()
 
-  const isOpen = isMobile ? openMobile : open 
+  const isOpen = isMobile ? openMobile : open
 
   return (
     <Button
@@ -279,9 +279,7 @@ function SidebarTrigger({
       {...props}
     >
       <PanelLeftIcon />
-      <span className="w-[90px]">
-        {isOpen ? textHide : textShow}
-      </span>
+      <span className="w-[90px]">{isOpen ? textHide : textShow}</span>
     </Button>
   )
 }

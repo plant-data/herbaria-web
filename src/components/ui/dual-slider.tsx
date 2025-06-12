@@ -1,19 +1,30 @@
-import * as React from "react"
-import { Slider as SliderPrimitive } from "radix-ui"
+import * as React from 'react'
+import { Slider as SliderPrimitive } from 'radix-ui'
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 
-interface DualSliderProps extends React.ComponentProps<typeof SliderPrimitive.Root> {
-  labelPosition?: 'top' | 'bottom';
-  label?: (value: number | undefined) => React.ReactNode;
+interface DualSliderProps
+  extends React.ComponentProps<typeof SliderPrimitive.Root> {
+  labelPosition?: 'top' | 'bottom'
+  label?: (value: number | undefined) => React.ReactNode
 }
 
-function DualSlider ({ className, label, labelPosition = 'top', ...props }: DualSliderProps ){
-  const initialValue = Array.isArray(props.value) ? props.value : [props.min, props.max];
+function DualSlider({
+  className,
+  label,
+  labelPosition = 'top',
+  ...props
+}: DualSliderProps) {
+  const initialValue = Array.isArray(props.value)
+    ? props.value
+    : [props.min, props.max]
 
   return (
     <SliderPrimitive.Root
-      className={cn('relative flex w-full touch-none select-none items-center', className)}
+      className={cn(
+        'relative flex w-full touch-none select-none items-center',
+        className,
+      )}
       {...props}
     >
       <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-background border border-input shadow-xs">
@@ -37,8 +48,8 @@ function DualSlider ({ className, label, labelPosition = 'top', ...props }: Dual
         </React.Fragment>
       ))}
     </SliderPrimitive.Root>
-  );
+  )
 }
-DualSlider.displayName = 'DualSlider';
+DualSlider.displayName = 'DualSlider'
 
-export { DualSlider };
+export { DualSlider }

@@ -10,7 +10,7 @@ export function SwitchOption({
   field: string
   label: string
   checked: boolean
-  onCheckedChange: (checked: boolean) => void;
+  onCheckedChange: (checked: boolean) => void
 }) {
   return (
     <div className="flex items-center space-x-2">

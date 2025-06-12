@@ -121,8 +121,8 @@ export function SpecimensTable() {
   ) : (
     <>
       {/* pagination and select  */}
-        {/* <div className="flex items-center justify-between"> */}
-          <>
+      {/* <div className="flex items-center justify-between"> */}
+      <>
         <Pagination
           count={data.count}
           skip={skip}
@@ -159,7 +159,7 @@ export function SpecimensTable() {
               })}
           </DropdownMenuContent>
         </DropdownMenu> */}
-            </>
+      </>
       {/* </div> */}
       {/* table */}
       <div className="rounded-md border overflow-hidden">
@@ -180,7 +180,7 @@ export function SpecimensTable() {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className='dark:bg-card'>
+          <TableBody className="dark:bg-card">
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow

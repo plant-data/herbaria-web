@@ -18,5 +18,4 @@ export const Route = createFileRoute('/specimens/$occurrenceID')({
 function OccurrenceDetail() {
   const occurrence = Route.useLoaderData()
   return <SpecimenPage occurrence={occurrence} />
-  
 }

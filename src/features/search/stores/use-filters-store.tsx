@@ -1,6 +1,12 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import { BBOX, MAX_YEAR, MIN_YEAR, SKIP, ZOOM } from '@/features/search/constants/constants'
+import {
+  BBOX,
+  MAX_YEAR,
+  MIN_YEAR,
+  SKIP,
+  ZOOM,
+} from '@/features/search/constants/constants'
 
 // skip zoom and bb aren't considered visible filters
 export interface FilterStateData {
@@ -19,11 +25,6 @@ export interface FilterMapData {
   zoom: number
   bbox: [number, number, number, number]
 }
-
-
-
-
-
 
 interface FilterActions {
   setScientificName: (
@@ -169,7 +170,8 @@ export const useFilterStore = create<FilterState>()(
       // replace skip with number
       setSkip: (newSkip: number) => set({ skip: newSkip }, false, 'setSkip'),
       setZoom: (newZoom: number) => set({ zoom: newZoom }, false, 'setZoom'),
-      setBbox: (newBbox: [number, number, number, number]) => set({ bbox: newBbox }, false, 'setBbox'),
+      setBbox: (newBbox: [number, number, number, number]) =>
+        set({ bbox: newBbox }, false, 'setBbox'),
       resetMap: () => set(initialMapState, false, 'resetMap'),
     }),
     {

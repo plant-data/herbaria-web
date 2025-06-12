@@ -18,7 +18,7 @@ type SpecimenData = {
   identifiedBy: string | null
   floritalyName: string | null
   wfoName: string | null
-  gbifName: string  | null
+  gbifName: string | null
   processedLocality: string | null
   decimalLatitude: number | null
   decimalLongitude: number | null
@@ -32,4 +32,4 @@ type MultimediaData = {
   identifier: string
 }
 
-export {SpecimenData}
+export { SpecimenData }

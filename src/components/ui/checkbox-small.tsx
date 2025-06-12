@@ -17,9 +17,9 @@ function CheckboxSmall({
       data-slot="checkbox"
       className={cn(
         'peer border-input dark:bg-input/30 focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-3 shrink-0 rounded-[3px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50',
-        variant === "delete" 
-          ? "data-[state=checked]:bg-destructive/80 data-[state=checked]:text-background dark:data-[state=checked]:bg-destructive data-[state=checked]:border-destructive focus-visible:border-destructive focus-visible:ring-destructive/50"
-          : "data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary",
+        variant === 'delete'
+          ? 'data-[state=checked]:bg-destructive/80 data-[state=checked]:text-background dark:data-[state=checked]:bg-destructive data-[state=checked]:border-destructive focus-visible:border-destructive focus-visible:ring-destructive/50'
+          : 'data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary',
 
         className,
       )}

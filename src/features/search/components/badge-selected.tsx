@@ -26,7 +26,6 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
   onClearAll,
   showClearAll = true,
 }: BadgeListProps) {
-
   const { t } = useTranslation()
   const shouldShowClearAll = showClearAll
 

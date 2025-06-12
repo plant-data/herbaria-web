@@ -6,5 +6,9 @@ export const Route = createFileRoute('/search/graphs')({
 })
 
 function RouteComponent() {
-  return <div><SpecimensGraphs/></div>
+  return (
+    <div>
+      <SpecimensGraphs />
+    </div>
+  )
 }

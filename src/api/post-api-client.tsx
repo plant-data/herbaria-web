@@ -9,7 +9,7 @@
 export async function postApiClient<T>(
   url: string,
   body: T,
-  signal: AbortSignal
+  signal: AbortSignal,
 ) {
   const response = await fetch(url, {
     method: 'POST',
@@ -18,15 +18,15 @@ export async function postApiClient<T>(
     },
     body: JSON.stringify(body),
     signal,
-  });
+  })
 
   if (!response.ok) {
     // Provide more context in error messages.
-    const errorText = await response.text();
+    const errorText = await response.text()
     throw new Error(
-      `API request failed with status ${response.status}: ${errorText}`
-    );
+      `API request failed with status ${response.status}: ${errorText}`,
+    )
   }
 
-  return response.json();
-};
+  return response.json()
+}

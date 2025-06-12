@@ -18,6 +18,7 @@ export const Route = createFileRoute('/external/')({
     floritalyName,
   }),
   loader: ({ deps: { floritalyName } }) => {
+    useFilterStore.getState().resetFilters()
     if (floritalyName) {
       useFilterStore.getState().setFloritalyName([floritalyName])
       throw redirect({

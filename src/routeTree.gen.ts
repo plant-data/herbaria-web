@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SearchRouteImport } from './routes/search/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as SearchIndexImport } from './routes/search/index'
+import { Route as ExternalIndexImport } from './routes/external/index'
 import { Route as HerbariaIdIndexImport } from './routes/$herbariaId/index'
 import { Route as SpecimensOccurrenceIDImport } from './routes/specimens/$occurrenceID'
 import { Route as SearchTableImport } from './routes/search/table'
@@ -44,6 +45,12 @@ const SearchIndexRoute = SearchIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => SearchRouteRoute,
+} as any)
+
+const ExternalIndexRoute = ExternalIndexImport.update({
+  id: '/external/',
+  path: '/external/',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const HerbariaIdIndexRoute = HerbariaIdIndexImport.update({
@@ -186,6 +193,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HerbariaIdIndexImport
       parentRoute: typeof rootRoute
     }
+    '/external/': {
+      id: '/external/'
+      path: '/external'
+      fullPath: '/external'
+      preLoaderRoute: typeof ExternalIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/search/': {
       id: '/search/'
       path: '/'
@@ -267,6 +281,7 @@ export interface FileRoutesByFullPath {
   '/search/table': typeof SearchTableRoute
   '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/$herbariaId': typeof HerbariaIdIndexRoute
+  '/external': typeof ExternalIndexRoute
   '/search/': typeof SearchIndexRoute
   '/$herbariaId/search/graphs': typeof HerbariaIdSearchGraphsRoute
   '/$herbariaId/search/map': typeof HerbariaIdSearchMapRoute
@@ -282,6 +297,7 @@ export interface FileRoutesByTo {
   '/search/table': typeof SearchTableRoute
   '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/$herbariaId': typeof HerbariaIdIndexRoute
+  '/external': typeof ExternalIndexRoute
   '/search': typeof SearchIndexRoute
   '/$herbariaId/search/graphs': typeof HerbariaIdSearchGraphsRoute
   '/$herbariaId/search/map': typeof HerbariaIdSearchMapRoute
@@ -300,6 +316,7 @@ export interface FileRoutesById {
   '/search/table': typeof SearchTableRoute
   '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/$herbariaId/': typeof HerbariaIdIndexRoute
+  '/external/': typeof ExternalIndexRoute
   '/search/': typeof SearchIndexRoute
   '/$herbariaId/search/graphs': typeof HerbariaIdSearchGraphsRoute
   '/$herbariaId/search/map': typeof HerbariaIdSearchMapRoute
@@ -319,6 +336,7 @@ export interface FileRouteTypes {
     | '/search/table'
     | '/specimens/$occurrenceID'
     | '/$herbariaId'
+    | '/external'
     | '/search/'
     | '/$herbariaId/search/graphs'
     | '/$herbariaId/search/map'
@@ -333,6 +351,7 @@ export interface FileRouteTypes {
     | '/search/table'
     | '/specimens/$occurrenceID'
     | '/$herbariaId'
+    | '/external'
     | '/search'
     | '/$herbariaId/search/graphs'
     | '/$herbariaId/search/map'
@@ -349,6 +368,7 @@ export interface FileRouteTypes {
     | '/search/table'
     | '/specimens/$occurrenceID'
     | '/$herbariaId/'
+    | '/external/'
     | '/search/'
     | '/$herbariaId/search/graphs'
     | '/$herbariaId/search/map'
@@ -363,6 +383,7 @@ export interface RootRouteChildren {
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
   SpecimensOccurrenceIDRoute: typeof SpecimensOccurrenceIDRoute
   HerbariaIdIndexRoute: typeof HerbariaIdIndexRoute
+  ExternalIndexRoute: typeof ExternalIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -372,6 +393,7 @@ const rootRouteChildren: RootRouteChildren = {
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
   SpecimensOccurrenceIDRoute: SpecimensOccurrenceIDRoute,
   HerbariaIdIndexRoute: HerbariaIdIndexRoute,
+  ExternalIndexRoute: ExternalIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -389,7 +411,8 @@ export const routeTree = rootRoute
         "/$herbariaId/search",
         "/demo/tanstack-query",
         "/specimens/$occurrenceID",
-        "/$herbariaId/"
+        "/$herbariaId/",
+        "/external/"
       ]
     },
     "/": {
@@ -437,6 +460,9 @@ export const routeTree = rootRoute
     },
     "/$herbariaId/": {
       "filePath": "$herbariaId/index.tsx"
+    },
+    "/external/": {
+      "filePath": "external/index.tsx"
     },
     "/search/": {
       "filePath": "search/index.tsx",

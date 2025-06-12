@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
+import { Checkbox as CheckboxPrimitive } from 'radix-ui'
 import { CheckIcon, XIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -20,8 +20,7 @@ function CheckboxSmall({
         variant === "delete" 
           ? "data-[state=checked]:bg-destructive/80 data-[state=checked]:text-background dark:data-[state=checked]:bg-destructive data-[state=checked]:border-destructive focus-visible:border-destructive focus-visible:ring-destructive/50"
           : "data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary",
-          
-       
+
         className,
       )}
       {...props}

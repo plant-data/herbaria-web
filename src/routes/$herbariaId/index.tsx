@@ -18,6 +18,7 @@ export const Route = createFileRoute('/$herbariaId/')({
 })
 
 function RouteComponent() {
+  const { herbariaId } = Route.useParams()
   return (
     <div className="min-h-screen ">
       {/* Hero Section */}
@@ -52,7 +53,7 @@ function RouteComponent() {
                 />
               </div>
               <Button asChild variant="default" className="bg-ring" size="lg">
-                <Link to="/search">
+                <Link to="/$herbariaId/search" params={{ herbariaId }}>
                   <Database className="w-5 h-5 mr-2" />
                   Dolor Sit Amet
                 </Link>

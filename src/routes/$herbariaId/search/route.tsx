@@ -10,10 +10,9 @@ import {
 import { SpecimensNavbar } from '@/features/search/components/specimens-navbar'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 
-
-type LockedFilters = Array<keyof Omit<FilterStateData, 'skip' | 'activeFiltersCount'>>
-
-
+type LockedFilters = Array<
+  keyof Omit<FilterStateData, 'skip' | 'activeFiltersCount'>
+>
 
 export const Route = createFileRoute('/$herbariaId/search')({
   component: RouteComponent,
@@ -27,7 +26,6 @@ function RouteComponent() {
   const { t } = useTranslation()
 
   const lockedFilters: LockedFilters = ['month']
-
 
   return (
     <SidebarProvider className="flex flex-col">

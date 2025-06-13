@@ -15,7 +15,6 @@ import { SelectedFiltersTree } from '@/features/search/components/selected-filte
 import { SearchFilters } from '@/features/search/components/search-filters'
 import type { LockedFilters } from '@/features/search/stores/use-filters-store'
 
-
 interface SearchSidebarProps extends React.ComponentProps<typeof Sidebar> {
   lockedFilters?: LockedFilters
 }

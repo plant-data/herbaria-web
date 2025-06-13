@@ -30,5 +30,5 @@ export const Route = createFileRoute('/external/')({
 })
 
 function RouteComponent() {
-  return <div>Hello "/external/"!</div>
+  return <div>Invalid external URL</div>
 }

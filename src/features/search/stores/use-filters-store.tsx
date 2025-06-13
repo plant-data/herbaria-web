@@ -21,6 +21,9 @@ export interface FilterStateData {
   skip: number
 }
 
+// used for pages of custom herbaria
+export type LockedFilters = Array<keyof Omit<FilterStateData, 'skip' | 'activeFiltersCount'>>
+
 export interface FilterMapData {
   zoom: number
   bbox: [number, number, number, number]
@@ -46,7 +49,7 @@ interface FilterActions {
     month: Array<number> | ((prev: Array<number>) => Array<number>),
   ) => void
   setHasCoordinates: (hasCoordinates: boolean) => void
-  resetFilters: () => void
+  resetFilters: (lockedFilters?: LockedFilters) => void
   setSkip: (skip: number) => void
   setZoom: (zoom: number) => void
   setBbox: (bbox: [number, number, number, number]) => void
@@ -165,8 +168,27 @@ export const useFilterStore = create<FilterState>()(
         set,
       ),
 
-      // Reset all filters to initial values
-      resetFilters: () => set(initialState, false, 'resetFilters'),
+      // old
+      // resetFilters: () => set(initialState, false, 'resetFilters'),
+       // Reset all filters to initial values, preserving locked filters
+      resetFilters: (lockedFilters?: LockedFilters) => set((state) => {
+        const resetState = { ...initialState }
+        
+        // If there are locked filters, preserve their current values
+        if (lockedFilters && lockedFilters.length > 0) {
+          lockedFilters.forEach((filterKey) => {
+            if (filterKey in state) {
+              (resetState as any)[filterKey] = state[filterKey]
+            }
+          })
+          
+          // Recalculate active filters count with locked filters preserved
+          resetState.activeFiltersCount = calculateActiveFiltersCount(resetState)
+        }
+        
+        return resetState
+      }, false, 'resetFilters'),
+
       // replace skip with number
       setSkip: (newSkip: number) => set({ skip: newSkip }, false, 'setSkip'),
       setZoom: (newZoom: number) => set({ zoom: newZoom }, false, 'setZoom'),

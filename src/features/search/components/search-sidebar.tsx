@@ -13,10 +13,14 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { ResetFilterButton } from '@/features/search/components/reset-filter-button'
 import { SelectedFiltersTree } from '@/features/search/components/selected-filters-tree'
 import { SearchFilters } from '@/features/search/components/search-filters'
+import type { LockedFilters } from '@/features/search/stores/use-filters-store'
 
-export function SearchSidebar({
-  ...props
-}: React.ComponentProps<typeof Sidebar>) {
+
+interface SearchSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  lockedFilters?: LockedFilters
+}
+
+export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
   const { activeFiltersCount, resetFilters } = useFilterStore(
     useShallow((state) => ({
       activeFiltersCount: state.activeFiltersCount,
@@ -54,7 +58,7 @@ export function SearchSidebar({
               <span className="absolute right-2 top-0.5">
                 <ResetFilterButton
                   itemCount={activeFiltersCount}
-                  onResetClick={resetFilters}
+                  onResetClick={() => resetFilters(lockedFilters)}
                   size="sm"
                 />
               </span>

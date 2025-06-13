@@ -1,6 +1,6 @@
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import type { FilterStateData } from '@/features/search/stores/use-filters-store'
+import type { LockedFilters} from '@/features/search/stores/use-filters-store'
 import { SearchSidebar } from '@/features/search/components/search-sidebar'
 import {
   SidebarInset,
@@ -10,9 +10,6 @@ import {
 import { SpecimensNavbar } from '@/features/search/components/specimens-navbar'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 
-type LockedFilters = Array<
-  keyof Omit<FilterStateData, 'skip' | 'activeFiltersCount'>
->
 
 export const Route = createFileRoute('/$herbariaId/search')({
   component: RouteComponent,

@@ -57,14 +57,14 @@ function TreeLines({ index, total }: TreeLinesProps) {
 // Component: Individual filter item with badge
 function FilterItem({ index, total, displayValue }: FilterItemProps) {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center ">
       <TreeLines index={index} total={total} />
       <Badge
         variant="secondary"
         className="bg-background dark:bg-input border-input text-xs font-normal hover:bg-background/80 transition-colors"
         tabIndex={-1}
       >
-        <span className={`truncate max-w-full`}>{displayValue}</span>
+        <span className={`truncate max-w-[15rem]`}>{displayValue}</span>
       </Badge>
     </div>
   )
@@ -74,7 +74,7 @@ function FilterItem({ index, total, displayValue }: FilterItemProps) {
 function FilterGroup({ label, count, children }: FilterGroupProps) {
   return (
     <div>
-      <div className="font-medium text-xs text-primary mb-1">
+      <div className="font-medium text-sm text-primary mb-1">
         {label} ({count})
       </div>
       <div className="flex flex-col gap-1">{children}</div>

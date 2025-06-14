@@ -21,6 +21,11 @@ function App() {
           <Link to="/HCI">HCI</Link>
         </Button>
       </div>
+      <div className="text-center">
+        <Button asChild>
+          <Link to="/TSB/search">TSB</Link>
+        </Button>
+      </div>
       <p>{t('herbaria-hero')}</p>
     </div>
   )

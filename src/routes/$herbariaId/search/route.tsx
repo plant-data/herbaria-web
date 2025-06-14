@@ -13,16 +13,17 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 
 export const Route = createFileRoute('/$herbariaId/search')({
   component: RouteComponent,
-  loader: () => {
-    const { setMonth } = useFilterStore.getState()
-    setMonth([1, 2])
+  loader: async ({ params }) => {
+    // importante che sia async
+    const { setInstitutionCode } = useFilterStore.getState()
+    await setInstitutionCode([params.herbariaId])
   },
 })
 
 function RouteComponent() {
   const { t } = useTranslation()
 
-  const lockedFilters: LockedFilters = ['month']
+  const lockedFilters: LockedFilters = ['institutionCode']
 
   return (
     <SidebarProvider className="flex flex-col">

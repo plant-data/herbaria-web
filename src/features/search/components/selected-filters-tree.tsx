@@ -90,6 +90,7 @@ export function SelectedFiltersTree() {
     locality,
     year,
     month,
+    institutionCode,
     hasCoordinates,
     activeFiltersCount,
   } = useFilterStore()
@@ -137,6 +138,12 @@ export function SelectedFiltersTree() {
         items: month,
         label: t('search.filters.month-label'),
         displayValue: (monthId: number) => getMonthName(monthId),
+      },
+      {
+        key: 'institutionCode',
+        items: institutionCode,
+        label: t('search.filters.month-label'),
+        label: t('search.filters.locality-label'),
       },
       {
         key: 'hasCoordinates',

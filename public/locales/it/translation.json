@@ -17,6 +17,8 @@
       "month-label": "Mese",
       "month-placeholder": "Seleziona un mese",
       "month-all-selected": "Tutti i mesi selezionati",
+      "institution-code-label": "Erbario",
+      "institution-code-placeholder": "Seleziona un erbario",
       "has-coordinates-label": "Mostra solo i record georeferenziati",
       "clear-all": "Rimuovi tutto",
       "show-filters": "Mostra filtri",

@@ -17,8 +17,9 @@
       "month-label": "Month",
       "month-placeholder": "Select a month",
       "month-all-selected": "All months selected",
+      "institution-code-label": "Herbarium",
+      "institution-code-placeholder": "Select an herbarium",
       "has-coordinates-label": "Show only georeferenced records",
-
       "clear-all": "Clear all",
       "show-filters": "Show filters",
       "hide-filters": "Hide filters",

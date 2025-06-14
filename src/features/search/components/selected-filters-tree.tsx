@@ -142,8 +142,7 @@ export function SelectedFiltersTree() {
       {
         key: 'institutionCode',
         items: institutionCode,
-        label: t('search.filters.month-label'),
-        label: t('search.filters.locality-label'),
+        label: t('search.filters.institution-code-label'),
       },
       {
         key: 'hasCoordinates',

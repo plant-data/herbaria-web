@@ -18,6 +18,11 @@ const MONTHS = [
   { id: 12, value: 'months.december' },
 ]
 
+const HERBARIA = [
+  { id: 'HCI', name: 'herbaria.hci' },
+  { id: 'TSB', name: 'herbaria.tsb' },
+]
+
 const MAP_STYLE = {
   version: 8,
   sources: {
@@ -77,10 +82,12 @@ export {
   MIN_YEAR,
   MAX_YEAR,
   MONTHS,
+  HERBARIA,
   MAP_STYLE,
   ZOOM,
   BBOX,
   SKIP,
   SEARCH_CONFIG,
   COMMON_QUERY_OPTIONS,
+
 }

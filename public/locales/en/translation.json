@@ -54,6 +54,10 @@
     "november": "November",
     "december": "December"
   },
+  "herbaria": {
+    "hci": "Herbarium Centrale Italicum",
+    "tsb": "Herbarium Universitatis Tergestinae"
+  },
   "common": {
     "yes": "Yes",
     "no": "No"

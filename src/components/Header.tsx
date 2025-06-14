@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
-import { ThemeToggle } from './theme-toggle'
-import { LanguageToggle } from './language-toggle'
+import { ThemeToggle } from '@/components/theme-toggle'
+import { LanguageToggle } from '@/components/language-toggle'
 import { useNavigationHistory } from '@/hooks/use-navigation-history'
 
 export function Header() {
@@ -20,11 +20,11 @@ export function Header() {
         </div>
 
         {/* Display previous route if available */}
-        {/* {previousRoute && (
+        {previousRoute && (
           <div className="px-2 text-sm text-muted-foreground">
             From: {previousRoute}
           </div>
-        )} */}
+        )}
 
         <div className="px-2 font-bold">
           <Link to="/">Home</Link>

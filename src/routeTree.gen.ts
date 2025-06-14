@@ -24,6 +24,7 @@ import { Route as SearchDebugFiltersImport } from './routes/search/debug-filters
 import { Route as DemoTanstackQueryImport } from './routes/demo.tanstack-query'
 import { Route as HerbariaIdSearchRouteImport } from './routes/$herbariaId/search/route'
 import { Route as HerbariaIdSearchIndexImport } from './routes/$herbariaId/search/index'
+import { Route as HerbariaIdSearchTableImport } from './routes/$herbariaId/search/table'
 import { Route as HerbariaIdSearchMapImport } from './routes/$herbariaId/search/map'
 import { Route as HerbariaIdSearchGraphsImport } from './routes/$herbariaId/search/graphs'
 
@@ -104,6 +105,12 @@ const HerbariaIdSearchRouteRoute = HerbariaIdSearchRouteImport.update({
 const HerbariaIdSearchIndexRoute = HerbariaIdSearchIndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => HerbariaIdSearchRouteRoute,
+} as any)
+
+const HerbariaIdSearchTableRoute = HerbariaIdSearchTableImport.update({
+  id: '/table',
+  path: '/table',
   getParentRoute: () => HerbariaIdSearchRouteRoute,
 } as any)
 
@@ -221,6 +228,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HerbariaIdSearchMapImport
       parentRoute: typeof HerbariaIdSearchRouteImport
     }
+    '/$herbariaId/search/table': {
+      id: '/$herbariaId/search/table'
+      path: '/table'
+      fullPath: '/$herbariaId/search/table'
+      preLoaderRoute: typeof HerbariaIdSearchTableImport
+      parentRoute: typeof HerbariaIdSearchRouteImport
+    }
     '/$herbariaId/search/': {
       id: '/$herbariaId/search/'
       path: '/'
@@ -256,12 +270,14 @@ const SearchRouteRouteWithChildren = SearchRouteRoute._addFileChildren(
 interface HerbariaIdSearchRouteRouteChildren {
   HerbariaIdSearchGraphsRoute: typeof HerbariaIdSearchGraphsRoute
   HerbariaIdSearchMapRoute: typeof HerbariaIdSearchMapRoute
+  HerbariaIdSearchTableRoute: typeof HerbariaIdSearchTableRoute
   HerbariaIdSearchIndexRoute: typeof HerbariaIdSearchIndexRoute
 }
 
 const HerbariaIdSearchRouteRouteChildren: HerbariaIdSearchRouteRouteChildren = {
   HerbariaIdSearchGraphsRoute: HerbariaIdSearchGraphsRoute,
   HerbariaIdSearchMapRoute: HerbariaIdSearchMapRoute,
+  HerbariaIdSearchTableRoute: HerbariaIdSearchTableRoute,
   HerbariaIdSearchIndexRoute: HerbariaIdSearchIndexRoute,
 }
 
@@ -285,6 +301,7 @@ export interface FileRoutesByFullPath {
   '/search/': typeof SearchIndexRoute
   '/$herbariaId/search/graphs': typeof HerbariaIdSearchGraphsRoute
   '/$herbariaId/search/map': typeof HerbariaIdSearchMapRoute
+  '/$herbariaId/search/table': typeof HerbariaIdSearchTableRoute
   '/$herbariaId/search/': typeof HerbariaIdSearchIndexRoute
 }
 
@@ -301,6 +318,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchIndexRoute
   '/$herbariaId/search/graphs': typeof HerbariaIdSearchGraphsRoute
   '/$herbariaId/search/map': typeof HerbariaIdSearchMapRoute
+  '/$herbariaId/search/table': typeof HerbariaIdSearchTableRoute
   '/$herbariaId/search': typeof HerbariaIdSearchIndexRoute
 }
 
@@ -320,6 +338,7 @@ export interface FileRoutesById {
   '/search/': typeof SearchIndexRoute
   '/$herbariaId/search/graphs': typeof HerbariaIdSearchGraphsRoute
   '/$herbariaId/search/map': typeof HerbariaIdSearchMapRoute
+  '/$herbariaId/search/table': typeof HerbariaIdSearchTableRoute
   '/$herbariaId/search/': typeof HerbariaIdSearchIndexRoute
 }
 
@@ -340,6 +359,7 @@ export interface FileRouteTypes {
     | '/search/'
     | '/$herbariaId/search/graphs'
     | '/$herbariaId/search/map'
+    | '/$herbariaId/search/table'
     | '/$herbariaId/search/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -355,6 +375,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/$herbariaId/search/graphs'
     | '/$herbariaId/search/map'
+    | '/$herbariaId/search/table'
     | '/$herbariaId/search'
   id:
     | '__root__'
@@ -372,6 +393,7 @@ export interface FileRouteTypes {
     | '/search/'
     | '/$herbariaId/search/graphs'
     | '/$herbariaId/search/map'
+    | '/$herbariaId/search/table'
     | '/$herbariaId/search/'
   fileRoutesById: FileRoutesById
 }
@@ -433,6 +455,7 @@ export const routeTree = rootRoute
       "children": [
         "/$herbariaId/search/graphs",
         "/$herbariaId/search/map",
+        "/$herbariaId/search/table",
         "/$herbariaId/search/"
       ]
     },
@@ -474,6 +497,10 @@ export const routeTree = rootRoute
     },
     "/$herbariaId/search/map": {
       "filePath": "$herbariaId/search/map.tsx",
+      "parent": "/$herbariaId/search"
+    },
+    "/$herbariaId/search/table": {
+      "filePath": "$herbariaId/search/table.tsx",
       "parent": "/$herbariaId/search"
     },
     "/$herbariaId/search/": {

@@ -33,16 +33,16 @@ function RouteComponent() {
     (state: FilterState) => state.setInstitutionCode,
   )
   const { previousRoute } = useNavigationHistory()
-  const { herbariaId } = Route.useParams() // Get herbariaId from params
+  const { herbariaId } = Route.useParams()
 
   useEffect(() => {
     // necessario per resettare i filtri quando vengo da route esterne
 
     const shouldReset =
       previousRoute &&
-      !previousRoute.startsWith(`/${herbariaId}/search`) && // Check for herbariaId
-      !previousRoute.startsWith(`/${herbariaId}/specimens`) && // Check for herbariaId
-      !previousRoute.startsWith(`/${herbariaId}/external`) // Check for herbariaId
+      !previousRoute.startsWith(`/${herbariaId}/search`) &&
+      !previousRoute.startsWith(`/specimens`) &&
+      !previousRoute.startsWith(`/external`)
 
     if (shouldReset) {
       console.log(

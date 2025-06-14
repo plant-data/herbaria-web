@@ -18,12 +18,12 @@ function App() {
       </div>
       <div className="text-center">
         <Button asChild>
-          <Link to="/HCI">HCI</Link>
+          <Link to="/$herbariaId" params={{herbariaId: 'HCI'}}>HCI</Link>
         </Button>
       </div>
       <div className="text-center">
         <Button asChild>
-          <Link to="/TSB/search">TSB</Link>
+          <Link to="/$herbariaId/search" params={{herbariaId: 'TSB'}}>TSB</Link>
         </Button>
       </div>
       <p>{t('herbaria-hero')}</p>

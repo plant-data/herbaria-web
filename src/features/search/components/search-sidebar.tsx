@@ -53,7 +53,8 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
                 </TabsTrigger>
               </TabsList>
             </SidebarMenuItem>
-            {activeFiltersCount > 0 && (
+            {(!lockedFilters && activeFiltersCount > 0) ||
+            (lockedFilters && activeFiltersCount > 1) ? (
               <span className="absolute right-2 top-0.5">
                 <ResetFilterButton
                   itemCount={activeFiltersCount}
@@ -61,7 +62,7 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
                   size="sm"
                 />
               </span>
-            )}
+            ) : null}
           </SidebarMenu>
         </SidebarHeader>
         <hr className="text-input mx-2" />

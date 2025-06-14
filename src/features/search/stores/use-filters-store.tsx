@@ -62,7 +62,10 @@ interface FilterActions {
   resetMap: () => void
 }
 
-interface FilterState extends FilterStateData, FilterMapData, FilterActions {}
+export interface FilterState
+  extends FilterStateData,
+    FilterMapData,
+    FilterActions {}
 
 // Initial state values
 const initialState: FilterStateData = {

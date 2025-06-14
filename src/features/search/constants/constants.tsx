@@ -89,5 +89,4 @@ export {
   SKIP,
   SEARCH_CONFIG,
   COMMON_QUERY_OPTIONS,
-
 }

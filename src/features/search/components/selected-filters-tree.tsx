@@ -102,10 +102,10 @@ export function SelectedFiltersTree() {
     [t],
   )
   const herbariaMap = useMemo(
-    () => new Map(HERBARIA.map((herbarium) => [herbarium.id, t(herbarium.value)])),
+    () =>
+      new Map(HERBARIA.map((herbarium) => [herbarium.id, t(herbarium.value)])),
     [t],
   )
-
 
   // Unified filter configuration
   const filterConfigs: Array<FilterConfig> = useMemo(
@@ -140,13 +140,15 @@ export function SelectedFiltersTree() {
         key: 'month',
         items: month,
         label: t('search.filters.month-label'),
-        displayValue: (monthId: number) => monthNameMap.get(monthId) || `Month ${monthId}`,
+        displayValue: (monthId: number) =>
+          monthNameMap.get(monthId) || `Month ${monthId}`,
       },
       {
         key: 'institutionCode',
         items: institutionCode,
         label: t('search.filters.institution-code-label'),
-        displayValue: (herbariumId: string) => herbariaMap.get(herbariumId) || `Herbarium ${herbariumId}`,
+        displayValue: (herbariumId: string) =>
+          herbariaMap.get(herbariumId) || `Herbarium ${herbariumId}`,
       },
       {
         key: 'hasCoordinates',

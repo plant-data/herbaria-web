@@ -21,7 +21,9 @@ interface SelectItemsProps {
   placeholder: string
   items: Array<FilterItem>
   selectedValues: Array<number> | Array<string>
-  onSelectedValuesChange: React.Dispatch<React.SetStateAction<Array<number>>> | React.Dispatch<React.SetStateAction<Array<string>>>
+  onSelectedValuesChange:
+    | React.Dispatch<React.SetStateAction<Array<number>>>
+    | React.Dispatch<React.SetStateAction<Array<string>>>
   allSelectedMessage: string
 }
 
@@ -59,8 +61,8 @@ export function SelectItems({
   const handleSelect = useCallback(
     (itemId: string) => {
       // Find the original item to get its actual ID (string or number)
-      const originalItem = items.find(item => item.id.toString() === itemId)
-      
+      const originalItem = items.find((item) => item.id.toString() === itemId)
+
       if (originalItem) {
         const isAlreadySelected = selectedValues.includes(originalItem.id)
         if (!isAlreadySelected) {

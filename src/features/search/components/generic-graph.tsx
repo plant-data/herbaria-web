@@ -222,6 +222,7 @@ export function GenericGraph({
         axisLine: { lineStyle: { color: textColor } },
         axisTick: { lineStyle: { color: textColor } },
         splitLine: { lineStyle: { color: isDark ? '#333' : '#e0e0e0' } },
+        minInterval: 1,
       },
       series: [seriesConfig],
     }

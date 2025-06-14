@@ -1,4 +1,5 @@
-import { Link, useLocation } from '@tanstack/react-router'
+import { Link, useLocation, useParams } from '@tanstack/react-router'
+import { useMemo } from 'react'
 import {
   ChartColumn,
   Image,
@@ -11,13 +12,20 @@ import { cn } from '@/lib/utils'
 
 export function SpecimensNavbar() {
   const location = useLocation()
+  const params = useParams({ strict: false })
 
-  const navItems = [
-    { path: '/search/table', icon: Table, label: 'Table' },
-    { path: '/search', icon: Image, label: 'Images' },
-    { path: '/search/map', icon: MapPinned, label: 'Map' },
-    { path: '/search/graphs', icon: ChartColumn, label: 'Graphs' },
-  ]
+  const navItems = useMemo(() => {
+
+    const herbariaId = 'herbariaId' in params ? params.herbariaId : null
+    const basePath = herbariaId ? `/${herbariaId}/search` : '/search'
+
+    return [
+      { path: `${basePath}/table`, icon: Table, label: 'Table' },
+      { path: basePath, icon: Image, label: 'Images' },
+      { path: `${basePath}/map`, icon: MapPinned, label: 'Map' },
+      { path: `${basePath}/graphs`, icon: ChartColumn, label: 'Graphs' },
+    ]
+  }, [params])
 
   return (
     <div className="flex gap-2 flex-col justify-center @lg:flex-row @lg:justify-between items-center">

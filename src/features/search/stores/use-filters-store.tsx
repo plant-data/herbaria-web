@@ -16,6 +16,7 @@ export interface FilterStateData {
   locality: Array<string>
   year: [number, number]
   month: Array<number>
+  institutionCode: Array<string>
   hasCoordinates: boolean
   activeFiltersCount: number
   skip: number
@@ -50,6 +51,9 @@ interface FilterActions {
   setMonth: (
     month: Array<number> | ((prev: Array<number>) => Array<number>),
   ) => void
+  setInstitutionCode: (
+    institutionCode: Array<string> | ((prev: Array<string>) => Array<string>),
+  ) => void
   setHasCoordinates: (hasCoordinates: boolean) => void
   resetFilters: (lockedFilters?: LockedFilters) => void
   setSkip: (skip: number) => void
@@ -68,6 +72,7 @@ const initialState: FilterStateData = {
   locality: [],
   year: [MIN_YEAR, MAX_YEAR],
   month: [],
+  institutionCode: [],
   hasCoordinates: false,
   activeFiltersCount: 0,
   skip: SKIP,
@@ -86,6 +91,7 @@ function calculateActiveFiltersCount(state: FilterStateData) {
   count += state.country.length
   count += state.locality.length
   count += state.month.length
+  count += state.institutionCode.length
   if (state.year[0] !== initialState.year[0]) count += 1
   if (state.year[1] !== initialState.year[1]) count += 1
   if (state.hasCoordinates !== initialState.hasCoordinates) count += 1
@@ -164,6 +170,12 @@ export const useFilterStore = create<FilterState>()(
       setLocality: createSetter('locality', 'setLocality', set, true),
       setYear: createSetter('year', 'setYear', set),
       setMonth: createSetter('month', 'setMonth', set, true),
+      setInstitutionCode: createSetter(
+        'institutionCode',
+        'setInstitutionCode',
+        set,
+        true,
+      ),
       setHasCoordinates: createSetter(
         'hasCoordinates',
         'setHasCoordinates',

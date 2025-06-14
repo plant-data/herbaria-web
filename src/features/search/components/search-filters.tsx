@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
+import type { LockedFilters } from '@/features/search/stores/use-filters-store'
 import { BASE_API_URL } from '@/config'
 import { Autocomplete } from '@/features/search/components/autocomplete'
 import { useDebouncedCallback } from '@/hooks/use-debounce'
@@ -14,7 +15,11 @@ import {
 } from '@/features/search/constants/constants'
 import { SwitchOption } from '@/features/search/components/switch-option'
 
-export function SearchFilters() {
+export function SearchFilters({
+  lockedFilters,
+}: {
+  lockedFilters?: LockedFilters
+}) {
   const {
     scientificName,
     floritalyName,
@@ -113,14 +118,16 @@ export function SearchFilters() {
         selectedValues={month}
         onSelectedValuesChange={setMonth}
       />
-      <SelectItems
-        label={t('search.filters.institution-code-label')}
-        placeholder={t('search.filters.institution-code-placeholder')}
-        allSelectedMessage={t('search.filters.institution-code-all-selected')}
-        items={HERBARIA}
-        selectedValues={institutionCode}
-        onSelectedValuesChange={setInstitutionCode}
-      />
+      {lockedFilters && lockedFilters.includes('institutionCode') ? null : (
+        <SelectItems
+          label={t('search.filters.institution-code-label')}
+          placeholder={t('search.filters.institution-code-placeholder')}
+          allSelectedMessage={t('search.filters.institution-code-all-selected')}
+          items={HERBARIA}
+          selectedValues={institutionCode}
+          onSelectedValuesChange={setInstitutionCode}
+        />
+      )}
       <SwitchOption
         label={t('search.filters.has-coordinates-label')}
         field="coordinates"

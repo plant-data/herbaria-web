@@ -15,7 +15,6 @@ export function SpecimensNavbar() {
   const params = useParams({ strict: false })
 
   const navItems = useMemo(() => {
-
     const herbariaId = 'herbariaId' in params ? params.herbariaId : null
     const basePath = herbariaId ? `/${herbariaId}/search` : '/search'
 

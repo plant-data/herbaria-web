@@ -12,7 +12,7 @@ import {
 import { BadgeSelected } from '@/features/search/components/badge-selected'
 
 export interface FilterItem {
-  id: number
+  id: number | string
   value: string
 }
 
@@ -20,8 +20,8 @@ interface SelectItemsProps {
   label: string
   placeholder: string
   items: Array<FilterItem>
-  selectedValues: Array<number>
-  onSelectedValuesChange: React.Dispatch<React.SetStateAction<Array<number>>>
+  selectedValues: Array<number> | Array<string>
+  onSelectedValuesChange: React.Dispatch<React.SetStateAction<Array<number>>> | React.Dispatch<React.SetStateAction<Array<string>>>
   allSelectedMessage: string
 }
 
@@ -58,14 +58,18 @@ export function SelectItems({
 
   const handleSelect = useCallback(
     (itemId: string) => {
-      const id = parseInt(itemId)
-      const isAlreadySelected = selectedValues.includes(id)
-      if (!isAlreadySelected) {
-        onSelectedValuesChange((prev) => [...prev, id])
+      // Find the original item to get its actual ID (string or number)
+      const originalItem = items.find(item => item.id.toString() === itemId)
+      
+      if (originalItem) {
+        const isAlreadySelected = selectedValues.includes(originalItem.id)
+        if (!isAlreadySelected) {
+          onSelectedValuesChange((prev) => [...prev, originalItem.id] as any)
+        }
       }
       setOpen(false)
     },
-    [selectedValues, onSelectedValuesChange],
+    [selectedValues, onSelectedValuesChange, items],
   )
 
   // Convert selected IDs to translated strings for BadgeSelected

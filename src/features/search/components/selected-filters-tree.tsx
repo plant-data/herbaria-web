@@ -6,6 +6,7 @@ import {
   MAX_YEAR,
   MIN_YEAR,
   MONTHS,
+  HERBARIA,
 } from '@/features/search/constants/constants'
 
 interface FilterGroupProps {
@@ -100,9 +101,11 @@ export function SelectedFiltersTree() {
     () => new Map(MONTHS.map((month) => [month.id, t(month.value)])),
     [t],
   )
+  const herbariaMap = useMemo(
+    () => new Map(HERBARIA.map((herbarium) => [herbarium.id, t(herbarium.value)])),
+    [t],
+  )
 
-  const getMonthName = (monthId: number) =>
-    monthNameMap.get(monthId) || `Month ${monthId}`
 
   // Unified filter configuration
   const filterConfigs: Array<FilterConfig> = useMemo(
@@ -137,12 +140,13 @@ export function SelectedFiltersTree() {
         key: 'month',
         items: month,
         label: t('search.filters.month-label'),
-        displayValue: (monthId: number) => getMonthName(monthId),
+        displayValue: (monthId: number) => monthNameMap.get(monthId) || `Month ${monthId}`,
       },
       {
         key: 'institutionCode',
         items: institutionCode,
         label: t('search.filters.institution-code-label'),
+        displayValue: (herbariumId: string) => herbariaMap.get(herbariumId) || `Herbarium ${herbariumId}`,
       },
       {
         key: 'hasCoordinates',
@@ -160,7 +164,6 @@ export function SelectedFiltersTree() {
       year,
       month,
       hasCoordinates,
-      getMonthName,
     ],
   )
 

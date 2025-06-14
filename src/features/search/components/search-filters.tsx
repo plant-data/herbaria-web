@@ -7,6 +7,7 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { RangeSlider } from '@/features/search/components/range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
 import {
+  HERBARIA,
   MAX_YEAR,
   MIN_YEAR,
   MONTHS,
@@ -21,6 +22,7 @@ export function SearchFilters() {
     locality,
     year,
     month,
+    institutionCode,
     hasCoordinates,
     setScientificName,
     setFloritalyName,
@@ -28,6 +30,7 @@ export function SearchFilters() {
     setLocality,
     setYear,
     setMonth,
+    setInstitutionCode,
     setHasCoordinates,
   } = useFilterStore(
     useShallow((state) => ({
@@ -37,6 +40,7 @@ export function SearchFilters() {
       locality: state.locality,
       year: state.year,
       month: state.month,
+      institutionCode: state.institutionCode,
       hasCoordinates: state.hasCoordinates,
       setScientificName: state.setScientificName,
       setFloritalyName: state.setFloritalyName,
@@ -44,6 +48,7 @@ export function SearchFilters() {
       setLocality: state.setLocality,
       setYear: state.setYear,
       setMonth: state.setMonth,
+      setInstitutionCode: state.setInstitutionCode,
       setHasCoordinates: state.setHasCoordinates,
     })),
   )
@@ -107,6 +112,14 @@ export function SearchFilters() {
         items={MONTHS}
         selectedValues={month}
         onSelectedValuesChange={setMonth}
+      />
+      <SelectItems
+        label={t('search.filters.institution-code-label')}
+        placeholder={t('search.filters.institution-code-placeholder')}
+        allSelectedMessage={t('search.filters.institution-code-all-selected')}
+        items={HERBARIA}
+        selectedValues={institutionCode}
+        onSelectedValuesChange={setInstitutionCode}
       />
       <SwitchOption
         label={t('search.filters.has-coordinates-label')}

@@ -19,8 +19,8 @@ const MONTHS = [
 ]
 
 const HERBARIA = [
-  { id: 'HCI', name: 'herbaria.hci' },
-  { id: 'TSB', name: 'herbaria.tsb' },
+  { id: 'HCI', value: 'herbaria.hci' },
+  { id: 'TSB', value: 'herbaria.tsb' },
 ]
 
 const MAP_STYLE = {

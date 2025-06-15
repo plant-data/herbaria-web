@@ -224,11 +224,11 @@ const ImageViewerControls = ({
 
 export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
   return (
-    <Card className="rounded-md shadow-xs">
+    <Card className="rounded-md shadow-xs gap-2">
       <CardHeader>
         <CardTitle className="text-xl">LABEL DATA</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-2 text-sm">
         {/* Taxonomic Information */}
         <div>
           <span className="font-medium">Scientific Name</span>

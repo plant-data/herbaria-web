@@ -141,18 +141,17 @@ export function SpecimenImage({
         >
           <div className="w-full  flex flex-col">
             <div className="flex-1 p-1">
-              <div className="w-full  sm:h-[370px]  md:h-[500px]  overflow-hidden rounded-[4px] border border-input">
+              <div className="w-full h-[370px] sm:h-[340px]  md:h-[480px]  overflow-hidden rounded-[4px] border border-input">
                 <Viewer
                   viewportContent={
                     <img
-                      className="w-full h-full object-contain will-change-transform"
+                      className="w-full object-contain will-change-transform h-[370px] sm:h-[340px] md:h-[480px]"
                       src={thumbnailUrl}
                       alt={scientificName || 'Specimen Image'}
                       draggable="false"
                       style={{
                         width: '100%',
-                        height: '100%',
-                        objectFit: 'contain',
+                        objectFit: 'fill',
                         objectPosition: 'center',
                       }}
                     />

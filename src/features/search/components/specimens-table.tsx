@@ -164,7 +164,7 @@ export function SpecimensTable() {
       {/* table */}
       <div className="rounded-md border overflow-hidden">
         <Table>
-          <TableHeader className="bg-muted/50">
+          <TableHeader className="bg-muted">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (

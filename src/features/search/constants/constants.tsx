@@ -67,6 +67,10 @@ const SEARCH_CONFIG = {
     url: `${BASE_API_URL}group/search`,
     key: 'specimens-graph',
   },
+  point: {
+    url: `${BASE_API_URL}occurrences/search`,
+    key: 'point-data',
+  },
 } as const
 
 const COMMON_QUERY_OPTIONS = {

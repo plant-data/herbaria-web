@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
+import { CircleMarker, MapContainer, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
 import { Earth, House } from 'lucide-react'
 import type { PaletteName } from '@/features/search/constants/map-palettes'
@@ -227,9 +227,59 @@ function ColorLegend({ palette }: { palette: PaletteFn }) {
   )
 }
 
+function SimpleMarkers({ clusters }: { clusters: Array<ClusterData> }) {
+  const [zoom, setZoom] = useState(5)
+  const map = useMap()
+
+  useMapEvents({
+    zoomend: () => {
+      setZoom(map.getZoom())
+    },
+  })
+
+  useEffect(() => {
+    setZoom(map.getZoom())
+  }, [map])
+
+  // Only show simple markers when zoom >= 12
+  if (zoom < 12) return null
+
+  return (
+    <>
+      {clusters.map((cluster, index) => {
+        const [lng, lat] = cluster.coordinates
+        if (isNaN(lat) || isNaN(lng)) return null
+        
+        return (
+          <CircleMarker
+            key={`${lat}-${lng}-${index}`}
+            center={[lat, lng]}
+            radius={6}
+            fillColor="#3b82f6"
+            color="#1e40af"
+            weight={2}
+            opacity={0.8}
+            fillOpacity={0.6}
+          >
+            <Popup>
+              <div className="text-sm">
+                <strong>Coordinates:</strong><br />
+                Latitude: {lat.toFixed(6)}<br />
+                Longitude: {lng.toFixed(6)}<br />
+                <strong>Count:</strong> {cluster.count}
+              </div>
+            </Popup>
+          </CircleMarker>
+        )
+      })}
+    </>
+  )
+}
+
 export function SpecimensMap() {
   const { data, isPending, error } = useSpecimensMap()
   const [activePalette, setActivePalette] = useState<PaletteName>('Classic')
+  const { zoom } = useFilterStore()
 
   const layerData = useMemo(() => {
     if (!data?.clusters) return []
@@ -266,12 +316,13 @@ export function SpecimensMap() {
           />
           <MapEventHandler />
           <MapControls />
-          {layerData.length > 0 && (
+          {layerData.length > 0 && zoom < 12 && (
             <CanvasMarkers
               clusters={layerData}
               palette={palettes[activePalette]}
             />
           )}
+          {layerData.length > 0 && <SimpleMarkers clusters={layerData} />}
         </MapContainer>
       </div>
 

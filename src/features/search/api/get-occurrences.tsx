@@ -17,7 +17,7 @@ import {
 // 1. Configuration & Constants
 // ============================================================================
 
-type SearchType = 'data' | 'map' | 'graph'
+type SearchType = 'data' | 'map' | 'graph' | 'point'
 
 export type CustomFilters = Partial<
   FilterStateData & FilterMapData & { sortBy: string }
@@ -159,6 +159,10 @@ interface UseSpecimensGraphOptions {
   customGroupBy?: keyof CustomFilters | 'count'
 }
 
+interface UseSpecimensPointOptions {
+  customFilters?: CustomFilters
+}
+
 export function useSpecimensMap(options: UseSpecimensMapOptions = {}) {
   const { customFilters } = options
   return useSpecimensQuery({ searchType: 'map', customFilters })
@@ -170,6 +174,14 @@ export function useSpecimensData(options: UseSpecimensDataOptions = {}) {
     searchType: 'data',
     customFilters,
     customSort,
+  })
+}
+
+export function useSpecimensPoint(options: UseSpecimensPointOptions = {}) {
+  const { customFilters } = options
+  return useSpecimensQuery({
+    searchType: 'point',
+    customFilters,
   })
 }
 

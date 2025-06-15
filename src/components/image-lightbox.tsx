@@ -86,7 +86,7 @@ export function ImageLightbox({
       src={src}
       alt={alt}
       onLoad={handleImageLoad}
-      className={isLoading ? 'opacity-0' : 'opacity-100 transition-opacity'}
+      className={isLoading ? 'opacity-0' : 'opacity-100 transition-opacity, will-change-transform'}
     />
   )
 

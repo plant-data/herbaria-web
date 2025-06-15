@@ -121,9 +121,9 @@ export function SpecimenImage({
               enabled: true,
               default: 1,
               min: 1,
-              max: 4,
-              mouseWheelStep: 0.5,
-              zoomButtonStep: 0.5,
+              max: 5,
+              mouseWheelStep: 0,
+              zoomButtonStep: 1,
             },
             resetView: {
               enabled: true,

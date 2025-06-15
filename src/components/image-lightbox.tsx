@@ -127,8 +127,8 @@ export function ImageLightbox({
             default: 1, // Default zoom level when the viewer is opened.
             min: 1,
             max: 10,
-            mouseWheelStep: 0.5, // How much zoom per mouse wheel step.
-            zoomButtonStep: 2,
+            mouseWheelStep: 10, // How much zoom per mouse wheel step.
+            zoomButtonStep: 1,
           },
           resetView: {
             enabled: true,

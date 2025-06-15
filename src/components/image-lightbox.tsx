@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom'
 import { RotateCcw, X, ZoomIn, ZoomOut } from 'lucide-react'
 import { Viewer, ViewerContext, ViewerProvider } from 'react-viewer-pan-zoom'
 import { Button } from '@/components/ui/button'
-/* 
-!!! TODO add minimap
-*/
+
 // --- Generic Image Lightbox Component ---
 interface ImageLightboxProps {
   src: string
@@ -113,7 +111,7 @@ export function ImageLightbox({
           right: 16px !important;
           top: auto !important;
           left: auto !important;
-          border-radius: 8px !important;
+          border-radius: 6px !important;
         }
       `}</style>
       {isLoading && (
@@ -182,7 +180,7 @@ const LightboxToolbar = ({
           onClick={zoomOut}
           variant="ghost"
           size="icon"
-          className="size-8 bg-background text-primary hover:bg-accent border-0"
+          className="size-8 bg-background text-primary hover:bg-accent border-0 "
           aria-label="Zoom Out"
         >
           <ZoomOut size={16} />

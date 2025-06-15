@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useRef, useState, useEffect } from 'react'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import { useRouter } from '@tanstack/react-router'
 import { ArrowLeft, Maximize2, RotateCcw, ZoomIn, ZoomOut } from 'lucide-react'
@@ -20,10 +20,18 @@ type SpecimenMapProps = Pick<
 
 export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
   const router = useRouter()
+  const backRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (backRef.current) {
+      backRef.current.focus()
+    }
+  }, [])
 
   return (
     <div className="relative container mx-auto px-4 py-6 max-w-6xl">
       <Button
+        ref={backRef}
         variant="outline"
         onClick={() => router.history.back()}
         className="absolute top-4 right-2 md:top-6 md:right-4 h-9 w-9 rounded-full border border-input shadow-xs bg-background"

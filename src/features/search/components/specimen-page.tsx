@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import { useRouter } from '@tanstack/react-router'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Maximize2, RotateCcw, ZoomIn, ZoomOut } from 'lucide-react'
+import { Viewer, ViewerContext, ViewerProvider } from 'react-viewer-pan-zoom'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
@@ -100,26 +101,63 @@ export function SpecimenImage({
 
   // Define URLs for both the thumbnail and the full-resolution lightbox image
   const imageIdentifier = multimedia[0].identifier
-  const thumbnailUrl = `${BASE_IMAGE_URL}unsafe/704x1000/${imageIdentifier}`
+  const thumbnailUrl = `${BASE_IMAGE_URL}unsafe/0x0/${imageIdentifier}`
   const highResUrl = `${BASE_IMAGE_URL}unsafe/0x0/${imageIdentifier}` // Use max resolution for lightbox
 
   return (
     <>
       <Card className="p-0 rounded-md shadow-xs max-w-[280px] sm:max-w-full mx-auto">
-        <CardContent className="sm:w-[254px] sm:h-[370px] md:w-[352px] md:h-[500px] p-1 m-0">
-          <div className="w-full h-full overflow-hidden rounded-[4px] border border-input">
-            <img
-              className="w-full h-full object-fill cursor-pointer hover:opacity-90 transition-opacity"
-              src={thumbnailUrl}
-              alt={scientificName}
-              onClick={() => setIsLightboxOpen(true)}
-              title="Click to enlarge"
-            />
+        <ViewerProvider
+          settings={{
+            zoom: {
+              enabled: true,
+              default: 1,
+              min: 1,
+              max: 4,
+              mouseWheelStep: 0.5,
+              zoomButtonStep: 0.5,
+            },
+            resetView: {
+              enabled: true,
+              keyboardShortcut: 'r',
+            },
+            minimap: {
+              enabled: false,
+              width: '160px',
+              keyboardShortcut: 'm',
+              outlineStyle: '1px solid #ccc',
+              viewportAreaOutlineStyle: '2px solid #333',
+            },
+            fillHeight: false,
+          }}
+        >
+          <div className="w-full  flex flex-col">
+            <div className="flex-1 p-1">
+              <div className="w-full  sm:h-[370px]  md:h-[500px]  overflow-hidden rounded-[4px] border border-input">
+                <Viewer
+                  viewportContent={
+                    <img
+                      className="w-full h-full object-contain will-change-transform"
+                      src={thumbnailUrl}
+                      alt={scientificName || 'Specimen Image'}
+                      draggable="false"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        objectPosition: 'center',
+                      }}
+                    />
+                  }
+                  minimapContent={<></>}
+                />
+              </div>
+            </div>
+            <ImageViewerControls onFullScreen={() => setIsLightboxOpen(true)} />
           </div>
-        </CardContent>
+        </ViewerProvider>
       </Card>
 
-      {/* Render the imported lightbox component, controlled by state */}
       <ImageLightbox
         isOpen={isLightboxOpen}
         onClose={() => setIsLightboxOpen(false)}
@@ -127,6 +165,52 @@ export function SpecimenImage({
         alt={scientificName ? scientificName : 'Specimen Image'}
       />
     </>
+  )
+}
+
+const ImageViewerControls = ({
+  onFullScreen,
+}: {
+  onFullScreen: () => void
+}) => {
+  const { zoomOut, zoomIn, resetView, crop } = useContext(ViewerContext)
+
+  return (
+    <div className="flex items-center justify-between px-2 py-1 border-t border-input">
+      <div className="flex items-center gap-1">
+        <button
+          onClick={zoomOut}
+          className="p-1 rounded hover:bg-gray-200 transition-colors cursor-pointer"
+          aria-label="Zoom Out"
+        >
+          <ZoomOut size={16} />
+        </button>
+        <span className="text-xs font-medium min-w-[2.5rem] text-center">
+          {(crop.zoom * 100).toFixed(0)}%
+        </span>
+        <button
+          onClick={zoomIn}
+          className="p-1 rounded hover:bg-gray-200 transition-colors cursor-pointer"
+          aria-label="Zoom In"
+        >
+          <ZoomIn size={16} />
+        </button>
+        <button
+          onClick={resetView}
+          className="p-1 rounded hover:bg-gray-200 transition-colors ml-1 cursor-pointer"
+          aria-label="Reset View"
+        >
+          <RotateCcw size={16} />
+        </button>
+      </div>
+      <button
+        onClick={onFullScreen}
+        className="p-1 rounded hover:bg-gray-200 transition-colors cursor-pointer"
+        aria-label="Full Screen"
+      >
+        <Maximize2 size={16} />
+      </button>
+    </div>
   )
 }
 
@@ -246,9 +330,7 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
         {occurrence.georeferenceProtocol && (
           <div>
             <span className="font-medium">Georeference Protocol:</span>
-            <span className="ml-2">
-              {occurrence.georeferenceProtocol ?? '-'}
-            </span>
+            <span className="ml-2">{occurrence.georeferenceProtocol}</span>
           </div>
         )}
 
@@ -257,9 +339,7 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           {occurrence.verbatimElevation && (
             <div>
               <span className="font-medium">Verbatim Elevation:</span>
-              <span className="ml-2">
-                {occurrence.verbatimElevation ?? '-'}
-              </span>
+              <span className="ml-2">{occurrence.verbatimElevation}</span>
             </div>
           )}
 

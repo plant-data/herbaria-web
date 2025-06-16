@@ -36,7 +36,7 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
         <SidebarHeader>
           <SidebarMenu className="relative">
             <SidebarMenuItem className="flex items-center justify-center">
-              <TabsList className="p-0.5 h-auto bg-background border border-input gap-1">
+              <TabsList className="bg-background border-input h-auto gap-1 border p-0.5">
                 <TabsTrigger
                   key="filters"
                   value="filters"
@@ -55,7 +55,7 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
             </SidebarMenuItem>
             {(!lockedFilters && activeFiltersCount > 0) ||
             (lockedFilters && activeFiltersCount > 1) ? (
-              <span className="absolute right-2 top-0.5">
+              <span className="absolute top-0.5 right-2">
                 <ResetFilterButton
                   itemCount={activeFiltersCount}
                   onResetClick={() => resetFilters(lockedFilters)}
@@ -71,7 +71,7 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
             key="filters"
             value="filters"
             tabIndex={-1}
-            className="flex min-h-0 flex-1 flex-col overflow-auto group-data-[collapsible=icon]:overflow-hidden px-3 gap-4"
+            className="flex min-h-0 flex-1 flex-col gap-4 overflow-auto px-3 group-data-[collapsible=icon]:overflow-hidden"
           >
             <SearchFilters lockedFilters={lockedFilters} />
           </TabsContent>
@@ -79,7 +79,7 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
             key="selected-filters"
             value="selected-filters"
             tabIndex={-1}
-            className="flex min-h-0 flex-1 flex-col overflow-auto group-data-[collapsible=icon]:overflow-hidden px-3"
+            className="flex min-h-0 flex-1 flex-col overflow-auto px-3 group-data-[collapsible=icon]:overflow-hidden"
           >
             <SelectedFiltersTree />
           </TabsContent>
@@ -87,7 +87,7 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
         <hr className="text-input mx-2" />
         <SidebarFooter className="h-[58px] pt-0">
           <SidebarTrigger
-            className="z-[51] fixed left-3 bottom-3 text-transparent bg-transparent border-transparent hover:bg-transparent"
+            className="fixed bottom-3 left-3 z-[51] border-transparent bg-transparent text-transparent hover:bg-transparent"
             textShow=""
             textHide=""
           ></SidebarTrigger>

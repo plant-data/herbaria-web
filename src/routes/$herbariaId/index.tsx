@@ -21,41 +21,41 @@ export const Route = createFileRoute('/$herbariaId/')({
 function RouteComponent() {
   const { herbariaId } = Route.useParams()
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className=" mx-auto pl-4 py-16 lg:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <section className="mx-auto py-16 pl-4 lg:py-24">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           {/* Hero Text - Left Side */}
           <div className="space-y-6 lg:ml-10">
             <div className="space-y-2">
               <Badge variant="outline" className="w-fit">
-                <Leaf className="w-4 h-4 mr-2" />
+                <Leaf className="mr-2 h-4 w-4" />
                 Lorem Ipsum
               </Badge>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white">
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
                 Lorem Ipsum Dolor
-                <span className="text-ring dark:text-green-400 block">
+                <span className="text-ring block dark:text-green-400">
                   Sit Amet Consectetur
                 </span>
               </h1>
             </div>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-lg">
+            <p className="max-w-lg text-lg text-gray-600 dark:text-gray-300">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Search className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
                 <Input
                   type="search"
                   placeholder="Lorem ipsum dolor sit..."
-                  className="h-10 pl-10 pr-4 py-3 w-full sm:w-60 text-base"
+                  className="h-10 w-full py-3 pr-4 pl-10 text-base sm:w-60"
                 />
               </div>
               <Button asChild variant="default" className="bg-ring" size="lg">
                 <Link to="/$herbariaId/search" params={{ herbariaId }}>
-                  <Database className="w-5 h-5 mr-2" />
+                  <Database className="mr-2 h-5 w-5" />
                   Dolor Sit Amet
                 </Link>
               </Button>
@@ -63,36 +63,36 @@ function RouteComponent() {
           </div>
 
           {/* Images Grid - Right Side */}
-          <div className="flex gap-4 items-center justify-start w-full overflow-hidden">
+          <div className="flex w-full items-center justify-start gap-4 overflow-hidden">
             {/* First image - slightly lower */}
             <div className="mt-8 sm:block">
-              <div className="border-2 border-input aspect-[4/6] w-32 sm:w-60 lg:w-64 bg-gradient-to-br from-green-200 to-green-300 dark:from-green-800 dark:to-green-900 rounded-sm overflow-hidden">
+              <div className="border-input aspect-[4/6] w-32 overflow-hidden rounded-sm border-2 bg-gradient-to-br from-green-200 to-green-300 sm:w-60 lg:w-64 dark:from-green-800 dark:to-green-900">
                 <img
                   src={`${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00204271.jpg`}
                   alt="Herbarium specimen FI-HCI-00206738"
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                 />
               </div>
             </div>
 
             {/* Second image - higher */}
             <div className="-mt-4 md:block">
-              <div className="border-2 border-input aspect-[4/6] w-32 sm:w-60 lg:w-64 bg-gradient-to-br from-emerald-200 to-emerald-300 dark:from-emerald-800 dark:to-emerald-900 rounded-sm overflow-hidden">
+              <div className="border-input aspect-[4/6] w-32 overflow-hidden rounded-sm border-2 bg-gradient-to-br from-emerald-200 to-emerald-300 sm:w-60 lg:w-64 dark:from-emerald-800 dark:to-emerald-900">
                 <img
                   src={`${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00206738.jpg`}
                   alt="Herbarium specimen FI-HCI-00206738"
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                 />
               </div>
             </div>
 
             {/* Third image - slightly lower */}
             <div className="mt-6 hidden lg:block">
-              <div className=" border-2 border-input aspect-[4/6] w-32 sm:w-40 lg:w-64 bg-gradient-to-br from-teal-200 to-teal-300 dark:from-teal-800 dark:to-teal-900 rounded-sm overflow-hidden">
+              <div className="border-input aspect-[4/6] w-32 overflow-hidden rounded-sm border-2 bg-gradient-to-br from-teal-200 to-teal-300 sm:w-40 lg:w-64 dark:from-teal-800 dark:to-teal-900">
                 <img
                   src={`${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00207292.jpg`}
                   alt="Herbarium specimen FI-HCI-00207292"
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                 />
               </div>
             </div>
@@ -101,11 +101,11 @@ function RouteComponent() {
       </section>
 
       {/* Stats Section */}
-      <section className="bg-white dark:bg-gray-800 py-16">
+      <section className="bg-white py-16 dark:bg-gray-800">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+          <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-3">
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-ring dark:text-green-400">
+              <div className="text-ring text-4xl font-bold dark:text-green-400">
                 10,000+
               </div>
               <div className="text-gray-600 dark:text-gray-300">
@@ -113,13 +113,13 @@ function RouteComponent() {
               </div>
             </div>
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-ring dark:text-green-400">
+              <div className="text-ring text-4xl font-bold dark:text-green-400">
                 500+
               </div>
               <div className="text-gray-600 dark:text-gray-300">Dolor Sit</div>
             </div>
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-ring dark:text-green-400">
+              <div className="text-ring text-4xl font-bold dark:text-green-400">
                 50+
               </div>
               <div className="text-gray-600 dark:text-gray-300">
@@ -132,22 +132,22 @@ function RouteComponent() {
 
       {/* Features Section */}
       <section className="container mx-auto px-4 py-16">
-        <div className="text-center space-y-4 mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+        <div className="mb-12 space-y-4 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
             Lorem Ipsum Dolor Sit
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim
             ad minim veniam quis nostrud.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card className="hover:shadow-lg transition-shadow">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <Card className="transition-shadow hover:shadow-lg">
             <CardHeader>
-              <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mb-4">
-                <Search className="w-6 h-6 text-ring dark:text-green-400" />
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900">
+                <Search className="text-ring h-6 w-6 dark:text-green-400" />
               </div>
               <CardTitle>Lorem Ipsum</CardTitle>
               <CardDescription>
@@ -157,10 +157,10 @@ function RouteComponent() {
             </CardHeader>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow">
+          <Card className="transition-shadow hover:shadow-lg">
             <CardHeader>
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
-                <MapPin className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900">
+                <MapPin className="h-6 w-6 text-blue-600 dark:text-blue-400" />
               </div>
               <CardTitle>Dolor Sit Amet</CardTitle>
               <CardDescription>
@@ -170,10 +170,10 @@ function RouteComponent() {
             </CardHeader>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow">
+          <Card className="transition-shadow hover:shadow-lg">
             <CardHeader>
-              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mb-4">
-                <Database className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900">
+                <Database className="h-6 w-6 text-purple-600 dark:text-purple-400" />
               </div>
               <CardTitle>Consectetur Adipiscing</CardTitle>
               <CardDescription>
@@ -186,9 +186,9 @@ function RouteComponent() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8">
+      <footer className="bg-gray-900 py-8 text-white">
         <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
+          <div className="mb-4 flex items-center justify-center gap-2">
             <img
               src="/images/flor.png"
               alt="Herbaria Logo"

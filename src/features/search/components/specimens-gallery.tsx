@@ -14,8 +14,8 @@ export default function SpecimensGallery({ customFilters = {} }) {
 
   return isPending ? (
     <>
-      <div className="h-[50px] m-2"></div>
-      <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-3 @7xl:grid-cols-4 gap-4">
+      <div className="m-2 h-[50px]"></div>
+      <div className="grid grid-cols-1 gap-4 @xl:grid-cols-2 @4xl:grid-cols-3 @7xl:grid-cols-4">
         {Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
           <DataItemCardSkeleton key={index} />
         ))}
@@ -29,7 +29,7 @@ export default function SpecimensGallery({ customFilters = {} }) {
         limit={ITEMS_PER_PAGE}
         setSkip={setSkip}
       />
-      <div className="grid grid-cols-1 @xl:grid-cols-2 @4xl:grid-cols-3 @7xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 @xl:grid-cols-2 @4xl:grid-cols-3 @7xl:grid-cols-4">
         {data.occurrences.map((item) => (
           <Link
             key={item.occurrenceID}
@@ -53,12 +53,12 @@ export default function SpecimensGallery({ customFilters = {} }) {
 function DataItemCard({ item }: { item: SpecimenData }) {
   const [imageLoaded, setImageLoaded] = useState(false)
   return (
-    <Card className="w-full h-full min-h-40 rounded-md shadow-xs p-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] hover:cursor-pointer">
-      <CardContent className="p-0 flex min-h-full items-start gap-4">
+    <Card className="focus-visible:border-ring focus-visible:ring-ring/50 h-full min-h-40 w-full rounded-md p-1 shadow-xs hover:cursor-pointer focus-visible:ring-[3px]">
+      <CardContent className="flex min-h-full items-start gap-4 p-0">
         {/* Placeholder Image Area */}
-        <div className="w-[110px] h-[150px] border-1 overflow-hidden bg-muted rounded-sm flex items-center justify-center shrink-0 relative">
+        <div className="bg-muted relative flex h-[150px] w-[110px] shrink-0 items-center justify-center overflow-hidden rounded-sm border-1">
           {!imageLoaded && (
-            <Skeleton className="absolute inset-0 w-full h-full" />
+            <Skeleton className="absolute inset-0 h-full w-full" />
           )}
           <img
             className={`object-cover transition-opacity duration-200 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
@@ -69,17 +69,17 @@ function DataItemCard({ item }: { item: SpecimenData }) {
         </div>
 
         {/* Text Content Area */}
-        <div className="min-h-full w-full pt-4 pr-1 flex flex-col space-y-1">
-          <p className="text-sm font-semibold pb-1">
+        <div className="flex min-h-full w-full flex-col space-y-1 pt-4 pr-1">
+          <p className="pb-1 text-sm font-semibold">
             {item.scientificName || 'Unknown Species'}
           </p>
-          <p className="text-xs text-muted-foreground">Country: Italy</p>
+          <p className="text-muted-foreground text-xs">Country: Italy</p>
 
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground text-xs">
             Date: {item.eventDate ? item.eventDate : 'Not specified'}
           </p>
           <p className="flex-grow"></p>
-          <p className="text-xs text-muted-foreground text-right pr-1">
+          <p className="text-muted-foreground pr-1 text-right text-xs">
             {item.catalogNumber || 'N/A'}
           </p>
         </div>
@@ -90,19 +90,19 @@ function DataItemCard({ item }: { item: SpecimenData }) {
 
 function DataItemCardSkeleton() {
   return (
-    <Card className="w-full h-full min-h-40 rounded-md shadow-xs p-1">
-      <CardContent className="p-0 flex min-h-full items-start gap-4">
+    <Card className="h-full min-h-40 w-full rounded-md p-1 shadow-xs">
+      <CardContent className="flex min-h-full items-start gap-4 p-0">
         {/* Image Skeleton */}
-        <div className="w-[110px] h-[150px] border-1 overflow-hidden bg-muted rounded-sm flex items-center justify-center shrink-0">
-          <Skeleton className="w-full h-full" />
+        <div className="bg-muted flex h-[150px] w-[110px] shrink-0 items-center justify-center overflow-hidden rounded-sm border-1">
+          <Skeleton className="h-full w-full" />
         </div>
-        <div className="min-h-full w-full pt-4 pr-1 flex flex-col space-y-1">
-          <Skeleton className="h-4 w-3/4 mb-1" />
+        <div className="flex min-h-full w-full flex-col space-y-1 pt-4 pr-1">
+          <Skeleton className="mb-1 h-4 w-3/4" />
           <Skeleton className="h-3 w-1/2" />
           <Skeleton className="h-3 w-2/3" />
           <div className="flex-grow"></div>
-          <div className="text-right pr-1">
-            <Skeleton className="h-3 w-16 ml-auto" />
+          <div className="pr-1 text-right">
+            <Skeleton className="ml-auto h-3 w-16" />
           </div>
         </div>
       </CardContent>

@@ -16,13 +16,13 @@ export function HeaderHerbarium() {
     : ''
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
       <nav className="container flex h-[var(--header-height)] max-w-screen-2xl items-center justify-between px-4">
         {/* Logo and Brand */}
         <div className="flex items-center gap-3">
           <Link
             to="/"
-            className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+            className="flex items-center gap-3 transition-opacity hover:opacity-80"
           >
             <img
               src="/images/flor.png"
@@ -31,7 +31,7 @@ export function HeaderHerbarium() {
               height={38}
               className=""
             />
-            <span className="hidden sm:inline-block text-sm font-medium text-foreground">
+            <span className="text-foreground hidden text-sm font-medium sm:inline-block">
               {herbariumDisplayName || 'FlorItaly Herbaria'}
             </span>
           </Link>

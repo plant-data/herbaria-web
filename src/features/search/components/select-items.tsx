@@ -87,7 +87,7 @@ export function SelectItems({
 
   return (
     <div className="max-w-full">
-      <div className="text-sm font-semibold pl-1">{label}</div>
+      <div className="pl-1 text-sm font-semibold">{label}</div>
 
       {/* 1: badge part */}
       <BadgeSelected
@@ -109,8 +109,8 @@ export function SelectItems({
           <SelectTrigger
             ref={inputRef}
             className={cn(
-              'h-8 w-full max-w-full bg-background',
-              availableItems.length === 0 && 'opacity-50 cursor-not-allowed',
+              'bg-background h-8 w-full max-w-full',
+              availableItems.length === 0 && 'cursor-not-allowed opacity-50',
             )}
             disabled={availableItems.length === 0}
             onKeyDown={(e) => {

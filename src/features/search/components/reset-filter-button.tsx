@@ -47,7 +47,7 @@ export function ResetFilterButton({
           'rounded-full border-1 transition-all duration-200',
           'hover:border-destructive hover:text-destructive',
           'focus:border-destructive focus:text-destructive',
-          'disabled:opacity-50 disabled:cursor-not-allowed',
+          'disabled:cursor-not-allowed disabled:opacity-50',
           isHovered ? 'shadow-sm' : 'shadow-xs',
         )}
         onClick={onResetClick}
@@ -66,8 +66,8 @@ export function ResetFilterButton({
             badgeSizes[size],
             'peer-hover:bg-destructive',
             'bg-primary text-secondary rounded-full',
-            'flex items-center justify-center font-semibold text-[10px]',
-            'shadow-md border-1 p-1 border-background',
+            'flex items-center justify-center text-[10px] font-semibold',
+            'border-background border-1 p-1 shadow-md',
             'animate-in zoom-in-50 duration-200',
           )}
           aria-label={`${itemCount} items selected`}

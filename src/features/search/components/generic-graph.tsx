@@ -230,12 +230,12 @@ export function GenericGraph({
 
   if (!chartOptions && !isPending) {
     return (
-      <Card className="shadow-xs gap-0 pb-1">
+      <Card className="gap-0 pb-1 shadow-xs">
         <CardHeader>
           <CardTitle className="h-6">{title}</CardTitle>
         </CardHeader>
         <CardContent className="px-1">
-          <p className="h-[400px] w-full flex justify-center items-center">
+          <p className="flex h-[400px] w-full items-center justify-center">
             {t('search.results.error-no-data')}
           </p>
         </CardContent>
@@ -244,7 +244,7 @@ export function GenericGraph({
   }
   if (isPending) {
     return (
-      <Card className="shadow-xs gap-0 pb-1">
+      <Card className="gap-0 pb-1 shadow-xs">
         <CardHeader>
           <Skeleton className="h-6 w-48" />
         </CardHeader>
@@ -256,7 +256,7 @@ export function GenericGraph({
   }
 
   return (
-    <Card className="shadow-xs gap-0 pb-1">
+    <Card className="gap-0 pb-1 shadow-xs">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>

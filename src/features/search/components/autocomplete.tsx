@@ -103,7 +103,7 @@ export function Autocomplete({
 
   return (
     <div>
-      <div className="text-sm font-semibold pl-1">{label}</div>
+      <div className="pl-1 text-sm font-semibold">{label}</div>
 
       {/* 1: checkbox part - OUTSIDE Command */}
       <BadgeSelected
@@ -116,7 +116,7 @@ export function Autocomplete({
       {/* 2: Command for input and list */}
       <Command
         onKeyDown={handleKeyDown}
-        className="overflow-visible bg-transparent max-w-full"
+        className="max-w-full overflow-visible bg-transparent"
         shouldFilter={false}
         async={true}
         fetchInProgress={
@@ -125,11 +125,11 @@ export function Autocomplete({
       >
         {/* input part */}
         <div className="relative py-1">
-          <div className="absolute left-2 top-1/2 -translate-y-1/2">
+          <div className="absolute top-1/2 left-2 -translate-y-1/2">
             {isGettingData ? (
-              <LoaderCircle className="h-4 w-4 shrink-0 text-ring opacity-80 animate-spin" />
+              <LoaderCircle className="text-ring h-4 w-4 shrink-0 animate-spin opacity-80" />
             ) : (
-              <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
+              <Search className="text-muted-foreground h-4 w-4 shrink-0" />
             )}
           </div>
           <CommandPrimitive.Input
@@ -141,7 +141,7 @@ export function Autocomplete({
             onFocus={() => setOpen(true)}
             placeholder={placeholder}
             className={cn(
-              ' pl-7 pr-3 py-2 file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-[34px] w-full min-w-0 rounded-md border bg-background text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
+              'file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input bg-background flex h-[34px] w-full min-w-0 rounded-md border py-2 pr-3 pl-7 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
               'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[2px]',
               'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
             )}
@@ -155,7 +155,7 @@ export function Autocomplete({
               search !== '' &&
               debouncedSearch !== '' &&
               !isGettingData && (
-                <CommandEmpty className="text-sm absolute top-0 z-10 w-full rounded-md border bg-popover p-2 text-popover-foreground shadow-sm outline-none animate-in">
+                <CommandEmpty className="bg-popover text-popover-foreground animate-in absolute top-0 z-10 w-full rounded-md border p-2 text-sm shadow-sm outline-none">
                   {error
                     ? t('search.filters.autocomplete-error')
                     : debouncedSearch.length < minLength ||
@@ -172,7 +172,7 @@ export function Autocomplete({
             debouncedSearch.length >= minLength &&
             selectables &&
             selectables.length > 0 ? (
-              <CommandGroup className="absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-sm outline-none animate-in">
+              <CommandGroup className="bg-popover text-popover-foreground animate-in absolute top-0 z-10 w-full rounded-md border shadow-sm outline-none">
                 <div className="h-full max-h-48 overflow-auto">
                   {selectables.map((item) => {
                     return (
@@ -187,7 +187,7 @@ export function Autocomplete({
                           queryClient.setQueryData([queryKey, ''], [])
                           onSelectedValuesChange((prev) => [...prev, item])
                         }}
-                        className="cursor-pointer "
+                        className="cursor-pointer"
                       >
                         {item}
                       </CommandItem>

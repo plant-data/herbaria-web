@@ -26,7 +26,7 @@ export function LanguageToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="min-w-[5rem] dark:border dark:border-input dark:bg-background"
+        className="dark:border-input dark:bg-background min-w-[5rem] dark:border"
         align="end"
       >
         {Object.keys(lngs).map((lng) => (

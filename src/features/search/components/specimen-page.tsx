@@ -29,19 +29,19 @@ export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
   }, [])
 
   return (
-    <div className="relative container mx-auto px-4 py-6 max-w-6xl">
+    <div className="relative container mx-auto max-w-6xl px-4 py-6">
       <Button
         ref={backRef}
         variant="outline"
         onClick={() => router.history.back()}
-        className="absolute top-4 right-2 md:top-6 md:right-4 h-9 w-9 rounded-full border border-input shadow-xs bg-background"
+        className="border-input bg-background absolute top-4 right-2 h-9 w-9 rounded-full border shadow-xs md:top-6 md:right-4"
       >
         <ArrowLeft className="size-4" />
       </Button>
-      <h1 className="px-2 text-center sm:text-left sm:px-0 text-2xl sm:text-3xl font-bold mb-6">
+      <h1 className="mb-6 px-2 text-center text-2xl font-bold sm:px-0 sm:text-left sm:text-3xl">
         {occurrence.scientificName}
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-[254px_1fr] md:grid-cols-[354px_1fr] gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-[254px_1fr] md:grid-cols-[354px_1fr]">
         <div className="space-y-6">
           <SpecimenImage
             multimedia={occurrence.multimedia}
@@ -66,7 +66,7 @@ function SpecimenMap({ decimalLatitude, decimalLongitude }: SpecimenMapProps) {
   const position: [number, number] = [decimalLatitude, decimalLongitude]
 
   return (
-    <Card className="rounded-md shadow-xs p-0 overflow-hidden">
+    <Card className="overflow-hidden rounded-md p-0 shadow-xs">
       <CardContent className="p-1">
         <div className="h-64 w-full overflow-hidden rounded-[3px]">
           <MapContainer
@@ -97,9 +97,9 @@ export function SpecimenImage({
   const hasImage = multimedia.length > 0
   if (!hasImage) {
     return (
-      <Card className="p-0 rounded-md shadow-xs max-w-[280px] sm:max-w-full mx-auto">
-        <CardContent className="sm:w-[254px] sm:h-[370px] md:w-[352px] md:h-[500px] p-1 m-0">
-          <div className="w-full h-full bg-gray-200 flex items-center justify-center rounded-md">
+      <Card className="mx-auto max-w-[280px] rounded-md p-0 shadow-xs sm:max-w-full">
+        <CardContent className="m-0 p-1 sm:h-[370px] sm:w-[254px] md:h-[500px] md:w-[352px]">
+          <div className="flex h-full w-full items-center justify-center rounded-md bg-gray-200">
             <span className="text-gray-500">No image available</span>
           </div>
         </CardContent>
@@ -114,7 +114,7 @@ export function SpecimenImage({
 
   return (
     <>
-      <Card className="p-0 rounded-md shadow-xs max-w-[280px] sm:max-w-full mx-auto">
+      <Card className="mx-auto max-w-[280px] rounded-md p-0 shadow-xs sm:max-w-full">
         <ViewerProvider
           settings={{
             zoom: {
@@ -139,13 +139,13 @@ export function SpecimenImage({
             fillHeight: false,
           }}
         >
-          <div className="w-full  flex flex-col">
+          <div className="flex w-full flex-col">
             <div className="flex-1 p-1">
-              <div className="w-full h-[370px] sm:h-[340px]  md:h-[480px]  overflow-hidden rounded-[4px] border border-input">
+              <div className="border-input h-[370px] w-full overflow-hidden rounded-[4px] border sm:h-[340px] md:h-[480px]">
                 <Viewer
                   viewportContent={
                     <img
-                      className="w-full object-contain will-change-transform h-[370px] sm:h-[340px] md:h-[480px]"
+                      className="h-[370px] w-full object-contain will-change-transform sm:h-[340px] md:h-[480px]"
                       src={thumbnailUrl}
                       alt={scientificName || 'Specimen Image'}
                       draggable="false"
@@ -183,28 +183,28 @@ const ImageViewerControls = ({
   const { zoomOut, zoomIn, resetView, crop } = useContext(ViewerContext)
 
   return (
-    <div className="flex items-center justify-between px-2 py-1 border-t border-input">
+    <div className="border-input flex items-center justify-between border-t px-2 py-1">
       <div className="flex items-center gap-1">
         <button
           onClick={zoomOut}
-          className="p-1 rounded hover:bg-gray-200 transition-colors cursor-pointer"
+          className="cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
           aria-label="Zoom Out"
         >
           <ZoomOut size={16} />
         </button>
-        <span className="text-xs font-medium min-w-[2.5rem] text-center">
+        <span className="min-w-[2.5rem] text-center text-xs font-medium">
           {(crop.zoom * 100).toFixed(0)}%
         </span>
         <button
           onClick={zoomIn}
-          className="p-1 rounded hover:bg-gray-200 transition-colors cursor-pointer"
+          className="cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
           aria-label="Zoom In"
         >
           <ZoomIn size={16} />
         </button>
         <button
           onClick={resetView}
-          className="p-1 rounded hover:bg-gray-200 transition-colors ml-1 cursor-pointer"
+          className="ml-1 cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
           aria-label="Reset View"
         >
           <RotateCcw size={16} />
@@ -212,7 +212,7 @@ const ImageViewerControls = ({
       </div>
       <button
         onClick={onFullScreen}
-        className="p-1 rounded hover:bg-gray-200 transition-colors cursor-pointer"
+        className="cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
         aria-label="Full Screen"
       >
         <Maximize2 size={16} />
@@ -223,7 +223,7 @@ const ImageViewerControls = ({
 
 export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
   return (
-    <Card className="rounded-md shadow-xs gap-2">
+    <Card className="gap-2 rounded-md shadow-xs">
       <CardHeader>
         <CardTitle className="text-xl">LABEL DATA</CardTitle>
       </CardHeader>

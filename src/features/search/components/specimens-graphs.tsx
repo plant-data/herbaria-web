@@ -6,8 +6,8 @@ export function SpecimensGraphs() {
   const { t } = useTranslation()
 
   return (
-    <div className="space-y-8 py-4 max-w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="max-w-full space-y-8 py-4">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <GenericGraph
           title={t('search.results.specimens-by-scientific-name')}
           groupBy="scientificName"
@@ -23,7 +23,7 @@ export function SpecimensGraphs() {
           chartType="line"
           color="#91cc75"
         />
-        <MapGraph className="col-span-1 lg:col-span-2 " />
+        <MapGraph className="col-span-1 lg:col-span-2" />
 
         <GenericGraph
           title={t('search.results.specimens-by-floritaly-name')}

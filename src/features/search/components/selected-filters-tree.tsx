@@ -39,16 +39,16 @@ function TreeLines({ index, total }: TreeLinesProps) {
   const isLast = index === total - 1
 
   return (
-    <div className="flex-shrink-0 w-4 h-4 mr-1 relative">
+    <div className="relative mr-1 h-4 w-4 flex-shrink-0">
       {/* Vertical line (except for last item) */}
       {!isLast && (
-        <div className="absolute left-1.5 top-2 w-px h-6 bg-muted-foreground" />
+        <div className="bg-muted-foreground absolute top-2 left-1.5 h-6 w-px" />
       )}
       {/* Horizontal line */}
-      <div className="absolute left-1.5 top-2 w-2 h-px bg-muted-foreground" />
+      <div className="bg-muted-foreground absolute top-2 left-1.5 h-px w-2" />
       {/* Vertical connector */}
       <div
-        className={`absolute left-1.5 top-0 w-px bg-muted-foreground ${isLast ? 'h-2' : 'h-4'}`}
+        className={`bg-muted-foreground absolute top-0 left-1.5 w-px ${isLast ? 'h-2' : 'h-4'}`}
       />
     </div>
   )
@@ -57,14 +57,14 @@ function TreeLines({ index, total }: TreeLinesProps) {
 // Component: Individual filter item with badge
 function FilterItem({ index, total, displayValue }: FilterItemProps) {
   return (
-    <div className="flex items-center ">
+    <div className="flex items-center">
       <TreeLines index={index} total={total} />
       <Badge
         variant="secondary"
-        className="bg-background dark:bg-input border-input text-xs font-normal hover:bg-background/80 transition-colors"
+        className="bg-background dark:bg-input border-input hover:bg-background/80 text-xs font-normal transition-colors"
         tabIndex={-1}
       >
-        <span className={`truncate max-w-[15rem]`}>{displayValue}</span>
+        <span className={`max-w-[15rem] truncate`}>{displayValue}</span>
       </Badge>
     </div>
   )
@@ -74,7 +74,7 @@ function FilterItem({ index, total, displayValue }: FilterItemProps) {
 function FilterGroup({ label, count, children }: FilterGroupProps) {
   return (
     <div>
-      <div className="font-medium text-sm text-primary mb-1">
+      <div className="text-primary mb-1 text-sm font-medium">
         {label} ({count})
       </div>
       <div className="flex flex-col gap-1">{children}</div>
@@ -171,7 +171,7 @@ export function SelectedFiltersTree() {
 
   if (activeFiltersCount === 0) {
     return (
-      <div className="text-center py-6 text-sm text-muted-foreground">
+      <div className="text-muted-foreground py-6 text-center text-sm">
         {t('search.filters.no-active-filters')}
       </div>
     )
@@ -180,7 +180,7 @@ export function SelectedFiltersTree() {
   return (
     <div className="space-y-2">
       <div className="h-3 w-full"></div>
-      <div className="flex items-center justify-between mb-3">
+      <div className="mb-3 flex items-center justify-between">
         <span className="text-sm font-semibold">
           {t('search.filters.active-filters')} ({activeFiltersCount})
         </span>

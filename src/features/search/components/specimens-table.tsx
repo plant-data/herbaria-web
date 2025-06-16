@@ -42,8 +42,8 @@ const createColumns = (): Array<ColumnDef<SpecimenData>> => [
         to={`/specimens/${row.original.occurrenceID}`}
         className="text-blue-500 hover:underline"
       >
-        <span className="flex gap-2 items-center min-w-50">
-          <span className="flex gap-2 w-7 h-8 ">
+        <span className="flex min-w-50 items-center gap-2">
+          <span className="flex h-8 w-7 gap-2">
             <img
               className="object-contain"
               src={`${BASE_IMAGE_URL}unsafe/110x150${row.original.multimedia[0].identifier}`}
@@ -162,7 +162,7 @@ export function SpecimensTable() {
       </>
       {/* </div> */}
       {/* table */}
-      <div className="rounded-md border overflow-hidden">
+      <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader className="bg-muted">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -188,7 +188,7 @@ export function SpecimensTable() {
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell className="py-2 min-w-40" key={cell.id}>
+                    <TableCell className="min-w-40 py-2" key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

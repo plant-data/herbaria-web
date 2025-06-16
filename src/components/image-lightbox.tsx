@@ -93,7 +93,7 @@ export function ImageLightbox({
       className={
         isLoading
           ? 'opacity-0'
-          : 'opacity-100 transition-opacity, will-change-transform'
+          : 'transition-opacity, opacity-100 will-change-transform'
       }
     />
   )
@@ -101,7 +101,7 @@ export function ImageLightbox({
   // --- Render into a Portal ---
   return ReactDOM.createPortal(
     <div
-      className="fixed inset-0 z-[999999] bg-black bg-opacity-80 backdrop-blur-sm"
+      className="bg-opacity-80 fixed inset-0 z-[999999] bg-black backdrop-blur-sm"
       onClick={handleBackdropClick}
     >
       <style>{`
@@ -116,7 +116,7 @@ export function ImageLightbox({
       `}</style>
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
         </div>
       )}
 
@@ -144,8 +144,8 @@ export function ImageLightbox({
           },
         }}
       >
-        <div className="w-full h-full flex flex-col">
-          <div className="w-full h-full flex items-center justify-center">
+        <div className="flex h-full w-full flex-col">
+          <div className="flex h-full w-full items-center justify-center">
             <Viewer viewportContent={content} minimapContent={content} />
           </div>
 
@@ -175,24 +175,24 @@ const LightboxToolbar = ({
       className="absolute top-4 right-4 flex items-center gap-3 text-white"
       onClick={handleToolbarClick}
     >
-      <div className="flex items-center gap-1 h-8 bg-background rounded-md border border-input">
+      <div className="bg-background border-input flex h-8 items-center gap-1 rounded-md border">
         <Button
           onClick={zoomOut}
           variant="ghost"
           size="icon"
-          className="size-8 bg-background text-primary hover:bg-accent border-0 "
+          className="bg-background text-primary hover:bg-accent size-8 border-0"
           aria-label="Zoom Out"
         >
           <ZoomOut size={16} />
         </Button>
-        <span className="text-sm min-w-[3rem] text-center bg-background text-primary hover:bg-accent">
+        <span className="bg-background text-primary hover:bg-accent min-w-[3rem] text-center text-sm">
           {(crop.zoom * 100).toFixed(0)}%
         </span>
         <Button
           onClick={zoomIn}
           variant="ghost"
           size="icon"
-          className="size-8 bg-background text-primary hover:bg-accent border-0"
+          className="bg-background text-primary hover:bg-accent size-8 border-0"
           aria-label="Zoom In"
         >
           <ZoomIn size={16} />
@@ -203,7 +203,7 @@ const LightboxToolbar = ({
         onClick={resetView}
         variant="ghost"
         size="icon"
-        className="size-8 bg-background text-primary hover:bg-accent border border-input"
+        className="bg-background text-primary hover:bg-accent border-input size-8 border"
         aria-label="Reset View"
       >
         <RotateCcw size={18} />
@@ -213,7 +213,7 @@ const LightboxToolbar = ({
         onClick={onClose}
         variant="ghost"
         size="icon"
-        className="size-8 bg-background text-primary hover:bg-accent border border-input"
+        className="bg-background text-primary hover:bg-accent border-input size-8 border"
         aria-label="Close Lightbox"
       >
         <X size={18} />

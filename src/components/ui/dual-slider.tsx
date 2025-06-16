@@ -22,17 +22,17 @@ function DualSlider({
   return (
     <SliderPrimitive.Root
       className={cn(
-        'relative flex w-full touch-none select-none items-center',
+        'relative flex w-full touch-none items-center select-none',
         className,
       )}
       {...props}
     >
-      <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-background border border-input shadow-xs">
-        <SliderPrimitive.Range className="absolute h-full bg-primary" />
+      <SliderPrimitive.Track className="bg-background border-input relative h-1.5 w-full grow overflow-hidden rounded-full border shadow-xs">
+        <SliderPrimitive.Range className="bg-primary absolute h-full" />
       </SliderPrimitive.Track>
       {initialValue.map((value, index) => (
         <React.Fragment key={index}>
-          <SliderPrimitive.Thumb className="relative block h-4 w-4 rounded-full border border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50">
+          <SliderPrimitive.Thumb className="border-primary bg-background ring-offset-background focus-visible:ring-ring/50 relative block h-4 w-4 rounded-full border transition-colors focus-visible:ring-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50">
             {label && (
               <span
                 className={cn(

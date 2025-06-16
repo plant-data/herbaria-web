@@ -61,14 +61,14 @@ function RouteComponent() {
       <div className="flex flex-1">
         <SearchSidebar lockedFilters={lockedFilters} />
         <SidebarInset>
-          <div className="@container px-4 pt-4 pb-2  md:px-6">
+          <div className="@container px-4 pt-4 pb-2 md:px-6">
             <SpecimensNavbar />
             <Outlet />
           </div>
         </SidebarInset>
       </div>
       <SidebarTrigger
-        className="z-[51] fixed left-3 bottom-3 hover:bg-background"
+        className="hover:bg-background fixed bottom-3 left-3 z-[51]"
         textShow={t('search.filters.show-filters')}
         textHide={t('search.filters.hide-filters')}
       ></SidebarTrigger>

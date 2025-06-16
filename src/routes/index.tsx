@@ -9,7 +9,7 @@ export const Route = createFileRoute('/')({
 function App() {
   const { t } = useTranslation()
   return (
-    <div className="flex flex-col items-center min-h-screen p-4 space-y-4">
+    <div className="flex min-h-screen flex-col items-center space-y-4 p-4">
       <h1 className="text-center text-xl font-bold">Link rapidi</h1>
       <div className="text-center">
         <Button asChild>

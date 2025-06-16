@@ -187,7 +187,7 @@ function MapControls() {
         size="sm"
         variant="secondary"
         onClick={handleResetView}
-        className="bg-white text-xs size-[30px] rounded-[3px] ring-2 ring-gray-400"
+        className="size-[30px] rounded-[3px] bg-white text-xs ring-2 ring-gray-400"
         title="Reset to initial view"
       >
         <House className="size-4" />
@@ -196,7 +196,7 @@ function MapControls() {
         size="sm"
         variant="secondary"
         onClick={handleWorldView}
-        className="bg-white text-xs size-[30px] rounded-[3px] ring-2 ring-gray-400"
+        className="size-[30px] rounded-[3px] bg-white text-xs ring-2 ring-gray-400"
         title="Show world view"
       >
         <Earth className="size-4" />
@@ -216,13 +216,13 @@ function ColorLegend({ palette }: { palette: PaletteFn }) {
   ]
 
   return (
-    <Card className="p-2.5 rounded-sm shadow-xs">
+    <Card className="rounded-sm p-2.5 shadow-xs">
       <CardContent className="p-0">
         <div className="flex flex-wrap gap-4">
           {ranges.map((range, index) => (
             <div key={index} className="flex items-center gap-1 text-xs">
               <div
-                className="w-4 h-4 rounded-sm border border-gray-300"
+                className="h-4 w-4 rounded-sm border border-gray-300"
                 style={{ backgroundColor: palette(range.value) }}
               />
               <span className="text-gray-700">{range.label}</span>
@@ -300,20 +300,20 @@ export function SpecimensMap() {
 
   if (isPending)
     return (
-      <div className="h-[70vh] flex items-center justify-center">
+      <div className="flex h-[70vh] items-center justify-center">
         Loading...
       </div>
     )
   if (error)
     return (
-      <div className="h-[70vh] flex items-center justify-center text-red-500">
+      <div className="flex h-[70vh] items-center justify-center text-red-500">
         Error.
       </div>
     )
 
   return (
     <>
-      <div className="mt-6 relative h-[70vh] w-full rounded-lg overflow-hidden">
+      <div className="relative mt-6 h-[70vh] w-full overflow-hidden rounded-lg">
         <MapContainer
           center={INITIAL_VIEW_STATE.center}
           zoom={INITIAL_VIEW_STATE.zoom}

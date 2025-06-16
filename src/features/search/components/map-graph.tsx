@@ -120,11 +120,11 @@ export function MapGraph({ className = '' }) {
 
   if (isLoading) {
     return (
-      <Card className={cn('shadow-xs overflow-hidden gap-0', className)}>
+      <Card className={cn('gap-0 overflow-hidden shadow-xs', className)}>
         <CardHeader>
           <Skeleton className="h-6 w-48" />
         </CardHeader>
-        <CardContent className="flex justify-center items-center">
+        <CardContent className="flex items-center justify-center">
           <Skeleton className="h-[400px] w-full" />
         </CardContent>
       </Card>
@@ -133,11 +133,11 @@ export function MapGraph({ className = '' }) {
 
   if (isError || isNoData) {
     return (
-      <Card className={cn('shadow-xs overflow-hidden gap-0', className)}>
+      <Card className={cn('gap-0 overflow-hidden shadow-xs', className)}>
         <CardHeader>
           <CardTitle>{t('search.results.specimens-country')}</CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center justify-center h-[400px]">
+        <CardContent className="flex h-[400px] items-center justify-center">
           <p className="">
             {isError
               ? t('search.results.error-graph')
@@ -149,7 +149,7 @@ export function MapGraph({ className = '' }) {
   }
 
   return (
-    <Card className={cn('shadow-xs overflow-hidden gap-0', className)}>
+    <Card className={cn('gap-0 overflow-hidden shadow-xs', className)}>
       <CardHeader>
         <CardTitle>{t('search.results.specimens-country')}</CardTitle>
       </CardHeader>

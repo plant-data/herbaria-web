@@ -25,8 +25,8 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
   }
 
   return (
-    <div className="h-[50px] flex items-center justify-between my-2">
-      <div className="flex-1 text-sm text-muted-foreground">
+    <div className="my-2 flex h-[50px] items-center justify-between">
+      <div className="text-muted-foreground flex-1 text-sm">
         Page {page} of {totalPages}
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
@@ -42,7 +42,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
           </Button>
           <Button
             variant="ghost"
-            className="hidden lg:flex h-8 w-8 p-0"
+            className="hidden h-8 w-8 p-0 lg:flex"
             onClick={() => setSkip(skip - limit)}
             disabled={page === 1}
           >
@@ -101,7 +101,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
           )}
           <Button
             variant="ghost"
-            className="hidden lg:flex h-8 w-8 p-0"
+            className="hidden h-8 w-8 p-0 lg:flex"
             onClick={() => setSkip(skip + limit)}
             disabled={page >= totalPages}
           >

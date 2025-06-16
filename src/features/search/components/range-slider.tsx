@@ -36,7 +36,7 @@ export function RangeSlider({
 
   return (
     <div className="max-w-full">
-      <div className="text-sm font-semibold pl-1 pb-2">{label}</div>
+      <div className="pb-2 pl-1 text-sm font-semibold">{label}</div>
       <DualSlider
         className="bg-background"
         value={currentSliderValues}
@@ -48,7 +48,7 @@ export function RangeSlider({
       />
       <div
         id="year-range-values"
-        className="flex justify-between mt-2 font-semibold text-sm"
+        className="mt-2 flex justify-between text-sm font-semibold"
       >
         <div>{currentSliderValues[0]}</div>
         <div>{currentSliderValues[1]}</div>

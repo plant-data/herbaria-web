@@ -30,13 +30,13 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
   const shouldShowClearAll = showClearAll
 
   return (
-    <div className="pl-1 text-sm flex flex-col gap-1">
+    <div className="flex flex-col gap-1 pl-1 text-sm">
       <div className="flex flex-col gap-1">
         {items.map((item) => (
           <Badge
             key={item}
             variant="secondary"
-            className="bg-background dark:bg-input border-input text-xs font-normal cursor-pointer hover:bg-background/80 transition-colors focus:outline-none focus:ring-2 focus:ring-ring "
+            className="bg-background dark:bg-input border-input hover:bg-background/80 focus:ring-ring cursor-pointer text-xs font-normal transition-colors focus:ring-2 focus:outline-none"
             onClick={() => onItemRemove(item)}
             tabIndex={0}
             role="button"
@@ -48,8 +48,8 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
               }
             }}
           >
-            <X className="h-3 w-3 mr-1" />
-            <span className="truncate max-w-[220px]">{item}</span>
+            <X className="mr-1 h-3 w-3" />
+            <span className="max-w-[220px] truncate">{item}</span>
           </Badge>
         ))}
       </div>
@@ -57,7 +57,7 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
         <Badge
           variant="destructive"
           onClick={onClearAll}
-          className="bg-red-600/10 dark:bg-red-600/20 hover:bg-red-600/5 text-red-500 border-red-600/60 shadow-none self-start text-xs font-normal cursor-pointer transition-colors focus-visible:border-destructive focus:outline-none focus:ring-2 focus:ring-destructive"
+          className="focus-visible:border-destructive focus:ring-destructive cursor-pointer self-start border-red-600/60 bg-red-600/10 text-xs font-normal text-red-500 shadow-none transition-colors hover:bg-red-600/5 focus:ring-2 focus:outline-none dark:bg-red-600/20"
           tabIndex={0}
           role="button"
           aria-label="Clear all filters"

@@ -27,23 +27,23 @@ export function SpecimensNavbar() {
   }, [params])
 
   return (
-    <div className="flex gap-2 flex-col justify-center @lg:flex-row @lg:justify-between items-center">
+    <div className="flex flex-col items-center justify-center gap-2 @lg:flex-row @lg:justify-between">
       <div className="flex justify-center">
         <ResultOccurrencesCounter />
       </div>
 
       <div className="flex justify-center">
-        <nav className="flex gap-2 p-0.5 bg-muted dark:bg-card rounded-lg dark:border dark:border-input">
+        <nav className="bg-muted dark:bg-card dark:border-input flex gap-2 rounded-lg p-0.5 dark:border">
           {navItems.map(({ path, icon: Icon, label }) => (
             <Link
               key={path}
               to={path}
               preload="intent"
               className={cn(
-                'flex items-center gap-2 px-1 @xs:px-2 @sm:px-3 py-[7px] rounded-md text-xs font-medium transition-colors',
+                'flex items-center gap-2 rounded-md px-1 py-[7px] text-xs font-medium transition-colors @xs:px-2 @sm:px-3',
                 'hover:bg-background hover:shadow-sm',
                 location.pathname === path
-                  ? 'bg-background shadow-sm text-foreground dark:border dark:border-input'
+                  ? 'bg-background text-foreground dark:border-input shadow-sm dark:border'
                   : 'text-muted-foreground',
               )}
             >
@@ -69,10 +69,10 @@ function ResultOccurrencesCounter() {
   }
 
   return (
-    <div className="text-sm text-muted-foreground flex gap-2">
+    <div className="text-muted-foreground flex gap-2 text-sm">
       {data.count} Occurrences
       {isFetching && (
-        <LoaderCircle className="h-4 w-4 shrink-0 text-ring opacity-80 animate-spin" />
+        <LoaderCircle className="text-ring h-4 w-4 shrink-0 animate-spin opacity-80" />
       )}
     </div>
   )

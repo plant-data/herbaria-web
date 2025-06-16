@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSpecimensData } from '@/features/search/api/get-occurrences'
 import { Pagination } from '@/features/search/components/pagination'
-import { ITEMS_PER_PAGE } from '@/config'
+import { ITEMS_PER_PAGE, BASE_IMAGE_URL } from '@/config'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 
 export default function SpecimensGallery({ customFilters = {} }) {
@@ -62,7 +62,7 @@ function DataItemCard({ item }: { item: SpecimenData }) {
           )}
           <img
             className={`object-cover transition-opacity duration-200 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-            src={`http://137.204.21.175:8000/unsafe/110x150${item.multimedia[0].identifier}`}
+            src={`${BASE_IMAGE_URL}unsafe/110x150${item.multimedia[0].identifier}`}
             onLoad={() => setImageLoaded(true)}
             onError={() => setImageLoaded(true)} // Hide skeleton even if image fails to load
           />

@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { BASE_IMAGE_URL } from '@/config'
 
 export const Route = createFileRoute('/$herbariaId/')({
   loader: async ({ params }) => {
@@ -67,7 +68,7 @@ function RouteComponent() {
             <div className="mt-8 sm:block">
               <div className="border-2 border-input aspect-[4/6] w-32 sm:w-60 lg:w-64 bg-gradient-to-br from-green-200 to-green-300 dark:from-green-800 dark:to-green-900 rounded-sm overflow-hidden">
                 <img
-                  src="http://137.204.21.175:8000/unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00204271.jpg"
+                  src={`${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00204271.jpg`}
                   alt="Herbarium specimen FI-HCI-00206738"
                   className="w-full h-full object-cover"
                 />
@@ -78,7 +79,7 @@ function RouteComponent() {
             <div className="-mt-4 md:block">
               <div className="border-2 border-input aspect-[4/6] w-32 sm:w-60 lg:w-64 bg-gradient-to-br from-emerald-200 to-emerald-300 dark:from-emerald-800 dark:to-emerald-900 rounded-sm overflow-hidden">
                 <img
-                  src="http://137.204.21.175:8000/unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00206738.jpg"
+                  src={`${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00206738.jpg`}
                   alt="Herbarium specimen FI-HCI-00206738"
                   className="w-full h-full object-cover"
                 />
@@ -89,7 +90,7 @@ function RouteComponent() {
             <div className="mt-6 hidden lg:block">
               <div className=" border-2 border-input aspect-[4/6] w-32 sm:w-40 lg:w-64 bg-gradient-to-br from-teal-200 to-teal-300 dark:from-teal-800 dark:to-teal-900 rounded-sm overflow-hidden">
                 <img
-                  src="http://137.204.21.175:8000/unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00207292.jpg"
+                  src={`${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00207292.jpg`}
                   alt="Herbarium specimen FI-HCI-00207292"
                   className="w-full h-full object-cover"
                 />

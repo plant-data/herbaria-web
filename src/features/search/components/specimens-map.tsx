@@ -9,6 +9,7 @@ import {
 } from 'react-leaflet'
 import L from 'leaflet'
 import { Earth, House } from 'lucide-react'
+import { useShallow } from 'zustand/react/shallow'
 import type { PaletteName } from '@/features/search/constants/map-palettes'
 import { palettes } from '@/features/search/constants/map-palettes'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
@@ -26,7 +27,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
-import { useShallow } from 'zustand/react/shallow'
 
 // NEW: Import shadcn/ui Dialog components
 import {
@@ -35,6 +35,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Link } from '@tanstack/react-router'
 
 // --- (No changes to the top part of the file up to ColorLegend) ---
 
@@ -269,10 +270,10 @@ function SpecimenPopupContent({
       <ul className="max-h-64 space-y-1.5 overflow-y-auto pr-2">
         {data.occurrences.map((occ: any) => (
           <li key={occ.occurrenceID}>
-            <span className="italic">
+            <span>
               {occ.scientificName || 'Unknown Species'}
             </span>{' '}
-            ({occ.occurrenceID})
+            <Link className='text-blue-400' to='/specimens/$occurrenceID' params={{ occurrenceID: occ.occurrenceID }}>({occ.occurrenceID})</Link>
           </li>
         ))}
       </ul>
@@ -339,7 +340,7 @@ function SpecimenPointDialog({
   onClose: () => void
 }) {
   return (
-    <Dialog className='z-[999999]' open={isOpen} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Specimens ({point.count})</DialogTitle>

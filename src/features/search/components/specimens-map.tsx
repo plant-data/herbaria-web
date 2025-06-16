@@ -10,6 +10,7 @@ import {
 import L from 'leaflet'
 import { Earth, House } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
+import { Link } from '@tanstack/react-router'
 import type { PaletteName } from '@/features/search/constants/map-palettes'
 import { palettes } from '@/features/search/constants/map-palettes'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
@@ -35,7 +36,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Link } from '@tanstack/react-router'
 
 // --- (No changes to the top part of the file up to ColorLegend) ---
 

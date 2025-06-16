@@ -242,7 +242,7 @@ function SimpleMarkers({ clusters }: { clusters: Array<ClusterData> }) {
   }, [map])
 
   // Only show simple markers when zoom >= 12
-  if (zoom < 12) return null
+  if (zoom <= 12) return null
 
   return (
     <>
@@ -316,7 +316,7 @@ export function SpecimensMap() {
           />
           <MapEventHandler />
           <MapControls />
-          {layerData.length > 0 && zoom < 12 && (
+          {layerData.length > 0 && zoom <= 12 && (
             <CanvasMarkers
               clusters={layerData}
               palette={palettes[activePalette]}

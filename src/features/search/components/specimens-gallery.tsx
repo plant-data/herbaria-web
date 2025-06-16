@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSpecimensData } from '@/features/search/api/get-occurrences'
 import { Pagination } from '@/features/search/components/pagination'
-import { ITEMS_PER_PAGE, BASE_IMAGE_URL } from '@/config'
+import { BASE_IMAGE_URL, ITEMS_PER_PAGE } from '@/config'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 
 export default function SpecimensGallery({ customFilters = {} }) {

@@ -1,5 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { CircleMarker, MapContainer, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet'
+import {
+  CircleMarker,
+  MapContainer,
+  Popup,
+  TileLayer,
+  useMap,
+  useMapEvents,
+} from 'react-leaflet'
 import L from 'leaflet'
 import { Earth, House } from 'lucide-react'
 import type { PaletteName } from '@/features/search/constants/map-palettes'
@@ -249,7 +256,7 @@ function SimpleMarkers({ clusters }: { clusters: Array<ClusterData> }) {
       {clusters.map((cluster, index) => {
         const [lng, lat] = cluster.coordinates
         if (isNaN(lat) || isNaN(lng)) return null
-        
+
         return (
           <CircleMarker
             key={`${lat}-${lng}-${index}`}
@@ -263,9 +270,12 @@ function SimpleMarkers({ clusters }: { clusters: Array<ClusterData> }) {
           >
             <Popup>
               <div className="text-sm">
-                <strong>Coordinates:</strong><br />
-                Latitude: {lat.toFixed(6)}<br />
-                Longitude: {lng.toFixed(6)}<br />
+                <strong>Coordinates:</strong>
+                <br />
+                Latitude: {lat.toFixed(6)}
+                <br />
+                Longitude: {lng.toFixed(6)}
+                <br />
                 <strong>Count:</strong> {cluster.count}
               </div>
             </Popup>

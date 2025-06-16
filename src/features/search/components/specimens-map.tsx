@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   CircleMarker,
   MapContainer,
-  Popup,
+  // Popup is no longer needed here
   TileLayer,
   useMap,
   useMapEvents,
@@ -12,7 +12,10 @@ import { Earth, House } from 'lucide-react'
 import type { PaletteName } from '@/features/search/constants/map-palettes'
 import { palettes } from '@/features/search/constants/map-palettes'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-import { useSpecimensMap } from '@/features/search/api/get-occurrences'
+import {
+  useSpecimensMap,
+  useSpecimensPoint,
+} from '@/features/search/api/get-occurrences'
 import 'leaflet/dist/leaflet.css'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -23,20 +26,34 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
+import { useShallow } from 'zustand/react/shallow'
+
+// NEW: Import shadcn/ui Dialog components
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+
+// --- (No changes to the top part of the file up to ColorLegend) ---
 
 type ClusterData = { coordinates: [number, number]; count: number }
+type PaletteFn = (count: number) => string
+
 const INITIAL_VIEW_STATE = {
   center: [41.902782, 12.496366] as [number, number],
   zoom: 5,
 }
 
-type PaletteFn = (count: number) => string
+// CanvasMarkerLayer, MapEventHandler, MapControls, ColorLegend components remain unchanged...
+// (I'm omitting them for brevity, but they are still part of the file)
 
 class CanvasMarkerLayer extends L.Layer {
   private canvas: HTMLCanvasElement
   private ctx: CanvasRenderingContext2D
   private clusters: Array<ClusterData> = []
-  private getCircleColor: PaletteFn // The active palette function
+  private getCircleColor: PaletteFn
 
   constructor(options?: L.LayerOptions & { initialPalette: PaletteFn }) {
     super(options)
@@ -46,14 +63,10 @@ class CanvasMarkerLayer extends L.Layer {
     this.getCircleColor = options?.initialPalette || palettes.Classic
   }
 
-  // Public method to dynamically update the palette
   public updatePalette(newPalette: PaletteFn): void {
     this.getCircleColor = newPalette
-    this.redraw() // Redraw with new colors
+    this.redraw()
   }
-
-  // Other methods (onAdd, onRemove, updateData, redraw) are mostly the same,
-  // but with click logic removed and using this.getCircleColor
 
   onAdd(map: L.Map): this {
     map.getPanes().overlayPane.appendChild(this.canvas)
@@ -107,7 +120,7 @@ class CanvasMarkerLayer extends L.Layer {
       const x = point.x - topLeft.x
       const y = point.y - topLeft.y
 
-      this.ctx.fillStyle = this.getCircleColor(cluster.count) // Use the instance's palette
+      this.ctx.fillStyle = this.getCircleColor(cluster.count)
       this.ctx.globalAlpha = 0.8
 
       const size = markerSize(8, mapZoom)
@@ -141,7 +154,6 @@ function CanvasMarkers({
     layerRef.current.updateData(clusters)
   }, [clusters])
 
-  // Effect to update the layer's palette when the prop changes
   useEffect(() => {
     layerRef.current.updatePalette(palette)
   }, [palette])
@@ -150,7 +162,12 @@ function CanvasMarkers({
 }
 
 function MapEventHandler() {
-  const { setZoom, setBbox } = useFilterStore()
+  const { setZoom, setBbox } = useFilterStore(
+    useShallow((state) => ({
+      setZoom: state.setZoom,
+      setBbox: state.setBbox,
+    })),
+  )
   const map = useMap()
   const updateFilters = useCallback(() => {
     const bounds = map.getBounds()
@@ -172,15 +189,9 @@ function MapEventHandler() {
 
 function MapControls() {
   const map = useMap()
-
-  const handleResetView = () => {
+  const handleResetView = () =>
     map.setView(INITIAL_VIEW_STATE.center, INITIAL_VIEW_STATE.zoom)
-  }
-
-  const handleWorldView = () => {
-    map.setView([20, 5], 2)
-  }
-
+  const handleWorldView = () => map.setView([20, 5], 2)
   return (
     <div className="absolute top-20 left-3 z-[1000] flex flex-col gap-2">
       <Button
@@ -214,7 +225,6 @@ function ColorLegend({ palette }: { palette: PaletteFn }) {
     { label: '6-10', value: 8 },
     { label: '1-5', value: 3 },
   ]
-
   return (
     <Card className="rounded-sm p-2.5 shadow-xs">
       <CardContent className="p-0">
@@ -234,21 +244,56 @@ function ColorLegend({ palette }: { palette: PaletteFn }) {
   )
 }
 
-function SimpleMarkers({ clusters }: { clusters: Array<ClusterData> }) {
-  const [zoom, setZoom] = useState(5)
-  const map = useMap()
 
-  useMapEvents({
-    zoomend: () => {
-      setZoom(map.getZoom())
-    },
+// This component can stay the same, it will now be rendered inside our dialog
+function SpecimenPopupContent({
+  decimalLatitude,
+  decimalLongitude,
+  count,
+}: {
+  decimalLatitude: number
+  decimalLongitude: number
+  count: number
+}) {
+  const { data, isPending, error } = useSpecimensPoint({
+    customFilters: { decimalLatitude, decimalLongitude },
   })
 
-  useEffect(() => {
-    setZoom(map.getZoom())
-  }, [map])
+  if (isPending) return <div>Loading details...</div>
+  if (error) return <div className="text-red-500">Error fetching details.</div>
+  if (!data?.occurrences?.length)
+    return <div>No specimen details found at this point.</div>
 
-  // Only show simple markers when zoom >= 12
+  return (
+    <div className="min-w-[300px] text-sm">
+      <ul className="max-h-64 space-y-1.5 overflow-y-auto pr-2">
+        {data.occurrences.map((occ: any) => (
+          <li key={occ.occurrenceID}>
+            <span className="italic">
+              {occ.scientificName || 'Unknown Species'}
+            </span>{' '}
+            ({occ.occurrenceID})
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+
+// ============================================================================
+// MODIFIED: `SimpleMarkers` no longer uses Popup.
+// It now takes an `onMarkerClick` prop to report clicks to the parent.
+// ============================================================================
+function SimpleMarkers({
+  clusters,
+  onMarkerClick,
+}: {
+  clusters: Array<ClusterData>
+  onMarkerClick: (cluster: ClusterData) => void
+}) {
+  const zoom = useFilterStore((state) => state.zoom)
+
   if (zoom <= 12) return null
 
   return (
@@ -267,29 +312,58 @@ function SimpleMarkers({ clusters }: { clusters: Array<ClusterData> }) {
             weight={2}
             opacity={0.8}
             fillOpacity={0.6}
-          >
-            <Popup>
-              <div className="text-sm">
-                <strong>Coordinates:</strong>
-                <br />
-                Latitude: {lat.toFixed(6)}
-                <br />
-                Longitude: {lng.toFixed(6)}
-                <br />
-                <strong>Count:</strong> {cluster.count}
-              </div>
-            </Popup>
-          </CircleMarker>
+            // Use eventHandlers to trigger the callback on click
+            eventHandlers={{
+              click: () => {
+                onMarkerClick(cluster)
+              },
+            }}
+          />
         )
       })}
     </>
   )
 }
 
+
+// ============================================================================
+// NEW: A dedicated Dialog component for displaying point data.
+// ============================================================================
+function SpecimenPointDialog({
+  point,
+  isOpen,
+  onClose,
+}: {
+  point: ClusterData
+  isOpen: boolean
+  onClose: () => void
+}) {
+  return (
+    <Dialog className='z-[999999]' open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Specimens ({point.count})</DialogTitle>
+        </DialogHeader>
+        <SpecimenPopupContent
+          decimalLatitude={point.coordinates[1]}
+          decimalLongitude={point.coordinates[0]}
+          count={point.count}
+        />
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+// ============================================================================
+// MODIFIED: The main SpecimensMap component now manages the Dialog state.
+// ============================================================================
 export function SpecimensMap() {
   const { data, isPending, error } = useSpecimensMap()
   const [activePalette, setActivePalette] = useState<PaletteName>('Classic')
-  const { zoom } = useFilterStore()
+  const zoom = useFilterStore((state) => state.zoom)
+
+  // NEW: State to manage the selected point and dialog visibility
+  const [selectedPoint, setSelectedPoint] = useState<ClusterData | null>(null)
 
   const layerData = useMemo(() => {
     if (!data?.clusters) return []
@@ -332,8 +406,23 @@ export function SpecimensMap() {
               palette={palettes[activePalette]}
             />
           )}
-          {layerData.length > 0 && <SimpleMarkers clusters={layerData} />}
+          {/* Pass the state setter to SimpleMarkers */}
+          {layerData.length > 0 && (
+            <SimpleMarkers
+              clusters={layerData}
+              onMarkerClick={setSelectedPoint}
+            />
+          )}
         </MapContainer>
+
+        {/* NEW: Render the Dialog when a point is selected */}
+        {selectedPoint && (
+          <SpecimenPointDialog
+            point={selectedPoint}
+            isOpen={!!selectedPoint}
+            onClose={() => setSelectedPoint(null)}
+          />
+        )}
       </div>
 
       <div className="mt-2 flex items-center justify-between">

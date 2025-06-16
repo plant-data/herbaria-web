@@ -160,7 +160,10 @@ interface UseSpecimensGraphOptions {
 }
 
 interface UseSpecimensPointOptions {
-  customFilters?: CustomFilters
+  customFilters?: CustomFilters & {
+    decimalLatitude?: number
+    decimalLongitude?: number
+  }
 }
 
 export function useSpecimensMap(options: UseSpecimensMapOptions = {}) {

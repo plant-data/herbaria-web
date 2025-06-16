@@ -12,6 +12,7 @@ import { Earth, House } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
 import { Link } from '@tanstack/react-router'
 import type { PaletteName } from '@/features/search/constants/map-palettes'
+import type { SpecimenData } from '@/features/search/types/types'
 import { palettes } from '@/features/search/constants/map-palettes'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import {
@@ -245,7 +246,6 @@ function ColorLegend({ palette }: { palette: PaletteFn }) {
   )
 }
 
-
 // This component can stay the same, it will now be rendered inside our dialog
 function SpecimenPopupContent({
   decimalLatitude,
@@ -256,8 +256,10 @@ function SpecimenPopupContent({
   decimalLongitude: number
   count: number
 }) {
+  const [skip, setSkip] = useState(0)
   const { data, isPending, error } = useSpecimensPoint({
     customFilters: { decimalLatitude, decimalLongitude },
+    customSkip: skip,
   })
 
   if (isPending) return <div>Loading details...</div>
@@ -268,19 +270,39 @@ function SpecimenPopupContent({
   return (
     <div className="min-w-[300px] text-sm">
       <ul className="max-h-64 space-y-1.5 overflow-y-auto pr-2">
-        {data.occurrences.map((occ: any) => (
+        {data.occurrences.map((occ: SpecimenData) => (
           <li key={occ.occurrenceID}>
-            <span>
-              {occ.scientificName || 'Unknown Species'}
-            </span>{' '}
-            <Link className='text-blue-400' to='/specimens/$occurrenceID' params={{ occurrenceID: occ.occurrenceID }}>({occ.occurrenceID})</Link>
+            <span>{occ.scientificName || 'Unknown Species'}</span>{' '}
+            <Link
+              className="text-blue-400"
+              to="/specimens/$occurrenceID"
+              params={{ occurrenceID: occ.occurrenceID }}
+            >
+              ({occ.occurrenceID})
+            </Link>
           </li>
         ))}
       </ul>
+      <div className="mt-4 flex items-center justify-between">
+        <Button
+          onClick={() => setSkip((prev) => Math.max(0, prev - 10))}
+          disabled={skip === 0}
+        >
+          Previous
+        </Button>
+        <span className="text-xs text-gray-500">
+          Showing {skip + 1}-{Math.min(skip + 10, count)} of {count}
+        </span>
+        <Button
+          onClick={() => setSkip((prev) => prev + 10)}
+          disabled={skip + 10 >= count}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   )
 }
-
 
 // ============================================================================
 // MODIFIED: `SimpleMarkers` no longer uses Popup.
@@ -325,7 +347,6 @@ function SimpleMarkers({
     </>
   )
 }
-
 
 // ============================================================================
 // NEW: A dedicated Dialog component for displaying point data.

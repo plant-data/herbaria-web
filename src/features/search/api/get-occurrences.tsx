@@ -41,6 +41,7 @@ const prepareQueryPayload = (
     customFilters?: CustomFilters
     customSort?: Record<string, 'asc' | 'desc'>
     customGroupBy?: keyof CustomFilters | 'count'
+    customSkip?: number
   },
 ) => {
   const {
@@ -48,6 +49,7 @@ const prepareQueryPayload = (
     customFilters = {},
     customSort = {},
     customGroupBy = {},
+    customSkip = 0,
   } = options
 
   // costruiamo il filter
@@ -91,6 +93,12 @@ const prepareQueryPayload = (
         filters,
         groupBy: customGroupBy,
       }
+    case 'point': 
+      return {
+        filters,
+        limit: 10,
+        skip: customSkip
+       }
     default:
       // 'map' and 'graph' only require filters.
       return { filters }
@@ -106,6 +114,7 @@ interface UseSpecimensQueryOptions {
   customFilters?: CustomFilters
   customSort?: Record<string, 'asc' | 'desc'>
   customGroupBy?: keyof CustomFilters | 'count'
+  customSkip?: number
 }
 
 function useSpecimensQuery({
@@ -113,6 +122,7 @@ function useSpecimensQuery({
   customFilters,
   customSort,
   customGroupBy,
+  customSkip
 }: UseSpecimensQueryOptions) {
   const filterStoreState = useFilterStore()
 
@@ -121,6 +131,7 @@ function useSpecimensQuery({
     customFilters,
     customSort,
     customGroupBy,
+    customSkip,
   })
 
   const config = SEARCH_CONFIG[searchType]
@@ -164,6 +175,7 @@ interface UseSpecimensPointOptions {
     decimalLatitude?: number
     decimalLongitude?: number
   }
+  customSkip?: number
 }
 
 export function useSpecimensMap(options: UseSpecimensMapOptions = {}) {
@@ -181,10 +193,11 @@ export function useSpecimensData(options: UseSpecimensDataOptions = {}) {
 }
 
 export function useSpecimensPoint(options: UseSpecimensPointOptions = {}) {
-  const { customFilters } = options
+  const { customFilters, customSkip } = options
   return useSpecimensQuery({
     searchType: 'point',
     customFilters,
+    customSkip,
   })
 }
 

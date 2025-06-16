@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   CircleMarker,
   MapContainer,
+  // Popup is no longer needed here
   TileLayer,
   useMap,
   useMapEvents,
@@ -28,12 +29,16 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
+
+// NEW: Import shadcn/ui Dialog components
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+
+// --- (No changes to the top part of the file up to ColorLegend) ---
 
 type ClusterData = { coordinates: [number, number]; count: number }
 type PaletteFn = (count: number) => string
@@ -43,6 +48,7 @@ const INITIAL_VIEW_STATE = {
   zoom: 5,
 }
 
+// CanvasMarkerLayer, MapEventHandler, MapControls, ColorLegend components remain unchanged...
 class CanvasMarkerLayer extends L.Layer {
   private canvas: HTMLCanvasElement
   private ctx: CanvasRenderingContext2D
@@ -296,18 +302,16 @@ function SpecimenPopupContent({
 }
 
 // ============================================================================
-// MODIFIED: `SimpleMarkers` now uses a dynamic key to force re-renders.
+// MODIFIED: `SimpleMarkers` now accepts a `palette` prop to color the markers.
 // ============================================================================
 function SimpleMarkers({
   clusters,
   onMarkerClick,
-  palette,
-  paletteName, // Accept the palette name string as a prop
+  palette, // 1. Accept the palette function as a prop
 }: {
   clusters: Array<ClusterData>
   onMarkerClick: (cluster: ClusterData) => void
-  palette: PaletteFn
-  paletteName: string // Add paletteName to the type definition
+  palette: PaletteFn // Add palette to the type definition
 }) {
   const zoom = useFilterStore((state) => state.zoom)
 
@@ -319,18 +323,17 @@ function SimpleMarkers({
         const [lng, lat] = cluster.coordinates
         if (isNaN(lat) || isNaN(lng)) return null
 
+        // 2. Use the palette function to get the color based on the cluster's count
         const markerColor = palette(cluster.count)
 
         return (
           <CircleMarker
-            // CRITICAL CHANGE: The paletteName is added to the key.
-            // When the palette changes, the key changes, forcing React
-            // to unmount the old marker and mount a new one with the new color.
-            key={`${lat}-${lng}-${index}-${paletteName}`}
+            key={`${lat}-${lng}-${index}`}
             center={[lat, lng]}
             radius={6}
+            // 3. Apply the dynamic color to the marker's fill and border
             fillColor={markerColor}
-            color={markerColor}
+            color={markerColor} // Using the same color for the border for consistency
             weight={2}
             opacity={0.8}
             fillOpacity={0.6}
@@ -346,6 +349,9 @@ function SimpleMarkers({
   )
 }
 
+// ============================================================================
+// NEW: A dedicated Dialog component for displaying point data.
+// ============================================================================
 function SpecimenPointDialog({
   point,
   isOpen,
@@ -372,7 +378,7 @@ function SpecimenPointDialog({
 }
 
 // ============================================================================
-// MODIFIED: The main SpecimensMap component passes the palette name.
+// MODIFIED: The main SpecimensMap component now passes the palette down.
 // ============================================================================
 export function SpecimensMap() {
   const { data, isPending, error } = useSpecimensMap()
@@ -422,13 +428,12 @@ export function SpecimensMap() {
               palette={palettes[activePalette]}
             />
           )}
+          {/* 4. Pass the active palette function to the SimpleMarkers component */}
           {layerData.length > 0 && (
             <SimpleMarkers
               clusters={layerData}
               onMarkerClick={setSelectedPoint}
               palette={palettes[activePalette]}
-              // Pass the palette name string down to be used in the key
-              paletteName={activePalette}
             />
           )}
         </MapContainer>

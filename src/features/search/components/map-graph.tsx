@@ -1,4 +1,3 @@
-// Your CountryMap.tsx component file
 import { useMemo } from 'react'
 import ReactECharts from 'echarts-for-react'
 import { useTranslation } from 'react-i18next'
@@ -24,43 +23,38 @@ export function MapGraph({ className = '' }) {
     error: geoError,
   } = useEchartsMap('countries', '/maps/countries.json')
 
-  // 2. Memoize the transformation of occurrence data into a fast-lookup map.
   const countryCountMap = useMemo(() => {
     const map = new Map<string, number>()
-    // Fix: Access the occurrences array from the data object
     if (data && data.occurrences && Array.isArray(data.occurrences)) {
       data.occurrences.forEach((item) => {
-        // These are FIPS codes (NH, UZ, NR, etc.)
         map.set(item.countryCode, item.count)
       })
     }
     return map
-  }, [data]) // 3. Memoize the final series data by combining GeoJSON and occurrence counts.
+  }, [data])
+
   const seriesData = useMemo(() => {
     if (!geoJson) return []
 
     return geoJson.features.map((feature) => {
-      const fipsCode = feature.properties.fips_10 // FIPS code from GeoJSON
+      const fipsCode = feature.properties.fips_10
       const count = countryCountMap.get(fipsCode) || 0
 
       return {
-        name: feature.properties.name, // Keep original name for ECharts map matching
-        value: count,
-        // Add localized name for display in tooltips
+        name: feature.properties.name,
+        value: Math.log10(count + 1),
+        originalValue: count,
         displayName:
           i18n.language === 'it' && feature.properties.name_it
             ? feature.properties.name_it
             : feature.properties.name,
       }
     })
-    // Include all countries, even those with 0 occurrences
   }, [geoJson, countryCountMap, i18n.language])
 
-  // 4. Memoize the final chart options.
   const countryOptions = useMemo(() => {
     if (seriesData.length === 0) return null
 
-    // Determine text color based on theme
     const isDark =
       theme === 'dark' ||
       (theme === 'system' &&
@@ -76,27 +70,31 @@ export function MapGraph({ className = '' }) {
         trigger: 'item',
         formatter: function (params: any) {
           const itemData = params.data
-          const displayName = itemData?.displayName || params.name
-          return `${displayName}<br/>${params.value} ${t('search.results.specimens')}`
+          if (!itemData) return params.name
+
+          const displayName = itemData.displayName || params.name
+          const displayValue = itemData.originalValue
+
+          return `${displayName}<br/>${displayValue} ${t('search.results.specimens')}`
         },
       },
       visualMap: {
-        min: minValue,
-        max: maxValue,
-        text: [t('search.results.map-max'), t('search.results.map-min')],
-        textStyle: { color: textColor },
-        realtime: false,
-        calculable: true,
-        inRange: {
-          color: ['#ffffff', '#e0f3ff', '#5470c6'], // White for 0, then color gradient
-        },
-        pieces: [
-          { min: 0, max: 0, color: '#ffffff' }, // White for exactly 0
-          { min: 1, max: maxValue, color: ['#e0f3ff', '#5470c6'] },
-        ],
-        left: 'left',
-        bottom: 20,
-      },
+  min: minValue,
+  max: maxValue,
+  text: [t('search.results.map-max'), t('search.results.map-min')],
+  textStyle: { color: textColor },
+  realtime: false,
+  calculable: true,
+  formatter: function (value) {
+    const originalValue = Math.round(Math.pow(10, value) - 1);
+    return originalValue.toLocaleString();
+  },
+  inRange: {
+    color: ['#ffffff', '#e0f3ff', '#5470c6'],
+  },
+  left: 'left',
+  bottom: 20,
+},
       series: [
         {
           name: 'Occurrences',
@@ -106,14 +104,13 @@ export function MapGraph({ className = '' }) {
           data: seriesData,
           emphasis: {
             label: { show: false },
-            itemStyle: { areaColor: '#ffdb58' }, // Add a highlight effect
+            itemStyle: { areaColor: '#ffdb58' },
           },
         },
       ],
     }
   }, [seriesData, theme, t])
 
-  // 5. Clean, explicit render logic.
   const isLoading = isPending || isLoadingGeo
   const isError = dataError || geoError
   const isNoData = countryOptions === null || seriesData.length === 0

@@ -31,7 +31,7 @@ export function MapGraph({ className = '' }) {
     if (data && data.occurrences && Array.isArray(data.occurrences)) {
       data.occurrences.forEach((item) => {
         // These are FIPS codes (NH, UZ, NR, etc.)
-        map.set(item.country, item.count)
+        map.set(item.countryCode, item.count)
       })
     }
     return map

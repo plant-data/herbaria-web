@@ -72,7 +72,12 @@ function createXAxisConfig(
 ) {
   const baseConfig = {
     type: 'category' as const,
-    axisLabel: { color: textColor },
+    axisLabel: {
+      color: textColor,
+      overflow: 'truncate',
+      width: 170,
+      ellipsis: '...',
+    },
     axisLine: { lineStyle: { color: textColor } },
     axisTick: { lineStyle: { color: textColor } },
   }
@@ -80,7 +85,11 @@ function createXAxisConfig(
   if (chartType === 'bar') {
     return {
       ...baseConfig,
-      axisLabel: { rotate: 70, fontSize: 8, color: textColor },
+      axisLabel: {
+        ...baseConfig.axisLabel,
+        rotate: 70,
+        fontSize: 10,
+      },
     }
   }
 
@@ -88,14 +97,14 @@ function createXAxisConfig(
     return {
       ...baseConfig,
       axisLabel: {
+        ...baseConfig.axisLabel,
         formatter: (value: string) => {
           const year = parseInt(value)
           return year % 20 === 0 ? value : ''
         },
-        fontSize: 10,
+        fontSize: 11,
         rotate: 0,
         interval: 19,
-        color: textColor,
       },
       axisTick: { interval: 19, lineStyle: { color: textColor } },
     }
@@ -105,6 +114,7 @@ function createXAxisConfig(
     return {
       ...baseConfig,
       axisLabel: {
+        ...baseConfig.axisLabel,
         formatter: (value: string) => {
           const monthIndex = parseInt(value) - 1
           const monthKey = MONTHS[monthIndex]?.value
@@ -112,7 +122,6 @@ function createXAxisConfig(
         },
         fontSize: 10,
         rotate: 70,
-        color: textColor,
       },
     }
   }
@@ -181,7 +190,6 @@ export function GenericGraph({
       return null
     }
 
-    // Determine text color based on theme
     const isDark =
       theme === 'dark' ||
       (theme === 'system' &&
@@ -190,7 +198,6 @@ export function GenericGraph({
 
     let chartData = topN ? data.occurrences.slice(0, topN) : data.occurrences
 
-    // Fill missing intervals for line charts with temporal data
     if (chartType === 'line' && (groupBy === 'year' || groupBy === 'month')) {
       chartData = fillMissingIntervals(chartData, groupBy)
     }

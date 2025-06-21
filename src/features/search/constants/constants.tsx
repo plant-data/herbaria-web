@@ -49,8 +49,8 @@ const MAP_STYLE = {
   ],
 }
 
-const ZOOM = 2
-const BBOX: [number, number, number, number] = [-170, -80, 170, 80]
+const ZOOM = 5
+const BBOX: [number, number, number, number] = [5, 20, 30, 50]
 
 const SKIP = 0
 

@@ -46,7 +46,7 @@ const createColumns = (): Array<ColumnDef<SpecimenData>> => [
           <span className="flex h-8 w-7 gap-2">
             <img
               className="object-contain"
-              src={`${BASE_IMAGE_URL}unsafe/110x150${row.original.multimedia[0].identifier}`}
+              src={row.original.multimedia[0].identifier.startsWith('https') ? row.original.multimedia[0].identifier : `${BASE_IMAGE_URL}unsafe/110x150${row.original.multimedia[0].identifier}`}
               alt=""
             />
           </span>

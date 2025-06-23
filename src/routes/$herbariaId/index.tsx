@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { BASE_IMAGE_URL } from '@/config'
+import { useFilterStore } from '@/features/search/stores/use-filters-store'
 
 export const Route = createFileRoute('/$herbariaId/')({
   loader: async ({ params }) => {
@@ -20,6 +21,7 @@ export const Route = createFileRoute('/$herbariaId/')({
 
 function RouteComponent() {
   const { herbariaId } = Route.useParams()
+  const resetFilters = useFilterStore(state => state.resetFilters)
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -53,7 +55,13 @@ function RouteComponent() {
                   className="h-10 w-full py-3 pr-4 pl-10 text-base sm:w-60"
                 />
               </div>
-              <Button asChild variant="default" className="bg-ring" size="lg">
+              <Button
+                asChild
+                variant="default"
+                className="bg-ring"
+                size="lg"
+                onClick={() => resetFilters()}
+              >
                 <Link to="/$herbariaId/search" params={{ herbariaId }}>
                   <Database className="mr-2 h-5 w-5" />
                   Dolor Sit Amet

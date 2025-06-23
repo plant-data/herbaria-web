@@ -13,47 +13,19 @@ import {
 } from '@/components/ui/sidebar'
 import { SpecimensNavbar } from '@/features/search/components/specimens-navbar'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-import { useNavigationHistory } from '@/hooks/use-navigation-history' // Added import
 
 export const Route = createFileRoute('/$herbariaId/search')({
   component: RouteComponent,
   loader: async ({ params }) => {
-    // importante che sia async
-    const { setInstitutionCode } = useFilterStore.getState()
-    await setInstitutionCode([params.herbariaId])
+  // importante che sia async
+  const { setInstitutionCodeNoResetSkip } = useFilterStore.getState()
+  await setInstitutionCodeNoResetSkip([params.herbariaId])
   },
 })
 
 function RouteComponent() {
   const { t } = useTranslation()
-  const resetFilters = useFilterStore(
-    (state: FilterState) => state.resetFilters,
-  )
-  const setInstitutionCode = useFilterStore(
-    (state: FilterState) => state.setInstitutionCode,
-  )
-  const { previousRoute } = useNavigationHistory()
-  const { herbariaId } = Route.useParams()
-
-  useEffect(() => {
-    // necessario per resettare i filtri quando vengo da route esterne
-
-    const shouldReset =
-      previousRoute &&
-      !previousRoute.startsWith(`/${herbariaId}/search`) &&
-      !previousRoute.startsWith(`/specimens`) &&
-      !previousRoute.startsWith(`/external`)
-
-    if (shouldReset) {
-      console.log(
-        'Resetting filters because previous route was:',
-        previousRoute,
-      )
-      resetFilters()
-      setInstitutionCode([herbariaId])
-    }
-  }, [previousRoute, resetFilters, setInstitutionCode, herbariaId])
-
+ 
   const lockedFilters: LockedFilters = ['institutionCode']
 
   return (

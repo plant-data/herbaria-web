@@ -37,7 +37,9 @@ export function MapGraph({ className = '' }) {
     if (!geoJson) return []
 
     return geoJson.features.map((feature) => {
-      const fipsCode = feature.properties.fips_10
+      //const fipsCode = feature.properties.fips_10
+      //ciao
+      const fipsCode = feature.properties.iso_a2_eh
       const count = countryCountMap.get(fipsCode) || 0
 
       return {

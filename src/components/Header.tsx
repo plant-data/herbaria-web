@@ -6,6 +6,7 @@ import { LanguageToggle } from '@/components/language-toggle'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
+import { BreadcrumbResponsive } from './breadcrumb'
 
 export function Header() {
   return (
@@ -25,48 +26,13 @@ export function Header() {
               className=""
             />
             <span className="text-md text-foreground hidden font-semibold sm:inline-block">
-              FlorItaly Herbaria
+              FlorItaly
             </span>
           </Link>
 
           {/* Navigation Links */}
           <div className="flex items-center gap-1">
-            <Button variant="ghost" size="sm" asChild>
-              <Link
-                to="/"
-                className={cn(
-                  'flex items-center gap-2',
-                  '[&.active]:text-ring',
-                )}
-              >
-                <Home className="size-4" />
-                <span className="hidden sm:inline">Home</span>
-              </Link>
-            </Button>
-
-            <Button variant="ghost" size="sm" asChild>
-              <Link
-                to="/search"
-                className={cn(
-                  'flex items-center gap-2',
-                  '[&.active]:text-ring',
-                )}
-              >
-                <Search className="size-4" />
-                <span className="hidden sm:inline">Search</span>
-              </Link>
-            </Button>
-            <Button variant="ghost" size="sm" asChild>
-              <a
-                href="https://dryades.units.it/floritaly"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2"
-              >
-                <List className="size-4" />
-                <span className="hidden sm:inline">Checklist</span>
-              </a>
-            </Button>
+            <BreadcrumbResponsive />
           </div>
         </div>
 

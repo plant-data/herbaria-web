@@ -10,12 +10,14 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 
 export default function SpecimensGallery({ customFilters = {} }) {
   const { herbariaId } = useParams({ strict: false })
-  const { skip } = useFilterStore((state) => ({
+  /* const { skip } = useFilterStore((state) => ({
     skip: state.skip,
   }))
   const { setSkip } = useFilterStore((state) => ({
     setSkip: state.setSkip,
-  }))
+  })) */
+  const skip = useFilterStore((state) => state.skip);
+  const setSkip = useFilterStore((state) => state.setSkip);
   const { data, isPending, error } = useSpecimensData(customFilters)
 
   return isPending ? (

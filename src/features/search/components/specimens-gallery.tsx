@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import { Link, useParams } from '@tanstack/react-router'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -9,6 +9,7 @@ import { BASE_IMAGE_URL, ITEMS_PER_PAGE } from '@/config'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 
 export default function SpecimensGallery({ customFilters = {} }) {
+  const { herbariaId } = useParams({ strict: false })
   const { skip, setSkip } = useFilterStore()
   const { data, isPending, error } = useSpecimensData(customFilters)
 
@@ -30,10 +31,19 @@ export default function SpecimensGallery({ customFilters = {} }) {
         setSkip={setSkip}
       />
       <div className="grid grid-cols-1 gap-4 @xl:grid-cols-2 @4xl:grid-cols-3 @7xl:grid-cols-4">
-        {data.occurrences.map((item) => (
+        {data.occurrences.map((item: SpecimenData) => (
           <Link
             key={item.occurrenceID}
-            to={`/specimens/${item.occurrenceID}`}
+            to={
+              herbariaId
+                ? '/$herbariaId/specimens/$occurrenceID'
+                : '/specimens/$occurrenceID'
+            }
+            params={
+              herbariaId
+                ? { herbariaId, occurrenceID: item.occurrenceID }
+                : { occurrenceID: item.occurrenceID }
+            }
             className="rounded-md"
           >
             <DataItemCard item={item} />

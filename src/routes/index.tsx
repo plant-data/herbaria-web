@@ -18,8 +18,8 @@ function App() {
       </div>
       <div className="text-center">
         <Button asChild>
-          <Link to="/$herbariaId" params={{ herbariaId: 'HCI' }}>
-            HCI
+          <Link to="/$herbariaId" params={{ herbariaId: 'PI' }}>
+            PI
           </Link>
         </Button>
       </div>

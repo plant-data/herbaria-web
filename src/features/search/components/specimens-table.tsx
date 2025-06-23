@@ -106,7 +106,12 @@ const createColumns = (
 
 export function SpecimensTable() {
   const { herbariaId } = useParams({ strict: false })
-  const { skip, setSkip } = useFilterStore()
+  const { skip } = useFilterStore((state) => ({
+    skip: state.skip,
+  }))
+  const { setSkip } = useFilterStore((state) => ({
+    setSkip: state.setSkip,
+  }))
   const { data, isPending, error } = useSpecimensData()
 
   /* const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({

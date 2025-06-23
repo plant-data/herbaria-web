@@ -54,6 +54,9 @@ interface FilterActions {
   setInstitutionCode: (
     institutionCode: Array<string> | ((prev: Array<string>) => Array<string>),
   ) => void
+  setInstitutionCodeNoResetSkip: (
+    institutionCode: Array<string> | ((prev: Array<string>) => Array<string>),
+  ) => void
   setHasCoordinates: (hasCoordinates: boolean) => void
   resetFilters: (lockedFilters?: LockedFilters) => void
   setSkip: (skip: number) => void
@@ -108,6 +111,7 @@ function createSetter<TKey extends keyof FilterStateData>(
   actionName: string,
   set: any,
   shouldOrder: boolean = false,
+  shouldResetSkip: boolean = true,
 ) {
   return (
     value:
@@ -141,7 +145,7 @@ function createSetter<TKey extends keyof FilterStateData>(
         return {
           ...newState,
           activeFiltersCount: calculateActiveFiltersCount(updatedState),
-          skip: SKIP,
+          skip: shouldResetSkip ? SKIP : state.skip,
         }
       },
       false,
@@ -178,6 +182,13 @@ export const useFilterStore = create<FilterState>()(
         'setInstitutionCode',
         set,
         true,
+      ),
+      setInstitutionCodeNoResetSkip: createSetter(
+        'institutionCode',
+        'setInstitutionCodeNoResetSkip',
+        set,
+        true,
+        false,
       ),
       setHasCoordinates: createSetter(
         'hasCoordinates',

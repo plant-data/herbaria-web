@@ -55,11 +55,20 @@
     "december": "Dicembre"
   },
   "herbaria": {
+    "pi": "Herbarium Horti Pisani",
     "hci": "Herbarium Centrale Italicum",
     "tsb": "Herbarium Universitatis Tergestinae"
   },
   "common": {
     "yes": "Sì",
     "no": "No"
+  },
+  "navbar": {
+    "home": "Erbari",
+    "search": "Cerca",
+    "map": "Mappa",
+    "graphs": "Grafici",
+    "table": "Tabella",
+    "specimen": "Campione"
   }
 }

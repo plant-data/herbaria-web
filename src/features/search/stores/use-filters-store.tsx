@@ -13,6 +13,7 @@ export interface FilterStateData {
   scientificName: Array<string>
   floritalyName: Array<string>
   country: Array<string>
+  countryCode: Array<string>
   locality: Array<string>
   year: [number, number]
   month: Array<number>
@@ -42,6 +43,9 @@ interface FilterActions {
   setCountry: (
     country: Array<string> | ((prev: Array<string>) => Array<string>),
   ) => void
+  setCountryCode: (
+    countryCode: Array<string> | ((prev: Array<string>) => Array<string>),
+  ) => void
   setLocality: (
     locality: Array<string> | ((prev: Array<string>) => Array<string>),
   ) => void
@@ -67,14 +71,15 @@ interface FilterActions {
 
 export interface FilterState
   extends FilterStateData,
-    FilterMapData,
-    FilterActions {}
+  FilterMapData,
+  FilterActions { }
 
 // Initial state values
 const initialState: FilterStateData = {
   scientificName: [],
   floritalyName: [],
   country: [],
+  countryCode: [],
   locality: [],
   year: [MIN_YEAR, MAX_YEAR],
   month: [],
@@ -95,6 +100,7 @@ function calculateActiveFiltersCount(state: FilterStateData) {
   count += state.scientificName.length
   count += state.floritalyName.length
   count += state.country.length
+  count += state.countryCode.length
   count += state.locality.length
   count += state.month.length
   count += state.institutionCode.length
@@ -123,20 +129,20 @@ function createSetter<TKey extends keyof FilterStateData>(
         const newValue =
           typeof value === 'function'
             ? (value as (prev: FilterStateData[TKey]) => FilterStateData[TKey])(
-                state[key],
-              )
+              state[key],
+            )
             : value
 
         // Order the value if it's an array and shouldOrder is true
         const orderedValue =
           shouldOrder && Array.isArray(newValue)
             ? [...newValue].sort((a, b) => {
-                // Sort numbers numerically, strings alphabetically
-                if (typeof a === 'number' && typeof b === 'number') {
-                  return a - b
-                }
-                return String(a).localeCompare(String(b))
-              })
+              // Sort numbers numerically, strings alphabetically
+              if (typeof a === 'number' && typeof b === 'number') {
+                return a - b
+              }
+              return String(a).localeCompare(String(b))
+            })
             : newValue
 
         const newState = { [key]: orderedValue } as Partial<FilterStateData>
@@ -174,6 +180,7 @@ export const useFilterStore = create<FilterState>()(
         true,
       ),
       setCountry: createSetter('country', 'setCountry', set, true),
+      setCountryCode: createSetter('countryCode', 'setCountryCode', set, true),
       setLocality: createSetter('locality', 'setLocality', set, true),
       setYear: createSetter('year', 'setYear', set),
       setMonth: createSetter('month', 'setMonth', set, true),
@@ -208,7 +215,7 @@ export const useFilterStore = create<FilterState>()(
             if (lockedFilters && lockedFilters.length > 0) {
               lockedFilters.forEach((filterKey) => {
                 if (filterKey in state) {
-                  ;(resetState as any)[filterKey] = state[filterKey]
+                  ; (resetState as any)[filterKey] = state[filterKey]
                 }
               })
 

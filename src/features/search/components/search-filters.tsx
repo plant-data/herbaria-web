@@ -13,6 +13,7 @@ import {
   MIN_YEAR,
   MONTHS,
 } from '@/features/search/constants/constants'
+import { COUNTRIES } from '@/features/search/constants/countries'
 import { SwitchOption } from '@/features/search/components/switch-option'
 
 export function SearchFilters({
@@ -24,6 +25,7 @@ export function SearchFilters({
     scientificName,
     floritalyName,
     country,
+    countryCode,
     locality,
     year,
     month,
@@ -32,6 +34,7 @@ export function SearchFilters({
     setScientificName,
     setFloritalyName,
     setCountry,
+    setCountryCode,
     setLocality,
     setYear,
     setMonth,
@@ -42,6 +45,7 @@ export function SearchFilters({
       scientificName: state.scientificName,
       floritalyName: state.floritalyName,
       country: state.country,
+      countryCode: state.countryCode,
       locality: state.locality,
       year: state.year,
       month: state.month,
@@ -50,6 +54,7 @@ export function SearchFilters({
       setScientificName: state.setScientificName,
       setFloritalyName: state.setFloritalyName,
       setCountry: state.setCountry,
+      setCountryCode: state.setCountryCode,
       setLocality: state.setLocality,
       setYear: state.setYear,
       setMonth: state.setMonth,
@@ -77,14 +82,14 @@ export function SearchFilters({
         queryKey="plantscientificnamesearch"
         query={`${BASE_API_URL}autocomplete?field=scientificName&value=`}
       />
-      <Autocomplete
+      {/* <Autocomplete
         label={t('search.filters.country-label')}
         placeholder={t('search.filters.country-placeholder')}
         selectedValues={country}
         onSelectedValuesChange={setCountry}
         queryKey="countrysearch"
         query={`${BASE_API_URL}autocomplete?field=scientificName&value=`}
-      />
+      /> */}
       <Autocomplete
         label={t('search.filters.locality-label')}
         placeholder={t('search.filters.locality-placeholder')}
@@ -117,6 +122,14 @@ export function SearchFilters({
         items={MONTHS}
         selectedValues={month}
         onSelectedValuesChange={setMonth}
+      />
+      <SelectItems
+        label={t('search.filters.country-code-label')}
+        placeholder={t('search.filters.country-code-placeholder')}
+        allSelectedMessage={t('search.filters.country-code-all-selected')}
+        items={COUNTRIES}
+        selectedValues={countryCode}
+        onSelectedValuesChange={setCountryCode}
       />
       {lockedFilters && lockedFilters.includes('institutionCode') ? null : (
         <SelectItems

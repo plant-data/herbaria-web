@@ -8,6 +8,7 @@ import {
   MONTHS,
   HERBARIA,
 } from '@/features/search/constants/constants'
+import { COUNTRIES } from '@/features/search/constants/countries'
 
 interface FilterGroupProps {
   label: string
@@ -88,13 +89,15 @@ export function SelectedFiltersTree() {
     scientificName,
     floritalyName,
     country,
+    countryCode,
     locality,
     year,
     month,
     institutionCode,
     hasCoordinates,
     activeFiltersCount,
-  } = useFilterStore()
+  } = useFilterStore(
+  )
 
   // Memoized month name mapping
   const monthNameMap = useMemo(
@@ -106,7 +109,10 @@ export function SelectedFiltersTree() {
       new Map(HERBARIA.map((herbarium) => [herbarium.id, t(herbarium.value)])),
     [t],
   )
-
+  const countryCodeMap = useMemo(
+    () => new Map(COUNTRIES.map((country) => [country.id, t(country.value)])),
+    [t],
+  )
   // Unified filter configuration
   const filterConfigs: Array<FilterConfig> = useMemo(
     () => [
@@ -124,6 +130,13 @@ export function SelectedFiltersTree() {
         key: 'country',
         items: country,
         label: t('search.filters.country-label'),
+      },
+      {
+        key: 'countryCode',
+        items: countryCode,
+        label: t('search.filters.country-code-label'),
+        displayValue: (countryCode: string) =>
+          countryCodeMap.get(countryCode) || `Country Code ${countryCode}`,
       },
       {
         key: 'locality',
@@ -162,6 +175,7 @@ export function SelectedFiltersTree() {
       scientificName,
       floritalyName,
       country,
+      countryCode,
       locality,
       year,
       month,

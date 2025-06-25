@@ -7,8 +7,8 @@
       "autocomplete-no-results": "Nessun risultato",
       "scientific-name-label": "Nome scientifico",
       "scientific-name-placeholder": "Cerca un nome scientifico",
-      "country-label": "Stato",
-      "country-placeholder": "Cerca uno stato",
+      "country-code-label": "Stato",
+      "country-code-placeholder": "Seleziona uno stato",
       "locality-label": "Località",
       "locality-placeholder": "Cerca una località",
       "floritaly-name-label": "Nome in Floritaly",
@@ -313,6 +313,6 @@
     "map": "Mappa",
     "graphs": "Grafici",
     "table": "Tabella",
-    "specimen": "Campione"
+    "specimen": "Dati del campione"
   }
 }

@@ -14,6 +14,7 @@ type SpecimenData = {
   minimumElevationInMeters: number | null
   maximumElevationInMeters: number | null
   country: string | null
+  countryCode: string | null
   recordedBy: string | null
   identifiedBy: string | null
   floritalyName: string | null

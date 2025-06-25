@@ -17,15 +17,15 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 export const Route = createFileRoute('/$herbariaId/search')({
   component: RouteComponent,
   loader: async ({ params }) => {
-  // importante che sia async
-  const { setInstitutionCodeNoResetSkip } = useFilterStore.getState()
-  await setInstitutionCodeNoResetSkip([params.herbariaId])
+    // importante che sia async
+    const { setInstitutionCodeNoResetSkip } = useFilterStore.getState()
+    await setInstitutionCodeNoResetSkip([params.herbariaId])
   },
 })
 
 function RouteComponent() {
   const { t } = useTranslation()
- 
+
   const lockedFilters: LockedFilters = ['institutionCode']
 
   return (

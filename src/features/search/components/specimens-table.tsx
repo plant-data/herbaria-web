@@ -32,82 +32,84 @@ interface DataTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
 }
 
-const createColumns = (
-  herbariaId?: string,
-): Array<ColumnDef<SpecimenData>> => [
-    {
-      accessorKey: 'catalogNumber',
-      header: 'ID',
+const createColumns = (herbariaId?: string): Array<ColumnDef<SpecimenData>> => [
+  {
+    accessorKey: 'catalogNumber',
+    header: 'ID',
 
-      cell: ({ row }) => (
-        <Link
-          to={
-            herbariaId
-              ? '/$herbariaId/specimens/$occurrenceID'
-              : '/specimens/$occurrenceID'
-          }
-          params={
-            herbariaId
-              ? { herbariaId, occurrenceID: row.original.occurrenceID }
-              : { occurrenceID: row.original.occurrenceID }
-          }
-          className="text-blue-500 hover:underline"
-        >
-          <span className="flex min-w-50 items-center gap-2">
-            <span className="flex h-8 w-7 gap-2">
-              <img
-                className="object-contain"
-                src={row.original.multimedia[0].identifier.startsWith('https') ? row.original.multimedia[0].identifier : `${BASE_IMAGE_URL}unsafe/110x150${row.original.multimedia[0].identifier}`}
-                alt=""
-              />
-            </span>
-            {row.getValue('catalogNumber')}
+    cell: ({ row }) => (
+      <Link
+        to={
+          herbariaId
+            ? '/$herbariaId/specimens/$occurrenceID'
+            : '/specimens/$occurrenceID'
+        }
+        params={
+          herbariaId
+            ? { herbariaId, occurrenceID: row.original.occurrenceID }
+            : { occurrenceID: row.original.occurrenceID }
+        }
+        className="text-blue-500 hover:underline"
+      >
+        <span className="flex min-w-50 items-center gap-2">
+          <span className="flex h-8 w-7 gap-2">
+            <img
+              className="object-contain"
+              src={
+                row.original.multimedia[0].identifier.startsWith('https')
+                  ? row.original.multimedia[0].identifier
+                  : `${BASE_IMAGE_URL}unsafe/110x150${row.original.multimedia[0].identifier}`
+              }
+              alt=""
+            />
           </span>
-        </Link>
-      ),
-    },
-    {
-      accessorKey: 'scientificName',
-      header: 'Name',
-    },
-    {
-      accessorKey: 'eventDate',
-      header: 'Date',
-    },
-    {
-      accessorKey: 'decimalLatitude',
-      header: 'Latitude',
-    },
-    {
-      accessorKey: 'decimalLongitude',
-      header: 'Longitude',
-    },
-    {
-      accessorKey: 'floritalyName',
-      header: 'Name in FlorItaly',
-    },
-    {
-      accessorKey: 'locality',
-      header: 'Locality',
-    },
-    {
-      accessorKey: 'recordedBy',
-      header: 'Recorded By',
-    },
-    {
-      accessorKey: 'identifiedBy',
-      header: 'Identified By',
-    },
-    {
-      accessorKey: 'country',
-      header: 'Country',
-    },
-  ]
+          {row.getValue('catalogNumber')}
+        </span>
+      </Link>
+    ),
+  },
+  {
+    accessorKey: 'scientificName',
+    header: 'Name',
+  },
+  {
+    accessorKey: 'eventDate',
+    header: 'Date',
+  },
+  {
+    accessorKey: 'decimalLatitude',
+    header: 'Latitude',
+  },
+  {
+    accessorKey: 'decimalLongitude',
+    header: 'Longitude',
+  },
+  {
+    accessorKey: 'floritalyName',
+    header: 'Name in FlorItaly',
+  },
+  {
+    accessorKey: 'locality',
+    header: 'Locality',
+  },
+  {
+    accessorKey: 'recordedBy',
+    header: 'Recorded By',
+  },
+  {
+    accessorKey: 'identifiedBy',
+    header: 'Identified By',
+  },
+  {
+    accessorKey: 'country',
+    header: 'Country',
+  },
+]
 
 export function SpecimensTable() {
   const { herbariaId } = useParams({ strict: false })
-  const skip = useFilterStore((state) => state.skip);
-  const setSkip = useFilterStore((state) => state.setSkip);
+  const skip = useFilterStore((state) => state.skip)
+  const setSkip = useFilterStore((state) => state.setSkip)
   const { data, isPending, error } = useSpecimensData()
 
   /* const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
@@ -185,9 +187,9 @@ export function SpecimensTable() {
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </TableHead>
                 ))}
               </TableRow>

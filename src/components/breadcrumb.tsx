@@ -24,13 +24,13 @@ export function BreadcrumbResponsive() {
   }
 
   const breadcrumbNameMap: { [key: string]: string | ((s: string) => string) } =
-  {
-    search: t('navbar.search'),
-    map: t('navbar.map'),
-    graphs: t('navbar.graphs'),
-    table: t('navbar.table'),
-    specimens: t('navbar.specimen'),
-  }
+    {
+      search: t('navbar.search'),
+      map: t('navbar.map'),
+      graphs: t('navbar.graphs'),
+      table: t('navbar.table'),
+      specimens: t('navbar.specimen'),
+    }
 
   const getBreadcrumbName = (segment: string) => {
     if (herbariaId && segment === herbariaId) {
@@ -72,7 +72,6 @@ export function BreadcrumbResponsive() {
             <React.Fragment key={to + index}>
               <BreadcrumbSeparator key={to + index} />
               <BreadcrumbItem key={to}>
-
                 {isLast ? (
                   <BreadcrumbPage>{name}</BreadcrumbPage>
                 ) : (
@@ -87,4 +86,4 @@ export function BreadcrumbResponsive() {
       </BreadcrumbList>
     </Breadcrumb>
   )
-} 
+}

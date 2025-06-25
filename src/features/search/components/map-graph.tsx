@@ -81,22 +81,22 @@ export function MapGraph({ className = '' }) {
         },
       },
       visualMap: {
-  min: minValue,
-  max: maxValue,
-  text: [t('search.results.map-max'), t('search.results.map-min')],
-  textStyle: { color: textColor },
-  realtime: false,
-  calculable: true,
-  formatter: function (value) {
-    const originalValue = Math.round(Math.pow(10, value) - 1);
-    return originalValue.toLocaleString();
-  },
-  inRange: {
-    color: ['#ffffff', '#e0f3ff', '#5470c6'],
-  },
-  left: 'left',
-  bottom: 20,
-},
+        min: minValue,
+        max: maxValue,
+        text: [t('search.results.map-max'), t('search.results.map-min')],
+        textStyle: { color: textColor },
+        realtime: false,
+        calculable: true,
+        formatter: function (value) {
+          const originalValue = Math.round(Math.pow(10, value) - 1)
+          return originalValue.toLocaleString()
+        },
+        inRange: {
+          color: ['#ffffff', '#e0f3ff', '#5470c6'],
+        },
+        left: 'left',
+        bottom: 20,
+      },
       series: [
         {
           name: 'Occurrences',

@@ -9,13 +9,15 @@ export const Route = createFileRoute('/')({
 
 function App() {
   const { t } = useTranslation()
-  const resetFilters = useFilterStore(state => state.resetFilters)
+  const resetFilters = useFilterStore((state) => state.resetFilters)
   return (
     <div className="flex min-h-screen flex-col items-center space-y-4 p-4">
       <h1 className="text-center text-xl font-bold">Link rapidi</h1>
       <div className="text-center">
         <Button asChild>
-          <Link to="/search" onClick={() => resetFilters()}>Search</Link>
+          <Link to="/search" onClick={() => resetFilters()}>
+            Search
+          </Link>
         </Button>
       </div>
       <div className="text-center">

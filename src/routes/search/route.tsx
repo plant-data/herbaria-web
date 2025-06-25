@@ -14,7 +14,7 @@ export const Route = createFileRoute('/search')({
 
 function RouteComponent() {
   const { t } = useTranslation()
-  
+
   return (
     <SidebarProvider className="flex flex-col">
       <div className="flex flex-1">

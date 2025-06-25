@@ -96,8 +96,7 @@ export function SelectedFiltersTree() {
     institutionCode,
     hasCoordinates,
     activeFiltersCount,
-  } = useFilterStore(
-  )
+  } = useFilterStore()
 
   // Memoized month name mapping
   const monthNameMap = useMemo(

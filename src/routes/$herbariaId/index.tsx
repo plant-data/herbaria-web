@@ -21,7 +21,7 @@ export const Route = createFileRoute('/$herbariaId/')({
 
 function RouteComponent() {
   const { herbariaId } = Route.useParams()
-  const resetFilters = useFilterStore(state => state.resetFilters)
+  const resetFilters = useFilterStore((state) => state.resetFilters)
   return (
     <div className="min-h-screen">
       {/* Hero Section */}

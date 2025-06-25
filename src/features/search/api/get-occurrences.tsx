@@ -93,12 +93,12 @@ const prepareQueryPayload = (
         filters,
         groupBy: customGroupBy,
       }
-    case 'point': 
+    case 'point':
       return {
         filters,
         limit: 10,
-        skip: customSkip
-       }
+        skip: customSkip,
+      }
     default:
       // 'map' and 'graph' only require filters.
       return { filters }
@@ -122,7 +122,7 @@ function useSpecimensQuery({
   customFilters,
   customSort,
   customGroupBy,
-  customSkip
+  customSkip,
 }: UseSpecimensQueryOptions) {
   const filterStoreState = useFilterStore()
 

@@ -82,7 +82,7 @@ function SpecimenMap({ decimalLatitude, decimalLongitude }: SpecimenMapProps) {
             center={position}
             zoom={2}
             scrollWheelZoom={false}
-            style={{ height: '100%', width: '100%' , zIndex: 0 }}
+            style={{ height: '100%', width: '100%', zIndex: 0 }}
           >
             <TileLayer
               attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

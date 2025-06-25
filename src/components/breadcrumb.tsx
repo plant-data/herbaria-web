@@ -37,7 +37,7 @@ export function BreadcrumbResponsive() {
       return getHerbariumName(segment)
     }
     if (occurrenceID && segment === occurrenceID) {
-      return t('navbar.specimen') + ' ' + occurrenceID
+      return t('navbar.specimen')
     }
     const name = breadcrumbNameMap[segment]
     if (typeof name === 'function') {

@@ -438,7 +438,7 @@ export function SpecimensMap() {
         )}
       </div>
 
-      <div className="mt-2 flex items-center justify-between">
+      <div className="mt-2 flex items-center justify-between gap-4">
         <Select
           value={activePalette}
           onValueChange={(value: PaletteName) => setActivePalette(value)}
@@ -461,9 +461,6 @@ export function SpecimensMap() {
   )
 }
 
-// ============================================================================
-// Beautiful Map Skeleton Component
-// ============================================================================
 function MapSkeleton() {
   return (
     <>

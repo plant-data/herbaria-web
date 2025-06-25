@@ -403,7 +403,7 @@ export function SpecimensMap() {
         <MapContainer
           center={INITIAL_VIEW_STATE.center}
           zoom={INITIAL_VIEW_STATE.zoom}
-          style={{ height: '100%', width: '100%' }}
+          style={{ height: '100%', width: '100%', zIndex: 0 }}
           zoomControl={true}
         >
           <TileLayer

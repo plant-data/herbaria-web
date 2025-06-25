@@ -3,13 +3,22 @@ import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import { useRouter } from '@tanstack/react-router'
 import { ArrowLeft, Maximize2, RotateCcw, ZoomIn, ZoomOut } from 'lucide-react'
 import { Viewer, ViewerContext, ViewerProvider } from 'react-viewer-pan-zoom'
+import { useTranslation } from 'react-i18next'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { ImageLightbox } from '@/components/image-lightbox'
 import { BASE_IMAGE_URL } from '@/config'
-import 'leaflet/dist/leaflet.css' // Import Leaflet's CSS
+import { COUNTRIES } from '@/features/search/constants/countries'
+import 'leaflet/dist/leaflet.css'
 import { Button } from '@/components/ui/button'
+
+// Helper function to get country name from country code
+const getCountryName = (countryCode: unknown): string => {
+  if (!countryCode || typeof countryCode !== 'string') return '-'
+  const country = COUNTRIES.find((c) => c.id === countryCode)
+  return country ? country.value : countryCode
+}
 
 type SpecimenImageProps = Pick<SpecimenData, 'scientificName' | 'multimedia'>
 
@@ -73,7 +82,7 @@ function SpecimenMap({ decimalLatitude, decimalLongitude }: SpecimenMapProps) {
             center={position}
             zoom={2}
             scrollWheelZoom={false}
-            style={{ height: '100%', width: '100%' }}
+            style={{ height: '100%', width: '100%' , zIndex: 0 }}
           >
             <TileLayer
               attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -109,8 +118,12 @@ export function SpecimenImage({
 
   // Define URLs for both the thumbnail and the full-resolution lightbox image
   const imageIdentifier = multimedia[0].identifier
-  const thumbnailUrl = imageIdentifier.startsWith('https') ? imageIdentifier : `${BASE_IMAGE_URL}unsafe/0x0/${imageIdentifier}`
-  const highResUrl = imageIdentifier.startsWith('https') ? imageIdentifier : `${BASE_IMAGE_URL}unsafe/0x0/${imageIdentifier}` // Use max resolution for lightbox
+  const thumbnailUrl = imageIdentifier.startsWith('https')
+    ? imageIdentifier
+    : `${BASE_IMAGE_URL}unsafe/0x0/${imageIdentifier}`
+  const highResUrl = imageIdentifier.startsWith('https')
+    ? imageIdentifier
+    : `${BASE_IMAGE_URL}unsafe/0x0/${imageIdentifier}` // Use max resolution for lightbox
 
   return (
     <>
@@ -222,6 +235,8 @@ const ImageViewerControls = ({
 }
 
 export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
+  const { t } = useTranslation()
+
   return (
     <Card className="gap-2 rounded-md shadow-xs">
       <CardHeader>
@@ -237,85 +252,81 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           <span className="font-medium">GBIF Name:</span>
           <span className="ml-2">{occurrence.gbifName ?? '-'}</span>
         </div>
-
         <div>
           <span className="font-medium">Floritaly Name:</span>
           <span className="ml-2">{occurrence.floritalyName ?? '-'}</span>
         </div>
-
         <div>
           <span className="font-medium">Verbatim Identification:</span>
           <span className="ml-2">
             {occurrence.verbatimIdentification ?? '-'}
           </span>
         </div>
-
         {/* Collection Information */}
         <div>
           <span className="font-medium">Catalog Number:</span>
           <span className="ml-2">{occurrence.catalogNumber ?? '-'}</span>
         </div>
-
         <div>
           <span className="font-medium">Other Catalog Numbers:</span>
           <span className="ml-2">{occurrence.otherCatalogNumbers ?? '-'}</span>
         </div>
-
         <div>
           <span className="font-medium">Basis of Record:</span>
           <span className="ml-2">{occurrence.basisOfRecord ?? '-'}</span>
         </div>
-
         <div>
           <span className="font-medium">Recorded By:</span>
           <span className="ml-2">{occurrence.recordedBy ?? '-'}</span>
         </div>
-
         <div>
           <span className="font-medium">Identified By:</span>
           <span className="ml-2">{occurrence.identifiedBy ?? '-'}</span>
         </div>
-
         <Separator />
-
         {/* Date Information */}
         <div>
           <span className="font-medium">Year:</span>
           <span className="ml-2">{occurrence.year ?? '-'}</span>
         </div>
-
         <div>
           <span className="font-medium">Month:</span>
           <span className="ml-2">{occurrence.month ?? '-'}</span>
         </div>
-
         <div>
           <span className="font-medium">Event Date:</span>
           <span className="ml-2">{occurrence.eventDate ?? '-'}</span>
         </div>
-
         <div>
           <span className="font-medium">Verbatim Event Date:</span>
           <span className="ml-2">{occurrence.verbatimEventDate ?? '-'}</span>
         </div>
-
         <Separator />
-
-        {/* Location Information */}
         <div>
           <span className="font-medium">Country:</span>
-          <span className="ml-2">{occurrence.country}</span>
+
+          <span className="ml-2">
+            {getCountryName(occurrence.countryCode) === '-'
+              ? '-'
+              : t(getCountryName(occurrence.countryCode))}
+          </span>
+        </div>
+        <div>
+          <span className="font-medium">Country Code:</span>
+          <span className="ml-2">
+            {typeof occurrence.countryCode === 'string'
+              ? occurrence.countryCode
+              : '-'}
+          </span>
         </div>
         <div>
           <span className="font-medium">verbatimLocality:</span>
           <span className="ml-2">{occurrence.locality}</span>
         </div>
-
         <div>
           <span className="font-medium">Locality:</span>
           <span className="ml-2">{occurrence.processedLocality ?? '-'}</span>
         </div>
-
         <div>
           <span className="font-medium">Latitude:</span>
           <span className="ml-2">{occurrence.decimalLatitude ?? '-'}</span>
@@ -331,7 +342,7 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
         <div>
           <span className="font-medium">Coordinates Uncertainty:</span>
           <span className="ml-2">
-            {occurrence.coordinatesUncertaintyInMeters ?? '-'}m
+            {occurrence.coordinatesUncertaintyInMeters ?? '-'}
           </span>
         </div>
         {occurrence.georeferenceProtocol && (
@@ -340,7 +351,6 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
             <span className="ml-2">{occurrence.georeferenceProtocol}</span>
           </div>
         )}
-
         <>
           <Separator />
           {occurrence.verbatimElevation && (

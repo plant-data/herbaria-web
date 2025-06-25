@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link, useParams, useRouterState } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,8 +10,6 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { HERBARIA } from '@/features/search/constants/constants'
-import { Link, useRouterState, useParams } from '@tanstack/react-router'
-import { useTranslation } from 'react-i18next'
 
 export function BreadcrumbResponsive() {
   const { location } = useRouterState()

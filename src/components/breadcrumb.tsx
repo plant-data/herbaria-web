@@ -68,16 +68,19 @@ export function BreadcrumbResponsive() {
           }
 
           return (
-            <BreadcrumbItem key={to}>
-              <BreadcrumbSeparator />
-              {isLast ? (
-                <BreadcrumbPage>{name}</BreadcrumbPage>
-              ) : (
-                <BreadcrumbLink asChild>
-                  <Link to={to}>{name}</Link>
-                </BreadcrumbLink>
-              )}
-            </BreadcrumbItem>
+            <>
+              <BreadcrumbSeparator key={to + index} />
+              <BreadcrumbItem key={to}>
+
+                {isLast ? (
+                  <BreadcrumbPage>{name}</BreadcrumbPage>
+                ) : (
+                  <BreadcrumbLink asChild>
+                    <Link to={to}>{name}</Link>
+                  </BreadcrumbLink>
+                )}
+              </BreadcrumbItem>
+            </>
           )
         })}
       </BreadcrumbList>

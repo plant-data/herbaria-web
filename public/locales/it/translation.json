@@ -2,6 +2,8 @@
   "herbaria-hero": "test",
   "search": {
     "filters": {
+      "filters-switch": "Filtri",
+      "selected-filters": "Filtri selezionati",
       "autocomplete-error": "Errore recupero dati",
       "autocomplete-min-length": "Inserisci {{number}} caratteri",
       "autocomplete-no-results": "Nessun risultato",

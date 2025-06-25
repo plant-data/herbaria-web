@@ -2,6 +2,8 @@
   "herbaria-hero": "test engl",
   "search": {
     "filters": {
+      "filters-switch": "Filters",
+      "selected-filters": "Selected filters",
       "autocomplete-error": "Error getting data",
       "autocomplete-min-length": "Enter {{number}} characters",
       "autocomplete-no-results": "No results found",

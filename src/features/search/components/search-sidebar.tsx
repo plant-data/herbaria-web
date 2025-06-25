@@ -1,4 +1,6 @@
 import { useShallow } from 'zustand/react/shallow'
+import { useTranslation } from 'react-i18next'
+import type { LockedFilters } from '@/features/search/stores/use-filters-store'
 import {
   Sidebar,
   SidebarContent,
@@ -13,13 +15,13 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { ResetFilterButton } from '@/features/search/components/reset-filter-button'
 import { SelectedFiltersTree } from '@/features/search/components/selected-filters-tree'
 import { SearchFilters } from '@/features/search/components/search-filters'
-import type { LockedFilters } from '@/features/search/stores/use-filters-store'
 
 interface SearchSidebarProps extends React.ComponentProps<typeof Sidebar> {
   lockedFilters?: LockedFilters
 }
 
 export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
+  const { t } = useTranslation()
   const { activeFiltersCount, resetFilters } = useFilterStore(
     useShallow((state) => ({
       activeFiltersCount: state.activeFiltersCount,
@@ -40,16 +42,16 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
                 <TabsTrigger
                   key="filters"
                   value="filters"
-                  className="data-[state=active]:bg-ring data-[state=active]:text-primary-foreground"
+                  className="hover:cursor-pointer data-[state=active]:bg-ring data-[state=active]:text-primary-foreground"
                 >
-                  <span className="text-[13px]">Filters</span>
+                  <span className="text-[13px]">{t('search.filters.filters-switch')}</span>
                 </TabsTrigger>
                 <TabsTrigger
                   key="see filters"
                   value="selected-filters"
-                  className="data-[state=active]:bg-ring data-[state=active]:text-primary-foreground"
+                  className="hover:cursor-pointer data-[state=active]:bg-ring data-[state=active]:text-primary-foreground"
                 >
-                  <span className="text-[13px]">Selected filters</span>
+                  <span className="text-[13px]">{t('search.filters.selected-filters')}</span>
                 </TabsTrigger>
               </TabsList>
             </SidebarMenuItem>

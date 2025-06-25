@@ -38,7 +38,9 @@ export function SpecimensNavbar() {
             <Link
               key={path}
               to={path}
-              preload="intent"
+              from={'/'}
+              params={{ herbariaId: params.herbariaId }}
+
               className={cn(
                 'flex items-center gap-2 rounded-md px-1 py-[7px] text-xs font-medium transition-colors @xs:px-2 @sm:px-3',
                 'hover:bg-background hover:shadow-sm',

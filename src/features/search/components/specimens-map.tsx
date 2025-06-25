@@ -34,6 +34,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type ClusterData = { coordinates: [number, number]; count: number }
 type PaletteFn = (count: number) => string
@@ -388,12 +389,7 @@ export function SpecimensMap() {
     )
   }, [data?.clusters])
 
-  if (isPending)
-    return (
-      <div className="flex h-[70vh] items-center justify-center">
-        Loading...
-      </div>
-    )
+  if (isPending) return <MapSkeleton />
   if (error)
     return (
       <div className="flex h-[70vh] items-center justify-center text-red-500">
@@ -460,6 +456,84 @@ export function SpecimensMap() {
         </Select>
 
         <ColorLegend palette={palettes[activePalette]} />
+      </div>
+    </>
+  )
+}
+
+// ============================================================================
+// Beautiful Map Skeleton Component
+// ============================================================================
+function MapSkeleton() {
+  return (
+    <>
+      <div className="relative mt-6 h-[70vh] w-full overflow-hidden rounded-lg border border-gray-200">
+        {/* Main map skeleton */}
+        <div className="h-full w-full">
+          <Skeleton className="h-full w-full" />
+
+          {/* Mock map controls */}
+          <div className="absolute top-20 left-3 z-10 flex flex-col gap-2">
+            <Skeleton className="size-[30px] rounded-[3px]" />
+            <Skeleton className="size-[30px] rounded-[3px]" />
+          </div>
+
+          {/* Mock map markers scattered across the map */}
+          <div className="absolute inset-0">
+            <div className="absolute top-[20%] left-[25%]">
+              <Skeleton className="h-3 w-3 rounded-full" />
+            </div>
+            <div className="absolute top-[35%] left-[45%]">
+              <Skeleton className="h-4 w-4 rounded-full" />
+            </div>
+            <div className="absolute top-[15%] left-[60%]">
+              <Skeleton className="h-2 w-2 rounded-full" />
+            </div>
+            <div className="absolute top-[50%] left-[30%]">
+              <Skeleton className="h-3 w-3 rounded-full" />
+            </div>
+            <div className="absolute top-[40%] left-[70%]">
+              <Skeleton className="h-5 w-5 rounded-full" />
+            </div>
+            <div className="absolute top-[65%] left-[20%]">
+              <Skeleton className="h-3 w-3 rounded-full" />
+            </div>
+            <div className="absolute top-[70%] left-[55%]">
+              <Skeleton className="h-2 w-2 rounded-full" />
+            </div>
+            <div className="absolute top-[25%] left-[80%]">
+              <Skeleton className="h-4 w-4 rounded-full" />
+            </div>
+            <div className="absolute top-[80%] left-[40%]">
+              <Skeleton className="h-3 w-3 rounded-full" />
+            </div>
+            <div className="absolute top-[60%] left-[75%]">
+              <Skeleton className="h-2 w-2 rounded-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Skeleton for controls below the map */}
+      <div className="mt-2 flex items-center justify-between">
+        {/* Palette selector skeleton */}
+        <div className="flex items-center gap-2">
+          <Skeleton className="h-10 w-32" />
+        </div>
+
+        {/* Color legend skeleton */}
+        <Card className="rounded-sm p-2.5 shadow-xs">
+          <CardContent className="p-0">
+            <div className="flex flex-wrap gap-4">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="flex items-center gap-1">
+                  <Skeleton className="h-4 w-4 rounded-sm" />
+                  <Skeleton className="h-3 w-12" />
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </>
   )

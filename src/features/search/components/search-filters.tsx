@@ -68,9 +68,6 @@ export function SearchFilters({
     console.log('SearchFilters: Debounced setYears called with:', value)
     setYear(value)
   }, 500)
-
-  console.log(`${BASE_API_URL}autocomplete?field=scientificName&value=`)
-
   return (
     <>
       <div className="pt-1"></div>

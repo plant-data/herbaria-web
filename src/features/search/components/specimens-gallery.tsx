@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useParams } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -7,6 +8,14 @@ import { useSpecimensData } from '@/features/search/api/get-occurrences'
 import { Pagination } from '@/features/search/components/pagination'
 import { BASE_IMAGE_URL, ITEMS_PER_PAGE } from '@/config'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
+import { COUNTRIES } from '@/features/search/constants/countries'
+
+// Helper function to get country name by country code
+function getCountryNameByCode(countryCode: string | null): string | null {
+  if (!countryCode) return null
+  const country = COUNTRIES.find((c) => c.id === countryCode)
+  return country ? country.value : null
+}
 
 export default function SpecimensGallery({ customFilters = {} }) {
   const { herbariaId } = useParams({ strict: false })
@@ -18,7 +27,7 @@ export default function SpecimensGallery({ customFilters = {} }) {
   })) */
   const skip = useFilterStore((state) => state.skip)
   const setSkip = useFilterStore((state) => state.setSkip)
-  const { data, isPending, error } = useSpecimensData(customFilters)
+  const { data, isPending } = useSpecimensData(customFilters)
 
   return isPending ? (
     <>
@@ -69,6 +78,16 @@ export default function SpecimensGallery({ customFilters = {} }) {
 
 function DataItemCard({ item }: { item: SpecimenData }) {
   const [imageLoaded, setImageLoaded] = useState(false)
+
+  const { t } = useTranslation()
+
+  console.log(item.country)
+
+  const countryTranslationKey = getCountryNameByCode(item.countryCode)
+  const countryName = countryTranslationKey
+    ? t(countryTranslationKey)
+    : 'Unknown'
+
   return (
     <Card className="focus-visible:border-ring focus-visible:ring-ring/50 h-full min-h-40 w-full rounded-md p-1 shadow-xs hover:cursor-pointer focus-visible:ring-[3px]">
       <CardContent className="flex min-h-full items-start gap-4 p-0">
@@ -94,7 +113,9 @@ function DataItemCard({ item }: { item: SpecimenData }) {
           <p className="pb-1 text-sm font-semibold">
             {item.scientificName || 'Unknown Species'}
           </p>
-          <p className="text-muted-foreground text-xs">Country: Italy</p>
+          <p className="text-muted-foreground text-xs">
+            Country: {countryName}
+          </p>
 
           <p className="text-muted-foreground text-xs">
             Date: {item.eventDate ? item.eventDate : 'Not specified'}

@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -68,7 +69,7 @@ export function BreadcrumbResponsive() {
           }
 
           return (
-            <>
+            <React.Fragment key={to + index}>
               <BreadcrumbSeparator key={to + index} />
               <BreadcrumbItem key={to}>
 
@@ -80,7 +81,7 @@ export function BreadcrumbResponsive() {
                   </BreadcrumbLink>
                 )}
               </BreadcrumbItem>
-            </>
+            </React.Fragment>
           )
         })}
       </BreadcrumbList>

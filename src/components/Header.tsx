@@ -1,12 +1,8 @@
 import { Link } from '@tanstack/react-router'
-import { ArrowLeft, List, Home, Search } from 'lucide-react'
 
+import { BreadcrumbResponsive } from '@/components/breadcrumb'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { LanguageToggle } from '@/components/language-toggle'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import { cn } from '@/lib/utils'
-import { BreadcrumbResponsive } from './breadcrumb'
 
 export function Header() {
   return (

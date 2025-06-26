@@ -42,16 +42,20 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
                 <TabsTrigger
                   key="filters"
                   value="filters"
-                  className="hover:cursor-pointer data-[state=active]:bg-ring data-[state=active]:text-primary-foreground"
+                  className="data-[state=active]:bg-ring data-[state=active]:text-primary-foreground hover:cursor-pointer"
                 >
-                  <span className="text-[13px]">{t('search.filters.filters-switch')}</span>
+                  <span className="text-[13px]">
+                    {t('search.filters.filters-switch')}
+                  </span>
                 </TabsTrigger>
                 <TabsTrigger
                   key="see filters"
                   value="selected-filters"
-                  className="hover:cursor-pointer data-[state=active]:bg-ring data-[state=active]:text-primary-foreground"
+                  className="data-[state=active]:bg-ring data-[state=active]:text-primary-foreground hover:cursor-pointer"
                 >
-                  <span className="text-[13px]">{t('search.filters.selected-filters')}</span>
+                  <span className="text-[13px]">
+                    {t('search.filters.selected-filters')}
+                  </span>
                 </TabsTrigger>
               </TabsList>
             </SidebarMenuItem>

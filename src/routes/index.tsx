@@ -102,7 +102,7 @@ function App() {
               <Link
                 to="/$herbariaId"
                 params={{ herbariaId: 'PI' }}
-                className="hover:bg-ring-80 mt-auto inline-flex w-full items-center justify-center rounded-lg bg-ring px-4 py-3 font-medium text-white transition-colors duration-200 focus:ring-2"
+                className="hover:bg-ring-80 bg-ring mt-auto inline-flex w-full items-center justify-center rounded-lg px-4 py-3 font-medium text-white transition-colors duration-200 focus:ring-2"
               >
                 <Search className="mr-2 h-4 w-4" />
                 Explore
@@ -124,9 +124,8 @@ function App() {
                     </CardTitle>
                   </div>
                 </div>
-             
               </div>
-               <div className="border-input h-40 overflow-hidden rounded-lg border">
+              <div className="border-input h-40 overflow-hidden rounded-lg border">
                 <img
                   src="/images/tsb.png"
                   alt=""

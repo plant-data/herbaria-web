@@ -137,7 +137,7 @@ export function SelectItems({
             />
           </SelectTrigger>
           <SelectContent>
-            {availableItems.map((item) => (
+            {open && availableItems.map((item) => (
               <SelectItem key={item.id} value={item.id.toString()}>
                 {t(item.value)}
               </SelectItem>

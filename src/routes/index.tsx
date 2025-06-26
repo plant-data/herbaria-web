@@ -22,17 +22,17 @@ function App() {
   return (
     <div className="min-h-screen">
       <div className="container mx-auto px-4 py-12">
-        {/* Hero Section */}
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 md:text-6xl dark:text-white">
-            FlorItaly Herbaria
-          </h1>
+          <h1 className="text-2xl font-bold md:text-5xl">FlorItaly Herbaria</h1>
         </div>
 
         {/* Search and Collections Grid */}
         <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2 lg:grid-cols-3">
           {/* Global Search Card */}
-          <Card className="group flex flex-col border transition-all duration-300 hover:-translate-y-1 hover:border-green-200 dark:hover:border-green-700">
+          <Card className="group hover:border-border flex flex-col border shadow-xs transition-all duration-300 hover:-translate-y-1">
+            <Badge className="mx-6 mb-[-10px]" variant="outline">
+              All Herbaria
+            </Badge>
             <CardHeader>
               <div className="mb-3 flex items-center justify-between">
                 <div className="flex items-center space-x-3">
@@ -44,16 +44,13 @@ function App() {
                     <CardDescription>All Collections</CardDescription>
                   </div>
                 </div>
-                <Badge
-                  variant="secondary"
-                  className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-                >
-                  ALL
-                </Badge>
               </div>
-              <div className="relative flex h-32 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900/20 dark:to-green-800/20">
-                <Search className="h-16 w-16 text-green-400 opacity-50 dark:text-green-500" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+              <div className="border-input h-32 overflow-hidden rounded-lg border">
+                <img
+                  src="/images/global-search.png"
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
               </div>
             </CardHeader>
             <CardContent className="flex flex-1 flex-col">
@@ -73,7 +70,7 @@ function App() {
           </Card>
 
           {/* PI Herbarium Card */}
-          <Card className="group flex flex-col border transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 dark:hover:border-blue-700">
+          <Card className="group flex flex-col border shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 dark:hover:border-blue-700">
             <CardHeader>
               <div className="mb-3 flex items-center justify-between">
                 <div className="flex items-center space-x-3">
@@ -96,9 +93,12 @@ function App() {
                   PI
                 </Badge>
               </div>
-              <div className="relative flex h-32 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/20 dark:to-blue-800/20">
-                <Database className="h-16 w-16 text-blue-400 opacity-50 dark:text-blue-500" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+              <div className="border-input h-32 overflow-hidden rounded-lg border">
+                <img
+                  src="/images/pi.png"
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
               </div>
             </CardHeader>
             <CardContent className="flex flex-1 flex-col">
@@ -118,7 +118,7 @@ function App() {
           </Card>
 
           {/* TSB Herbarium Card */}
-          <Card className="group flex flex-col border transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 dark:hover:border-emerald-700">
+          <Card className="group flex flex-col border shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 dark:hover:border-emerald-700">
             <CardHeader>
               <div className="mb-3 flex items-center justify-between">
                 <div className="flex items-center space-x-3">

@@ -41,7 +41,6 @@ function App() {
                   </div>
                   <div>
                     <CardTitle className="text-xl">Global Search</CardTitle>
-                    <CardDescription>All Collections</CardDescription>
                   </div>
                 </div>
               </div>
@@ -84,9 +83,6 @@ function App() {
                     <CardTitle className="text-xl">
                       {t('herbaria.pi')}
                     </CardTitle>
-                    <CardDescription>
-                      University of Pisa Collection
-                    </CardDescription>
                   </div>
                 </div>
               </div>
@@ -126,21 +122,16 @@ function App() {
                     <CardTitle className="text-xl">
                       {t('herbaria.tsb')}
                     </CardTitle>
-                    <CardDescription>
-                      Trieste Science Collection
-                    </CardDescription>
                   </div>
                 </div>
-                <Badge
-                  variant="secondary"
-                  className="bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300"
-                >
-                  TSB
-                </Badge>
+             
               </div>
-              <div className="relative flex h-32 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-900/20 dark:to-emerald-800/20">
-                <Database className="h-16 w-16 text-emerald-400 opacity-50 dark:text-emerald-500" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+               <div className="border-input h-40 overflow-hidden rounded-lg border">
+                <img
+                  src="/images/tsb.png"
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
               </div>
             </CardHeader>
             <CardContent className="flex flex-1 flex-col">

@@ -324,12 +324,9 @@ function SimpleMarkers({
 
         return (
           <CircleMarker
-            // CRITICAL CHANGE: The paletteName is added to the key.
-            // When the palette changes, the key changes, forcing React
-            // to unmount the old marker and mount a new one with the new color.
             key={`${lat}-${lng}-${index}-${paletteName}`}
             center={[lat, lng]}
-            radius={6}
+            radius={3}
             fillColor={markerColor}
             color={markerColor}
             weight={2}

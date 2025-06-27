@@ -66,7 +66,7 @@ export function Header() {
                     <h3 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
                       Menu
                     </h3>
-                    <BreadcrumbResponsive />
+                    <BreadcrumbResponsive onLinkClick={() => setIsMenuOpen(false)} />
                   </div>
 
                   {/* Controls */}

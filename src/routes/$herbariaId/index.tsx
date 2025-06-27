@@ -84,7 +84,7 @@ function RouteComponent() {
           <div className="flex w-full items-center justify-around sm:justify-start gap-4 overflow-hidden">
             {/* First image - slightly lower */}
             <div className="mt-8 sm:block">
-              <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border-2 sm:w-60 lg:w-64">
+              <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                 <img
                   src={homeImages[0]}
                   alt="Herbarium specimen"
@@ -95,7 +95,7 @@ function RouteComponent() {
 
             {/* Second image - higher */}
             <div className="-mt-4 md:block">
-              <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border-2 sm:w-60 lg:w-64">
+              <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                 <img
                   src={homeImages[1]}
                   alt="Herbarium specimen"
@@ -106,7 +106,7 @@ function RouteComponent() {
 
             {/* Third image - slightly lower */}
             <div className="mt-6 md:block">
-              <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border-2 sm:w-60 lg:w-64">
+              <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                 <img
                   src={homeImages[2]}
                   alt="Herbarium specimen"

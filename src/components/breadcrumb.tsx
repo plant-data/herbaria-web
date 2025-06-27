@@ -13,7 +13,11 @@ import {
 import { HERBARIA } from '@/features/search/constants/constants'
 import { useIsMobile } from '@/hooks/use-mobile'
 
-export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void }) {
+export function BreadcrumbResponsive({
+  onLinkClick,
+}: {
+  onLinkClick?: () => void
+}) {
   const { location } = useRouterState()
   const { herbariaId, occurrenceID } = useParams({ strict: false })
   const { t } = useTranslation()
@@ -63,18 +67,21 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
 
   // Mobile view - vertical layout
   if (isMobile) {
-    const allSegments = [{ to: '/', name: t('navbar.home'), isLast: false }, ...pathnames.map((value, index) => {
-      let to = `/${pathnames.slice(0, index + 1).join('/')}`
-      const isLast = index === pathnames.length - 1
-      let name = getBreadcrumbName(value)
+    const allSegments = [
+      { to: '/', name: t('navbar.home'), isLast: false },
+      ...pathnames.map((value, index) => {
+        let to = `/${pathnames.slice(0, index + 1).join('/')}`
+        const isLast = index === pathnames.length - 1
+        let name = getBreadcrumbName(value)
 
-      if (value === 'specimens') {
-        to = to.replace('specimens', 'search')
-        name = t('navbar.search')
-      }
+        if (value === 'specimens') {
+          to = to.replace('specimens', 'search')
+          name = t('navbar.search')
+        }
 
-      return { to, name, isLast }
-    })]
+        return { to, name, isLast }
+      }),
+    ]
 
     return (
       <div className="flex flex-col gap-2">
@@ -114,7 +121,9 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link to="/" onClick={onLinkClick}>{t('navbar.home')}</Link>
+            <Link to="/" onClick={onLinkClick}>
+              {t('navbar.home')}
+            </Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         {pathnames.map((value, index) => {
@@ -136,7 +145,9 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
                   <BreadcrumbPage>{name}</BreadcrumbPage>
                 ) : (
                   <BreadcrumbLink asChild>
-                    <Link to={to} onClick={onLinkClick}>{name}</Link>
+                    <Link to={to} onClick={onLinkClick}>
+                      {name}
+                    </Link>
                   </BreadcrumbLink>
                 )}
               </BreadcrumbItem>

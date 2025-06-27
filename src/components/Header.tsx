@@ -60,13 +60,15 @@ export function Header() {
                   </SheetTitle>
                 </SheetHeader>
 
-                <div className="flex flex-col gap-8 justify-between h-full">
+                <div className="flex h-full flex-col justify-between gap-8">
                   {/* Breadcrumb Navigation */}
                   <div className="flex flex-col gap-4">
                     <h3 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">
                       Menu
                     </h3>
-                    <BreadcrumbResponsive onLinkClick={() => setIsMenuOpen(false)} />
+                    <BreadcrumbResponsive
+                      onLinkClick={() => setIsMenuOpen(false)}
+                    />
                   </div>
 
                   {/* Controls */}

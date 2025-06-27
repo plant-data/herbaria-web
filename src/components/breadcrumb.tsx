@@ -91,8 +91,8 @@ export function BreadcrumbResponsive({
               <ChevronRight className="text-muted-foreground h-3 w-3" />
               <div className="flex-1">
                 {segment.isLast ? (
-                  <div className="bg-primary/10 border-primary/20 rounded-lg border px-3 py-2">
-                    <span className="text-primary text-sm font-medium">
+                  <div className="bg-muted/50 border-input rounded-lg border px-3 py-2">
+                    <span className="text-ring text-sm font-medium">
                       {segment.name}
                     </span>
                   </div>

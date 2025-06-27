@@ -47,7 +47,7 @@ export function Header() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-10 w-10"
+                  className="size-8"
                   aria-label="Open menu"
                 >
                   <Menu className="!size-6" />

@@ -11,6 +11,7 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { BASE_IMAGE_URL } from '@/config'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
+import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 
 export const Route = createFileRoute('/$herbariaId/')({
   loader: async ({ params }) => {
@@ -22,6 +23,18 @@ export const Route = createFileRoute('/$herbariaId/')({
 function RouteComponent() {
   const { herbariaId } = Route.useParams()
   const resetFilters = useFilterStore((state) => state.resetFilters)
+  
+  // Find the current herbarium configuration
+  const currentHerbarium = HERBARIA_CONFIG.find(
+    (herbarium) => herbarium.id === herbariaId.toUpperCase()
+  )
+  
+  // Use homeImages if available, otherwise fallback to default images
+  const homeImages = currentHerbarium?.homeImages || [
+    `${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00204271.jpg`,
+    `${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00206738.jpg`,
+    `${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00207292.jpg`
+  ]
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -76,8 +89,8 @@ function RouteComponent() {
             <div className="mt-8 sm:block">
               <div className="border-input aspect-[4/6] w-32 overflow-hidden rounded-sm border-2 bg-gradient-to-br from-green-200 to-green-300 sm:w-60 lg:w-64 dark:from-green-800 dark:to-green-900">
                 <img
-                  src={`${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00204271.jpg`}
-                  alt="Herbarium specimen FI-HCI-00206738"
+                  src={homeImages[0]}
+                  alt="Herbarium specimen"
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -87,8 +100,8 @@ function RouteComponent() {
             <div className="-mt-4 md:block">
               <div className="border-input aspect-[4/6] w-32 overflow-hidden rounded-sm border-2 bg-gradient-to-br from-emerald-200 to-emerald-300 sm:w-60 lg:w-64 dark:from-emerald-800 dark:to-emerald-900">
                 <img
-                  src={`${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00206738.jpg`}
-                  alt="Herbarium specimen FI-HCI-00206738"
+                  src={homeImages[1]}
+                  alt="Herbarium specimen"
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -98,8 +111,8 @@ function RouteComponent() {
             <div className="mt-6 hidden lg:block">
               <div className="border-input aspect-[4/6] w-32 overflow-hidden rounded-sm border-2 bg-gradient-to-br from-teal-200 to-teal-300 sm:w-40 lg:w-64 dark:from-teal-800 dark:to-teal-900">
                 <img
-                  src={`${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00207292.jpg`}
-                  alt="Herbarium specimen FI-HCI-00207292"
+                  src={homeImages[2]}
+                  alt="Herbarium specimen"
                   className="h-full w-full object-cover"
                 />
               </div>

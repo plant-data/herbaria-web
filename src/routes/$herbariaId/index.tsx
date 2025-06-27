@@ -14,26 +14,23 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 
 export const Route = createFileRoute('/$herbariaId/')({
-  loader: async ({ params }) => {
-    console.log(params['herbariaId'])
-  },
   component: RouteComponent,
 })
 
 function RouteComponent() {
   const { herbariaId } = Route.useParams()
   const resetFilters = useFilterStore((state) => state.resetFilters)
-  
+
   // Find the current herbarium configuration
   const currentHerbarium = HERBARIA_CONFIG.find(
-    (herbarium) => herbarium.id === herbariaId.toUpperCase()
+    (herbarium) => herbarium.id === herbariaId.toUpperCase(),
   )
-  
+
   // Use homeImages if available, otherwise fallback to default images
   const homeImages = currentHerbarium?.homeImages || [
     `${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00204271.jpg`,
     `${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00206738.jpg`,
-    `${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00207292.jpg`
+    `${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00207292.jpg`,
   ]
   return (
     <div className="min-h-screen">

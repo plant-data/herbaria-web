@@ -35,8 +35,8 @@ function RouteComponent() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="mx-auto py-16 pl-4 lg:py-24">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+      <section className="mx-auto py-16 pr-4 pl-4 sm:pr-0 lg:py-24">
+        <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[550px_1fr] lg:grid-cols-[650px_1fr]">
           {/* Hero Text - Left Side */}
           <div className="space-y-6 lg:ml-10">
             <div className="space-y-2">
@@ -81,10 +81,10 @@ function RouteComponent() {
           </div>
 
           {/* Images Grid - Right Side */}
-          <div className="flex w-full items-center justify-start gap-4 overflow-hidden">
+          <div className="flex w-full items-center justify-around sm:justify-start gap-4 overflow-hidden">
             {/* First image - slightly lower */}
             <div className="mt-8 sm:block">
-              <div className="border-input aspect-[4/6] w-32 overflow-hidden rounded-sm border-2 bg-gradient-to-br from-green-200 to-green-300 sm:w-60 lg:w-64 dark:from-green-800 dark:to-green-900">
+              <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border-2 sm:w-60 lg:w-64">
                 <img
                   src={homeImages[0]}
                   alt="Herbarium specimen"
@@ -95,7 +95,7 @@ function RouteComponent() {
 
             {/* Second image - higher */}
             <div className="-mt-4 md:block">
-              <div className="border-input aspect-[4/6] w-32 overflow-hidden rounded-sm border-2 bg-gradient-to-br from-emerald-200 to-emerald-300 sm:w-60 lg:w-64 dark:from-emerald-800 dark:to-emerald-900">
+              <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border-2 sm:w-60 lg:w-64">
                 <img
                   src={homeImages[1]}
                   alt="Herbarium specimen"
@@ -105,8 +105,8 @@ function RouteComponent() {
             </div>
 
             {/* Third image - slightly lower */}
-            <div className="mt-6 hidden lg:block">
-              <div className="border-input aspect-[4/6] w-32 overflow-hidden rounded-sm border-2 bg-gradient-to-br from-teal-200 to-teal-300 sm:w-40 lg:w-64 dark:from-teal-800 dark:to-teal-900">
+            <div className="mt-6 md:block">
+              <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border-2 sm:w-60 lg:w-64">
                 <img
                   src={homeImages[2]}
                   alt="Herbarium specimen"

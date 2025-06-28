@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Database, Globe, Leaf, MapPin, Search, Users } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -9,9 +9,10 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { BASE_IMAGE_URL } from '@/config'
+import { BASE_IMAGE_URL, BASE_API_URL } from '@/config'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
+import { AutocompleteSimple } from '@/features/search/components/autocomplete-simple'
 
 export const Route = createFileRoute('/$herbariaId/')({
   component: RouteComponent,
@@ -19,7 +20,9 @@ export const Route = createFileRoute('/$herbariaId/')({
 
 function RouteComponent() {
   const { herbariaId } = Route.useParams()
+  const navigate = useNavigate()
   const resetFilters = useFilterStore((state) => state.resetFilters)
+  const setScientificName = useFilterStore((state) => state.setScientificName)
 
   // Find the current herbarium configuration
   const currentHerbarium = HERBARIA_CONFIG.find(
@@ -32,6 +35,18 @@ function RouteComponent() {
     `${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00206738.jpg`,
     `${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00207292.jpg`,
   ]
+
+  const handleScientificNameSelected = (value: string) => {
+    console.log('corro');
+    
+    resetFilters()
+    setScientificName([value])
+    navigate({
+      to: '/$herbariaId/search',
+      params: { herbariaId },
+    })
+  }
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -57,12 +72,21 @@ function RouteComponent() {
               enim ad minim veniam, quis nostrud exercitation ullamco.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
-              <div className="relative">
+              {/* <div className="relative">
                 <Search className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
                 <Input
                   type="search"
                   placeholder="Lorem ipsum dolor sit..."
                   className="h-10 w-full py-3 pr-4 pl-10 text-base sm:w-60"
+                />
+              </div> */}
+              <div className='relative'>
+                <AutocompleteSimple
+                  label="test"
+                  placeholder="test"
+                  queryKey={herbariaId}
+                  query={`${BASE_API_URL}autocomplete?field=scientificName&value=`}
+                  onSelectedValueChange={handleScientificNameSelected}
                 />
               </div>
               <Button
@@ -81,7 +105,7 @@ function RouteComponent() {
           </div>
 
           {/* Images Grid - Right Side */}
-          <div className="flex w-full items-center justify-around sm:justify-start gap-4 overflow-hidden">
+          <div className="flex w-full items-center justify-around gap-4 overflow-hidden sm:justify-start">
             {/* First image - slightly lower */}
             <div className="mt-8 sm:block">
               <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">

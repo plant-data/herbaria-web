@@ -13,12 +13,13 @@ import { BASE_IMAGE_URL, BASE_API_URL } from '@/config'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { AutocompleteSimple } from '@/features/search/components/autocomplete-simple'
-
+import { useTranslation } from 'react-i18next'
 export const Route = createFileRoute('/$herbariaId/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const { t } = useTranslation()
   const { herbariaId } = Route.useParams()
   const navigate = useNavigate()
   const resetFilters = useFilterStore((state) => state.resetFilters)
@@ -72,18 +73,10 @@ function RouteComponent() {
               enim ad minim veniam, quis nostrud exercitation ullamco.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
-              {/* <div className="relative">
-                <Search className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
-                <Input
-                  type="search"
-                  placeholder="Lorem ipsum dolor sit..."
-                  className="h-10 w-full py-3 pr-4 pl-10 text-base sm:w-60"
-                />
-              </div> */}
-              <div className='relative'>
+            
+              <div className='relative min-w-[300px]'>
                 <AutocompleteSimple
-                  label="test"
-                  placeholder="test"
+                  placeholder={t('search.filters.scientific-name-placeholder')}
                   queryKey={herbariaId}
                   query={`${BASE_API_URL}autocomplete?field=scientificName&value=`}
                   onSelectedValueChange={handleScientificNameSelected}

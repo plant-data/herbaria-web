@@ -24,7 +24,6 @@ interface AutocompleteApiResponse {
 }
 
 interface AutocompleteSimpleProps {
-  label: string
   placeholder: string
   queryKey: string
   query: string

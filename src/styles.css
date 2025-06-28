@@ -130,6 +130,14 @@ code {
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+.herbaria-pi {
+  --ring: oklch(0.6 0.15 240); /* blue */
+}
+
+.herbaria-tsb {
+  --ring: oklch(0.7 0.2 50); /* orange */
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

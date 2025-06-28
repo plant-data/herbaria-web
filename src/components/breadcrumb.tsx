@@ -26,7 +26,6 @@ export function BreadcrumbResponsive({
 
   const getHerbariumName = (id: string) => {
     const herbarium = HERBARIA.find((h) => h.id === id)
-    console.log('herbarium', herbarium)
     return herbarium ? t(herbarium.value) : id
   }
 

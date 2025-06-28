@@ -81,8 +81,6 @@ function DataItemCard({ item }: { item: SpecimenData }) {
 
   const { t } = useTranslation()
 
-  console.log(item.country)
-
   const countryTranslationKey = getCountryNameByCode(item.countryCode)
   const countryName = countryTranslationKey
     ? t(countryTranslationKey)

@@ -34,7 +34,7 @@ export function useEchartsMap(mapName: string, geoJsonUrl: string) {
     if (!registeredMaps.has(mapName)) {
       echarts.registerMap(mapName, data)
       registeredMaps.add(mapName)
-      console.log(`ECharts map '${mapName}' registered successfully.`)
+      //console.log(`ECharts map '${mapName}' registered successfully.`)
     }
     return data
   }

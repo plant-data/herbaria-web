@@ -9,7 +9,8 @@
       "autocomplete-no-results": "No results found",
       "scientific-name-label": "Scientific Name",
       "scientific-name-placeholder": "Search by scientific name",
-
+      "genus-label": "Genus",
+      "genus-placeholder": "Search by genus",
       "country-code-label": "Country",
       "country-code-placeholder": "Search by country",
       "locality-label": "Locality",

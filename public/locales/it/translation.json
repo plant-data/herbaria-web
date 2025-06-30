@@ -9,6 +9,8 @@
       "autocomplete-no-results": "Nessun risultato",
       "scientific-name-label": "Nome scientifico",
       "scientific-name-placeholder": "Cerca un nome scientifico",
+      "genus-label": "Genere",
+      "genus-placeholder": "Cerca un genere",
       "country-code-label": "Stato",
       "country-code-placeholder": "Seleziona uno stato",
       "locality-label": "Località",

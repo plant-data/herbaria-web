@@ -24,6 +24,7 @@ export function SearchFilters({
   const {
     scientificName,
     floritalyName,
+    genus,
     country,
     countryCode,
     locality,
@@ -33,6 +34,7 @@ export function SearchFilters({
     hasCoordinates,
     setScientificName,
     setFloritalyName,
+    setGenus,
     setCountry,
     setCountryCode,
     setLocality,
@@ -44,7 +46,9 @@ export function SearchFilters({
     useShallow((state) => ({
       scientificName: state.scientificName,
       floritalyName: state.floritalyName,
+      genus: state.genus,
       country: state.country,
+
       countryCode: state.countryCode,
       locality: state.locality,
       year: state.year,
@@ -53,6 +57,7 @@ export function SearchFilters({
       hasCoordinates: state.hasCoordinates,
       setScientificName: state.setScientificName,
       setFloritalyName: state.setFloritalyName,
+      setGenus: state.setGenus,
       setCountry: state.setCountry,
       setCountryCode: state.setCountryCode,
       setLocality: state.setLocality,
@@ -79,14 +84,14 @@ export function SearchFilters({
         queryKey="plantscientificnamesearch"
         query={`${BASE_API_URL}autocomplete?field=scientificName&value=`}
       />
-      {/* <Autocomplete
-        label={t('search.filters.country-label')}
-        placeholder={t('search.filters.country-placeholder')}
-        selectedValues={country}
-        onSelectedValuesChange={setCountry}
-        queryKey="countrysearch"
-        query={`${BASE_API_URL}autocomplete?field=scientificName&value=`}
-      /> */}
+      <Autocomplete
+        label={t('search.filters.genus-label')}
+        placeholder={t('search.filters.genus-placeholder')}
+        selectedValues={genus}
+        onSelectedValuesChange={setGenus}
+        queryKey="genussearch"
+        query={`${BASE_API_URL}autocomplete?field=genus&value=`}
+      />
       <Autocomplete
         label={t('search.filters.locality-label')}
         placeholder={t('search.filters.locality-placeholder')}

@@ -12,6 +12,7 @@ import {
 export interface FilterStateData {
   scientificName: Array<string>
   floritalyName: Array<string>
+  genus: Array<string>
   country: Array<string>
   countryCode: Array<string>
   locality: Array<string>
@@ -39,6 +40,9 @@ interface FilterActions {
   ) => void
   setFloritalyName: (
     floritalyName: Array<string> | ((prev: Array<string>) => Array<string>),
+  ) => void
+  setGenus: (
+    genus: Array<string> | ((prev: Array<string>) => Array<string>),
   ) => void
   setCountry: (
     country: Array<string> | ((prev: Array<string>) => Array<string>),
@@ -78,6 +82,7 @@ export interface FilterState
 const initialState: FilterStateData = {
   scientificName: [],
   floritalyName: [],
+  genus: [],
   country: [],
   countryCode: [],
   locality: [],
@@ -99,6 +104,7 @@ function calculateActiveFiltersCount(state: FilterStateData) {
 
   count += state.scientificName.length
   count += state.floritalyName.length
+  count += state.genus.length
   count += state.country.length
   count += state.countryCode.length
   count += state.locality.length
@@ -179,6 +185,7 @@ export const useFilterStore = create<FilterState>()(
         set,
         true,
       ),
+      setGenus: createSetter('genus', 'setGenus', set, true),
       setCountry: createSetter('country', 'setCountry', set, true),
       setCountryCode: createSetter('countryCode', 'setCountryCode', set, true),
       setLocality: createSetter('locality', 'setLocality', set, true),

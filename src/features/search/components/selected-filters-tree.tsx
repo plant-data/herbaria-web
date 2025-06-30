@@ -3,10 +3,10 @@ import { useMemo } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import {
+  HERBARIA,
   MAX_YEAR,
   MIN_YEAR,
   MONTHS,
-  HERBARIA,
 } from '@/features/search/constants/constants'
 import { COUNTRIES } from '@/features/search/constants/countries'
 
@@ -88,6 +88,7 @@ export function SelectedFiltersTree() {
   const {
     scientificName,
     floritalyName,
+    genus,
     country,
     countryCode,
     locality,
@@ -124,6 +125,11 @@ export function SelectedFiltersTree() {
         key: 'floritalyName',
         items: floritalyName,
         label: t('search.filters.floritaly-name-label'),
+      },
+      {
+        key: 'genus',
+        items: genus,
+        label: t('search.filters.genus-label'),
       },
       {
         key: 'country',
@@ -173,6 +179,7 @@ export function SelectedFiltersTree() {
       t,
       scientificName,
       floritalyName,
+      genus,
       country,
       countryCode,
       locality,

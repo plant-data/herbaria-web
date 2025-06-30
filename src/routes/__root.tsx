@@ -5,9 +5,9 @@ import {
 } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import type { QueryClient } from '@tanstack/react-query'
-import TanStackQueryLayout from '@/integrations/tanstack-query/layout.tsx'
-import { Header } from '@/components/header.tsx'
-import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria.tsx'
+import TanStackQueryLayout from '@/integrations/tanstack-query/layout'
+import { Header } from '@/components/header'
+import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 
 interface MyRouterContext {
   queryClient: QueryClient

@@ -27,5 +27,4 @@ export const HERBARIA_CONFIG = [
     ],
     ringColor: 'oklch(0.7 0.2 50)', // orange
   },
-
 ]

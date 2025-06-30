@@ -15,9 +15,12 @@ interface MyRouterContext {
 
 function RootComponent() {
   const params = useParams({ strict: false })
-  const herbariaId = 'herbariaId' in params ? (params as { herbariaId: string }).herbariaId : undefined
+  const herbariaId =
+    'herbariaId' in params
+      ? (params as { herbariaId: string }).herbariaId
+      : undefined
 
-  const ringColor = HERBARIA_CONFIG.find(h => h.id === herbariaId)?.ringColor
+  const ringColor = HERBARIA_CONFIG.find((h) => h.id === herbariaId)?.ringColor
 
   const style = { '--ring': ringColor } as React.CSSProperties
 

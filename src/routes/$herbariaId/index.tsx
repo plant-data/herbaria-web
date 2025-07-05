@@ -1,5 +1,5 @@
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Database, Globe, Leaf, MapPin, Search, Users } from 'lucide-react'
+import { Database, Globe, Leaf, MapPin, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -38,8 +38,8 @@ function RouteComponent() {
   ]
 
   const handleScientificNameSelected = (value: string) => {
-    console.log('corro');
-    
+    console.log('corro')
+
     resetFilters()
     setScientificName([value])
     navigate({
@@ -73,12 +73,15 @@ function RouteComponent() {
               enim ad minim veniam, quis nostrud exercitation ullamco.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
-            
-              <div className='relative min-w-[300px]'>
+              <div className="relative min-w-[300px]">
                 <AutocompleteSimple
                   placeholder={t('search.filters.scientific-name-placeholder')}
-                  queryKey={herbariaId}
-                  query={`${BASE_API_URL}autocomplete?field=scientificName&value=`}
+                  queryKey={['simplesearch', herbariaId]}
+                  query={
+                    `${BASE_API_URL}autocomplete?` +
+                    (herbariaId ? `institutionCode=${herbariaId}&` : '') +
+                    `field=scientificName&value=`
+                  }
                   onSelectedValueChange={handleScientificNameSelected}
                 />
               </div>

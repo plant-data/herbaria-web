@@ -25,7 +25,7 @@ interface AutocompleteApiResponse {
 
 interface AutocompleteSimpleProps {
   placeholder: string
-  queryKey: string
+  queryKey: Array<string>
   query: string
   onSelectedValueChange: (value: AutocompleteItem) => void
   minLength?: number
@@ -45,7 +45,7 @@ export function AutocompleteSimple({
   const inputRef = useRef<HTMLInputElement>(null)
   const queryClient = useQueryClient()
   const { data, error, isFetching } = useQuery({
-    queryKey: [queryKey, debouncedSearch],
+    queryKey: [...queryKey, debouncedSearch],
     queryFn: async ({ signal }) => {
       const res = await fetch(`${query}${debouncedSearch}`, { signal })
       if (!res.ok) {
@@ -148,7 +148,7 @@ export function AutocompleteSimple({
                       }}
                       onSelect={() => {
                         setSearch('')
-                        queryClient.setQueryData([queryKey, ''], [])
+                        queryClient.setQueryData([...queryKey, ''], [])
                         onSelectedValueChange(item)
                         setOpen(false)
                       }}

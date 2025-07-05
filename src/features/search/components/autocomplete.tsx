@@ -27,7 +27,7 @@ interface AutocompleteApiResponse {
 interface AutocompleteAsyncProps {
   label: string
   placeholder: string
-  queryKey: string
+  queryKey: Array<string>
   query: string
   selectedValues: Array<AutocompleteItem>
   onSelectedValuesChange: React.Dispatch<
@@ -54,7 +54,7 @@ export function Autocomplete({
   const inputRef = useRef<HTMLInputElement>(null)
   const queryClient = useQueryClient()
   const { data, error, isFetching } = useQuery({
-    queryKey: [queryKey, debouncedSearch],
+    queryKey: [...queryKey, debouncedSearch],
     queryFn: async ({ signal }) => {
       const res = await fetch(`${query}${debouncedSearch}`, { signal })
       if (!res.ok) {
@@ -184,7 +184,7 @@ export function Autocomplete({
                         }}
                         onSelect={() => {
                           setSearch('')
-                          queryClient.setQueryData([queryKey, ''], [])
+                          queryClient.setQueryData([...queryKey, ''], [])
                           onSelectedValuesChange((prev) => [...prev, item])
                         }}
                         className="cursor-pointer"

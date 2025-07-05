@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useParams } from '@tanstack/react-router'
 import { useShallow } from 'zustand/react/shallow'
 import type { LockedFilters } from '@/features/search/stores/use-filters-store'
 import { BASE_API_URL } from '@/config'
@@ -48,7 +49,6 @@ export function SearchFilters({
       floritalyName: state.floritalyName,
       genus: state.genus,
       country: state.country,
-
       countryCode: state.countryCode,
       locality: state.locality,
       year: state.year,
@@ -68,6 +68,7 @@ export function SearchFilters({
     })),
   )
   const { t } = useTranslation()
+  const { herbariaId } = useParams({ strict: false })
 
   const handleSetYear = useDebouncedCallback((value: [number, number]) => {
     console.log('SearchFilters: Debounced setYears called with:', value)
@@ -81,24 +82,36 @@ export function SearchFilters({
         placeholder={t('search.filters.scientific-name-placeholder')}
         selectedValues={scientificName}
         onSelectedValuesChange={setScientificName}
-        queryKey="plantscientificnamesearch"
-        query={`${BASE_API_URL}autocomplete?field=scientificName&value=`}
+        queryKey={['plantscientificnamesearch', herbariaId ?? '']}
+        query={
+          `${BASE_API_URL}autocomplete?` +
+          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
+          `field=scientificName&value=`
+        }
       />
       <Autocomplete
         label={t('search.filters.genus-label')}
         placeholder={t('search.filters.genus-placeholder')}
         selectedValues={genus}
         onSelectedValuesChange={setGenus}
-        queryKey="genussearch"
-        query={`${BASE_API_URL}autocomplete?field=genus&value=`}
+        queryKey={['genussearch', herbariaId ?? '']}
+        query={
+          `${BASE_API_URL}autocomplete?` +
+          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
+          `field=genus&value=`
+        }
       />
       <Autocomplete
         label={t('search.filters.locality-label')}
         placeholder={t('search.filters.locality-placeholder')}
         selectedValues={locality}
         onSelectedValuesChange={setLocality}
-        queryKey="localitysearch"
-        query={`${BASE_API_URL}autocomplete?field=locality&value=`}
+        queryKey={['localitysearch', herbariaId ?? '']}
+        query={
+          `${BASE_API_URL}autocomplete?` +
+          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
+          `field=locality&value=`
+        }
         minLength={4}
       />
       <Autocomplete
@@ -106,8 +119,12 @@ export function SearchFilters({
         placeholder={t('search.filters.floritaly-name-placeholder')}
         selectedValues={floritalyName}
         onSelectedValuesChange={setFloritalyName}
-        queryKey="floritalysearch"
-        query={`${BASE_API_URL}autocomplete?field=floritalyName&value=`}
+        queryKey={['floritalysearch', herbariaId ?? '']}
+        query={
+          `${BASE_API_URL}autocomplete?` +
+          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
+          `field=floritalyName&value=`
+        }
       />
       <RangeSlider
         label={t('search.filters.year-label')}

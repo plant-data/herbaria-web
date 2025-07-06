@@ -21,6 +21,7 @@ const MONTHS = [
 const HERBARIA = [
   { id: 'PI', value: 'herbaria.pi' },
   { id: 'HCI', value: 'herbaria.hci' },
+  { id: 'TSB', value: 'herbaria.tsb' }
 ]
 
 const MAP_STYLE = {

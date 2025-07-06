@@ -1,7 +1,7 @@
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Database, Globe, Leaf, MapPin, Search } from 'lucide-react'
+import { Database, Leaf, MapPin, Search } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Card,
   CardDescription,
@@ -9,11 +9,11 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { BASE_IMAGE_URL, BASE_API_URL } from '@/config'
+import { BASE_API_URL, BASE_IMAGE_URL } from '@/config'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { AutocompleteSimple } from '@/features/search/components/autocomplete-simple'
-import { useTranslation } from 'react-i18next'
+
 export const Route = createFileRoute('/$herbariaId/')({
   component: RouteComponent,
 })

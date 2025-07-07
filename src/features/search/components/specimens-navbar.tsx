@@ -8,6 +8,7 @@ import {
   Table,
 } from 'lucide-react'
 import { useSpecimensData } from '@/features/search/api/get-occurrences'
+import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 
 export function SpecimensNavbar() {
@@ -62,7 +63,11 @@ function ResultOccurrencesCounter() {
   const { data, isPending, isFetching, error } = useSpecimensData()
 
   if (isPending) {
-    return <div>Loading...</div>
+    return (
+      <div className="text-muted-foreground flex gap-2 text-sm">
+        <Skeleton className="h-4 w-24" />
+      </div>
+    )
   }
 
   if (error) {

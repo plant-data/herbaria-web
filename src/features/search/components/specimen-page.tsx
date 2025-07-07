@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { ImageLightbox } from '@/components/image-lightbox'
 import { BASE_IMAGE_URL } from '@/config'
+import { FLORITALY_URL } from '@/features/search/constants/constants'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import 'leaflet/dist/leaflet.css'
 import { Button } from '@/components/ui/button'
@@ -255,6 +256,14 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
         <div>
           <span className="font-medium">Floritaly Name:</span>
           <span className="ml-2">{occurrence.floritalyName ?? '-'}</span>
+          {occurrence.floritalyID ? (
+            <a
+              target="_blank"
+              href={`${FLORITALY_URL}${occurrence.floritalyID}`}
+            >
+              Open taxon page
+            </a>
+          ) : null}
         </div>
         <div>
           <span className="font-medium">Verbatim Identification:</span>

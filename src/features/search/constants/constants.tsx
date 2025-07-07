@@ -1,5 +1,6 @@
 import { BASE_API_URL } from '@/config'
 
+const FLORITALY_URL = 'https://dryades.units.it/floritaly/index.php?procedure=taxon_page&tipo=all&id='
 const MIN_YEAR = 1800
 const MAX_YEAR = new Date().getFullYear()
 
@@ -84,6 +85,7 @@ const COMMON_QUERY_OPTIONS = {
 }
 
 export {
+  FLORITALY_URL,
   MIN_YEAR,
   MAX_YEAR,
   MONTHS,

@@ -18,6 +18,7 @@ type SpecimenData = {
   recordedBy: string | null
   identifiedBy: string | null
   floritalyName: string | null
+  floritalyId: number | null
   wfoName: string | null
   gbifName: string | null
   processedLocality: string | null

@@ -253,16 +253,30 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           <span className="font-medium">GBIF Name:</span>
           <span className="ml-2">{occurrence.gbifName ?? '-'}</span>
         </div>
-        <div>
-          <span className="font-medium">Floritaly Name:</span>
-          <span className="ml-2">{occurrence.floritalyName ?? '-'}</span>
+        <div className="flex flex-wrap items-center h-6">
+          <div>
+            <span className="font-medium">Floritaly Name:</span>
+            <span className="ml-2">{occurrence.floritalyName ?? '-'}</span>
+          </div>
           {occurrence.floritalyID ? (
-            <a
-              target="_blank"
-              href={`${FLORITALY_URL}${occurrence.floritalyID}`}
-            >
-              Open taxon page
-            </a>
+            <Button asChild className="ml-2 h-6 gap-1 px-2 py-1">
+              <span>
+                <img
+                  src="/images/flor.png"
+                  alt="Herbaria Logo"
+                  width={18}
+                  height={18}
+                  className=""
+                ></img>
+                <a
+                  className="text-xs"
+                  target="_blank"
+                  href={`${FLORITALY_URL}${occurrence.floritalyID}`}
+                >
+                  Open taxon page
+                </a>
+              </span>
+            </Button>
           ) : null}
         </div>
         <div>

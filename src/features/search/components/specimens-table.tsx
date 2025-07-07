@@ -26,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import { BASE_IMAGE_URL, ITEMS_PER_PAGE } from '@/config'
 
 interface DataTableProps<TData, TValue> {
@@ -132,7 +133,7 @@ export function SpecimensTable() {
   })
 
   return isPending ? (
-    <div>'Loading...'</div>
+    <TableSkeleton />
   ) : (
     <>
       {/* pagination and select  */}
@@ -231,6 +232,51 @@ export function SpecimensTable() {
         limit={ITEMS_PER_PAGE}
         setSkip={setSkip}
       />
+    </>
+  )
+}
+
+function TableSkeleton() {
+  const columns = useMemo(() => createColumns(), [])
+
+  return (
+    <>
+      <div className="m-2 h-[50px]"></div>
+      <div className="overflow-hidden rounded-md border">
+        <Table>
+          <TableHeader className="bg-muted">
+            <TableRow>
+              {columns.map((column, index) => (
+                <TableHead key={index}>
+                  <Skeleton className="h-4 w-20" />
+                </TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody className="dark:bg-card">
+            {Array.from({ length: ITEMS_PER_PAGE }).map((_, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {columns.map((column, colIndex) => (
+                  <TableCell className="min-w-40 py-2" key={colIndex}>
+                    {colIndex === 0 ? (
+                      // First column with image and ID
+                      <div className="flex min-w-50 items-center gap-2">
+                        <div className="flex h-8 w-7 gap-2">
+                          <Skeleton className="h-8 w-7" />
+                        </div>
+                        <Skeleton className="h-4 w-16" />
+                      </div>
+                    ) : (
+                      <Skeleton className="h-4 w-full" />
+                    )}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="m-2 h-[50px]"></div>
     </>
   )
 }

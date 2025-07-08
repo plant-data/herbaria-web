@@ -62,7 +62,7 @@ function RouteComponent() {
               </Badge>
               <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
                 Lorem Ipsum Dolor
-                <span className="text-ring block dark:text-green-400">
+                <span className="text-ring block ">
                   Sit Amet Consectetur
                 </span>
               </h1>
@@ -143,7 +143,7 @@ function RouteComponent() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-3">
             <div className="space-y-2">
-              <div className="text-ring text-4xl font-bold dark:text-green-400">
+              <div className="text-ring text-4xl font-bold ">
                 10,000+
               </div>
               <div className="text-gray-600 dark:text-gray-300">
@@ -151,13 +151,13 @@ function RouteComponent() {
               </div>
             </div>
             <div className="space-y-2">
-              <div className="text-ring text-4xl font-bold dark:text-green-400">
+              <div className="text-ring text-4xl font-bold ">
                 500+
               </div>
               <div className="text-gray-600 dark:text-gray-300">Dolor Sit</div>
             </div>
             <div className="space-y-2">
-              <div className="text-ring text-4xl font-bold dark:text-green-400">
+              <div className="text-ring text-4xl font-bold">
                 50+
               </div>
               <div className="text-gray-600 dark:text-gray-300">
@@ -185,7 +185,7 @@ function RouteComponent() {
           <Card className="transition-shadow hover:shadow-lg">
             <CardHeader>
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900">
-                <Search className="text-ring h-6 w-6 dark:text-green-400" />
+                <Search className="text-ring h-6 w-6 0" />
               </div>
               <CardTitle>Lorem Ipsum</CardTitle>
               <CardDescription>

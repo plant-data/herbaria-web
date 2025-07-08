@@ -38,7 +38,6 @@ function RouteComponent() {
   ]
 
   const handleScientificNameSelected = (value: string) => {
-    console.log('corro')
 
     resetFilters()
     setScientificName([value])

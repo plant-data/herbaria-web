@@ -42,7 +42,11 @@ export function BreadcrumbResponsive({
     if (herbariaId && segment === herbariaId) {
       return getHerbariumName(segment)
     }
-    if (occurrenceID && segment === occurrenceID) {
+    if (
+      location.pathname.includes('/specimens/') &&
+      pathnames[pathnames.length - 1] === segment &&
+      segment !== 'specimens'
+    ) {
       return t('navbar.specimen')
     }
     const name = breadcrumbNameMap[segment]

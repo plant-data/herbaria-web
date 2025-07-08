@@ -36,6 +36,7 @@ function HerbariumCard({
   herbarium: (typeof HERBARIA_CONFIG)[0]
 }) {
   const { t } = useTranslation()
+  const resetFilters = useFilterStore((state) => state.resetFilters)
 
   return (
     <Card className="group flex flex-col border shadow-xs ">
@@ -67,6 +68,7 @@ function HerbariumCard({
         <p className="mb-4 flex-1">{herbarium.description}</p>
         <div className="flex gap-4">
           <Link
+            onClick={() => resetFilters()}
             to="/$herbariaId"
             params={{ herbariaId: herbarium.id }}
             className="hover:bg-ring/80 bg-ring mt-auto inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors duration-200 focus:ring-2"
@@ -75,6 +77,7 @@ function HerbariumCard({
             Home
           </Link>
           <Link
+            onClick={() => resetFilters()}
             to="/$herbariaId/search"
             params={{ herbariaId: herbarium.id }}
             className="hover:bg-ring/80 bg-ring mt-auto inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors duration-200 focus:ring-2"

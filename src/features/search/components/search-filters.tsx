@@ -102,6 +102,19 @@ export function SearchFilters({
           `field=genus&value=`
         }
       />
+      <AutocompletePrefetch
+        label={t('search.filters.country-code-label')}
+        placeholder={t('search.filters.country-code-placeholder')}
+        translationArray={COUNTRIES}
+        selectedValues={countryCode}
+        onSelectedValuesChange={setCountryCode}
+        queryKeys={['countryCode', herbariaId ?? '']}
+        query={
+          `${BASE_API_URL}autocomplete?` +
+          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
+          `limit=999&field=countryCode&value=`
+        }
+      />
       <Autocomplete
         label={t('search.filters.locality-label')}
         placeholder={t('search.filters.locality-placeholder')}
@@ -151,19 +164,7 @@ export function SearchFilters({
         selectedValues={countryCode}
         onSelectedValuesChange={setCountryCode}
       /> */}
-      <AutocompletePrefetch
-        label={t('search.filters.country-code-label')}
-        placeholder={t('search.filters.country-code-placeholder')}
-        translationArray={COUNTRIES}
-        selectedValues={countryCode}
-        onSelectedValuesChange={setCountryCode}
-        queryKeys={['countryCode', herbariaId ?? '']}
-        query={
-          `${BASE_API_URL}autocomplete?` +
-          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
-          `limit=999&field=countryCode&value=`
-        }
-      />
+      
       {lockedFilters && lockedFilters.includes('institutionCode') ? null : (
         <SelectItems
           label={t('search.filters.institution-code-label')}

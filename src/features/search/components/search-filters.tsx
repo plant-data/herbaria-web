@@ -4,6 +4,7 @@ import { useShallow } from 'zustand/react/shallow'
 import type { LockedFilters } from '@/features/search/stores/use-filters-store'
 import { BASE_API_URL } from '@/config'
 import { Autocomplete } from '@/features/search/components/autocomplete'
+import { AutocompletePrefetch } from '@/features/search/components/autocomplete-prefetch'
 import { useDebouncedCallback } from '@/hooks/use-debounce'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { RangeSlider } from '@/features/search/components/range-slider'
@@ -149,6 +150,19 @@ export function SearchFilters({
         items={COUNTRIES}
         selectedValues={countryCode}
         onSelectedValuesChange={setCountryCode}
+      />
+      <AutocompletePrefetch
+        label={t('search.filters.country-code-label')}
+        placeholder={t('search.filters.country-code-placeholder')}
+        translationArray={COUNTRIES}
+        selectedValues={countryCode}
+        onSelectedValuesChange={setCountryCode}
+        queryKeys={['countryCode', herbariaId ?? '']}
+        query={
+          `${BASE_API_URL}autocomplete?` +
+          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
+          `limit=999&field=countryCode&value=`
+        }
       />
       {lockedFilters && lockedFilters.includes('institutionCode') ? null : (
         <SelectItems

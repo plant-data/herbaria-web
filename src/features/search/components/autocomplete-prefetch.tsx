@@ -72,7 +72,7 @@ export function AutocompletePrefetch({
     gcTime: 24 * 60 * 60,
   })
 
-  const translatedItems = useMemo(() => {
+  const translatedItems: Array<AutocompletePrefetchItem> | null = useMemo(() => {
     return data?.map((item: string) => {
       const translation = translationArray.find((c) => c.id === item)
       if (!translation) return { id: item, value: item }
@@ -100,11 +100,11 @@ export function AutocompletePrefetch({
   const handleUnselect = useCallback(
     (displayedValue: string) => {
       // displayedValue è cio che visualizzo nel badge
-      const fullItem: AutocompletePrefetchItem = selectedItems.find(
+      const fullItem = translatedItems?.find(
         (item) => item.value === displayedValue,
       )
       onSelectedValuesChange((prev: Array<string>) =>
-        prev.filter((selectedValue: string) => selectedValue !== fullItem.id),
+        prev.filter((selectedValue: string) => selectedValue !== fullItem?.id),
       )
 
       inputRef.current?.focus()

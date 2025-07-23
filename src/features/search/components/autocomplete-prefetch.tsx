@@ -132,8 +132,13 @@ export function AutocompletePrefetch({
       {/* 2: Command for input and list */}
       <Command
         filter={(value, search) => {
-          if (value.toLowerCase().startsWith(search.toLowerCase())) return 1
-          return 0
+          if (search.length < 3) {
+            if (value.toLowerCase().startsWith(search.toLowerCase())) return 1
+            return 0
+          } else {
+            if (value.toLowerCase().includes(search.toLowerCase())) return 1
+            return 0
+          }
         }}
         onKeyDown={handleKeyDown}
         className="max-w-full overflow-visible bg-transparent"

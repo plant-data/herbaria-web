@@ -143,14 +143,14 @@ export function SearchFilters({
         selectedValues={month}
         onSelectedValuesChange={setMonth}
       />
-      <SelectItems
+      {/* <SelectItems
         label={t('search.filters.country-code-label')}
         placeholder={t('search.filters.country-code-placeholder')}
         allSelectedMessage={t('search.filters.country-code-all-selected')}
         items={COUNTRIES}
         selectedValues={countryCode}
         onSelectedValuesChange={setCountryCode}
-      />
+      /> */}
       <AutocompletePrefetch
         label={t('search.filters.country-code-label')}
         placeholder={t('search.filters.country-code-placeholder')}

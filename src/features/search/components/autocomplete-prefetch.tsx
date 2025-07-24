@@ -57,7 +57,7 @@ export function AutocompletePrefetch({
   const [search, setSearch] = useState<string>('')
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const { data, error, isPlaceholderData } = useQuery({
+  const { data, error, isPending } = useQuery({
     queryKey: [...queryKeys],
     queryFn: async ({ signal }: { signal?: AbortSignal }) => {
       const res = await fetch(`${query}`, { signal })
@@ -67,7 +67,6 @@ export function AutocompletePrefetch({
       const resData: AutocompleteApiResponse = await res.json()
       return resData.data
     },
-    placeholderData: [],
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -76,10 +75,11 @@ export function AutocompletePrefetch({
   })
 
   const translatedItems: Array<AutocompletePrefetchItem> = useMemo(() => {
+    if (!data) return []
     return data.map((item: string) => {
       const translation = translationArray.find((c) => c.id === item)
       if (!translation) return { id: item, value: item }
-      return { id: item, value: t(translation.value) }
+      return { id: item, value: t(translation.value as any) }
     })
   }, [data, translationArray, t])
 
@@ -176,7 +176,7 @@ export function AutocompletePrefetch({
           <CommandList>
             {open && search.length >= minLength ? (
               <CommandEmpty className="bg-popover text-popover-foreground animate-in absolute top-0 z-10 w-full rounded-md border p-2 text-sm shadow-sm outline-none">
-                {isPlaceholderData ? (
+                {isPending ? (
                   <span className="flex items-center gap-2">
                     <LoaderCircle className="text-ring h-4 w-4 shrink-0 animate-spin opacity-80" />
                     {t('search.filters.loading-data')}
@@ -188,7 +188,7 @@ export function AutocompletePrefetch({
                 )}
               </CommandEmpty>
             ) : null}
-            {open && !isPlaceholderData && search.length >= minLength ? (
+            {open && !isPending && search.length >= minLength ? (
               <CommandGroup className="bg-popover text-popover-foreground animate-in absolute top-0 z-10 w-full rounded-md border shadow-sm outline-none">
                 <div className="h-full max-h-48 overflow-auto">
                   {availableItems.map((item: AutocompletePrefetchItem) => {

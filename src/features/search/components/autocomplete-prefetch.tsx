@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery} from '@tanstack/react-query'
 import { LoaderCircle, Search } from 'lucide-react'
 import { Command as CommandPrimitive } from 'cmdk'
 import { cn } from '@/lib/utils'
@@ -175,11 +175,16 @@ export function AutocompletePrefetch({
           <CommandList>
             {open && search.length >= minLength ? (
               <CommandEmpty className="bg-popover text-popover-foreground animate-in absolute top-0 z-10 w-full rounded-md border p-2 text-sm shadow-sm outline-none">
-                {isPlaceholderData
-                  ? 'search.loading-data'
-                  : error
-                    ? t('search.filters.autocomplete-error')
-                    : t('search.filters.autocomplete-no-results')}
+                {isPlaceholderData ? (
+                  <span className="flex items-center gap-2">
+                    <LoaderCircle className="text-ring h-4 w-4 shrink-0 animate-spin opacity-80" />
+                    {t('search.filters.loading-data')}
+                  </span>
+                ) : error ? (
+                  t('search.filters.autocomplete-error')
+                ) : (
+                  t('search.filters.autocomplete-no-results')
+                )}
               </CommandEmpty>
             ) : null}
             {open && !isPlaceholderData && search.length >= minLength ? (

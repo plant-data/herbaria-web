@@ -38,7 +38,9 @@ interface AutocompletePrefetchProps {
 }
 /**
  * A autocomplete that when loaded retrieve items from an api with id and value.
- * Then use a reference to get the translations, then simply run the autocomplete on these translations
+ * Then use a reference to get the translations, then simply run the autocomplete on these translations.
+ * The to the parent I pass the id.
+ * To the badge I pass the value
  */
 export function AutocompletePrefetch({
   label,

@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQuery} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { LoaderCircle, Search } from 'lucide-react'
 import { Command as CommandPrimitive } from 'cmdk'
 import { cn } from '@/lib/utils'
@@ -73,19 +73,18 @@ export function AutocompletePrefetch({
     gcTime: 24 * 60 * 60,
   })
 
-  const translatedItems: Array<AutocompletePrefetchItem> | null =
-    useMemo(() => {
-      return data?.map((item: string) => {
-        const translation = translationArray.find((c) => c.id === item)
-        if (!translation) return { id: item, value: item }
-        return { id: item, value: t(translation.value) }
-      })
-    }, [data, translationArray, t])
+  const translatedItems: Array<AutocompletePrefetchItem> = useMemo(() => {
+    return data.map((item: string) => {
+      const translation = translationArray.find((c) => c.id === item)
+      if (!translation) return { id: item, value: item }
+      return { id: item, value: t(translation.value) }
+    })
+  }, [data, translationArray, t])
 
   const selectedItems = useMemo(() => {
     return selectedValues
       .map((selectedValue) => {
-        const foundItem = translatedItems?.find(
+        const foundItem = translatedItems.find(
           (item) => item.id === selectedValue,
         )
         return foundItem?.value || null
@@ -96,13 +95,13 @@ export function AutocompletePrefetch({
   // Memoize available items (not selected)
   const availableItems = useMemo(() => {
     const selectedIds = new Set(selectedValues.map(String))
-    return translatedItems?.filter((item) => !selectedIds.has(String(item.id)))
+    return translatedItems.filter((item) => !selectedIds.has(String(item.id)))
   }, [selectedValues, translatedItems])
 
   const handleUnselect = useCallback(
     (displayedValue: string) => {
       // displayedValue è cio che visualizzo nel badge
-      const fullItem = translatedItems?.find(
+      const fullItem = translatedItems.find(
         (item) => item.value === displayedValue,
       )
       onSelectedValuesChange((prev: Array<string>) =>
@@ -200,7 +199,10 @@ export function AutocompletePrefetch({
                         }}
                         onSelect={() => {
                           setSearch('')
-                          onSelectedValuesChange((prev) => [...prev, item.id])
+                          onSelectedValuesChange((prev) => [
+                            ...prev,
+                            String(item.id),
+                          ])
                         }}
                         className="cursor-pointer"
                       >

@@ -55,7 +55,7 @@ export function AutocompletePrefetch({
   const [search, setSearch] = useState<string>('')
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const { data, error, isPending } = useQuery({
+  const { data, error, isPlaceholderData } = useQuery({
     queryKey: [...queryKeys],
     queryFn: async ({ signal }: { signal?: AbortSignal }) => {
       const res = await fetch(`${query}`, { signal })
@@ -65,6 +65,7 @@ export function AutocompletePrefetch({
       const resData: AutocompleteApiResponse = await res.json()
       return resData.data
     },
+    placeholderData: [],
     retry: false,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -72,13 +73,14 @@ export function AutocompletePrefetch({
     gcTime: 24 * 60 * 60,
   })
 
-  const translatedItems: Array<AutocompletePrefetchItem> | null = useMemo(() => {
-    return data?.map((item: string) => {
-      const translation = translationArray.find((c) => c.id === item)
-      if (!translation) return { id: item, value: item }
-      return { id: item, value: t(translation.value) }
-    })
-  }, [data, translationArray, t])
+  const translatedItems: Array<AutocompletePrefetchItem> | null =
+    useMemo(() => {
+      return data?.map((item: string) => {
+        const translation = translationArray.find((c) => c.id === item)
+        if (!translation) return { id: item, value: item }
+        return { id: item, value: t(translation.value) }
+      })
+    }, [data, translationArray, t])
 
   const selectedItems = useMemo(() => {
     return selectedValues
@@ -124,8 +126,6 @@ export function AutocompletePrefetch({
     }
   }
 
-  console.log(selectedItems)
-
   return (
     <div>
       <div className="pl-1 text-sm font-semibold">{label}</div>
@@ -152,11 +152,7 @@ export function AutocompletePrefetch({
         {/* input part */}
         <div className="relative py-1">
           <div className="absolute top-1/2 left-2 -translate-y-1/2">
-            {isPending ? (
-              <LoaderCircle className="text-ring h-4 w-4 shrink-0 animate-spin opacity-80" />
-            ) : (
-              <Search className="text-muted-foreground h-4 w-4 shrink-0" />
-            )}
+            <Search className="text-muted-foreground h-4 w-4 shrink-0" />
           </div>
           <CommandPrimitive.Input
             autoComplete="off"
@@ -179,14 +175,14 @@ export function AutocompletePrefetch({
           <CommandList>
             {open && search.length >= minLength ? (
               <CommandEmpty className="bg-popover text-popover-foreground animate-in absolute top-0 z-10 w-full rounded-md border p-2 text-sm shadow-sm outline-none">
-                {isPending
-                  ? 'pending'
+                {isPlaceholderData
+                  ? 'search.loading-data'
                   : error
                     ? t('search.filters.autocomplete-error')
                     : t('search.filters.autocomplete-no-results')}
               </CommandEmpty>
             ) : null}
-            {open && !isPending && search.length >= minLength ? (
+            {open && !isPlaceholderData && search.length >= minLength ? (
               <CommandGroup className="bg-popover text-popover-foreground animate-in absolute top-0 z-10 w-full rounded-md border shadow-sm outline-none">
                 <div className="h-full max-h-48 overflow-auto">
                   {availableItems.map((item: AutocompletePrefetchItem) => {

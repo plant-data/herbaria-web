@@ -32,6 +32,10 @@
       "no-active-filters": "No selected filters"
     },
     "results": {
+      "nav-table": "Table",
+      "nav-images": "Images",
+      "nav-map": "Map",
+      "nav-graphs": "Graphs",
       "specimens-country": "Specimens per country",
       "error-graph": "Error generating the graph",
       "error-no-data": "No data",

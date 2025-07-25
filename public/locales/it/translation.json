@@ -32,6 +32,10 @@
       "no-active-filters": "Nessun filtro selezionato"
     },
     "results": {
+      "nav-table": "Tabella",
+      "nav-images": "Immagini",
+      "nav-map": "Mappa",
+      "nav-graphs": "Grafici",
       "specimens-country": "Campioni per stato",
       "error-graph": "Errore generazione grafico",
       "error-no-data": "Nessun dato",

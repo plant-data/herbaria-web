@@ -1,5 +1,6 @@
 import { Link, useLocation, useParams } from '@tanstack/react-router'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   ChartColumn,
   Image,
@@ -13,6 +14,7 @@ import { cn } from '@/lib/utils'
 
 export function SpecimensNavbar() {
   const location = useLocation()
+  const { t } = useTranslation()
   const params = useParams({ strict: false })
 
   const navItems = useMemo(() => {
@@ -20,10 +22,10 @@ export function SpecimensNavbar() {
     const basePath = herbariaId ? `/${herbariaId}/search` : '/search'
 
     return [
-      { path: `${basePath}/table`, icon: Table, label: 'Table' },
-      { path: basePath, icon: Image, label: 'Images' },
-      { path: `${basePath}/map`, icon: MapPinned, label: 'Map' },
-      { path: `${basePath}/graphs`, icon: ChartColumn, label: 'Graphs' },
+      { path: `${basePath}/table`, icon: Table, label: t('search.results.nav-table')},
+      { path: basePath, icon: Image, label: t('search.results.nav-images') },
+      { path: `${basePath}/map`, icon: MapPinned, label: t('search.results.nav-map') },
+      { path: `${basePath}/graphs`, icon: ChartColumn, label: t('search.results.nav-graphs') },
     ]
   }, [params])
 

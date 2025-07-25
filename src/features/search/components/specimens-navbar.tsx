@@ -27,7 +27,7 @@ export function SpecimensNavbar() {
       { path: `${basePath}/map`, icon: MapPinned, label: t('search.results.nav-map') },
       { path: `${basePath}/graphs`, icon: ChartColumn, label: t('search.results.nav-graphs') },
     ]
-  }, [params])
+  }, [params, t])
 
   return (
     <div className="flex flex-col items-center justify-center gap-2 @lg:flex-row @lg:justify-between">

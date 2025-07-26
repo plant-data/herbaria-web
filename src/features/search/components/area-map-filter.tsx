@@ -40,15 +40,12 @@ export function AreaMapFilter({ label, mapHeight, geometry, setGeometry }: AreaM
   const updatePolygon = (featureGroup: L.FeatureGroup | null) => {
     if (!featureGroup) return
 
-    // Clear existing polygon
     if (currentPolygonRef.current) {
       featureGroup.removeLayer(currentPolygonRef.current)
       currentPolygonRef.current = null
     }
 
-    // Add new polygon if geometry exists
     if (geometry.length > 0) {
-      // Convert coordinates back to Leaflet format
       const leafletCoords = geometry.map(
         ([lat, lng]) => [lat, lng] as [number, number],
       )
@@ -84,7 +81,7 @@ export function AreaMapFilter({ label, mapHeight, geometry, setGeometry }: AreaM
     const { layer, layerType } = e
 
     if (layerType === 'polygon') {
-      // Clear existing polygon before creating new one
+
       if (featureGroupRef.current && currentPolygonRef.current) {
         featureGroupRef.current.removeLayer(currentPolygonRef.current)
       }
@@ -123,13 +120,13 @@ export function AreaMapFilter({ label, mapHeight, geometry, setGeometry }: AreaM
   }
 
   return (
-    <div>
+    <div className='flex flex-col gap-1'>
       <div className="pl-1 text-sm font-semibold">{label}</div>
       <MapContainer
         ref={mapRef}
         center={[45.6495, 13.7768]} // Trieste coordinates
         zoom={13}
-        className={cn('w-full', 'h-300px', mapHeight)}
+        className={cn('w-full rounded-sm overflow-hidden border border-input shadow-xs', 'h-[300px]', mapHeight)}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

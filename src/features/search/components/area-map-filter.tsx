@@ -1,8 +1,10 @@
 import { useEffect, useRef } from 'react'
+import L from 'leaflet'
 import { FeatureGroup, MapContainer, TileLayer } from 'react-leaflet'
 import { EditControl } from 'react-leaflet-draw'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-draw/dist/leaflet.draw.css'
+import { cn } from '@/lib/utils'
 
 interface Coordinate {
   lat: number
@@ -23,39 +25,58 @@ interface DeleteEvent {
 }
 
 interface AreaMapFilterProps {
+  label: string,
+  mapHeight: string,
   geometry: Array<[number, number]>
   setGeometry: (geometry: Array<[number, number]>) => void
 }
 
-export function AreaMapFilter({ geometry, setGeometry }: AreaMapFilterProps) {
+export function AreaMapFilter({ label, mapHeight, geometry, setGeometry }: AreaMapFilterProps) {
   const mapRef = useRef<L.Map>(null)
   const featureGroupRef = useRef<L.FeatureGroup>(null)
   const currentPolygonRef = useRef<L.Polygon | null>(null)
 
-  // Effect to sync geometry prop with map display
-  useEffect(() => {
-    if (!featureGroupRef.current) return
+  // Function to update polygon based on geometry
+  const updatePolygon = (featureGroup: L.FeatureGroup | null) => {
+    if (!featureGroup) return
 
     // Clear existing polygon
     if (currentPolygonRef.current) {
-      featureGroupRef.current.removeLayer(currentPolygonRef.current)
+      featureGroup.removeLayer(currentPolygonRef.current)
       currentPolygonRef.current = null
     }
 
     // Add new polygon if geometry exists
     if (geometry.length > 0) {
       // Convert coordinates back to Leaflet format
-      const leafletCoords = geometry.map(([lat, lng]) => [lat, lng] as [number, number])
-      
+      const leafletCoords = geometry.map(
+        ([lat, lng]) => [lat, lng] as [number, number],
+      )
+
       const polygon = L.polygon(leafletCoords, {
         color: '#3388ff',
         weight: 3,
         opacity: 0.8,
         fillOpacity: 0.2,
       })
-      
-      featureGroupRef.current.addLayer(polygon)
+
+      featureGroup.addLayer(polygon)
       currentPolygonRef.current = polygon
+    }
+  }
+
+  // Callback ref to handle FeatureGroup initialization
+  const setFeatureGroupRef = (featureGroup: L.FeatureGroup | null) => {
+    featureGroupRef.current = featureGroup
+    if (featureGroup) {
+      updatePolygon(featureGroup)
+    }
+  }
+
+  // Effect to sync geometry prop with map display
+  useEffect(() => {
+    if (featureGroupRef.current) {
+      updatePolygon(featureGroupRef.current)
     }
   }, [geometry])
 
@@ -72,7 +93,7 @@ export function AreaMapFilter({ geometry, setGeometry }: AreaMapFilterProps) {
       const coordinates: Array<[number, number]> = polygonLayer
         .getLatLngs()[0]
         .map((coord: Coordinate) => [coord.lat, coord.lng])
-      
+
       currentPolygonRef.current = polygonLayer
       setGeometry(coordinates)
     }
@@ -102,19 +123,20 @@ export function AreaMapFilter({ geometry, setGeometry }: AreaMapFilterProps) {
   }
 
   return (
-    <div className="w-full h-[500px]">
+    <div>
+      <div className="pl-1 text-sm font-semibold">{label}</div>
       <MapContainer
         ref={mapRef}
         center={[45.6495, 13.7768]} // Trieste coordinates
         zoom={13}
-        className="h-[300px] w-full"
+        className={cn('w-full', 'h-300px', mapHeight)}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
 
-        <FeatureGroup ref={featureGroupRef}>
+        <FeatureGroup ref={setFeatureGroupRef}>
           <EditControl
             position="topright"
             onCreated={handleCreated}

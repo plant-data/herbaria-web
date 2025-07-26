@@ -178,7 +178,7 @@ export function SearchFilters({
         checked={hasCoordinates}
         onCheckedChange={setHasCoordinates}
       />
-      <AreaMapFilter geometry={geometry} setGeometry={setGeometry} />
+      <AreaMapFilter label={t('search.filters.area-label')} mapHeight="h-[300px]" geometry={geometry} setGeometry={setGeometry} />
       <div className="min-h-60 w-full"></div>
     </>
   )

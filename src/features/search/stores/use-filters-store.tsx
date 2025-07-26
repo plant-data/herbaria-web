@@ -197,7 +197,7 @@ export const useFilterStore = create<FilterState>()(
       setCountry: createSetter('country', 'setCountry', set, true),
       setCountryCode: createSetter('countryCode', 'setCountryCode', set, true),
       setLocality: createSetter('locality', 'setLocality', set, true),
-      setGeometry: createSetter('geometry', 'setGeometry', set, true),
+      setGeometry: createSetter('geometry', 'setGeometry', set, false),
       setYear: createSetter('year', 'setYear', set),
       setMonth: createSetter('month', 'setMonth', set, true),
       setInstitutionCode: createSetter(

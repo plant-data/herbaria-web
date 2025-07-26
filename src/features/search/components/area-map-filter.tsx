@@ -80,7 +80,7 @@ export function AreaMapFilter() {
   }
 
   return (
-    <div className="relative flex-1">
+    <div className="w-full h-[500px]">
       <MapContainer
         ref={mapRef}
         center={[45.6495, 13.7768]} // Trieste coordinates
@@ -107,7 +107,7 @@ export function AreaMapFilter() {
               polygon: {
                 allowIntersection: false,
                 drawError: {
-                  color: '#e1e100',
+                  color: 'red',
                   message: '<strong>Error:</strong> shape edges cannot cross!',
                 },
                 shapeOptions: {

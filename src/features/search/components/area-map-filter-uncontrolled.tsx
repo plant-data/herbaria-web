@@ -1,12 +1,19 @@
-import { useEffect, useRef } from 'react'
+import { useRef, useState } from 'react'
 import { FeatureGroup, MapContainer, TileLayer } from 'react-leaflet'
 import { EditControl } from 'react-leaflet-draw'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-draw/dist/leaflet.draw.css'
+// Fix for default markers in react-leaflet
 
 interface Coordinate {
   lat: number
   lng: number
+}
+
+interface PolygonData {
+  id: number
+  coordinates: Array<[number, number]>
+  layer: L.Layer
 }
 
 interface DrawEvent {
@@ -22,71 +29,43 @@ interface DeleteEvent {
   layers: L.LayerGroup
 }
 
-interface AreaMapFilterProps {
-  geometry: Array<[number, number]>
-  setGeometry: (geometry: Array<[number, number]>) => void
-}
-
-export function AreaMapFilter({ geometry, setGeometry }: AreaMapFilterProps) {
+export function AreaMapFilter() {
+  const [polygon, setPolygon] = useState<PolygonData | null>(null)
   const mapRef = useRef<L.Map>(null)
   const featureGroupRef = useRef<L.FeatureGroup>(null)
-  const currentPolygonRef = useRef<L.Polygon | null>(null)
-
-  // Effect to sync geometry prop with map display
-  useEffect(() => {
-    if (!featureGroupRef.current) return
-
-    // Clear existing polygon
-    if (currentPolygonRef.current) {
-      featureGroupRef.current.removeLayer(currentPolygonRef.current)
-      currentPolygonRef.current = null
-    }
-
-    // Add new polygon if geometry exists
-    if (geometry.length > 0) {
-      // Convert coordinates back to Leaflet format
-      const leafletCoords = geometry.map(([lat, lng]) => [lat, lng] as [number, number])
-      
-      const polygon = L.polygon(leafletCoords, {
-        color: '#3388ff',
-        weight: 3,
-        opacity: 0.8,
-        fillOpacity: 0.2,
-      })
-      
-      featureGroupRef.current.addLayer(polygon)
-      currentPolygonRef.current = polygon
-    }
-  }, [geometry])
 
   const handleCreated = (e: DrawEvent): void => {
     const { layer, layerType } = e
 
     if (layerType === 'polygon') {
       // Clear existing polygon before creating new one
-      if (featureGroupRef.current && currentPolygonRef.current) {
-        featureGroupRef.current.removeLayer(currentPolygonRef.current)
+      if (featureGroupRef.current && polygon) {
+        featureGroupRef.current.removeLayer(polygon.layer)
       }
 
       const polygonLayer = layer as L.Polygon
       const coordinates: Array<[number, number]> = polygonLayer
         .getLatLngs()[0]
         .map((coord: Coordinate) => [coord.lat, coord.lng])
-      
-      currentPolygonRef.current = polygonLayer
-      setGeometry(coordinates)
+      const newPolygon: PolygonData = {
+        id: Date.now(),
+        coordinates: coordinates,
+        layer: layer,
+      }
+
+      setPolygon(newPolygon)
     }
   }
 
   const handleEdited = (e: EditEvent): void => {
     const layers = e.layers
     layers.eachLayer((layer: L.Layer) => {
-      if (layer === currentPolygonRef.current) {
-        const polygonLayer = layer as L.Polygon
-        const coordinates: Array<[number, number]> = polygonLayer
-          .getLatLngs()[0]
-          .map((coord: Coordinate) => [coord.lat, coord.lng])
-        setGeometry(coordinates)
+      const polygonLayer = layer as L.Polygon
+      const coordinates: Array<[number, number]> = polygonLayer
+        .getLatLngs()[0]
+        .map((coord: Coordinate) => [coord.lat, coord.lng])
+      if (polygon && polygon.layer === layer) {
+        setPolygon({ ...polygon, coordinates: coordinates })
       }
     })
   }
@@ -94,9 +73,8 @@ export function AreaMapFilter({ geometry, setGeometry }: AreaMapFilterProps) {
   const handleDeleted = (e: DeleteEvent): void => {
     const layers = e.layers
     layers.eachLayer((layer: L.Layer) => {
-      if (layer === currentPolygonRef.current) {
-        currentPolygonRef.current = null
-        setGeometry([])
+      if (polygon && polygon.layer === layer) {
+        setPolygon(null)
       }
     })
   }
@@ -107,7 +85,7 @@ export function AreaMapFilter({ geometry, setGeometry }: AreaMapFilterProps) {
         ref={mapRef}
         center={[45.6495, 13.7768]} // Trieste coordinates
         zoom={13}
-        className="h-[300px] w-full"
+        className="h-full w-full"
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -131,7 +131,7 @@ export function SelectedFiltersTree() {
       },
       {
         key: 'geometry',
-        items: geometry,
+        items: geometry.slice(0, 1),
         label: t('search.filters.geometry-label'),
         displayValue: () => t('search.filters.geometry-selected'),
       },

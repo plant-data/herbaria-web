@@ -18,6 +18,7 @@
       "locality-placeholder": "Cerca una località",
       "geometry-label": "Area",
       "geometry-selected": "Area selezionata",
+      "geometry-wrong": "Errore: geometria non valida!",
       "floritaly-name-label": "Nome in Floritaly",
       "floritaly-name-placeholder": "Cerca un nome in Floritaly",
       "year-label": "Range di anni",

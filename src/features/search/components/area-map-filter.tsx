@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import L from 'leaflet'
 import { FeatureGroup, MapContainer, TileLayer } from 'react-leaflet'
 import { EditControl } from 'react-leaflet-draw'
@@ -32,6 +33,7 @@ interface AreaMapFilterProps {
 }
 
 export function AreaMapFilter({ label, mapHeight, geometry, setGeometry }: AreaMapFilterProps) {
+  const { t } = useTranslation()
   const mapRef = useRef<L.Map>(null)
   const featureGroupRef = useRef<L.FeatureGroup>(null)
   const currentPolygonRef = useRef<L.Polygon | null>(null)
@@ -146,7 +148,7 @@ export function AreaMapFilter({ label, mapHeight, geometry, setGeometry }: AreaM
                 allowIntersection: false,
                 drawError: {
                   color: 'red',
-                  message: '<strong>Error:</strong> shape edges cannot cross!',
+                  message: t('search.filters.geometry-wrong'),
                 },
                 shapeOptions: {
                   color: '#3388ff',

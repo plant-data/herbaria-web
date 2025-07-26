@@ -168,7 +168,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         onCheckedChange={setHasCoordinates}
       />
       <AreaMapFilter
-        label={t('search.filters.area-label')}
+        label={t('search.filters.geometry-label')}
         mapHeight="h-[300px]"
         geometry={geometry}
         setGeometry={setGeometry}

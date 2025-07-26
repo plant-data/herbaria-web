@@ -18,6 +18,7 @@
       "locality-placeholder": "Search by locality",
       "geometry-label": "Geographic Area",
       "geometry-selected": "Custom area",
+      "geometry-wrong": "Error: shape edges cannot cross!",
       "floritaly-name-label": "Name in Floritaly",
       "floritaly-name-placeholder": "Search by name in Floritaly",
       "year-label": "Year range",

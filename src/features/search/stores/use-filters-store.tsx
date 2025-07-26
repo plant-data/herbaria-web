@@ -16,6 +16,7 @@ export interface FilterStateData {
   country: Array<string>
   countryCode: Array<string>
   locality: Array<string>
+  geometry: Array<[number, number]>
   year: [number, number]
   month: Array<number>
   institutionCode: Array<string>
@@ -53,6 +54,11 @@ interface FilterActions {
   setLocality: (
     locality: Array<string> | ((prev: Array<string>) => Array<string>),
   ) => void
+  setGeometry: (
+    geometry:
+      | Array<[number, number]>
+      | ((prev: Array<[number, number]>) => Array<[number, number]>),
+  ) => void
   setYear: (
     year: [number, number] | ((prev: [number, number]) => [number, number]),
   ) => void
@@ -86,6 +92,7 @@ const initialState: FilterStateData = {
   country: [],
   countryCode: [],
   locality: [],
+  geometry: [],
   year: [MIN_YEAR, MAX_YEAR],
   month: [],
   institutionCode: [],
@@ -108,6 +115,7 @@ function calculateActiveFiltersCount(state: FilterStateData) {
   count += state.country.length
   count += state.countryCode.length
   count += state.locality.length
+  if (state.geometry.length > 0) count += 1
   count += state.month.length
   count += state.institutionCode.length
   if (state.year[0] !== initialState.year[0]) count += 1
@@ -189,6 +197,7 @@ export const useFilterStore = create<FilterState>()(
       setCountry: createSetter('country', 'setCountry', set, true),
       setCountryCode: createSetter('countryCode', 'setCountryCode', set, true),
       setLocality: createSetter('locality', 'setLocality', set, true),
+      setGeometry: createSetter('geometry', 'setGeometry', set, true),
       setYear: createSetter('year', 'setYear', set),
       setMonth: createSetter('month', 'setMonth', set, true),
       setInstitutionCode: createSetter(

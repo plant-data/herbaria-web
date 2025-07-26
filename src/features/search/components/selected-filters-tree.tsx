@@ -92,6 +92,7 @@ export function SelectedFiltersTree() {
     country,
     countryCode,
     locality,
+    geometry,
     year,
     month,
     institutionCode,
@@ -149,6 +150,12 @@ export function SelectedFiltersTree() {
         label: t('search.filters.locality-label'),
       },
       {
+        key: 'geometry',
+        items: geometry,
+        label: t('search.filters.geometry-label'),
+        displayValue: () => t('search.filters.geometry-selected'),
+      },
+      {
         key: 'year',
         items: year,
         label: t('search.filters.year-label'),
@@ -183,6 +190,7 @@ export function SelectedFiltersTree() {
       country,
       countryCode,
       locality,
+      geometry,
       year,
       month,
       hasCoordinates,

@@ -17,6 +17,7 @@ import {
 } from '@/features/search/constants/constants'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import { SwitchOption } from '@/features/search/components/switch-option'
+import { AreaMapFilter } from '@/features/search/components/area-map-filter'
 
 export function SearchFilters({
   lockedFilters,
@@ -30,6 +31,7 @@ export function SearchFilters({
     country,
     countryCode,
     locality,
+    geometry,
     year,
     month,
     institutionCode,
@@ -40,6 +42,7 @@ export function SearchFilters({
     setCountry,
     setCountryCode,
     setLocality,
+    setGeometry,
     setYear,
     setMonth,
     setInstitutionCode,
@@ -52,6 +55,7 @@ export function SearchFilters({
       country: state.country,
       countryCode: state.countryCode,
       locality: state.locality,
+      geometry: state.geometry,
       year: state.year,
       month: state.month,
       institutionCode: state.institutionCode,
@@ -62,6 +66,7 @@ export function SearchFilters({
       setCountry: state.setCountry,
       setCountryCode: state.setCountryCode,
       setLocality: state.setLocality,
+      setGeometry: state.setGeometry,
       setYear: state.setYear,
       setMonth: state.setMonth,
       setInstitutionCode: state.setInstitutionCode,
@@ -173,6 +178,7 @@ export function SearchFilters({
         checked={hasCoordinates}
         onCheckedChange={setHasCoordinates}
       />
+      <AreaMapFilter geometry={geometry} setGeometry={setGeometry} />
       <div className="min-h-60 w-full"></div>
     </>
   )

@@ -16,6 +16,8 @@
       "country-code-placeholder": "Seleziona uno stato",
       "locality-label": "Località",
       "locality-placeholder": "Cerca una località",
+      "geometry-label": "Area",
+      "geometry-selected": "Area selezionata",
       "floritaly-name-label": "Nome in Floritaly",
       "floritaly-name-placeholder": "Cerca un nome in Floritaly",
       "year-label": "Range di anni",

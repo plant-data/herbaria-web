@@ -25,8 +25,8 @@ interface DeleteEvent {
 }
 
 interface AreaMapFilterProps {
-  label: string,
-  mapHeight: string,
+  label: string
+  mapHeight: string
   geometry: Array<[number, number]>
   setGeometry: (geometry: Array<[number, number]>) => void
 }
@@ -46,9 +46,7 @@ export function AreaMapFilter({ label, mapHeight, geometry, setGeometry }: AreaM
     }
 
     if (geometry.length > 0) {
-      const leafletCoords = geometry.map(
-        ([lat, lng]) => [lat, lng] as [number, number],
-      )
+      const leafletCoords = geometry.map(([lat, lng]) => [lat, lng] as [number, number])
 
       const polygon = L.polygon(leafletCoords, {
         color: '#3388ff',
@@ -81,7 +79,6 @@ export function AreaMapFilter({ label, mapHeight, geometry, setGeometry }: AreaM
     const { layer, layerType } = e
 
     if (layerType === 'polygon') {
-
       if (featureGroupRef.current && currentPolygonRef.current) {
         featureGroupRef.current.removeLayer(currentPolygonRef.current)
       }
@@ -120,13 +117,13 @@ export function AreaMapFilter({ label, mapHeight, geometry, setGeometry }: AreaM
   }
 
   return (
-    <div className='flex flex-col gap-1'>
+    <div className="flex flex-col gap-1">
       <div className="pl-1 text-sm font-semibold">{label}</div>
       <MapContainer
         ref={mapRef}
         center={[45.6495, 13.7768]} // Trieste coordinates
         zoom={13}
-        className={cn('w-full rounded-sm overflow-hidden border border-input shadow-xs', 'h-[300px]', mapHeight)}
+        className={cn('border-input w-full overflow-hidden rounded-sm border shadow-xs', 'h-[300px]', mapHeight)}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

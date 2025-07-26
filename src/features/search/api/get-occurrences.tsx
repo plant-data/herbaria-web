@@ -1,17 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
-import type {
-  FilterMapData,
-  FilterStateData,
-} from '@/features/search/stores/use-filters-store'
+import type { FilterMapData, FilterStateData } from '@/features/search/stores/use-filters-store'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { postApiClient } from '@/api/post-api-client'
 import { ITEMS_PER_PAGE } from '@/config'
-import {
-  COMMON_QUERY_OPTIONS,
-  MAX_YEAR,
-  MIN_YEAR,
-  SEARCH_CONFIG,
-} from '@/features/search/constants/constants'
+import { COMMON_QUERY_OPTIONS, MAX_YEAR, MIN_YEAR, SEARCH_CONFIG } from '@/features/search/constants/constants'
 
 // ============================================================================
 // 1. Configuration & Constants
@@ -19,9 +11,7 @@ import {
 
 type SearchType = 'data' | 'map' | 'graph' | 'point'
 
-export type CustomFilters = Partial<
-  FilterStateData & FilterMapData & { sortBy: string }
->
+export type CustomFilters = Partial<FilterStateData & FilterMapData & { sortBy: string }>
 
 // ============================================================================
 // Utility Functions
@@ -44,13 +34,7 @@ const prepareQueryPayload = (
     customSkip?: number
   },
 ) => {
-  const {
-    searchType,
-    customFilters = {},
-    customSort = {},
-    customGroupBy = {},
-    customSkip = 0,
-  } = options
+  const { searchType, customFilters = {}, customSort = {}, customGroupBy = {}, customSkip = 0 } = options
 
   // costruiamo il filter
   const filters: CustomFilters = {
@@ -61,11 +45,7 @@ const prepareQueryPayload = (
   delete filters.skip
   delete filters.activeFiltersCount
 
-  if (
-    filters.year &&
-    filters.year[0] === MIN_YEAR &&
-    filters.year[1] === MAX_YEAR
-  ) {
+  if (filters.year && filters.year[0] === MIN_YEAR && filters.year[1] === MAX_YEAR) {
     delete filters.year
   }
 

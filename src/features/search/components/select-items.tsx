@@ -2,13 +2,7 @@ import { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { BadgeSelected } from '@/features/search/components/badge-selected'
 
 export interface FilterItem {
@@ -71,13 +65,9 @@ export function SelectItems({
 
   const handleUnselect = useCallback(
     (itemValue: string) => {
-      const originalItem = translatedItems.find(
-        (item) => item.translatedValue === itemValue,
-      )
+      const originalItem = translatedItems.find((item) => item.translatedValue === itemValue)
       if (originalItem) {
-        onSelectedValuesChange((prev: any) =>
-          prev.filter((id: any) => id !== originalItem.id),
-        )
+        onSelectedValuesChange((prev: any) => prev.filter((id: any) => id !== originalItem.id))
       }
       inputRef.current?.focus()
     },
@@ -91,14 +81,10 @@ export function SelectItems({
 
   const handleSelect = useCallback(
     (itemId: string) => {
-      const originalItem = translatedItems.find(
-        (item) => item.id.toString() === itemId,
-      )
+      const originalItem = translatedItems.find((item) => item.id.toString() === itemId)
 
       if (originalItem) {
-        const isAlreadySelected = selectedValues.some(
-          (id) => id === originalItem.id,
-        )
+        const isAlreadySelected = selectedValues.some((id) => id === originalItem.id)
         if (!isAlreadySelected) {
           onSelectedValuesChange((prev: any) => [...prev, originalItem.id])
         }
@@ -136,20 +122,10 @@ export function SelectItems({
         >
           <SelectTrigger
             ref={inputRef}
-            className={cn(
-              'bg-background h-8 w-full max-w-full',
-              isAllSelected && 'cursor-not-allowed opacity-50',
-            )}
+            className={cn('bg-background h-8 w-full max-w-full', isAllSelected && 'cursor-not-allowed opacity-50')}
             disabled={isAllSelected}
             onKeyDown={(e) => {
-              const allowedKeys = [
-                'ArrowDown',
-                'ArrowUp',
-                'Enter',
-                ' ',
-                'Escape',
-                'Tab',
-              ]
+              const allowedKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' ', 'Escape', 'Tab']
               if (!allowedKeys.includes(e.key)) {
                 e.preventDefault()
               }

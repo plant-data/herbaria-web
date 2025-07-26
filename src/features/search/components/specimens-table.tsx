@@ -1,24 +1,13 @@
 import { useMemo, useState } from 'react'
 import { Settings2 } from 'lucide-react'
 import { Link, useParams } from '@tanstack/react-router'
-import {
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
+import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import type { ColumnDef } from '@tanstack/react-table'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Pagination } from '@/features/search/components/pagination'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { useSpecimensData } from '@/features/search/api/get-occurrences'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -40,11 +29,7 @@ const createColumns = (herbariaId?: string): Array<ColumnDef<SpecimenData>> => [
 
     cell: ({ row }) => (
       <Link
-        to={
-          herbariaId
-            ? '/$herbariaId/specimens/$occurrenceID'
-            : '/specimens/$occurrenceID'
-        }
+        to={herbariaId ? '/$herbariaId/specimens/$occurrenceID' : '/specimens/$occurrenceID'}
         params={
           herbariaId
             ? { herbariaId, occurrenceID: row.original.occurrenceID }
@@ -139,12 +124,7 @@ export function SpecimensTable() {
       {/* pagination and select  */}
       {/* <div className="flex items-center justify-between"> */}
       <>
-        <Pagination
-          count={data.count}
-          skip={skip}
-          limit={ITEMS_PER_PAGE}
-          setSkip={setSkip}
-        />
+        <Pagination count={data.count} skip={skip} limit={ITEMS_PER_PAGE} setSkip={setSkip} />
         {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="ml-auto">
@@ -185,12 +165,7 @@ export function SpecimensTable() {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>
@@ -199,26 +174,17 @@ export function SpecimensTable() {
           <TableBody className="dark:bg-card">
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell className="min-w-40 py-2" key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>
@@ -226,12 +192,7 @@ export function SpecimensTable() {
           </TableBody>
         </Table>
       </div>
-      <Pagination
-        count={data.count}
-        skip={skip}
-        limit={ITEMS_PER_PAGE}
-        setSkip={setSkip}
-      />
+      <Pagination count={data.count} skip={skip} limit={ITEMS_PER_PAGE} setSkip={setSkip} />
     </>
   )
 }

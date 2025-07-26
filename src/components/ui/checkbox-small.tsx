@@ -3,15 +3,10 @@ import { Checkbox as CheckboxPrimitive } from 'radix-ui'
 import { CheckIcon, XIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-interface CheckboxProps
-  extends React.ComponentProps<typeof CheckboxPrimitive.Root> {
+interface CheckboxProps extends React.ComponentProps<typeof CheckboxPrimitive.Root> {
   variant?: 'default' | 'delete'
 }
-function CheckboxSmall({
-  className,
-  variant = 'default',
-  ...props
-}: CheckboxProps) {
+function CheckboxSmall({ className, variant = 'default', ...props }: CheckboxProps) {
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"
@@ -29,11 +24,7 @@ function CheckboxSmall({
         data-slot="checkbox-indicator"
         className="flex items-center justify-center text-current transition-none"
       >
-        {variant === 'delete' ? (
-          <XIcon className="size-3.5 pb-1" />
-        ) : (
-          <CheckIcon className="size-3.5 pb-1" />
-        )}
+        {variant === 'delete' ? <XIcon className="size-3.5 pb-1" /> : <CheckIcon className="size-3.5 pb-1" />}
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   )

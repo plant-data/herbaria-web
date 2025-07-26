@@ -6,13 +6,7 @@ import { Command as CommandPrimitive } from 'cmdk'
 import { cn } from '@/lib/utils'
 
 import { useDebounce } from '@/hooks/use-debounce'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command'
+import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from '@/components/ui/command'
 
 export type AutocompleteItem = string
 
@@ -64,9 +58,7 @@ export function AutocompleteSimple({
     gcTime: 24 * 60 * 60,
   })
 
-  const isGettingData =
-    (search !== '' && isFetching) ||
-    (search !== debouncedSearch && search !== '')
+  const isGettingData = (search !== '' && isFetching) || (search !== debouncedSearch && search !== '')
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const input = inputRef.current
@@ -83,9 +75,7 @@ export function AutocompleteSimple({
       className="max-w-full overflow-visible bg-transparent"
       shouldFilter={false}
       async={true}
-      fetchInProgress={
-        isFetching || search === '' || debouncedSearch !== search
-      }
+      fetchInProgress={isFetching || search === '' || debouncedSearch !== search}
     >
       {/* input part */}
       <div className="relative h-full">
@@ -105,7 +95,7 @@ export function AutocompleteSimple({
           onFocus={() => setOpen(true)}
           placeholder={placeholder}
           className={cn(
-            'file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input bg-background flex  w-full h-full min-w-0 rounded-md border py-2 pr-3 pl-7 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
+            'file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input bg-background flex h-full w-full min-w-0 rounded-md border py-2 pr-3 pl-7 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
             'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[2px]',
             'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
           )}
@@ -115,21 +105,17 @@ export function AutocompleteSimple({
       {/* list part */}
       <div className="relative">
         <CommandList>
-          {open &&
-            search !== '' &&
-            debouncedSearch !== '' &&
-            !isGettingData && (
-              <CommandEmpty className="bg-popover text-popover-foreground animate-in absolute top-0 z-10 w-full rounded-md border p-2 text-sm shadow-sm outline-none">
-                {error
-                  ? t('search.filters.autocomplete-error')
-                  : debouncedSearch.length < minLength ||
-                      (debouncedSearch.length === minLength && isFetching)
-                    ? t('search.filters.autocomplete-min-length', {
-                        number: minLength,
-                      })
-                    : t('search.filters.autocomplete-no-results')}
-              </CommandEmpty>
-            )}
+          {open && search !== '' && debouncedSearch !== '' && !isGettingData && (
+            <CommandEmpty className="bg-popover text-popover-foreground animate-in absolute top-0 z-10 w-full rounded-md border p-2 text-sm shadow-sm outline-none">
+              {error
+                ? t('search.filters.autocomplete-error')
+                : debouncedSearch.length < minLength || (debouncedSearch.length === minLength && isFetching)
+                  ? t('search.filters.autocomplete-min-length', {
+                      number: minLength,
+                    })
+                  : t('search.filters.autocomplete-no-results')}
+            </CommandEmpty>
+          )}
           {open &&
           search !== '' &&
           debouncedSearch !== '' &&

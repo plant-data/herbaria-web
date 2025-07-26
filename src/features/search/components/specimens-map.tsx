@@ -1,11 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  CircleMarker,
-  MapContainer,
-  TileLayer,
-  useMap,
-  useMapEvents,
-} from 'react-leaflet'
+import { CircleMarker, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
 import { Earth, House } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
@@ -14,26 +8,12 @@ import type { PaletteName } from '@/features/search/constants/map-palettes'
 import type { SpecimenData } from '@/features/search/types/types'
 import { palettes } from '@/features/search/constants/map-palettes'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-import {
-  useSpecimensMap,
-  useSpecimensPoint,
-} from '@/features/search/api/get-occurrences'
+import { useSpecimensMap, useSpecimensPoint } from '@/features/search/api/get-occurrences'
 import 'leaflet/dist/leaflet.css'
 import { Card, CardContent } from '@/components/ui/card'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
 
 type ClusterData = { coordinates: [number, number]; count: number }
@@ -127,13 +107,7 @@ class CanvasMarkerLayer extends L.Layer {
   }
 }
 
-function CanvasMarkers({
-  clusters,
-  palette,
-}: {
-  clusters: Array<ClusterData>
-  palette: PaletteFn
-}) {
+function CanvasMarkers({ clusters, palette }: { clusters: Array<ClusterData>; palette: PaletteFn }) {
   const map = useMap()
   const layerRef = useRef(new CanvasMarkerLayer({ initialPalette: palette }))
 
@@ -168,12 +142,7 @@ function MapEventHandler() {
     const bounds = map.getBounds()
     const zoom = map.getZoom()
     setZoom(zoom)
-    setBbox([
-      bounds.getWest(),
-      bounds.getSouth(),
-      bounds.getEast(),
-      bounds.getNorth(),
-    ])
+    setBbox([bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()])
   }, [map, setZoom, setBbox])
   useEffect(() => {
     map.whenReady(updateFilters)
@@ -184,8 +153,7 @@ function MapEventHandler() {
 
 function MapControls() {
   const map = useMap()
-  const handleResetView = () =>
-    map.setView(INITIAL_VIEW_STATE.center, INITIAL_VIEW_STATE.zoom)
+  const handleResetView = () => map.setView(INITIAL_VIEW_STATE.center, INITIAL_VIEW_STATE.zoom)
   const handleWorldView = () => map.setView([20, 5], 2)
   return (
     <div className="absolute top-20 left-3 z-[1000] flex flex-col gap-2">
@@ -256,8 +224,7 @@ function SpecimenPopupContent({
 
   if (isPending) return <div>Loading details...</div>
   if (error) return <div className="text-red-500">Error fetching details.</div>
-  if (!data?.occurrences?.length)
-    return <div>No specimen details found at this point.</div>
+  if (!data?.occurrences?.length) return <div>No specimen details found at this point.</div>
 
   return (
     <div className="min-w-[300px] text-sm">
@@ -265,30 +232,20 @@ function SpecimenPopupContent({
         {data.occurrences.map((occ: SpecimenData) => (
           <li key={occ.occurrenceID}>
             <span>{occ.scientificName || 'Unknown Species'}</span>{' '}
-            <Link
-              className="text-blue-400"
-              to="/specimens/$occurrenceID"
-              params={{ occurrenceID: occ.occurrenceID }}
-            >
+            <Link className="text-blue-400" to="/specimens/$occurrenceID" params={{ occurrenceID: occ.occurrenceID }}>
               ({occ.occurrenceID})
             </Link>
           </li>
         ))}
       </ul>
       <div className="mt-4 flex items-center justify-between">
-        <Button
-          onClick={() => setSkip((prev) => Math.max(0, prev - 10))}
-          disabled={skip === 0}
-        >
+        <Button onClick={() => setSkip((prev) => Math.max(0, prev - 10))} disabled={skip === 0}>
           Previous
         </Button>
         <span className="text-xs text-gray-500">
           Showing {skip + 1}-{Math.min(skip + 10, count)} of {count}
         </span>
-        <Button
-          onClick={() => setSkip((prev) => prev + 10)}
-          disabled={skip + 10 >= count}
-        >
+        <Button onClick={() => setSkip((prev) => prev + 10)} disabled={skip + 10 >= count}>
           Next
         </Button>
       </div>
@@ -344,15 +301,7 @@ function SimpleMarkers({
   )
 }
 
-function SpecimenPointDialog({
-  point,
-  isOpen,
-  onClose,
-}: {
-  point: ClusterData
-  isOpen: boolean
-  onClose: () => void
-}) {
+function SpecimenPointDialog({ point, isOpen, onClose }: { point: ClusterData; isOpen: boolean; onClose: () => void }) {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md">
@@ -381,18 +330,11 @@ export function SpecimensMap() {
 
   const layerData = useMemo(() => {
     if (!data?.clusters) return []
-    return data.clusters.filter(
-      (c: ClusterData) => !isNaN(c.coordinates[0]) && !isNaN(c.coordinates[1]),
-    )
+    return data.clusters.filter((c: ClusterData) => !isNaN(c.coordinates[0]) && !isNaN(c.coordinates[1]))
   }, [data?.clusters])
 
   if (isPending) return <MapSkeleton />
-  if (error)
-    return (
-      <div className="flex h-[70vh] items-center justify-center text-red-500">
-        Error.
-      </div>
-    )
+  if (error) return <div className="flex h-[70vh] items-center justify-center text-red-500">Error.</div>
 
   return (
     <>
@@ -410,10 +352,7 @@ export function SpecimensMap() {
           <MapEventHandler />
           <MapControls />
           {layerData.length > 0 && zoom <= 12 && (
-            <CanvasMarkers
-              clusters={layerData}
-              palette={palettes[activePalette]}
-            />
+            <CanvasMarkers clusters={layerData} palette={palettes[activePalette]} />
           )}
           {layerData.length > 0 && (
             <SimpleMarkers
@@ -427,19 +366,12 @@ export function SpecimensMap() {
         </MapContainer>
 
         {selectedPoint && (
-          <SpecimenPointDialog
-            point={selectedPoint}
-            isOpen={!!selectedPoint}
-            onClose={() => setSelectedPoint(null)}
-          />
+          <SpecimenPointDialog point={selectedPoint} isOpen={!!selectedPoint} onClose={() => setSelectedPoint(null)} />
         )}
       </div>
 
       <div className="mt-2 flex items-center justify-between gap-4">
-        <Select
-          value={activePalette}
-          onValueChange={(value: PaletteName) => setActivePalette(value)}
-        >
+        <Select value={activePalette} onValueChange={(value: PaletteName) => setActivePalette(value)}>
           <SelectTrigger>
             <SelectValue placeholder="Select a palette" />
           </SelectTrigger>

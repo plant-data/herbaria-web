@@ -31,10 +31,7 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
 
   return (
     <Tabs defaultValue="filters" asChild>
-      <Sidebar
-        className="top-[var(--header-height)] !h-[calc(100svh-var(--header-height))]"
-        {...props}
-      >
+      <Sidebar className="top-[var(--header-height)] !h-[calc(100svh-var(--header-height))]" {...props}>
         <SidebarHeader>
           <SidebarMenu className="relative">
             <SidebarMenuItem className="flex items-center justify-center">
@@ -44,23 +41,18 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
                   value="filters"
                   className="data-[state=active]:bg-ring dark:data-[state=active]:bg-ring data-[state=active]:text-primary-foreground hover:cursor-pointer"
                 >
-                  <span className="text-[13px]">
-                    {t('search.filters.filters-switch')}
-                  </span>
+                  <span className="text-[13px]">{t('search.filters.filters-switch')}</span>
                 </TabsTrigger>
                 <TabsTrigger
                   key="see filters"
                   value="selected-filters"
                   className="data-[state=active]:bg-ring dark:data-[state=active]:bg-ring data-[state=active]:text-primary-foreground hover:cursor-pointer"
                 >
-                  <span className="text-[13px]">
-                    {t('search.filters.selected-filters')}
-                  </span>
+                  <span className="text-[13px]">{t('search.filters.selected-filters')}</span>
                 </TabsTrigger>
               </TabsList>
             </SidebarMenuItem>
-            {(!lockedFilters && activeFiltersCount > 0) ||
-            (lockedFilters && activeFiltersCount > 1) ? (
+            {(!lockedFilters && activeFiltersCount > 0) || (lockedFilters && activeFiltersCount > 1) ? (
               <span className="absolute top-0.5 right-2">
                 <ResetFilterButton
                   itemCount={activeFiltersCount}

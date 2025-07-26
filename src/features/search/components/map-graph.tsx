@@ -11,17 +11,9 @@ import { cn } from '@/lib/utils'
 export function MapGraph({ className = '' }) {
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
-  const {
-    data,
-    isPending,
-    error: dataError,
-  } = useSpecimensGraph({ customGroupBy: 'country' })
+  const { data, isPending, error: dataError } = useSpecimensGraph({ customGroupBy: 'country' })
 
-  const {
-    geoJson,
-    isLoading: isLoadingGeo,
-    error: geoError,
-  } = useEchartsMap('countries', '/maps/countries.json')
+  const { geoJson, isLoading: isLoadingGeo, error: geoError } = useEchartsMap('countries', '/maps/countries.json')
 
   const countryCountMap = useMemo(() => {
     const map = new Map<string, number>()
@@ -47,9 +39,7 @@ export function MapGraph({ className = '' }) {
         value: Math.log10(count + 1),
         originalValue: count,
         displayName:
-          i18n.language === 'it' && feature.properties.name_it
-            ? feature.properties.name_it
-            : feature.properties.name,
+          i18n.language === 'it' && feature.properties.name_it ? feature.properties.name_it : feature.properties.name,
       }
     })
   }, [geoJson, countryCountMap, i18n.language])
@@ -57,10 +47,7 @@ export function MapGraph({ className = '' }) {
   const countryOptions = useMemo(() => {
     if (seriesData.length === 0) return null
 
-    const isDark =
-      theme === 'dark' ||
-      (theme === 'system' &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
     const textColor = isDark ? '#ffffff' : '#000000'
 
     const values = seriesData.map((item) => item.value)
@@ -137,11 +124,7 @@ export function MapGraph({ className = '' }) {
           <CardTitle>{t('search.results.specimens-country')}</CardTitle>
         </CardHeader>
         <CardContent className="flex h-[400px] items-center justify-center">
-          <p className="">
-            {isError
-              ? t('search.results.error-graph')
-              : t('search.results.error-no-data')}
-          </p>
+          <p className="">{isError ? t('search.results.error-graph') : t('search.results.error-no-data')}</p>
         </CardContent>
       </Card>
     )

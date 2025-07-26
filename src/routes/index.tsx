@@ -11,35 +11,28 @@ const HERBARIA_CONFIG = [
     id: 'PI',
     translationKey: 'herbaria.pi',
     image: '/images/pi.png',
-    description:
-      "Explore the rich botanical heritage of the University of Pisa's herbarium collection",
+    description: "Explore the rich botanical heritage of the University of Pisa's herbarium collection",
     badgeLabel: 'Herbarium PI',
   },
   {
     id: 'TSB',
     translationKey: 'herbaria.tsb',
     image: '/images/tsb.png',
-    description:
-      "Discover botanical specimens from the Trieste Science Museum's specialized collection",
+    description: "Discover botanical specimens from the Trieste Science Museum's specialized collection",
     badgeLabel: 'Herbarium TSB',
   },
-
 ]
 
 export const Route = createFileRoute('/')({
   component: App,
 })
 
-function HerbariumCard({
-  herbarium,
-}: {
-  herbarium: (typeof HERBARIA_CONFIG)[0]
-}) {
+function HerbariumCard({ herbarium }: { herbarium: (typeof HERBARIA_CONFIG)[0] }) {
   const { t } = useTranslation()
   const resetFilters = useFilterStore((state) => state.resetFilters)
 
   return (
-    <Card className="group flex flex-col border shadow-xs ">
+    <Card className="group flex flex-col border shadow-xs">
       <Badge className="mx-6 mb-[-10px]" variant="outline">
         {herbarium.badgeLabel}
       </Badge>
@@ -50,18 +43,12 @@ function HerbariumCard({
               <Building2 className="text-ring h-6 w-6" />
             </div>
             <div>
-              <CardTitle className="text-xl">
-                {t(herbarium.translationKey)}
-              </CardTitle>
+              <CardTitle className="text-xl">{t(herbarium.translationKey)}</CardTitle>
             </div>
           </div>
         </div>
         <div className="border-input h-40 overflow-hidden rounded-lg border">
-          <img
-            src={herbarium.image}
-            alt=""
-            className="h-full w-full object-cover"
-          />
+          <img src={herbarium.image} alt="" className="h-full w-full object-cover" />
         </div>
       </CardHeader>
       <CardContent className="flex flex-1 flex-col">
@@ -120,22 +107,17 @@ function App() {
                 </div>
               </div>
               <div className="border-input h-40 overflow-hidden rounded-lg border">
-                <img
-                  src="/images/global-search.png"
-                  alt=""
-                  className="h-full w-full object-cover"
-                />
+                <img src="/images/global-search.png" alt="" className="h-full w-full object-cover" />
               </div>
             </CardHeader>
             <CardContent className="flex flex-1 flex-col">
               <p className="mb-4 flex-1">
-                Search across all herbaria collections and explore botanical
-                diversity worldwide
+                Search across all herbaria collections and explore botanical diversity worldwide
               </p>
               <Link
                 to="/search"
                 onClick={() => resetFilters()}
-                className="bg-ring text-sm hover:bg-ring/80 mt-auto inline-flex w-full items-center justify-center rounded-lg px-4 py-2 font-medium text-white transition-colors duration-200 focus:ring-2"
+                className="bg-ring hover:bg-ring/80 mt-auto inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors duration-200 focus:ring-2"
               >
                 <Search className="mr-2 h-4 w-4" />
                 Explore

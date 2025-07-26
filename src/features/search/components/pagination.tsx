@@ -1,10 +1,4 @@
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  MoreHorizontalIcon,
-} from 'lucide-react'
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreHorizontalIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 interface PaginationProps {
@@ -31,12 +25,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
-          <Button
-            variant="ghost"
-            className="h-8 w-8 p-0"
-            onClick={() => setSkip(firstPageSkip)}
-            disabled={page === 1}
-          >
+          <Button variant="ghost" className="h-8 w-8 p-0" onClick={() => setSkip(firstPageSkip)} disabled={page === 1}>
             <span className="sr-only">Go to first page</span>
             <ChevronsLeft />
           </Button>
@@ -51,20 +40,12 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
           </Button>
           {/* pages buttons */}
           {page === totalPages && totalPages >= 3 && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setSkip(skip - 2 * limit)}
-            >
+            <Button variant="ghost" size="sm" onClick={() => setSkip(skip - 2 * limit)}>
               {page - 2}
             </Button>
           )}
           {page !== 1 && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setSkip(skip - limit)}
-            >
+            <Button variant="ghost" size="sm" onClick={() => setSkip(skip - limit)}>
               {page - 1}
             </Button>
           )}
@@ -72,29 +53,17 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
             {page}
           </Button>
           {page !== totalPages && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setSkip(skip + limit)}
-            >
+            <Button variant="ghost" size="sm" onClick={() => setSkip(skip + limit)}>
               {page + 1}
             </Button>
           )}
           {page === 1 && totalPages >= 3 && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setSkip(skip + 2 * limit)}
-            >
+            <Button variant="ghost" size="sm" onClick={() => setSkip(skip + 2 * limit)}>
               {page + 2}
             </Button>
           )}
           {page !== totalPages && (
-            <span
-              aria-hidden
-              data-slot="pagination-ellipsis"
-              className="flex size-9 items-center justify-center"
-            >
+            <span aria-hidden data-slot="pagination-ellipsis" className="flex size-9 items-center justify-center">
               <MoreHorizontalIcon className="size-4" />
               <span className="sr-only">More pages</span>
             </span>

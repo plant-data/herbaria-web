@@ -1,11 +1,7 @@
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { SearchSidebar } from '@/features/search/components/search-sidebar'
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from '@/components/ui/sidebar'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { SpecimensNavbar } from '@/features/search/components/specimens-navbar'
 
 export const Route = createFileRoute('/search')({

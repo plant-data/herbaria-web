@@ -3,28 +3,17 @@ import { Slider as SliderPrimitive } from 'radix-ui'
 
 import { cn } from '@/lib/utils'
 
-interface DualSliderProps
-  extends React.ComponentProps<typeof SliderPrimitive.Root> {
+interface DualSliderProps extends React.ComponentProps<typeof SliderPrimitive.Root> {
   labelPosition?: 'top' | 'bottom'
   label?: (value: number | undefined) => React.ReactNode
 }
 
-function DualSlider({
-  className,
-  label,
-  labelPosition = 'top',
-  ...props
-}: DualSliderProps) {
-  const initialValue = Array.isArray(props.value)
-    ? props.value
-    : [props.min, props.max]
+function DualSlider({ className, label, labelPosition = 'top', ...props }: DualSliderProps) {
+  const initialValue = Array.isArray(props.value) ? props.value : [props.min, props.max]
 
   return (
     <SliderPrimitive.Root
-      className={cn(
-        'relative flex w-full touch-none items-center select-none',
-        className,
-      )}
+      className={cn('relative flex w-full touch-none items-center select-none', className)}
       {...props}
     >
       <SliderPrimitive.Track className="bg-background border-input relative h-1.5 w-full grow overflow-hidden rounded-full border shadow-xs">

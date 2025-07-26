@@ -6,13 +6,7 @@ import { Command as CommandPrimitive } from 'cmdk'
 import { cn } from '@/lib/utils'
 
 import { useDebounce } from '@/hooks/use-debounce'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command'
+import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from '@/components/ui/command'
 import { BadgeSelected } from '@/features/search/components/badge-selected'
 
 export type AutocompleteItem = string
@@ -30,9 +24,7 @@ interface AutocompleteAsyncProps {
   queryKey: Array<string>
   query: string
   selectedValues: Array<AutocompleteItem>
-  onSelectedValuesChange: React.Dispatch<
-    React.SetStateAction<Array<AutocompleteItem>>
-  >
+  onSelectedValuesChange: React.Dispatch<React.SetStateAction<Array<AutocompleteItem>>>
   minLength?: number
 }
 // !!! mai cambiare questo
@@ -73,9 +65,7 @@ export function Autocomplete({
     gcTime: 24 * 60 * 60,
   })
 
-  const isGettingData =
-    (search !== '' && isFetching) ||
-    (search !== debouncedSearch && search !== '')
+  const isGettingData = (search !== '' && isFetching) || (search !== debouncedSearch && search !== '')
 
   const handleUnselect = useCallback(
     (item: AutocompleteItem) => {
@@ -98,8 +88,7 @@ export function Autocomplete({
   }
 
   const selectedLabels = new Set(selectedValues)
-  const selectables =
-    search === '' ? [] : data?.filter((item) => !selectedLabels.has(item))
+  const selectables = search === '' ? [] : data?.filter((item) => !selectedLabels.has(item))
 
   return (
     <div>
@@ -119,9 +108,7 @@ export function Autocomplete({
         className="max-w-full overflow-visible bg-transparent"
         shouldFilter={false}
         async={true}
-        fetchInProgress={
-          isFetching || search === '' || debouncedSearch !== search
-        }
+        fetchInProgress={isFetching || search === '' || debouncedSearch !== search}
       >
         {/* input part */}
         <div className="relative py-1">
@@ -151,21 +138,17 @@ export function Autocomplete({
         {/* list part */}
         <div className="relative">
           <CommandList>
-            {open &&
-              search !== '' &&
-              debouncedSearch !== '' &&
-              !isGettingData && (
-                <CommandEmpty className="bg-popover text-popover-foreground animate-in absolute top-0 z-10 w-full rounded-md border p-2 text-sm shadow-sm outline-none">
-                  {error
-                    ? t('search.filters.autocomplete-error')
-                    : debouncedSearch.length < minLength ||
-                        (debouncedSearch.length === minLength && isFetching)
-                      ? t('search.filters.autocomplete-min-length', {
-                          number: minLength,
-                        })
-                      : t('search.filters.autocomplete-no-results')}
-                </CommandEmpty>
-              )}
+            {open && search !== '' && debouncedSearch !== '' && !isGettingData && (
+              <CommandEmpty className="bg-popover text-popover-foreground animate-in absolute top-0 z-10 w-full rounded-md border p-2 text-sm shadow-sm outline-none">
+                {error
+                  ? t('search.filters.autocomplete-error')
+                  : debouncedSearch.length < minLength || (debouncedSearch.length === minLength && isFetching)
+                    ? t('search.filters.autocomplete-min-length', {
+                        number: minLength,
+                      })
+                    : t('search.filters.autocomplete-no-results')}
+              </CommandEmpty>
+            )}
             {open &&
             search !== '' &&
             debouncedSearch !== '' &&

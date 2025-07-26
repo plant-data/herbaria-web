@@ -10,16 +10,8 @@ export const Route = createFileRoute('/search/debug-filters')({
 })
 
 function RouteComponent() {
-  const {
-    scientificName,
-    floritalyName,
-    country,
-    locality,
-    year,
-    month,
-    hasCoordinates,
-    activeFiltersCount,
-  } = useFilterStore()
+  const { scientificName, floritalyName, country, locality, year, month, hasCoordinates, activeFiltersCount } =
+    useFilterStore()
 
   return (
     <div>

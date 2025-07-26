@@ -1,16 +1,9 @@
 import { useEffect } from 'react'
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import type {
-  FilterState,
-  LockedFilters,
-} from '@/features/search/stores/use-filters-store'
+import type { FilterState, LockedFilters } from '@/features/search/stores/use-filters-store'
 import { SearchSidebar } from '@/features/search/components/search-sidebar'
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from '@/components/ui/sidebar'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { SpecimensNavbar } from '@/features/search/components/specimens-navbar'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 

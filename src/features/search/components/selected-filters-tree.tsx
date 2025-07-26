@@ -2,12 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-import {
-  HERBARIA,
-  MAX_YEAR,
-  MIN_YEAR,
-  MONTHS,
-} from '@/features/search/constants/constants'
+import { HERBARIA, MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
 import { COUNTRIES } from '@/features/search/constants/countries'
 
 interface FilterGroupProps {
@@ -42,15 +37,11 @@ function TreeLines({ index, total }: TreeLinesProps) {
   return (
     <div className="relative mr-1 h-4 w-4 flex-shrink-0">
       {/* Vertical line (except for last item) */}
-      {!isLast && (
-        <div className="bg-muted-foreground absolute top-2 left-1.5 h-6 w-px" />
-      )}
+      {!isLast && <div className="bg-muted-foreground absolute top-2 left-1.5 h-6 w-px" />}
       {/* Horizontal line */}
       <div className="bg-muted-foreground absolute top-2 left-1.5 h-px w-2" />
       {/* Vertical connector */}
-      <div
-        className={`bg-muted-foreground absolute top-0 left-1.5 w-px ${isLast ? 'h-2' : 'h-4'}`}
-      />
+      <div className={`bg-muted-foreground absolute top-0 left-1.5 w-px ${isLast ? 'h-2' : 'h-4'}`} />
     </div>
   )
 }
@@ -101,19 +92,9 @@ export function SelectedFiltersTree() {
   } = useFilterStore()
 
   // Memoized month name mapping
-  const monthNameMap = useMemo(
-    () => new Map(MONTHS.map((month) => [month.id, t(month.value)])),
-    [t],
-  )
-  const herbariaMap = useMemo(
-    () =>
-      new Map(HERBARIA.map((herbarium) => [herbarium.id, t(herbarium.value)])),
-    [t],
-  )
-  const countryCodeMap = useMemo(
-    () => new Map(COUNTRIES.map((country) => [country.id, t(country.value)])),
-    [t],
-  )
+  const monthNameMap = useMemo(() => new Map(MONTHS.map((month) => [month.id, t(month.value)])), [t])
+  const herbariaMap = useMemo(() => new Map(HERBARIA.map((herbarium) => [herbarium.id, t(herbarium.value)])), [t])
+  const countryCodeMap = useMemo(() => new Map(COUNTRIES.map((country) => [country.id, t(country.value)])), [t])
   // Unified filter configuration
   const filterConfigs: Array<FilterConfig> = useMemo(
     () => [
@@ -141,8 +122,7 @@ export function SelectedFiltersTree() {
         key: 'countryCode',
         items: countryCode,
         label: t('search.filters.country-code-label'),
-        displayValue: (countryCode: string) =>
-          countryCodeMap.get(countryCode) || `Country Code ${countryCode}`,
+        displayValue: (countryCode: string) => countryCodeMap.get(countryCode) || `Country Code ${countryCode}`,
       },
       {
         key: 'locality',
@@ -165,15 +145,13 @@ export function SelectedFiltersTree() {
         key: 'month',
         items: month,
         label: t('search.filters.month-label'),
-        displayValue: (monthId: number) =>
-          monthNameMap.get(monthId) || `Month ${monthId}`,
+        displayValue: (monthId: number) => monthNameMap.get(monthId) || `Month ${monthId}`,
       },
       {
         key: 'institutionCode',
         items: institutionCode,
         label: t('search.filters.institution-code-label'),
-        displayValue: (herbariumId: string) =>
-          herbariaMap.get(herbariumId) || `Herbarium ${herbariumId}`,
+        displayValue: (herbariumId: string) => herbariaMap.get(herbariumId) || `Herbarium ${herbariumId}`,
       },
       {
         key: 'hasCoordinates',
@@ -182,27 +160,11 @@ export function SelectedFiltersTree() {
         displayValue: () => t('common.yes'),
       },
     ],
-    [
-      t,
-      scientificName,
-      floritalyName,
-      genus,
-      country,
-      countryCode,
-      locality,
-      geometry,
-      year,
-      month,
-      hasCoordinates,
-    ],
+    [t, scientificName, floritalyName, genus, country, countryCode, locality, geometry, year, month, hasCoordinates],
   )
 
   if (activeFiltersCount === 0) {
-    return (
-      <div className="text-muted-foreground py-6 text-center text-sm">
-        {t('search.filters.no-active-filters')}
-      </div>
-    )
+    return <div className="text-muted-foreground py-6 text-center text-sm">{t('search.filters.no-active-filters')}</div>
   }
 
   return (
@@ -217,30 +179,18 @@ export function SelectedFiltersTree() {
       <div className="space-y-1 text-sm">
         {filterConfigs.map((config) => {
           // Check if filter should be displayed
-          const shouldDisplay = config.condition
-            ? config.condition()
-            : config.items.length > 0
+          const shouldDisplay = config.condition ? config.condition() : config.items.length > 0
 
           if (!shouldDisplay) return null
 
           return (
-            <FilterGroup
-              key={config.key}
-              label={config.label}
-              count={config.items.length}
-            >
+            <FilterGroup key={config.key} label={config.label} count={config.items.length}>
               {config.items.map((item, index) => (
                 <FilterItem
-                  key={
-                    typeof item === 'string' ? item : `${config.key}-${index}`
-                  }
+                  key={typeof item === 'string' ? item : `${config.key}-${index}`}
                   index={index}
                   total={config.items.length}
-                  displayValue={
-                    config.displayValue
-                      ? config.displayValue(item, index)
-                      : String(item)
-                  }
+                  displayValue={config.displayValue ? config.displayValue(item, index) : String(item)}
                 />
               ))}
             </FilterGroup>

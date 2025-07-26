@@ -22,7 +22,7 @@ const MONTHS = [
 const HERBARIA = [
   { id: 'PI', value: 'herbaria.pi' },
   { id: 'HCI', value: 'herbaria.hci' },
-  { id: 'TSB', value: 'herbaria.tsb' }
+  { id: 'TSB', value: 'herbaria.tsb' },
 ]
 
 const MAP_STYLE = {
@@ -36,8 +36,7 @@ const MAP_STYLE = {
         'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png',
       ],
       tileSize: 256,
-      attribution:
-        '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     },
   },
   layers: [

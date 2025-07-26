@@ -1,12 +1,6 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import {
-  BBOX,
-  MAX_YEAR,
-  MIN_YEAR,
-  SKIP,
-  ZOOM,
-} from '@/features/search/constants/constants'
+import { BBOX, MAX_YEAR, MIN_YEAR, SKIP, ZOOM } from '@/features/search/constants/constants'
 
 // skip zoom and bb aren't considered visible filters
 export interface FilterStateData {
@@ -26,9 +20,7 @@ export interface FilterStateData {
 }
 
 // used for pages of custom herbaria
-export type LockedFilters = Array<
-  keyof Omit<FilterStateData, 'skip' | 'activeFiltersCount'>
->
+export type LockedFilters = Array<keyof Omit<FilterStateData, 'skip' | 'activeFiltersCount'>>
 
 export interface FilterMapData {
   zoom: number
@@ -36,41 +28,19 @@ export interface FilterMapData {
 }
 
 interface FilterActions {
-  setScientificName: (
-    scientificName: Array<string> | ((prev: Array<string>) => Array<string>),
-  ) => void
-  setFloritalyName: (
-    floritalyName: Array<string> | ((prev: Array<string>) => Array<string>),
-  ) => void
-  setGenus: (
-    genus: Array<string> | ((prev: Array<string>) => Array<string>),
-  ) => void
-  setCountry: (
-    country: Array<string> | ((prev: Array<string>) => Array<string>),
-  ) => void
-  setCountryCode: (
-    countryCode: Array<string> | ((prev: Array<string>) => Array<string>),
-  ) => void
-  setLocality: (
-    locality: Array<string> | ((prev: Array<string>) => Array<string>),
-  ) => void
+  setScientificName: (scientificName: Array<string> | ((prev: Array<string>) => Array<string>)) => void
+  setFloritalyName: (floritalyName: Array<string> | ((prev: Array<string>) => Array<string>)) => void
+  setGenus: (genus: Array<string> | ((prev: Array<string>) => Array<string>)) => void
+  setCountry: (country: Array<string> | ((prev: Array<string>) => Array<string>)) => void
+  setCountryCode: (countryCode: Array<string> | ((prev: Array<string>) => Array<string>)) => void
+  setLocality: (locality: Array<string> | ((prev: Array<string>) => Array<string>)) => void
   setGeometry: (
-    geometry:
-      | Array<[number, number]>
-      | ((prev: Array<[number, number]>) => Array<[number, number]>),
+    geometry: Array<[number, number]> | ((prev: Array<[number, number]>) => Array<[number, number]>),
   ) => void
-  setYear: (
-    year: [number, number] | ((prev: [number, number]) => [number, number]),
-  ) => void
-  setMonth: (
-    month: Array<number> | ((prev: Array<number>) => Array<number>),
-  ) => void
-  setInstitutionCode: (
-    institutionCode: Array<string> | ((prev: Array<string>) => Array<string>),
-  ) => void
-  setInstitutionCodeNoResetSkip: (
-    institutionCode: Array<string> | ((prev: Array<string>) => Array<string>),
-  ) => void
+  setYear: (year: [number, number] | ((prev: [number, number]) => [number, number])) => void
+  setMonth: (month: Array<number> | ((prev: Array<number>) => Array<number>)) => void
+  setInstitutionCode: (institutionCode: Array<string> | ((prev: Array<string>) => Array<string>)) => void
+  setInstitutionCodeNoResetSkip: (institutionCode: Array<string> | ((prev: Array<string>) => Array<string>)) => void
   setHasCoordinates: (hasCoordinates: boolean) => void
   resetFilters: (lockedFilters?: LockedFilters) => void
   setSkip: (skip: number) => void
@@ -79,10 +49,7 @@ interface FilterActions {
   resetMap: () => void
 }
 
-export interface FilterState
-  extends FilterStateData,
-    FilterMapData,
-    FilterActions {}
+export interface FilterState extends FilterStateData, FilterMapData, FilterActions {}
 
 // Initial state values
 const initialState: FilterStateData = {
@@ -133,18 +100,12 @@ function createSetter<TKey extends keyof FilterStateData>(
   shouldOrder: boolean = false,
   shouldResetSkip: boolean = true,
 ) {
-  return (
-    value:
-      | FilterStateData[TKey]
-      | ((prev: FilterStateData[TKey]) => FilterStateData[TKey]),
-  ) =>
+  return (value: FilterStateData[TKey] | ((prev: FilterStateData[TKey]) => FilterStateData[TKey])) =>
     set(
       (state: FilterState) => {
         const newValue =
           typeof value === 'function'
-            ? (value as (prev: FilterStateData[TKey]) => FilterStateData[TKey])(
-                state[key],
-              )
+            ? (value as (prev: FilterStateData[TKey]) => FilterStateData[TKey])(state[key])
             : value
 
         // Order the value if it's an array and shouldOrder is true
@@ -181,18 +142,8 @@ export const useFilterStore = create<FilterState>()(
       ...initialMapState,
 
       // Actions using the helper
-      setScientificName: createSetter(
-        'scientificName',
-        'setScientificName',
-        set,
-        true,
-      ),
-      setFloritalyName: createSetter(
-        'floritalyName',
-        'setFloritalyName',
-        set,
-        true,
-      ),
+      setScientificName: createSetter('scientificName', 'setScientificName', set, true),
+      setFloritalyName: createSetter('floritalyName', 'setFloritalyName', set, true),
       setGenus: createSetter('genus', 'setGenus', set, true),
       setCountry: createSetter('country', 'setCountry', set, true),
       setCountryCode: createSetter('countryCode', 'setCountryCode', set, true),
@@ -200,24 +151,9 @@ export const useFilterStore = create<FilterState>()(
       setGeometry: createSetter('geometry', 'setGeometry', set, false),
       setYear: createSetter('year', 'setYear', set),
       setMonth: createSetter('month', 'setMonth', set, true),
-      setInstitutionCode: createSetter(
-        'institutionCode',
-        'setInstitutionCode',
-        set,
-        true,
-      ),
-      setInstitutionCodeNoResetSkip: createSetter(
-        'institutionCode',
-        'setInstitutionCodeNoResetSkip',
-        set,
-        true,
-        false,
-      ),
-      setHasCoordinates: createSetter(
-        'hasCoordinates',
-        'setHasCoordinates',
-        set,
-      ),
+      setInstitutionCode: createSetter('institutionCode', 'setInstitutionCode', set, true),
+      setInstitutionCodeNoResetSkip: createSetter('institutionCode', 'setInstitutionCodeNoResetSkip', set, true, false),
+      setHasCoordinates: createSetter('hasCoordinates', 'setHasCoordinates', set),
 
       // old
       // resetFilters: () => set(initialState, false, 'resetFilters'),
@@ -236,8 +172,7 @@ export const useFilterStore = create<FilterState>()(
               })
 
               // Recalculate active filters count with locked filters preserved
-              resetState.activeFiltersCount =
-                calculateActiveFiltersCount(resetState)
+              resetState.activeFiltersCount = calculateActiveFiltersCount(resetState)
             }
 
             return resetState
@@ -249,8 +184,7 @@ export const useFilterStore = create<FilterState>()(
       // replace skip with number
       setSkip: (newSkip: number) => set({ skip: newSkip }, false, 'setSkip'),
       setZoom: (newZoom: number) => set({ zoom: newZoom }, false, 'setZoom'),
-      setBbox: (newBbox: [number, number, number, number]) =>
-        set({ bbox: newBbox }, false, 'setBbox'),
+      setBbox: (newBbox: [number, number, number, number]) => set({ bbox: newBbox }, false, 'setBbox'),
       resetMap: () => set(initialMapState, false, 'resetMap'),
     }),
     {

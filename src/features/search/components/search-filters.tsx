@@ -9,21 +9,12 @@ import { useDebouncedCallback } from '@/hooks/use-debounce'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { RangeSlider } from '@/features/search/components/range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
-import {
-  HERBARIA,
-  MAX_YEAR,
-  MIN_YEAR,
-  MONTHS,
-} from '@/features/search/constants/constants'
+import { HERBARIA, MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import { SwitchOption } from '@/features/search/components/switch-option'
 import { AreaMapFilter } from '@/features/search/components/area-map-filter'
 
-export function SearchFilters({
-  lockedFilters,
-}: {
-  lockedFilters?: LockedFilters
-}) {
+export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters }) {
   const {
     scientificName,
     floritalyName,
@@ -102,9 +93,7 @@ export function SearchFilters({
         onSelectedValuesChange={setGenus}
         queryKey={['genussearch', herbariaId ?? '']}
         query={
-          `${BASE_API_URL}autocomplete?` +
-          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
-          `field=genus&value=`
+          `${BASE_API_URL}autocomplete?` + (herbariaId ? `institutionCode=${herbariaId}&` : '') + `field=genus&value=`
         }
       />
       <AutocompletePrefetch
@@ -161,7 +150,7 @@ export function SearchFilters({
         selectedValues={month}
         onSelectedValuesChange={setMonth}
       />
-      
+
       {lockedFilters && lockedFilters.includes('institutionCode') ? null : (
         <SelectItems
           label={t('search.filters.institution-code-label')}
@@ -178,7 +167,12 @@ export function SearchFilters({
         checked={hasCoordinates}
         onCheckedChange={setHasCoordinates}
       />
-      <AreaMapFilter label={t('search.filters.area-label')} mapHeight="h-[300px]" geometry={geometry} setGeometry={setGeometry} />
+      <AreaMapFilter
+        label={t('search.filters.area-label')}
+        mapHeight="h-[300px]"
+        geometry={geometry}
+        setGeometry={setGeometry}
+      />
       <div className="min-h-60 w-full"></div>
     </>
   )

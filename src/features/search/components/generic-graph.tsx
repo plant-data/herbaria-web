@@ -5,11 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useSpecimensGraph } from '@/features/search/api/get-occurrences'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useTheme } from '@/components/theme-provider'
-import {
-  MAX_YEAR,
-  MIN_YEAR,
-  MONTHS,
-} from '@/features/search/constants/constants'
+import { MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
 
 // Types
 interface GenericGraphProps {
@@ -27,10 +23,7 @@ interface ChartData {
 }
 
 // Helper functions
-function fillMissingIntervals(
-  data: Array<ChartData>,
-  groupBy: string,
-): Array<ChartData> {
+function fillMissingIntervals(data: Array<ChartData>, groupBy: string): Array<ChartData> {
   if (!data.length) return []
 
   const dataMap = new Map<string, number>()
@@ -64,12 +57,7 @@ function fillMissingIntervals(
   return data
 }
 
-function createXAxisConfig(
-  groupBy: string,
-  chartType: string,
-  t: any,
-  textColor: string,
-) {
+function createXAxisConfig(groupBy: string, chartType: string, t: any, textColor: string) {
   const baseConfig = {
     type: 'category' as const,
     axisLabel: {
@@ -144,12 +132,7 @@ function createTooltipFormatter(groupBy: string, t: any) {
   }
 }
 
-function createSeriesConfig(
-  chartType: string,
-  color: string,
-  data: Array<number>,
-  t: any,
-) {
+function createSeriesConfig(chartType: string, color: string, data: Array<number>, t: any) {
   const baseConfig = {
     name: t('search.results.specimens'),
     type: chartType,
@@ -171,14 +154,7 @@ function createSeriesConfig(
 }
 
 // Main component
-export function GenericGraph({
-  title,
-  groupBy,
-  xAxisKey,
-  chartType = 'bar',
-  color,
-  topN = null,
-}: GenericGraphProps) {
+export function GenericGraph({ title, groupBy, xAxisKey, chartType = 'bar', color, topN = null }: GenericGraphProps) {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const { data, isPending } = useSpecimensGraph({
@@ -190,10 +166,7 @@ export function GenericGraph({
       return null
     }
 
-    const isDark =
-      theme === 'dark' ||
-      (theme === 'system' &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
     const textColor = isDark ? '#ffffff' : '#000000'
 
     let chartData = topN ? data.occurrences.slice(0, topN) : data.occurrences
@@ -242,9 +215,7 @@ export function GenericGraph({
           <CardTitle className="h-6">{title}</CardTitle>
         </CardHeader>
         <CardContent className="px-1">
-          <p className="flex h-[400px] w-full items-center justify-center">
-            {t('search.results.error-no-data')}
-          </p>
+          <p className="flex h-[400px] w-full items-center justify-center">{t('search.results.error-no-data')}</p>
         </CardContent>
       </Card>
     )
@@ -268,11 +239,7 @@ export function GenericGraph({
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent className="px-1">
-        <ReactECharts
-          option={chartOptions}
-          style={{ height: '400px', width: '100%' }}
-          opts={{ renderer: 'svg' }}
-        />
+        <ReactECharts option={chartOptions} style={{ height: '400px', width: '100%' }} opts={{ renderer: 'svg' }} />
       </CardContent>
     </Card>
   )

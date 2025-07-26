@@ -23,10 +23,7 @@ const getCountryName = (countryCode: unknown): string => {
 
 type SpecimenImageProps = Pick<SpecimenData, 'scientificName' | 'multimedia'>
 
-type SpecimenMapProps = Pick<
-  SpecimenData,
-  'decimalLatitude' | 'decimalLongitude'
->
+type SpecimenMapProps = Pick<SpecimenData, 'decimalLatitude' | 'decimalLongitude'>
 
 export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
   const router = useRouter()
@@ -53,14 +50,8 @@ export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
       </h1>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-[254px_1fr] md:grid-cols-[354px_1fr]">
         <div className="space-y-6">
-          <SpecimenImage
-            multimedia={occurrence.multimedia}
-            scientificName={occurrence.scientificName}
-          />
-          <SpecimenMap
-            decimalLatitude={occurrence.decimalLatitude}
-            decimalLongitude={occurrence.decimalLongitude}
-          />
+          <SpecimenImage multimedia={occurrence.multimedia} scientificName={occurrence.scientificName} />
+          <SpecimenMap decimalLatitude={occurrence.decimalLatitude} decimalLongitude={occurrence.decimalLongitude} />
         </div>
         <div className="space-y-6">
           <SpecimenData occurrence={occurrence} />
@@ -97,10 +88,7 @@ function SpecimenMap({ decimalLatitude, decimalLongitude }: SpecimenMapProps) {
   )
 }
 
-export function SpecimenImage({
-  multimedia,
-  scientificName,
-}: SpecimenImageProps) {
+export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps) {
   // State to control the lightbox visibility
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
 
@@ -189,11 +177,7 @@ export function SpecimenImage({
   )
 }
 
-const ImageViewerControls = ({
-  onFullScreen,
-}: {
-  onFullScreen: () => void
-}) => {
+const ImageViewerControls = ({ onFullScreen }: { onFullScreen: () => void }) => {
   const { zoomOut, zoomIn, resetView, crop } = useContext(ViewerContext)
 
   return (
@@ -206,9 +190,7 @@ const ImageViewerControls = ({
         >
           <ZoomOut size={16} />
         </button>
-        <span className="min-w-[2.5rem] text-center text-xs font-medium">
-          {(crop.zoom * 100).toFixed(0)}%
-        </span>
+        <span className="min-w-[2.5rem] text-center text-xs font-medium">{(crop.zoom * 100).toFixed(0)}%</span>
         <button
           onClick={zoomIn}
           className="cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
@@ -253,7 +235,7 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           <span className="font-medium">GBIF Name:</span>
           <span className="ml-2">{occurrence.gbifName ?? '-'}</span>
         </div>
-        <div className="flex flex-wrap items-center h-6">
+        <div className="flex h-6 flex-wrap items-center">
           <div>
             <span className="font-medium">Floritaly Name:</span>
             <span className="ml-2">{occurrence.floritalyName ?? '-'}</span>
@@ -261,18 +243,8 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           {occurrence.floritalyID ? (
             <Button asChild className="ml-2 h-6 gap-1 px-2 py-1">
               <span>
-                <img
-                  src="/images/flor.png"
-                  alt="Herbaria Logo"
-                  width={18}
-                  height={18}
-                  className=""
-                ></img>
-                <a
-                  className="text-xs"
-                  target="_blank"
-                  href={`${FLORITALY_URL}${occurrence.floritalyID}`}
-                >
+                <img src="/images/flor.png" alt="Herbaria Logo" width={18} height={18} className=""></img>
+                <a className="text-xs" target="_blank" href={`${FLORITALY_URL}${occurrence.floritalyID}`}>
                   Open taxon page
                 </a>
               </span>
@@ -281,9 +253,7 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
         </div>
         <div>
           <span className="font-medium">Verbatim Identification:</span>
-          <span className="ml-2">
-            {occurrence.verbatimIdentification ?? '-'}
-          </span>
+          <span className="ml-2">{occurrence.verbatimIdentification ?? '-'}</span>
         </div>
         {/* Collection Information */}
         <div>
@@ -329,18 +299,12 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           <span className="font-medium">Country:</span>
 
           <span className="ml-2">
-            {getCountryName(occurrence.countryCode) === '-'
-              ? '-'
-              : t(getCountryName(occurrence.countryCode))}
+            {getCountryName(occurrence.countryCode) === '-' ? '-' : t(getCountryName(occurrence.countryCode))}
           </span>
         </div>
         <div>
           <span className="font-medium">Country Code:</span>
-          <span className="ml-2">
-            {typeof occurrence.countryCode === 'string'
-              ? occurrence.countryCode
-              : '-'}
-          </span>
+          <span className="ml-2">{typeof occurrence.countryCode === 'string' ? occurrence.countryCode : '-'}</span>
         </div>
         <div>
           <span className="font-medium">verbatimLocality:</span>
@@ -364,9 +328,7 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
         </div>
         <div>
           <span className="font-medium">Coordinates Uncertainty:</span>
-          <span className="ml-2">
-            {occurrence.coordinatesUncertaintyInMeters ?? '-'}
-          </span>
+          <span className="ml-2">{occurrence.coordinatesUncertaintyInMeters ?? '-'}</span>
         </div>
         {occurrence.georeferenceProtocol && (
           <div>
@@ -386,18 +348,14 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           <div>
             <span className="font-medium">Minimum Elevation:</span>
             <span className="ml-2">
-              {occurrence.minimumElevationInMeters
-                ? `${occurrence.minimumElevationInMeters}m`
-                : '-'}
+              {occurrence.minimumElevationInMeters ? `${occurrence.minimumElevationInMeters}m` : '-'}
             </span>
           </div>
 
           <div>
             <span className="font-medium">Maximum Elevation:</span>
             <span className="ml-2">
-              {occurrence.maximumElevationInMeters
-                ? `${occurrence.maximumElevationInMeters}m`
-                : '-'}
+              {occurrence.maximumElevationInMeters ? `${occurrence.maximumElevationInMeters}m` : '-'}
             </span>
           </div>
         </>

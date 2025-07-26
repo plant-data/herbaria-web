@@ -40,38 +40,20 @@ export default function SpecimensGallery({ customFilters = {} }) {
     </>
   ) : (
     <>
-      <Pagination
-        count={data.count}
-        skip={skip}
-        limit={ITEMS_PER_PAGE}
-        setSkip={setSkip}
-      />
+      <Pagination count={data.count} skip={skip} limit={ITEMS_PER_PAGE} setSkip={setSkip} />
       <div className="grid grid-cols-1 gap-4 @xl:grid-cols-2 @4xl:grid-cols-3 @7xl:grid-cols-4">
         {data.occurrences.map((item: SpecimenData) => (
           <Link
             key={item.occurrenceID}
-            to={
-              herbariaId
-                ? '/$herbariaId/specimens/$occurrenceID'
-                : '/specimens/$occurrenceID'
-            }
-            params={
-              herbariaId
-                ? { herbariaId, occurrenceID: item.occurrenceID }
-                : { occurrenceID: item.occurrenceID }
-            }
+            to={herbariaId ? '/$herbariaId/specimens/$occurrenceID' : '/specimens/$occurrenceID'}
+            params={herbariaId ? { herbariaId, occurrenceID: item.occurrenceID } : { occurrenceID: item.occurrenceID }}
             className="rounded-md"
           >
             <DataItemCard item={item} />
           </Link>
         ))}
       </div>
-      <Pagination
-        count={data.count}
-        skip={skip}
-        limit={ITEMS_PER_PAGE}
-        setSkip={setSkip}
-      />
+      <Pagination count={data.count} skip={skip} limit={ITEMS_PER_PAGE} setSkip={setSkip} />
     </>
   )
 }
@@ -82,18 +64,14 @@ function DataItemCard({ item }: { item: SpecimenData }) {
   const { t } = useTranslation()
 
   const countryTranslationKey = getCountryNameByCode(item.countryCode)
-  const countryName = countryTranslationKey
-    ? t(countryTranslationKey)
-    : 'Unknown'
+  const countryName = countryTranslationKey ? t(countryTranslationKey) : 'Unknown'
 
   return (
     <Card className="focus-visible:border-ring focus-visible:ring-ring/50 h-full min-h-40 w-full rounded-md p-1 shadow-xs hover:cursor-pointer focus-visible:ring-[3px]">
       <CardContent className="flex min-h-full items-start gap-4 p-0">
         {/* Placeholder Image Area */}
         <div className="bg-muted relative flex h-[150px] w-[110px] shrink-0 items-center justify-center overflow-hidden rounded-sm border-1">
-          {!imageLoaded && (
-            <Skeleton className="absolute inset-0 h-full w-full" />
-          )}
+          {!imageLoaded && <Skeleton className="absolute inset-0 h-full w-full" />}
           <img
             className={`object-cover transition-opacity duration-200 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
             src={
@@ -108,20 +86,12 @@ function DataItemCard({ item }: { item: SpecimenData }) {
 
         {/* Text Content Area */}
         <div className="flex min-h-full w-full flex-col space-y-1 pt-4 pr-1">
-          <p className="pb-1 text-sm font-semibold">
-            {item.scientificName || 'Unknown Species'}
-          </p>
-          <p className="text-muted-foreground text-xs">
-            Country: {countryName}
-          </p>
+          <p className="pb-1 text-sm font-semibold">{item.scientificName || 'Unknown Species'}</p>
+          <p className="text-muted-foreground text-xs">Country: {countryName}</p>
 
-          <p className="text-muted-foreground text-xs">
-            Date: {item.eventDate ? item.eventDate : 'Not specified'}
-          </p>
+          <p className="text-muted-foreground text-xs">Date: {item.eventDate ? item.eventDate : 'Not specified'}</p>
           <p className="flex-grow"></p>
-          <p className="text-muted-foreground pr-1 text-right text-xs">
-            {item.catalogNumber || 'N/A'}
-          </p>
+          <p className="text-muted-foreground pr-1 text-right text-xs">{item.catalogNumber || 'N/A'}</p>
         </div>
       </CardContent>
     </Card>

@@ -22,12 +22,7 @@ interface ImageLightboxProps {
  * @param isOpen Controls the visibility of the lightbox.
  * @param onClose A callback function to close the lightbox.
  */
-export function ImageLightbox({
-  src,
-  alt,
-  isOpen,
-  onClose,
-}: ImageLightboxProps) {
+export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps) {
   const [isLoading, setIsLoading] = useState(true)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
 
@@ -90,20 +85,13 @@ export function ImageLightbox({
       src={src}
       alt={alt}
       onLoad={handleImageLoad}
-      className={
-        isLoading
-          ? 'opacity-0'
-          : 'transition-opacity, opacity-100 will-change-transform'
-      }
+      className={isLoading ? 'opacity-0' : 'transition-opacity, opacity-100 will-change-transform'}
     />
   )
 
   // --- Render into a Portal ---
   return ReactDOM.createPortal(
-    <div
-      className="bg-opacity-80 fixed inset-0 z-[999999] bg-black backdrop-blur-sm"
-      onClick={handleBackdropClick}
-    >
+    <div className="bg-opacity-80 fixed inset-0 z-[999999] bg-black backdrop-blur-sm" onClick={handleBackdropClick}>
       <style>{`
         ._viewer-minimap_1mddk_19 {
           position: absolute !important;
@@ -171,10 +159,7 @@ const LightboxToolbar = ({
   }
 
   return (
-    <div
-      className="absolute top-4 right-4 flex items-center gap-3 text-white"
-      onClick={handleToolbarClick}
-    >
+    <div className="absolute top-4 right-4 flex items-center gap-3 text-white" onClick={handleToolbarClick}>
       <div className="bg-background border-input flex h-8 items-center gap-1 rounded-md border">
         <Button
           onClick={zoomOut}

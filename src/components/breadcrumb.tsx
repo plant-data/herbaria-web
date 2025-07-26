@@ -13,11 +13,7 @@ import {
 import { HERBARIA } from '@/features/search/constants/constants'
 import { useIsMobile } from '@/hooks/use-mobile'
 
-export function BreadcrumbResponsive({
-  onLinkClick,
-}: {
-  onLinkClick?: () => void
-}) {
+export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void }) {
   const { location } = useRouterState()
   const { herbariaId, occurrenceID } = useParams({ strict: false })
   const { t } = useTranslation()
@@ -29,14 +25,13 @@ export function BreadcrumbResponsive({
     return herbarium ? t(herbarium.value) : id
   }
 
-  const breadcrumbNameMap: { [key: string]: string | ((s: string) => string) } =
-    {
-      search: t('navbar.search'),
-      map: t('navbar.map'),
-      graphs: t('navbar.graphs'),
-      table: t('navbar.table'),
-      specimens: t('navbar.specimen'),
-    }
+  const breadcrumbNameMap: { [key: string]: string | ((s: string) => string) } = {
+    search: t('navbar.search'),
+    map: t('navbar.map'),
+    graphs: t('navbar.graphs'),
+    table: t('navbar.table'),
+    specimens: t('navbar.specimen'),
+  }
 
   const getBreadcrumbName = (segment: string) => {
     if (herbariaId && segment === herbariaId) {
@@ -95,9 +90,7 @@ export function BreadcrumbResponsive({
               <div className="flex-1">
                 {segment.isLast ? (
                   <div className="bg-muted/50 border-input rounded-lg border px-3 py-2">
-                    <span className="text-ring text-sm font-medium">
-                      {segment.name}
-                    </span>
+                    <span className="text-ring text-sm font-medium">{segment.name}</span>
                   </div>
                 ) : (
                   <Link
@@ -105,9 +98,7 @@ export function BreadcrumbResponsive({
                     className="hover:bg-muted/50 group block rounded-lg px-3 py-2 transition-colors"
                     onClick={onLinkClick}
                   >
-                    <span className="group-hover:text-foreground text-sm font-medium">
-                      {segment.name}
-                    </span>
+                    <span className="group-hover:text-foreground text-sm font-medium">{segment.name}</span>
                   </Link>
                 )}
               </div>

@@ -6,11 +6,7 @@
  * @param signal - An AbortSignal for query cancellation.
  * @returns The JSON response from the server.
  */
-export async function postApiClient<T>(
-  url: string,
-  body: T,
-  signal: AbortSignal,
-) {
+export async function postApiClient<T>(url: string, body: T, signal: AbortSignal) {
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -23,9 +19,7 @@ export async function postApiClient<T>(
   if (!response.ok) {
     // Provide more context in error messages.
     const errorText = await response.text()
-    throw new Error(
-      `API request failed with status ${response.status}: ${errorText}`,
-    )
+    throw new Error(`API request failed with status ${response.status}: ${errorText}`)
   }
 
   return response.json()

@@ -18,8 +18,7 @@ export function RangeSlider({
   max = 2025,
   step = 1,
 }: RangeSliderProps) {
-  const [currentSliderValues, setCurrentSliderValues] =
-    useState<[number, number]>(initialValues) // Change to tuple type
+  const [currentSliderValues, setCurrentSliderValues] = useState<[number, number]>(initialValues) // Change to tuple type
 
   useEffect(() => {
     setCurrentSliderValues(initialValues)
@@ -46,10 +45,7 @@ export function RangeSlider({
         max={max}
         step={step}
       />
-      <div
-        id="year-range-values"
-        className="mt-2 flex justify-between text-sm font-semibold"
-      >
+      <div id="year-range-values" className="mt-2 flex justify-between text-sm font-semibold">
         <div>{currentSliderValues[0]}</div>
         <div>{currentSliderValues[1]}</div>
       </div>

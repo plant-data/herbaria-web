@@ -116,12 +116,11 @@ const HerbariaIdSearchIndexRoute = HerbariaIdSearchIndexImport.update({
   getParentRoute: () => HerbariaIdSearchRouteRoute,
 } as any)
 
-const HerbariaIdSpecimensOccurrenceIDRoute =
-  HerbariaIdSpecimensOccurrenceIDImport.update({
-    id: '/$herbariaId/specimens/$occurrenceID',
-    path: '/$herbariaId/specimens/$occurrenceID',
-    getParentRoute: () => rootRoute,
-  } as any)
+const HerbariaIdSpecimensOccurrenceIDRoute = HerbariaIdSpecimensOccurrenceIDImport.update({
+  id: '/$herbariaId/specimens/$occurrenceID',
+  path: '/$herbariaId/specimens/$occurrenceID',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const HerbariaIdSearchTableRoute = HerbariaIdSearchTableImport.update({
   id: '/table',
@@ -292,9 +291,7 @@ const SearchRouteRouteChildren: SearchRouteRouteChildren = {
   SearchIndexRoute: SearchIndexRoute,
 }
 
-const SearchRouteRouteWithChildren = SearchRouteRoute._addFileChildren(
-  SearchRouteRouteChildren,
-)
+const SearchRouteRouteWithChildren = SearchRouteRoute._addFileChildren(SearchRouteRouteChildren)
 
 interface HerbariaIdSearchRouteRouteChildren {
   HerbariaIdSearchGraphsRoute: typeof HerbariaIdSearchGraphsRoute
@@ -310,10 +307,9 @@ const HerbariaIdSearchRouteRouteChildren: HerbariaIdSearchRouteRouteChildren = {
   HerbariaIdSearchIndexRoute: HerbariaIdSearchIndexRoute,
 }
 
-const HerbariaIdSearchRouteRouteWithChildren =
-  HerbariaIdSearchRouteRoute._addFileChildren(
-    HerbariaIdSearchRouteRouteChildren,
-  )
+const HerbariaIdSearchRouteRouteWithChildren = HerbariaIdSearchRouteRoute._addFileChildren(
+  HerbariaIdSearchRouteRouteChildren,
+)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -463,9 +459,7 @@ const rootRouteChildren: RootRouteChildren = {
   HerbariaIdSpecimensOccurrenceIDRoute: HerbariaIdSpecimensOccurrenceIDRoute,
 }
 
-export const routeTree = rootRoute
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+export const routeTree = rootRoute._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {

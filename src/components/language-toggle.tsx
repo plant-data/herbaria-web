@@ -1,11 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 
 const lngs: Record<string, { nativeName: string }> = {
@@ -25,10 +20,7 @@ export function LanguageToggle() {
           <span className="sr-only">Toggle language</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        className="dark:border-input dark:bg-background min-w-[5rem] dark:border"
-        align="end"
-      >
+      <DropdownMenuContent className="dark:border-input dark:bg-background min-w-[5rem] dark:border" align="end">
         {Object.keys(lngs).map((lng) => (
           <DropdownMenuItem
             key={lng}

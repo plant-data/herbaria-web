@@ -1,13 +1,7 @@
 import { Link, useLocation, useParams } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  ChartColumn,
-  Image,
-  LoaderCircle,
-  MapPinned,
-  Table,
-} from 'lucide-react'
+import { ChartColumn, Image, LoaderCircle, MapPinned, Table } from 'lucide-react'
 import { useSpecimensData } from '@/features/search/api/get-occurrences'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
@@ -22,7 +16,7 @@ export function SpecimensNavbar() {
     const basePath = herbariaId ? `/${herbariaId}/search` : '/search'
 
     return [
-      { path: `${basePath}/table`, icon: Table, label: t('search.results.nav-table')},
+      { path: `${basePath}/table`, icon: Table, label: t('search.results.nav-table') },
       { path: basePath, icon: Image, label: t('search.results.nav-images') },
       { path: `${basePath}/map`, icon: MapPinned, label: t('search.results.nav-map') },
       { path: `${basePath}/graphs`, icon: ChartColumn, label: t('search.results.nav-graphs') },
@@ -79,9 +73,7 @@ function ResultOccurrencesCounter() {
   return (
     <div className="text-muted-foreground flex gap-2 text-sm">
       {data.count} Occurrences
-      {isFetching && (
-        <LoaderCircle className="text-ring h-4 w-4 shrink-0 animate-spin opacity-80" />
-      )}
+      {isFetching && <LoaderCircle className="text-ring h-4 w-4 shrink-0 animate-spin opacity-80" />}
     </div>
   )
 }

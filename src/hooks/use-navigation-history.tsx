@@ -8,10 +8,7 @@ const subscribers = new Set<() => void>()
 // Function to update the history stack and notify subscribers
 function updateHistoryStack(newPath: string) {
   // Don't add the same path twice in a row
-  if (
-    historyStack.length > 0 &&
-    historyStack[historyStack.length - 1] === newPath
-  ) {
+  if (historyStack.length > 0 && historyStack[historyStack.length - 1] === newPath) {
     return
   }
   // Keep only the last 10 entries to prevent memory issues
@@ -48,8 +45,7 @@ export function useNavigationHistory() {
     }
   }, []) // Subscribe on mount, unsubscribe on unmount
 
-  const previousRoute =
-    historyStack.length > 1 ? historyStack[historyStack.length - 2] : null
+  const previousRoute = historyStack.length > 1 ? historyStack[historyStack.length - 2] : null
 
   return {
     history: [...historyStack], // Return a copy to prevent direct mutation from outside

@@ -5,13 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { LoaderCircle, Search } from 'lucide-react'
 import { Command as CommandPrimitive } from 'cmdk'
 import { cn } from '@/lib/utils'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command'
+import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from '@/components/ui/command'
 import { BadgeSelected } from '@/features/search/components/badge-selected'
 
 export type AutocompletePrefetchItem = {
@@ -87,9 +81,7 @@ export function AutocompletePrefetch({
   const selectedItems = useMemo(() => {
     return selectedValues
       .map((selectedValue) => {
-        const foundItem = translatedItems.find(
-          (item) => item.id === selectedValue,
-        )
+        const foundItem = translatedItems.find((item) => item.id === selectedValue)
         return foundItem?.value || null
       })
       .filter((item) => item !== null)
@@ -104,9 +96,7 @@ export function AutocompletePrefetch({
   const handleUnselect = useCallback(
     (displayedValue: string) => {
       // displayedValue è cio che visualizzo nel badge
-      const fullItem = translatedItems.find(
-        (item) => item.value === displayedValue,
-      )
+      const fullItem = translatedItems.find((item) => item.value === displayedValue)
       onSelectedValuesChange((prev: Array<string>) =>
         prev.filter((selectedValue: string) => selectedValue !== fullItem?.id),
       )
@@ -202,10 +192,7 @@ export function AutocompletePrefetch({
                         }}
                         onSelect={() => {
                           setSearch('')
-                          onSelectedValuesChange((prev) => [
-                            ...prev,
-                            String(item.id),
-                          ])
+                          onSelectedValuesChange((prev) => [...prev, String(item.id)])
                         }}
                         className="cursor-pointer"
                       >

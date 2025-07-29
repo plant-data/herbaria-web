@@ -9,7 +9,7 @@ import { useDebouncedCallback } from '@/hooks/use-debounce'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { RangeSlider } from '@/features/search/components/range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
-import { HERBARIA, MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
+import { HERBARIA, MAX_YEAR, MIN_YEAR, MONTHS, MINIMAP_CENTER, MINIMAP_ZOOM } from '@/features/search/constants/constants'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import { SwitchOption } from '@/features/search/components/switch-option'
 import { AreaMapFilter } from '@/features/search/components/area-map-filter'
@@ -170,6 +170,8 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       <AreaMapFilter
         label={t('search.filters.geometry-label')}
         mapHeight="h-[300px]"
+        center={MINIMAP_CENTER}
+        zoom={MINIMAP_ZOOM}
         geometry={geometry}
         setGeometry={setGeometry}
       />

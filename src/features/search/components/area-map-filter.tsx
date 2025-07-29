@@ -28,11 +28,13 @@ interface DeleteEvent {
 interface AreaMapFilterProps {
   label: string
   mapHeight: string
+  center: [number, number]
+  zoom: number
   geometry: Array<[number, number]>
   setGeometry: (geometry: Array<[number, number]>) => void
 }
 
-export function AreaMapFilter({ label, mapHeight, geometry, setGeometry }: AreaMapFilterProps) {
+export function AreaMapFilter({ label, mapHeight, center, zoom, geometry, setGeometry }: AreaMapFilterProps) {
   const { t } = useTranslation()
   const mapRef = useRef<L.Map>(null)
   const featureGroupRef = useRef<L.FeatureGroup>(null)
@@ -123,8 +125,8 @@ export function AreaMapFilter({ label, mapHeight, geometry, setGeometry }: AreaM
       <div className="pl-1 text-sm font-semibold">{label}</div>
       <MapContainer
         ref={mapRef}
-        center={[45.6495, 13.7768]} // Trieste coordinates
-        zoom={13}
+        center={center}
+        zoom={zoom}
         className={cn('border-input w-full overflow-hidden rounded-sm border shadow-xs', 'h-[300px]', mapHeight)}
       >
         <TileLayer

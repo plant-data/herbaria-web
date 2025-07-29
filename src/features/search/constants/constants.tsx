@@ -53,6 +53,9 @@ const MAP_STYLE = {
 const ZOOM = 5
 const BBOX: [number, number, number, number] = [5, 20, 30, 50]
 
+const MINIMAP_ZOOM = 2
+const MINIMAP_CENTER: [number, number] = [40, 10] //
+
 const SKIP = 0
 
 const SEARCH_CONFIG = {
@@ -92,6 +95,8 @@ export {
   MAP_STYLE,
   ZOOM,
   BBOX,
+  MINIMAP_CENTER,
+  MINIMAP_ZOOM,
   SKIP,
   SEARCH_CONFIG,
   COMMON_QUERY_OPTIONS,

@@ -155,8 +155,7 @@ export const useFilterStore = create<FilterState>()(
       setInstitutionCodeNoResetSkip: createSetter('institutionCode', 'setInstitutionCodeNoResetSkip', set, true, false),
       setHasCoordinates: createSetter('hasCoordinates', 'setHasCoordinates', set),
 
-      // old
-      // resetFilters: () => set(initialState, false, 'resetFilters'),
+
       // Reset all filters to initial values, preserving locked filters
       resetFilters: (lockedFilters?: LockedFilters) =>
         set(

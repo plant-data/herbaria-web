@@ -111,13 +111,7 @@ export function AreaMapFilter({ label, mapHeight, center, zoom, geometry, setGeo
   }
 
   const handleDeleted = (e: DeleteEvent): void => {
-    const layers = e.layers
-    layers.eachLayer((layer: L.Layer) => {
-      if (layer === currentPolygonRef.current) {
-        currentPolygonRef.current = null
-        setGeometry([])
-      }
-    })
+    setGeometry([])
   }
 
   return (

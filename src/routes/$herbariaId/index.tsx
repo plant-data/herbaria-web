@@ -107,7 +107,7 @@ function RouteComponent() {
       </section>
 
       {/* better looking Stats Section */}
-      <section className="container mx-auto grid grid-cols-1 gap-8 px-4 text-center md:grid-cols-4">
+      <section className="container mx-auto grid grid-cols-2 gap-8 px-4 mb-12 text-center md:grid-cols-4">
         <Card className=" border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
           <CardDescription className="flex flex-col items-center gap-2">
             <Leaf className="text-ring size-9" />
@@ -136,6 +136,108 @@ function RouteComponent() {
             <span className="text-primary/80">Specimens</span>
           </CardDescription>
         </Card>
+      </section>
+
+        {/* First Content Section - Image on Left */}
+      <section className="container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          {/* Image - Left Side */}
+          <div className="order-2 lg:order-1">
+            <div className="aspect-[16/10] overflow-hidden rounded-lg">
+              <img 
+                src="images/fi.jpg" 
+                alt="Winding road through landscape" 
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+          {/* Content - Right Side */}
+          <div className="order-1 space-y-6 lg:order-2">
+            <div className="space-y-2">
+              <Badge variant="outline" className="w-fit text-sm">
+                Services
+              </Badge>
+              <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
+                Your guide for the road ahead
+              </h2>
+            </div>
+            <p className="text-lg text-gray-600 dark:text-gray-300">
+              We help small and mid-sized businesses navigate the path to sustainability. Whether you're setting out or 
+              refining your route, we'll guide you every step of the way.
+            </p>
+            <Button className="bg-ring text-white hover:bg-ring/90">
+              Learn More
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Second Content Section - Image on Right */}
+      <section className="container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          {/* Content - Left Side */}
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <Badge variant="outline" className="w-fit text-sm">
+                Research
+              </Badge>
+              <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
+                Exploring botanical diversity
+              </h2>
+            </div>
+            <p className="text-lg text-gray-600 dark:text-gray-300">
+              Our research spans centuries of botanical exploration, from historical collections to modern biodiversity 
+              studies. We preserve and share knowledge that shapes our understanding of plant life across the globe.
+            </p>
+            <Button className="bg-ring text-white hover:bg-ring/90">
+              Explore Research
+            </Button>
+          </div>
+          {/* Image - Right Side */}
+          <div>
+            <div className="aspect-[16/10] overflow-hidden rounded-lg">
+              <img 
+                src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" 
+                alt="Forest landscape" 
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+        {/* First Content Section - Image on Left */}
+      <section className="container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          {/* Image - Left Side */}
+          <div className="order-2 lg:order-1">
+            <div className="aspect-[16/10] overflow-hidden rounded-lg">
+              <img 
+                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                alt="Winding road through landscape" 
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+          {/* Content - Right Side */}
+          <div className="order-1 space-y-6 lg:order-2">
+            <div className="space-y-2">
+              <Badge variant="outline" className="w-fit text-sm">
+                Services
+              </Badge>
+              <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
+                Your guide for the road ahead
+              </h2>
+            </div>
+            <p className="text-lg text-gray-600 dark:text-gray-300">
+              We help small and mid-sized businesses navigate the path to sustainability. Whether you're setting out or 
+              refining your route, we'll guide you every step of the way.
+            </p>
+            <Button className="bg-ring text-white hover:bg-ring/90">
+              Learn More
+            </Button>
+          </div>
+        </div>
       </section>
 
       {/* Features Section */}

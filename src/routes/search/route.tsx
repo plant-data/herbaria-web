@@ -16,7 +16,7 @@ function RouteComponent() {
       <div className="flex flex-1">
         <SearchSidebar />
         <SidebarInset>
-          <div className="@container px-4 pt-4 pb-2 md:px-6">
+          <div className="@container max-w-7xl px-4 pt-4 pb-2 md:px-6">
             <SpecimensNavbar />
             <Outlet />
           </div>

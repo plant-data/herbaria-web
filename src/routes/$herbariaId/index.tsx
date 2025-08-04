@@ -49,14 +49,14 @@ function RouteComponent() {
             <div className="space-y-2">
               <Badge variant="outline" className="w-fit">
                 <Leaf className="mr-2 h-4 w-4" />
-                Lorem Ipsum
+                Herbarium FI
               </Badge>
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-                Lorem Ipsum Dolor
-                <span className="text-ring block">Sit Amet Consectetur</span>
+              <h1 className="text-4xl font-medium tracking-tight text-primary md:text-5xl lg:text-6xl">
+                Herbarium Centrale Italicum of
+                <span className="text-ring"> Florence</span>
               </h1>
             </div>
-            <p className="max-w-lg text-lg text-gray-600 dark:text-gray-300">
+            <p className="max-w-lg  text-primary/80">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
               dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
             </p>
@@ -91,14 +91,12 @@ function RouteComponent() {
               </div>
             </div>
 
-            {/* Second image - higher */}
             <div className="-mt-4 md:block">
               <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                 <img src={homeImages[1]} alt="Herbarium specimen" className="h-full w-full object-cover" />
               </div>
             </div>
 
-            {/* Third image - slightly lower */}
             <div className="mt-6 md:block">
               <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                 <img src={homeImages[2]} alt="Herbarium specimen" className="h-full w-full object-cover" />
@@ -109,6 +107,26 @@ function RouteComponent() {
       </section>
 
       {/* Stats Section */}
+      <section className="bg-white py-16 dark:bg-gray-800">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-3">
+            <div className="space-y-2">
+              <div className="text-ring text-4xl font-bold">10,000+</div>
+              <div className="text-gray-600 dark:text-gray-300">Lorem Ipsum</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-ring text-4xl font-bold">500+</div>
+              <div className="text-gray-600 dark:text-gray-300">Dolor Sit</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-ring text-4xl font-bold">50+</div>
+              <div className="text-gray-600 dark:text-gray-300">Consectetur</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Better looking Stats Section */}
       <section className="bg-white py-16 dark:bg-gray-800">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-3">

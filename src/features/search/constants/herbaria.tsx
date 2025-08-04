@@ -26,11 +26,11 @@ export const HERBARIA_CONFIG = [
     ringColor: 'oklch(0.7 0.2 50)', // orange
   },
   {
-    id: 'FI',
-    translationKey: 'herbaria.fi',
+    id: 'HCI',
+    translationKey: 'herbaria.hci',
     image: '/images/fi.jpg',
     description: "Explore the rich botanical heritage of the University of Florence's herbarium collection",
-    badgeLabel: 'Herbarium FI',
+    badgeLabel: 'Herbarium HCI',
     homeImages: [
       'https://object.jacq.org/europeana/PI/1310678.jpg',
       'https://object.jacq.org/europeana/PI/2145582.jpg',

@@ -49,7 +49,7 @@ function RouteComponent() {
             <div className="space-y-2">
               <Badge variant="outline" className="w-fit">
                 <Leaf className="mr-2 h-4 w-4" />
-                Herbarium FI
+                Herbarium HCI
               </Badge>
               <h1 className="text-primary text-4xl font-medium tracking-tight md:text-5xl lg:text-6xl">
                 Herbarium Centrale Italicum of
@@ -86,19 +86,19 @@ function RouteComponent() {
           <div className="flex w-full items-center justify-around gap-4 overflow-hidden sm:justify-start">
             {/* First image - slightly lower */}
             <div className="mt-8 sm:block">
-              <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
+              <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                 <img src={homeImages[0]} alt="Herbarium specimen" className="h-full w-full object-cover" />
               </div>
             </div>
 
             <div className="-mt-4 md:block">
-              <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
+              <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                 <img src={homeImages[1]} alt="Herbarium specimen" className="h-full w-full object-cover" />
               </div>
             </div>
 
             <div className="mt-6 md:block">
-              <div className="border-input aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
+              <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                 <img src={homeImages[2]} alt="Herbarium specimen" className="h-full w-full object-cover" />
               </div>
             </div>
@@ -158,10 +158,10 @@ function RouteComponent() {
                 Services
               </Badge>
               <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
-                Your guide for the road ahead
+                About the herbarium
               </h2>
             </div>
-            <p className="text-lg text-gray-600 dark:text-gray-300">
+            <p className="text-primary/80">
               We help small and mid-sized businesses navigate the path to sustainability. Whether you're setting out or 
               refining your route, we'll guide you every step of the way.
             </p>
@@ -182,22 +182,22 @@ function RouteComponent() {
                 Research
               </Badge>
               <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
-                Exploring botanical diversity
+                Plants across the globe
               </h2>
             </div>
-            <p className="text-lg text-gray-600 dark:text-gray-300">
+            <p className="text-primary/80">
               Our research spans centuries of botanical exploration, from historical collections to modern biodiversity 
               studies. We preserve and share knowledge that shapes our understanding of plant life across the globe.
             </p>
             <Button className="bg-ring text-white hover:bg-ring/90">
-              Explore Research
+              Explore
             </Button>
           </div>
           {/* Image - Right Side */}
           <div>
-            <div className="aspect-[16/10] overflow-hidden rounded-lg">
+            <div className="aspect-[16/10] overflow-hidden rounded-lg ">
               <img 
-                src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80" 
+                src="images/m1.png" 
                 alt="Forest landscape" 
                 className="h-full w-full object-cover"
               />
@@ -211,9 +211,9 @@ function RouteComponent() {
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           {/* Image - Left Side */}
           <div className="order-2 lg:order-1">
-            <div className="aspect-[16/10] overflow-hidden rounded-lg">
+            <div className="aspect-[16/10] overflow-hidden rounded-lg border border-primary/40">
               <img 
-                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                src="images/g1.png" 
                 alt="Winding road through landscape" 
                 className="h-full w-full object-cover"
               />
@@ -226,75 +226,26 @@ function RouteComponent() {
                 Services
               </Badge>
               <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
-                Your guide for the road ahead
+                More than 200 years of heritage
               </h2>
             </div>
-            <p className="text-lg text-gray-600 dark:text-gray-300">
+            <p className="text-primary/80">
               We help small and mid-sized businesses navigate the path to sustainability. Whether you're setting out or 
               refining your route, we'll guide you every step of the way.
             </p>
-            <Button className="bg-ring text-white hover:bg-ring/90">
+            {/* <Button className="bg-ring text-white hover:bg-ring/90">
               Learn More
-            </Button>
+            </Button> */}
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="mb-12 space-y-4 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">Lorem Ipsum Dolor Sit</h2>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua ut enim ad minim veniam quis nostrud.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <Card className="transition-shadow hover:shadow-lg">
-            <CardHeader>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900">
-                <Search className="text-ring 0 h-6 w-6" />
-              </div>
-              <CardTitle>Lorem Ipsum</CardTitle>
-              <CardDescription>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card className="transition-shadow hover:shadow-lg">
-            <CardHeader>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900">
-                <MapPin className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-              </div>
-              <CardTitle>Dolor Sit Amet</CardTitle>
-              <CardDescription>
-                Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-
-          <Card className="transition-shadow hover:shadow-lg">
-            <CardHeader>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900">
-                <Database className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-              </div>
-              <CardTitle>Consectetur Adipiscing</CardTitle>
-              <CardDescription>
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        </div>
-      </section>
-
       {/* Footer */}
-      <footer className="bg-gray-900 py-8 text-white">
+      <footer className="bg-gray-900 py-8 mt-16 text-white">
         <div className="container mx-auto px-4 text-center">
           <div className="mb-4 flex items-center justify-center gap-2">
             <img src="/images/flor.png" alt="Herbaria Logo" width={32} height={32} className="rounded-md" />
-            <span className="text-xl font-bold">Lorem Ipsum</span>
+            <span className="text-xl font-bold">FlorItaly Herbaria</span>
           </div>
           <p className="text-gray-400">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.

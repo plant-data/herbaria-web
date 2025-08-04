@@ -312,8 +312,8 @@
   },
   "herbaria": {
     "pi": "Herbarium Horti Botanici Pisani",
-    "hci": "Herbarium Centrale Italicum",
-    "tsb": "Herbarium Universitatis Tergestinae"
+    "tsb": "Herbarium Universitatis Tergestinae",
+    "hci": "Herbarium Centrale Italicum"
   },
   "common": {
     "yes": "Yes",

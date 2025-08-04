@@ -1,5 +1,5 @@
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Database, Leaf, MapPin, Search } from 'lucide-react'
+import { Database, Earth, Layers, Leaf, MapPin, Search } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -51,12 +51,12 @@ function RouteComponent() {
                 <Leaf className="mr-2 h-4 w-4" />
                 Herbarium FI
               </Badge>
-              <h1 className="text-4xl font-medium tracking-tight text-primary md:text-5xl lg:text-6xl">
+              <h1 className="text-primary text-4xl font-medium tracking-tight md:text-5xl lg:text-6xl">
                 Herbarium Centrale Italicum of
                 <span className="text-ring"> Florence</span>
               </h1>
             </div>
-            <p className="max-w-lg  text-primary/80">
+            <p className="text-primary/80 max-w-lg">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
               dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
             </p>
@@ -106,44 +106,36 @@ function RouteComponent() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="bg-white py-16 dark:bg-gray-800">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-3">
-            <div className="space-y-2">
-              <div className="text-ring text-4xl font-bold">10,000+</div>
-              <div className="text-gray-600 dark:text-gray-300">Lorem Ipsum</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-ring text-4xl font-bold">500+</div>
-              <div className="text-gray-600 dark:text-gray-300">Dolor Sit</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-ring text-4xl font-bold">50+</div>
-              <div className="text-gray-600 dark:text-gray-300">Consectetur</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Better looking Stats Section */}
-      <section className="bg-white py-16 dark:bg-gray-800">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-3">
-            <div className="space-y-2">
-              <div className="text-ring text-4xl font-bold">10,000+</div>
-              <div className="text-gray-600 dark:text-gray-300">Lorem Ipsum</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-ring text-4xl font-bold">500+</div>
-              <div className="text-gray-600 dark:text-gray-300">Dolor Sit</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-ring text-4xl font-bold">50+</div>
-              <div className="text-gray-600 dark:text-gray-300">Consectetur</div>
-            </div>
-          </div>
-        </div>
+      {/* better looking Stats Section */}
+      <section className="container mx-auto grid grid-cols-1 gap-8 px-4 text-center md:grid-cols-4">
+        <Card className=" border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
+          <CardDescription className="flex flex-col items-center gap-2">
+            <Leaf className="text-ring size-9" />
+            <span className="text-primary/80 text-4xl font-medium">2 million+</span>
+            <span className="text-primary/80">Specimens</span>
+          </CardDescription>
+        </Card>
+        <Card className="border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
+          <CardDescription className="flex flex-col items-center gap-2">
+            <Layers className="text-ring size-9" />
+            <span className="text-primary/80 text-4xl font-medium">40,000+</span>
+            <span className="text-primary/80">Type Specimens</span>
+          </CardDescription>
+        </Card>
+        <Card className="border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
+          <CardDescription className="flex flex-col items-center gap-2">
+            <Earth className="text-ring size-9" />
+            <span className="text-primary/80 text-4xl font-medium">70%</span>
+            <span className="text-primary/80">Georeferenced records</span>
+          </CardDescription>
+        </Card>
+        <Card className="border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
+          <CardDescription className="flex flex-col items-center gap-2">
+            <Leaf className="text-ring size-9" />
+            <span className="text-primary/80 text-4xl font-medium">10,000+</span>
+            <span className="text-primary/80">Specimens</span>
+          </CardDescription>
+        </Card>
       </section>
 
       {/* Features Section */}

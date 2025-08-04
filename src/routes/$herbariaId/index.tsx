@@ -1,5 +1,5 @@
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Database, Earth, Layers, Leaf, MapPin, Search } from 'lucide-react'
+import { ChartSpline, Database, Earth, Layers, Leaf } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -56,9 +56,11 @@ function RouteComponent() {
                 <span className="text-ring"> Florence</span>
               </h1>
             </div>
+            {/* UPDATED: More scientific tone */}
             <p className="text-primary/80 max-w-lg">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+              Established in 1842, the Herbarium Centrale Italicum (HCI) was conceived as a national institution to
+              centralize botanical research. It serves as an essential repository for systematic and phytogeographical
+              studies, housing a global collection of plant specimens.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
               <div className="relative min-w-[300px]">
@@ -76,7 +78,7 @@ function RouteComponent() {
               <Button asChild variant="default" className="bg-ring" size="lg" onClick={() => resetFilters()}>
                 <Link to="/$herbariaId/search" params={{ herbariaId }}>
                   <Database className="mr-2 h-5 w-5" />
-                  Dolor Sit Amet
+                  Explore the Collection
                 </Link>
               </Button>
             </div>
@@ -84,19 +86,16 @@ function RouteComponent() {
 
           {/* Images Grid - Right Side */}
           <div className="flex w-full items-center justify-around gap-4 overflow-hidden sm:justify-start">
-            {/* First image - slightly lower */}
             <div className="mt-8 sm:block">
               <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                 <img src={homeImages[0]} alt="Herbarium specimen" className="h-full w-full object-cover" />
               </div>
             </div>
-
             <div className="-mt-4 md:block">
               <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                 <img src={homeImages[1]} alt="Herbarium specimen" className="h-full w-full object-cover" />
               </div>
             </div>
-
             <div className="mt-6 md:block">
               <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                 <img src={homeImages[2]} alt="Herbarium specimen" className="h-full w-full object-cover" />
@@ -106,9 +105,9 @@ function RouteComponent() {
         </div>
       </section>
 
-      {/* better looking Stats Section */}
-      <section className="container mx-auto grid grid-cols-2 gap-8 px-4 mb-12 text-center md:grid-cols-4">
-        <Card className=" border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
+      {/* Stats Section */}
+      <section className="container mx-auto mb-12 grid grid-cols-2 gap-8 px-4 text-center md:grid-cols-4">
+        <Card className="border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
           <CardDescription className="flex flex-col items-center gap-2">
             <Leaf className="text-ring size-9" />
             <span className="text-primary/80 text-4xl font-medium">2 million+</span>
@@ -118,7 +117,7 @@ function RouteComponent() {
         <Card className="border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
           <CardDescription className="flex flex-col items-center gap-2">
             <Layers className="text-ring size-9" />
-            <span className="text-primary/80 text-4xl font-medium">40,000+</span>
+            <span className="text-primary/80 text-4xl font-medium">18,000+</span>
             <span className="text-primary/80">Type Specimens</span>
           </CardDescription>
         </Card>
@@ -131,43 +130,38 @@ function RouteComponent() {
         </Card>
         <Card className="border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
           <CardDescription className="flex flex-col items-center gap-2">
-            <Leaf className="text-ring size-9" />
-            <span className="text-primary/80 text-4xl font-medium">10,000+</span>
-            <span className="text-primary/80">Specimens</span>
+            <ChartSpline className="text-ring size-9" />
+            <span className="text-primary/80 text-4xl font-medium">200+</span>
+            <span className="text-primary/80">Years of Collection</span>
           </CardDescription>
         </Card>
       </section>
 
-        {/* First Content Section - Image on Left */}
+      {/* First Content Section - Image on Left */}
       <section className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           {/* Image - Left Side */}
           <div className="order-2 lg:order-1">
             <div className="aspect-[16/10] overflow-hidden rounded-lg">
-              <img 
-                src="images/fi.jpg" 
-                alt="Winding road through landscape" 
-                className="h-full w-full object-cover"
-              />
+              <img src="images/fi.jpg" alt="A historical view of Florence" className="h-full w-full object-cover" />
             </div>
           </div>
           {/* Content - Right Side */}
+          {/* UPDATED: Content focused on Parlatore's nomination */}
           <div className="order-1 space-y-6 lg:order-2">
             <div className="space-y-2">
               <Badge variant="outline" className="w-fit text-sm">
-                Services
+                History
               </Badge>
               <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
-                About the herbarium
+                About the Herbarium
               </h2>
             </div>
             <p className="text-primary/80">
-              We help small and mid-sized businesses navigate the path to sustainability. Whether you're setting out or 
-              refining your route, we'll guide you every step of the way.
+              Proposed in 1841 by Filippo Parlatore to centralize Italy's botanical collections, the Herbarium was
+              officially established in 1842 under his direction, with the approval of the Grand Duke of Tuscany.
             </p>
-            <Button className="bg-ring text-white hover:bg-ring/90">
-              Learn More
-            </Button>
+            <Button className="bg-ring hover:bg-ring/90 text-white">Learn More</Button>
           </div>
         </div>
       </section>
@@ -176,29 +170,28 @@ function RouteComponent() {
       <section className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           {/* Content - Left Side */}
+          {/* UPDATED: More scientific language and examples */}
           <div className="space-y-6">
             <div className="space-y-2">
               <Badge variant="outline" className="w-fit text-sm">
-                Research
+                Geographic distribution
               </Badge>
               <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
-                Plants across the globe
+                A Global Collection
               </h2>
             </div>
             <p className="text-primary/80">
-              Our research spans centuries of botanical exploration, from historical collections to modern biodiversity 
-              studies. We preserve and share knowledge that shapes our understanding of plant life across the globe.
+              The herbarium scope is not limited to the boundaries of Italy. It includes significant international
+              holdings from collectors like Philip Barker Webb, Antonio Figari, and Joseph Dalton Hooker.
             </p>
-            <Button className="bg-ring text-white hover:bg-ring/90">
-              Explore
-            </Button>
+            <Button className="bg-ring hover:bg-ring/90 text-white">Explore</Button>
           </div>
           {/* Image - Right Side */}
           <div>
-            <div className="aspect-[16/10] overflow-hidden rounded-lg ">
-              <img 
-                src="images/m1.png" 
-                alt="Forest landscape" 
+            <div className="aspect-[16/10] overflow-hidden rounded-lg">
+              <img
+                src="images/m1.png"
+                alt="A map showing global plant distribution"
                 className="h-full w-full object-cover"
               />
             </div>
@@ -206,50 +199,49 @@ function RouteComponent() {
         </div>
       </section>
 
-        {/* First Content Section - Image on Left */}
+      {/* Third Content Section - Image on Left */}
       <section className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           {/* Image - Left Side */}
           <div className="order-2 lg:order-1">
-            <div className="aspect-[16/10] overflow-hidden rounded-lg border border-primary/40">
-              <img 
-                src="images/g1.png" 
-                alt="Winding road through landscape" 
+            <div className="border-primary/40 aspect-[16/10] overflow-hidden rounded-lg border">
+              <img
+                src="images/g1.png"
+                alt="A historical botanical illustration"
                 className="h-full w-full object-cover"
               />
             </div>
           </div>
           {/* Content - Right Side */}
+          {/* UPDATED: More scientific language */}
           <div className="order-1 space-y-6 lg:order-2">
             <div className="space-y-2">
               <Badge variant="outline" className="w-fit text-sm">
-                Services
+                Heritage
               </Badge>
               <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
-                More than 200 years of heritage
+                More than 180 years of botanical research
               </h2>
             </div>
             <p className="text-primary/80">
-              We help small and mid-sized businesses navigate the path to sustainability. Whether you're setting out or 
-              refining your route, we'll guide you every step of the way.
+              Growth was exponential from the start. The 40,000 specimens in 1842 quickly became over one million,
+              providing material necessary to support the creation of the "Flora Italiana".
             </p>
-            {/* <Button className="bg-ring text-white hover:bg-ring/90">
-              Learn More
-            </Button> */}
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 py-8 mt-16 text-white">
+      <footer className="mt-16 bg-gray-900 py-8 text-white">
         <div className="container mx-auto px-4 text-center">
           <div className="mb-4 flex items-center justify-center gap-2">
             <img src="/images/flor.png" alt="Herbaria Logo" width={32} height={32} className="rounded-md" />
             <span className="text-xl font-bold">FlorItaly Herbaria</span>
           </div>
-          <p className="text-gray-400">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.
-          </p>
+         {/*  <p className="text-gray-400">
+            The Herbarium Centrale Italicum (HCI), a cornerstone of botanical research, preserving global plant
+            biodiversity since 1842.
+          </p> */}
         </div>
       </footer>
     </div>

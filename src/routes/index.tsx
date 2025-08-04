@@ -4,24 +4,10 @@ import { Building2, Home, Search } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
+import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 
 // Configuration for herbaria
-const HERBARIA_CONFIG = [
-  {
-    id: 'PI',
-    translationKey: 'herbaria.pi',
-    image: '/images/pi.png',
-    description: "Explore the rich botanical heritage of the University of Pisa's herbarium collection",
-    badgeLabel: 'Herbarium PI',
-  },
-  {
-    id: 'TSB',
-    translationKey: 'herbaria.tsb',
-    image: '/images/tsb.png',
-    description: "Discover botanical specimens from the Trieste Science Museum's specialized collection",
-    badgeLabel: 'Herbarium TSB',
-  },
-]
+
 
 export const Route = createFileRoute('/')({
   component: App,

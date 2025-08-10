@@ -107,7 +107,7 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
 
   // Define URLs for both the thumbnail and the full-resolution lightbox image
   const imageIdentifier = multimedia[0]
-  const thumbnailUrl = imageIdentifier.imageUrl
+  const thumbnailUrl = imageIdentifier.thumbnailUrl
   const highResUrl = imageIdentifier.imageUrl
 
   return (
@@ -119,7 +119,7 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
               enabled: true,
               default: 1,
               min: 1,
-              max: 5,
+              max: 8,
               mouseWheelStep: 0,
               zoomButtonStep: 1,
             },
@@ -128,8 +128,8 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
               keyboardShortcut: 'r',
             },
             minimap: {
-              enabled: false,
-              width: '160px',
+              enabled: true,
+              width: '60px',
               keyboardShortcut: 'm',
               outlineStyle: '1px solid #ccc',
               viewportAreaOutlineStyle: '2px solid #333',
@@ -144,7 +144,7 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
                   viewportContent={
                     <img
                       className="h-[370px] w-full object-contain will-change-transform sm:h-[340px] md:h-[480px]"
-                      src={thumbnailUrl}
+                      src={highResUrl}
                       alt={scientificName || 'Specimen Image'}
                       draggable="false"
                       style={{
@@ -154,7 +154,17 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
                       }}
                     />
                   }
-                  minimapContent={<></>}
+                  minimapContent={<img
+                      className="h-[370px] w-full object-contain will-change-transform sm:h-[340px] md:h-[480px]"
+                      src={thumbnailUrl}
+                      alt={scientificName || 'Specimen Image'}
+                      draggable="false"
+                      style={{
+                        width: '100%',
+                        objectFit: 'fill',
+                        objectPosition: 'center',
+                      }}
+                    />}
                 />
               </div>
             </div>

@@ -58,7 +58,7 @@ function RouteComponent() {
             </div>
             {/* UPDATED: More scientific tone */}
             <p className="text-primary/80 max-w-lg">
-              Established in 1842, the Herbarium Centrale Italicum (HCI) was conceived as a national institution to
+              Established in 1842, the Herbarium Centrale Italicum (FI-HCI) was conceived as a national institution to
               centralize botanical research. It serves as an essential repository for systematic and phytogeographical
               studies, housing a global collection of plant specimens.
             </p>
@@ -238,8 +238,8 @@ function RouteComponent() {
             <img src="/images/flor.png" alt="Herbaria Logo" width={32} height={32} className="rounded-md" />
             <span className="text-xl font-bold">FlorItaly Herbaria</span>
           </div>
-         {/*  <p className="text-gray-400">
-            The Herbarium Centrale Italicum (HCI), a cornerstone of botanical research, preserving global plant
+          {/*  <p className="text-gray-400">
+            The Herbarium Centrale Italicum (FI-HCI), a cornerstone of botanical research, preserving global plant
             biodiversity since 1842.
           </p> */}
         </div>

@@ -106,13 +106,9 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
   }
 
   // Define URLs for both the thumbnail and the full-resolution lightbox image
-  const imageIdentifier = multimedia[0].identifier
-  const thumbnailUrl = imageIdentifier.startsWith('https')
-    ? imageIdentifier
-    : `${BASE_IMAGE_URL}unsafe/0x0/${imageIdentifier}`
-  const highResUrl = imageIdentifier.startsWith('https')
-    ? imageIdentifier
-    : `${BASE_IMAGE_URL}unsafe/0x0/${imageIdentifier}` // Use max resolution for lightbox
+  const imageIdentifier = multimedia[0]
+  const thumbnailUrl = imageIdentifier.thumbnailUrl
+  const highResUrl = imageIdentifier.imageUrl
 
   return (
     <>

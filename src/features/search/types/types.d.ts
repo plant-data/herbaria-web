@@ -32,6 +32,8 @@ type SpecimenData = {
 
 type MultimediaData = {
   identifier: string
+  thumbnailUrl: string
+  imageUrl: string
 }
 
 export { SpecimenData }

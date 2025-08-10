@@ -8,7 +8,6 @@ import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { ImageLightbox } from '@/components/image-lightbox'
-import { BASE_IMAGE_URL } from '@/config'
 import { FLORITALY_URL } from '@/features/search/constants/constants'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import 'leaflet/dist/leaflet.css'
@@ -129,7 +128,7 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
             },
             minimap: {
               enabled: true,
-              width: '60px',
+              width: '50px',
               keyboardShortcut: 'm',
               outlineStyle: '1px solid #ccc',
               viewportAreaOutlineStyle: '2px solid #333',

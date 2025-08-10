@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
-import { RotateCcw, X, ZoomIn, ZoomOut } from 'lucide-react'
+import { RotateCcw, X, ZoomIn, ZoomOut, Download } from 'lucide-react'
 import { Viewer, ViewerContext, ViewerProvider } from 'react-viewer-pan-zoom'
 import { Button } from '@/components/ui/button'
 
@@ -68,6 +68,34 @@ export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps)
     }
   }
 
+  const handleDownload = async () => {
+    try {
+      // Try the fetch method first (works for same-origin or CORS-enabled images)
+      const response = await fetch(src)
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = alt || 'image'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.warn('Fetch download failed, falling back to direct link method:', error)
+
+      // Fallback: Direct link download (works for most cases but may open in new tab)
+      const a = document.createElement('a')
+      a.href = src
+      a.download = alt || 'image'
+      a.target = '_blank'
+      a.rel = 'noopener noreferrer'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+    }
+  }
+
   const contentStyle: React.CSSProperties = {
     willChange: 'transform',
     width: '100%',
@@ -107,7 +135,6 @@ export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps)
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
         </div>
       )}
-
       <ViewerProvider
         settings={{
           zoom: {
@@ -122,7 +149,6 @@ export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps)
             enabled: true,
             keyboardShortcut: 'r', // The keyboard shortcut to reset the view (set to `false` to disable).
           },
-
           minimap: {
             enabled: true,
             width: '160px', // Width of the minimap.
@@ -136,8 +162,7 @@ export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps)
           <div className="flex h-full w-full items-center justify-center">
             <Viewer viewportContent={content} minimapContent={content} />
           </div>
-
-          <LightboxToolbar onClose={onClose} closeButtonRef={closeButtonRef} />
+          <LightboxToolbar onClose={onClose} closeButtonRef={closeButtonRef} onDownload={handleDownload} />
         </div>
       </ViewerProvider>
     </div>,
@@ -148,9 +173,11 @@ export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps)
 const LightboxToolbar = ({
   onClose,
   closeButtonRef,
+  onDownload,
 }: {
   onClose: () => void
   closeButtonRef: React.RefObject<HTMLButtonElement | null>
+  onDownload: () => void
 }) => {
   const { zoomOut, zoomIn, resetView, crop } = useContext(ViewerContext)
 
@@ -183,7 +210,6 @@ const LightboxToolbar = ({
           <ZoomIn size={16} />
         </Button>
       </div>
-
       <Button
         onClick={resetView}
         variant="ghost"
@@ -192,6 +218,15 @@ const LightboxToolbar = ({
         aria-label="Reset View"
       >
         <RotateCcw size={18} />
+      </Button>
+      <Button
+        onClick={onDownload}
+        variant="ghost"
+        size="icon"
+        className="bg-background text-primary hover:bg-accent border-input size-8 border"
+        aria-label="Download Image"
+      >
+        <Download size={18} />
       </Button>
       <Button
         ref={closeButtonRef}

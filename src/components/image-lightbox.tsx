@@ -114,8 +114,8 @@ export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps)
             enabled: true,
             default: 1, // Default zoom level when the viewer is opened.
             min: 1,
-            max: 10,
-            mouseWheelStep: 10, // How much zoom per mouse wheel step.
+            max: 8,
+            mouseWheelStep: 2, // How much zoom per mouse wheel step.
             zoomButtonStep: 1,
           },
           resetView: {

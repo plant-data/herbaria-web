@@ -107,7 +107,7 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
 
   // Define URLs for both the thumbnail and the full-resolution lightbox image
   const imageIdentifier = multimedia[0]
-  const thumbnailUrl = imageIdentifier.thumbnailUrl
+  const thumbnailUrl = imageIdentifier.imageUrl
   const highResUrl = imageIdentifier.imageUrl
 
   return (
@@ -158,17 +158,19 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
                 />
               </div>
             </div>
-            <ImageViewerControls onFullScreen={() => setIsLightboxOpen(true)} />
+            <ImageViewerControls onFullScreen={() => setIsLightboxOpen((lightboxStatus) => !lightboxStatus)} />
           </div>
         </ViewerProvider>
       </Card>
 
-      <ImageLightbox
-        isOpen={isLightboxOpen}
-        onClose={() => setIsLightboxOpen(false)}
-        src={highResUrl}
-        alt={scientificName ? scientificName : 'Specimen Image'}
-      />
+      {isLightboxOpen ? (
+        <ImageLightbox
+          isOpen={isLightboxOpen}
+          onClose={() => setIsLightboxOpen(false)}
+          src={highResUrl}
+          alt={scientificName ? scientificName : 'Specimen Image'}
+        />
+      ) : null}
     </>
   )
 }

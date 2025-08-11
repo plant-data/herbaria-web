@@ -20,6 +20,7 @@ import {
 import { COUNTRIES } from '@/features/search/constants/countries'
 import { SwitchOption } from '@/features/search/components/switch-option'
 import { AreaMapFilter } from '@/features/search/components/area-map-filter'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 
 export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters }) {
   const {
@@ -174,14 +175,22 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         checked={hasCoordinates}
         onCheckedChange={setHasCoordinates}
       />
-      <AreaMapFilter
-        label={t('search.filters.geometry-label')}
-        mapHeight="h-[300px]"
-        center={MINIMAP_CENTER}
-        zoom={MINIMAP_ZOOM}
-        geometry={geometry}
-        setGeometry={setGeometry}
-      />
+      <Accordion type="multiple">
+        <AccordionItem value="area">
+          <AccordionTrigger className='hover:cursor-pointer'>{t('search.filters.geometry-label')}</AccordionTrigger>
+          <AccordionContent>
+            <AreaMapFilter
+              label={t('search.filters.geometry-description')}
+              mapHeight="h-[300px]"
+              center={MINIMAP_CENTER}
+              zoom={MINIMAP_ZOOM}
+              geometry={geometry}
+              setGeometry={setGeometry}
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
       <div className="min-h-60 w-full"></div>
     </>
   )

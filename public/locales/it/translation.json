@@ -17,6 +17,7 @@
       "locality-label": "Località",
       "locality-placeholder": "Cerca una località",
       "geometry-label": "Area",
+      "geometry-description": "Disegna un'area sulla mappa",
       "geometry-selected": "Area selezionata",
       "geometry-wrong": "Errore: geometria non valida!",
       "floritaly-name-label": "Nome in Floritaly",

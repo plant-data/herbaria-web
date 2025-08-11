@@ -116,7 +116,7 @@ export function AreaMapFilter({ label, mapHeight, center, zoom, geometry, setGeo
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="pl-1 text-sm font-semibold">{label}</div>
+      <div className="text-sm">{label}</div>
       <MapContainer
         ref={mapRef}
         center={center}

@@ -17,6 +17,7 @@
       "locality-label": "Locality",
       "locality-placeholder": "Search by locality",
       "geometry-label": "Geographic Area",
+      "geometry-description": "Draw an area  on the map",
       "geometry-selected": "Custom area",
       "geometry-wrong": "Error: shape edges cannot cross!",
       "floritaly-name-label": "Name in Floritaly",

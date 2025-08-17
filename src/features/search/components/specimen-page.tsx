@@ -56,6 +56,7 @@ export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
           <SpecimenData occurrence={occurrence} />
         </div>
       </div>
+      <SpecimenOtherImages occurrence={occurrence} />
     </div>
   )
 }
@@ -153,7 +154,8 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
                       }}
                     />
                   }
-                  minimapContent={<img
+                  minimapContent={
+                    <img
                       className="h-[370px] w-full object-contain will-change-transform sm:h-[340px] md:h-[480px]"
                       src={thumbnailUrl}
                       alt={scientificName || 'Specimen Image'}
@@ -163,7 +165,8 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
                         objectFit: 'fill',
                         objectPosition: 'center',
                       }}
-                    />}
+                    />
+                  }
                 />
               </div>
             </div>
@@ -368,5 +371,36 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
         </>
       </CardContent>
     </Card>
+  )
+}
+
+export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }) {
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false)
+  const imagesData = occurrence.multimedia.filter((image) => image.imageRole !== 'primary')
+
+  return (
+    <div className="flex">
+      {imagesData.map((imageData) => (
+        <div>
+          <Button asChild onClick={() => setIsLightboxOpen(true)}>
+            <img
+              className="h-[370px] w-full object-contain will-change-transform sm:h-[340px] md:h-[480px]"
+              src={imageData.thumbnailUrl}
+              alt={'Specimen Image'}
+              draggable="false"
+            />
+          </Button>
+          {isLightboxOpen ? (
+            <ImageLightbox
+              isOpen={isLightboxOpen}
+              onClose={() => setIsLightboxOpen(false)}
+              src={imageData.imageUrl}
+              alt={'Specimen Image'}
+            />
+          ) : null}
+          )
+        </div>
+      ))}
+    </div>
   )
 }

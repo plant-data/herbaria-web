@@ -76,7 +76,7 @@ function DataItemCard({ item }: { item: SpecimenData }) {
             className={`object-cover transition-opacity duration-200 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
             src={item.multimedia.filter((media) => media.imageRole === 'primary')[0]?.thumbnailUrl}
             onLoad={() => setImageLoaded(true)}
-            onError={() => setImageLoaded(true)} // Hide skeleton even if image fails to load
+            onError={() => setImageLoaded(true)}
           />
         </div>
 

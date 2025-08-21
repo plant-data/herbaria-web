@@ -42,7 +42,7 @@ const createColumns = (herbariaId?: string): Array<ColumnDef<SpecimenData>> => [
             <img
               className="object-contain"
               src={
-                row.original.multimedia[0]?.thumbnailUrl
+                row.original.multimedia.filter((media) => media.imageRole === 'primary')[0]?.thumbnailUrl
               }
               alt=""
             />

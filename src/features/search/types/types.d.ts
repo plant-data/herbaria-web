@@ -31,7 +31,9 @@ type SpecimenData = {
 } & Record<string, unknown>
 
 type MultimediaData = {
+  type: string
   identifier: string
+  imageRole: string
   thumbnailUrl: string
   imageUrl: string
 }

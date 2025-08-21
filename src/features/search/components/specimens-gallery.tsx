@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useSpecimensData } from '@/features/search/api/get-occurrences'
 import { Pagination } from '@/features/search/components/pagination'
-import { BASE_IMAGE_URL, ITEMS_PER_PAGE } from '@/config'
+import { ITEMS_PER_PAGE } from '@/config'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { COUNTRIES } from '@/features/search/constants/countries'
 
@@ -64,7 +64,7 @@ function DataItemCard({ item }: { item: SpecimenData }) {
   const { t } = useTranslation()
 
   const countryTranslationKey = getCountryNameByCode(item.countryCode)
-  const countryName = countryTranslationKey ? t(countryTranslationKey) : 'Unknown'
+  const countryName = countryTranslationKey ? t(countryTranslationKey as any) : 'Unknown'
 
   return (
     <Card className="focus-visible:border-ring focus-visible:ring-ring/50 h-full min-h-40 w-full rounded-md p-1 shadow-xs hover:cursor-pointer focus-visible:ring-[3px]">
@@ -74,9 +74,7 @@ function DataItemCard({ item }: { item: SpecimenData }) {
           {!imageLoaded && <Skeleton className="absolute inset-0 h-full w-full" />}
           <img
             className={`object-cover transition-opacity duration-200 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-            src={
-              item.multimedia[0].thumbnailUrl
-            }
+            src={item.multimedia.filter((media) => media.imageRole === 'primary')[0]?.thumbnailUrl}
             onLoad={() => setImageLoaded(true)}
             onError={() => setImageLoaded(true)} // Hide skeleton even if image fails to load
           />

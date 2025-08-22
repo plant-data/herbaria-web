@@ -89,9 +89,8 @@ function SpecimenMap({ decimalLatitude, decimalLongitude }: SpecimenMapProps) {
 }
 
 export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps) {
-  // State to control the lightbox visibility and current image
+  // State to control the lightbox visibility
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
-  const [currentImageIdentifier, setCurrentImageIdentifier] = useState('')
 
   const hasImage = multimedia.length > 0
   if (!hasImage) {
@@ -110,11 +109,6 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
   const imageIdentifier = multimedia[0]
   const thumbnailUrl = imageIdentifier.thumbnailUrl
   const highResUrl = imageIdentifier.imageUrl
-
-  const handleFullScreen = () => {
-    setCurrentImageIdentifier(imageIdentifier.identifier)
-    setIsLightboxOpen(true)
-  }
 
   return (
     <>
@@ -176,18 +170,19 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
                 />
               </div>
             </div>
-            <ImageViewerControls onFullScreen={handleFullScreen} />
+            <ImageViewerControls onFullScreen={() => setIsLightboxOpen((lightboxStatus) => !lightboxStatus)} />
           </div>
         </ViewerProvider>
       </Card>
 
-      <ImageLightbox
-        mediaData={multimedia}
-        currentIdentifier={currentImageIdentifier}
-        isOpen={isLightboxOpen}
-        onClose={() => setIsLightboxOpen(false)}
-        onNavigate={setCurrentImageIdentifier}
-      />
+      {isLightboxOpen ? (
+        <ImageLightbox
+          isOpen={isLightboxOpen}
+          onClose={() => setIsLightboxOpen(false)}
+          src={highResUrl}
+          alt={scientificName ? scientificName : 'Specimen Image'}
+        />
+      ) : null}
     </>
   )
 }
@@ -381,49 +376,31 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
 
 export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }) {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
-  const [currentImageIdentifier, setCurrentImageIdentifier] = useState('')
-  
-  // Filter out primary images to show only additional images
   const imagesData = occurrence.multimedia.filter((image) => image.imageRole !== 'primary')
 
-  if (imagesData.length === 0) {
-    return null
-  }
-
-  const handleImageClick = (identifier: string) => {
-    setCurrentImageIdentifier(identifier)
-    setIsLightboxOpen(true)
-  }
-
   return (
-    <div className="mt-6">
-      <h3 className="mb-4 text-lg font-semibold">Additional Images</h3>
-      <div className="flex flex-wrap gap-4">
-        {imagesData.map((imageData) => (
-          <div key={imageData.identifier} className="flex-shrink-0">
-            <Button
-              variant="ghost"
-              className="h-auto p-0 hover:opacity-80"
-              onClick={() => handleImageClick(imageData.identifier)}
-            >
-              <img
-                className="h-32 w-32 rounded-md object-cover shadow-sm transition-opacity sm:h-40 sm:w-40"
-                src={imageData.thumbnailUrl}
-                alt={imageData.imageRole || 'Specimen Image'}
-                draggable="false"
-              />
-            </Button>
-          </div>
-        ))}
-      </div>
-      
-      <ImageLightbox
-        mediaData={occurrence.multimedia}
-        currentIdentifier={currentImageIdentifier}
-        isOpen={isLightboxOpen}
-        onClose={() => setIsLightboxOpen(false)}
-        onNavigate={setCurrentImageIdentifier}
-      />
+    <div className="flex">
+      {imagesData.map((imageData) => (
+        <div>
+          <Button asChild onClick={() => setIsLightboxOpen(true)}>
+            <img
+              className="h-[370px] w-full object-contain will-change-transform sm:h-[340px] md:h-[480px]"
+              src={imageData.thumbnailUrl}
+              alt={'Specimen Image'}
+              draggable="false"
+            />
+          </Button>
+          {isLightboxOpen ? (
+            <ImageLightbox
+              isOpen={isLightboxOpen}
+              onClose={() => setIsLightboxOpen(false)}
+              src={imageData.imageUrl}
+              alt={'Specimen Image'}
+            />
+          ) : null}
+          )
+        </div>
+      ))}
     </div>
   )
 }

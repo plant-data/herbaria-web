@@ -1,41 +1,85 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
-import { RotateCcw, X, ZoomIn, ZoomOut, Download } from 'lucide-react'
+import { RotateCcw, X, ZoomIn, ZoomOut, Download, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Viewer, ViewerContext, ViewerProvider } from 'react-viewer-pan-zoom'
 import { Button } from '@/components/ui/button'
 
+// --- Type Definition ---
+type MultimediaData = {
+  type: string
+  identifier: string
+  imageRole: string
+  thumbnailUrl: string
+  imageUrl: string
+}
+
 // --- Generic Image Lightbox Component ---
 interface ImageLightboxProps {
-  src: string
-  alt: string
+  mediaData: MultimediaData[]
+  currentIdentifier: string
   isOpen: boolean
   onClose: () => void
+  onNavigate?: (identifier: string) => void
 }
 
 /**
  * A generic and reusable lightbox component for displaying and interacting with images.
+ * Supports navigation between multiple images in a gallery.
  * Uses react-viewer-pan-zoom for advanced pan and zoom functionality.
  * Renders into a portal to avoid z-index issues.
  *
- * @param src The source URL for the high-resolution image.
- * @param alt The alternative text for the image.
+ * @param mediaData Array of multimedia data objects.
+ * @param currentIdentifier The identifier of the currently displayed image.
  * @param isOpen Controls the visibility of the lightbox.
  * @param onClose A callback function to close the lightbox.
+ * @param onNavigate Optional callback function called when navigating between images.
  */
-export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps) {
+export function ImageLightbox({ 
+  mediaData, 
+  currentIdentifier, 
+  isOpen, 
+  onClose, 
+  onNavigate 
+}: ImageLightboxProps) {
   const [isLoading, setIsLoading] = useState(true)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
 
-  // Effect to handle Escape key press for closing the lightbox
+  // Find current image and its index
+  const currentIndex = mediaData.findIndex(item => item.identifier === currentIdentifier)
+  const currentImage = mediaData[currentIndex]
+  const hasMultipleImages = mediaData.length > 1
+  const canGoPrevious = currentIndex > 0
+  const canGoNext = currentIndex < mediaData.length - 1
+
+  // Navigation functions
+  const goToPrevious = () => {
+    if (canGoPrevious) {
+      const previousImage = mediaData[currentIndex - 1]
+      onNavigate?.(previousImage.identifier)
+    }
+  }
+
+  const goToNext = () => {
+    if (canGoNext) {
+      const nextImage = mediaData[currentIndex + 1]
+      onNavigate?.(nextImage.identifier)
+    }
+  }
+
+  // Effect to handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose()
+      } else if (event.key === 'ArrowLeft' && canGoPrevious) {
+        goToPrevious()
+      } else if (event.key === 'ArrowRight' && canGoNext) {
+        goToNext()
       }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [onClose])
+  }, [onClose, canGoPrevious, canGoNext, currentIndex])
 
   // Effect to manage body scroll when the lightbox is opened or closed
   useEffect(() => {
@@ -54,8 +98,15 @@ export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps)
     }
   }, [isOpen])
 
-  // Don't render anything if the lightbox is not open
-  if (!isOpen) return null
+  // Reset loading state when image changes
+  useEffect(() => {
+    if (isOpen) {
+      setIsLoading(true)
+    }
+  }, [currentIdentifier])
+
+  // Don't render anything if the lightbox is not open or no current image
+  if (!isOpen || !currentImage) return null
 
   const handleImageLoad = () => {
     setIsLoading(false)
@@ -71,12 +122,12 @@ export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps)
   const handleDownload = async () => {
     try {
       // Try the fetch method first (works for same-origin or CORS-enabled images)
-      const response = await fetch(src)
+      const response = await fetch(currentImage.imageUrl)
       const blob = await response.blob()
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = alt || 'image'
+      a.download = currentImage.imageRole || currentImage.identifier || 'image'
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
@@ -86,8 +137,8 @@ export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps)
 
       // Fallback: Direct link download (works for most cases but may open in new tab)
       const a = document.createElement('a')
-      a.href = src
-      a.download = alt || 'image'
+      a.href = currentImage.imageUrl
+      a.download = currentImage.imageRole || currentImage.identifier || 'image'
       a.target = '_blank'
       a.rel = 'noopener noreferrer'
       document.body.appendChild(a)
@@ -110,10 +161,10 @@ export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps)
     <img
       style={contentStyle}
       draggable="false"
-      src={src}
-      alt={alt}
+      src={currentImage.imageUrl}
+      alt={currentImage.imageRole}
       onLoad={handleImageLoad}
-      className={isLoading ? 'opacity-0' : 'transition-opacity, opacity-100 will-change-transform'}
+      className={isLoading ? 'opacity-0' : 'transition-opacity opacity-100 will-change-transform'}
     />
   )
 
@@ -135,7 +186,37 @@ export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps)
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
         </div>
       )}
+      
+      {/* Navigation Arrows */}
+      {hasMultipleImages && (
+        <>
+          {canGoPrevious && (
+            <Button
+              onClick={goToPrevious}
+              variant="ghost"
+              size="icon"
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white hover:bg-black/70 size-12 z-10"
+              aria-label="Previous Image"
+            >
+              <ChevronLeft size={24} />
+            </Button>
+          )}
+          {canGoNext && (
+            <Button
+              onClick={goToNext}
+              variant="ghost"
+              size="icon"
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white hover:bg-black/70 size-12 z-10"
+              aria-label="Next Image"
+            >
+              <ChevronRight size={24} />
+            </Button>
+          )}
+        </>
+      )}
+
       <ViewerProvider
+        key={currentIdentifier} // Force re-render when image changes
         settings={{
           zoom: {
             enabled: true,
@@ -162,7 +243,14 @@ export function ImageLightbox({ src, alt, isOpen, onClose }: ImageLightboxProps)
           <div className="flex h-full w-full items-center justify-center">
             <Viewer viewportContent={content} minimapContent={content} />
           </div>
-          <LightboxToolbar onClose={onClose} closeButtonRef={closeButtonRef} onDownload={handleDownload} />
+          <LightboxToolbar 
+            onClose={onClose} 
+            closeButtonRef={closeButtonRef} 
+            onDownload={handleDownload}
+            currentIndex={currentIndex}
+            totalImages={mediaData.length}
+            imageRole={currentImage.imageRole}
+          />
         </div>
       </ViewerProvider>
     </div>,
@@ -174,10 +262,16 @@ const LightboxToolbar = ({
   onClose,
   closeButtonRef,
   onDownload,
+  currentIndex,
+  totalImages,
+  imageRole,
 }: {
   onClose: () => void
   closeButtonRef: React.RefObject<HTMLButtonElement | null>
   onDownload: () => void
+  currentIndex: number
+  totalImages: number
+  imageRole: string
 }) => {
   const { zoomOut, zoomIn, resetView, crop } = useContext(ViewerContext)
 
@@ -186,58 +280,75 @@ const LightboxToolbar = ({
   }
 
   return (
-    <div className="absolute top-4 right-4 flex items-center gap-3 text-white" onClick={handleToolbarClick}>
-      <div className="bg-background border-input flex h-8 items-center gap-1 rounded-md border">
+    <>
+      {/* Image Info */}
+      <div className="absolute top-4 left-4 flex flex-col gap-2 text-white" onClick={handleToolbarClick}>
+        {totalImages > 1 && (
+          <div className="bg-black/50 backdrop-blur-sm px-3 py-1 rounded-md text-sm">
+            {currentIndex + 1} / {totalImages}
+          </div>
+        )}
+        {imageRole && (
+          <div className="bg-black/50 backdrop-blur-sm px-3 py-1 rounded-md text-sm max-w-xs truncate">
+            {imageRole}
+          </div>
+        )}
+      </div>
+
+      {/* Toolbar */}
+      <div className="absolute top-4 right-4 flex items-center gap-3 text-white" onClick={handleToolbarClick}>
+        <div className="bg-background border-input flex h-8 items-center gap-1 rounded-md border">
+          <Button
+            onClick={zoomOut}
+            variant="ghost"
+            size="icon"
+            className="bg-background text-primary hover:bg-accent size-8 border-0"
+            aria-label="Zoom Out"
+          >
+            <ZoomOut size={16} />
+          </Button>
+          <span className="bg-background text-primary hover:bg-accent min-w-[3rem] text-center text-sm">
+            {(crop.zoom * 100).toFixed(0)}%
+          </span>
+          <Button
+            onClick={zoomIn}
+            variant="ghost"
+            size="icon"
+            className="bg-background text-primary hover:bg-accent size-8 border-0"
+            aria-label="Zoom In"
+          >
+            <ZoomIn size={16} />
+          </Button>
+        </div>
         <Button
-          onClick={zoomOut}
+          onClick={resetView}
           variant="ghost"
           size="icon"
-          className="bg-background text-primary hover:bg-accent size-8 border-0"
-          aria-label="Zoom Out"
+          className="bg-background text-primary hover:bg-accent border-input size-8 border"
+          aria-label="Reset View"
         >
-          <ZoomOut size={16} />
+          <RotateCcw size={18} />
         </Button>
-        <span className="bg-background text-primary hover:bg-accent min-w-[3rem] text-center text-sm">
-          {(crop.zoom * 100).toFixed(0)}%
-        </span>
         <Button
-          onClick={zoomIn}
+          onClick={onDownload}
           variant="ghost"
           size="icon"
-          className="bg-background text-primary hover:bg-accent size-8 border-0"
-          aria-label="Zoom In"
+          className="bg-background text-primary hover:bg-accent border-input size-8 border"
+          aria-label="Download Image"
         >
-          <ZoomIn size={16} />
+          <Download size={18} />
+        </Button>
+        <Button
+          ref={closeButtonRef}
+          onClick={onClose}
+          variant="ghost"
+          size="icon"
+          className="bg-background text-primary hover:bg-accent border-input size-8 border"
+          aria-label="Close Lightbox"
+        >
+          <X size={18} />
         </Button>
       </div>
-      <Button
-        onClick={resetView}
-        variant="ghost"
-        size="icon"
-        className="bg-background text-primary hover:bg-accent border-input size-8 border"
-        aria-label="Reset View"
-      >
-        <RotateCcw size={18} />
-      </Button>
-      <Button
-        onClick={onDownload}
-        variant="ghost"
-        size="icon"
-        className="bg-background text-primary hover:bg-accent border-input size-8 border"
-        aria-label="Download Image"
-      >
-        <Download size={18} />
-      </Button>
-      <Button
-        ref={closeButtonRef}
-        onClick={onClose}
-        variant="ghost"
-        size="icon"
-        className="bg-background text-primary hover:bg-accent border-input size-8 border"
-        aria-label="Close Lightbox"
-      >
-        <X size={18} />
-      </Button>
-    </div>
+    </>
   )
 }

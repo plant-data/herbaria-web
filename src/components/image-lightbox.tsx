@@ -1,354 +1,302 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import ReactDOM from 'react-dom'
-import { RotateCcw, X, ZoomIn, ZoomOut, Download, ChevronLeft, ChevronRight } from 'lucide-react'
-import { Viewer, ViewerContext, ViewerProvider } from 'react-viewer-pan-zoom'
-import { Button } from '@/components/ui/button'
 
-// --- Type Definition ---
-type MultimediaData = {
-  type: string
-  identifier: string
-  imageRole: string
-  thumbnailUrl: string
-  imageUrl: string
+import React, { useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
+import OpenSeaDragon from 'openseadragon';
+
+interface MultimediaData {
+  imageUrl: string;
+  identifier: string;
+  [key: string]: any;
 }
 
-// --- Generic Image Lightbox Component ---
 interface ImageLightboxProps {
-  mediaData: MultimediaData[]
-  currentIdentifier: string
-  isOpen: boolean
-  onClose: () => void
-  onNavigate?: (identifier: string) => void
+  mediaData: MultimediaData[];
+  currentIdentifier: string;
+  isOpen: boolean;
+  onClose: () => void;
+  onNavigate?: (identifier: string) => void;
 }
 
-/**
- * A generic and reusable lightbox component for displaying and interacting with images.
- * Supports navigation between multiple images in a gallery.
- * Uses react-viewer-pan-zoom for advanced pan and zoom functionality.
- * Renders into a portal to avoid z-index issues.
- *
- * @param mediaData Array of multimedia data objects.
- * @param currentIdentifier The identifier of the currently displayed image.
- * @param isOpen Controls the visibility of the lightbox.
- * @param onClose A callback function to close the lightbox.
- * @param onNavigate Optional callback function called when navigating between images.
- */
-export function ImageLightbox({ 
-  mediaData, 
-  currentIdentifier, 
-  isOpen, 
-  onClose, 
-  onNavigate 
-}: ImageLightboxProps) {
-  const [isLoading, setIsLoading] = useState(true)
-  const closeButtonRef = useRef<HTMLButtonElement>(null)
+export const ImageLightbox: React.FC<ImageLightboxProps> = ({
+  mediaData,
+  currentIdentifier,
+  isOpen,
+  onClose,
+  onNavigate
+}) => {
+  const viewerRef = useRef<HTMLDivElement>(null);
+  const viewerInstance = useRef<OpenSeaDragon.Viewer | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Find current image and its index
-  const currentIndex = mediaData.findIndex(item => item.identifier === currentIdentifier)
-  const currentImage = mediaData[currentIndex]
-  const hasMultipleImages = mediaData.length > 1
-  const canGoPrevious = currentIndex > 0
-  const canGoNext = currentIndex < mediaData.length - 1
+  // Find current index based on identifier
+  useEffect(() => {
+    const index = mediaData.findIndex(item => item.identifier === currentIdentifier);
+    if (index !== -1) {
+      setCurrentIndex(index);
+    }
+  }, [currentIdentifier, mediaData]);
+
+  // Initialize OpenSeaDragon viewer
+  useEffect(() => {
+    if (!isOpen || !viewerRef.current || !mediaData.length) return;
+
+    const currentItem = mediaData[currentIndex];
+    if (!currentItem) return;
+
+    // Destroy existing viewer
+    if (viewerInstance.current) {
+      viewerInstance.current.destroy();
+      viewerInstance.current = null;
+    }
+
+    try {
+      viewerInstance.current = OpenSeaDragon({
+        element: viewerRef.current,
+        tileSources: {
+          type: 'image',
+          url: currentItem.imageUrl
+        },
+        prefixUrl: 'https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/',
+        showNavigator: true,
+        navigatorPosition: 'TOP_RIGHT',
+        navigatorSizeRatio: 0.15,
+        navigatorMaintainSizeRatio: true,
+        navigatorBackground: '#000',
+        navigatorOpacity: 0.8,
+        navigatorBorderColor: '#555',
+        navigatorDisplayRegionColor: '#900',
+        maxZoomLevel: 8,
+        minZoomLevel: 0.5,
+        defaultZoomLevel: 1,
+        zoomInButton: 'zoom-in-btn',
+        zoomOutButton: 'zoom-out-btn',
+        homeButton: 'home-btn',
+        fullPageButton: 'fullpage-btn',
+        showZoomControl: true,
+        showHomeControl: true,
+        showFullPageControl: false,
+        showSequenceControl: false,
+        animationTime: 1.0,
+        springStiffness: 6.5,
+        imageLoaderLimit: 2,
+        timeout: 120000,
+        useCanvas: true,
+        preserveImageSizeOnResize: true,
+        visibilityRatio: 1,
+        constrainDuringPan: false,
+        wrapHorizontal: false,
+        wrapVertical: false,
+        panHorizontal: true,
+        panVertical: true,
+        showNavigationControl: true,
+        navigationControlAnchor: OpenSeaDragon.ControlAnchor.TOP_LEFT,
+        sequenceMode: false
+      });
+
+      // Add custom styling to navigator
+      viewerInstance.current.addHandler('open', () => {
+        const navigator = viewerInstance.current?.navigator?.element;
+        if (navigator) {
+          navigator.style.border = '2px solid #555';
+          navigator.style.borderRadius = '4px';
+          navigator.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+        }
+      });
+
+    } catch (error) {
+      console.error('Failed to initialize OpenSeaDragon:', error);
+    }
+
+    return () => {
+      if (viewerInstance.current) {
+        viewerInstance.current.destroy();
+        viewerInstance.current = null;
+      }
+    };
+  }, [isOpen, currentIndex, mediaData]);
 
   // Navigation functions
   const goToPrevious = () => {
-    if (canGoPrevious) {
-      const previousImage = mediaData[currentIndex - 1]
-      onNavigate?.(previousImage.identifier)
+    if (mediaData.length === 0) return;
+    const newIndex = currentIndex > 0 ? currentIndex - 1 : mediaData.length - 1;
+    const newIdentifier = mediaData[newIndex]?.identifier;
+    if (newIdentifier && onNavigate) {
+      onNavigate(newIdentifier);
     }
-  }
+  };
 
   const goToNext = () => {
-    if (canGoNext) {
-      const nextImage = mediaData[currentIndex + 1]
-      onNavigate?.(nextImage.identifier)
+    if (mediaData.length === 0) return;
+    const newIndex = currentIndex < mediaData.length - 1 ? currentIndex + 1 : 0;
+    const newIdentifier = mediaData[newIndex]?.identifier;
+    if (newIdentifier && onNavigate) {
+      onNavigate(newIdentifier);
     }
-  }
+  };
 
-  // Effect to handle keyboard navigation
+  // Keyboard navigation
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose()
-      } else if (event.key === 'ArrowLeft' && canGoPrevious) {
-        goToPrevious()
-      } else if (event.key === 'ArrowRight' && canGoNext) {
-        goToNext()
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'Escape':
+          onClose();
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          goToPrevious();
+          break;
+        case 'ArrowRight':
+          e.preventDefault();
+          goToNext();
+          break;
       }
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [onClose, canGoPrevious, canGoNext, currentIndex])
+    };
 
-  // Effect to manage body scroll when the lightbox is opened or closed
-  useEffect(() => {
-    if (isOpen) {
-      setIsLoading(true)
-      document.body.style.overflow = 'hidden'
-      // Focus the close button when the lightbox opens
-      setTimeout(() => {
-        closeButtonRef.current?.focus()
-      }, 100)
-    } else {
-      document.body.style.overflow = 'auto'
-    }
-    return () => {
-      document.body.style.overflow = 'auto'
-    }
-  }, [isOpen])
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, currentIndex, mediaData.length, onClose, onNavigate]);
 
-  // Reset loading state when image changes
-  useEffect(() => {
-    if (isOpen) {
-      setIsLoading(true)
-    }
-  }, [currentIdentifier])
+  if (!isOpen) return null;
 
-  // Don't render anything if the lightbox is not open or no current image
-  if (!isOpen || !currentImage) return null
+  const currentItem = mediaData[currentIndex];
+  const hasPrevious = mediaData.length > 1;
+  const hasNext = mediaData.length > 1;
 
-  const handleImageLoad = () => {
-    setIsLoading(false)
-  }
-
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    // Only close if clicking the backdrop, not the viewer content
-    if (e.target === e.currentTarget) {
-      onClose()
-    }
-  }
-
-  const handleDownload = async () => {
-    try {
-      // Try the fetch method first (works for same-origin or CORS-enabled images)
-      const response = await fetch(currentImage.imageUrl)
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = currentImage.imageRole || currentImage.identifier || 'image'
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      window.URL.revokeObjectURL(url)
-    } catch (error) {
-      console.warn('Fetch download failed, falling back to direct link method:', error)
-
-      // Fallback: Direct link download (works for most cases but may open in new tab)
-      const a = document.createElement('a')
-      a.href = currentImage.imageUrl
-      a.download = currentImage.imageRole || currentImage.identifier || 'image'
-      a.target = '_blank'
-      a.rel = 'noopener noreferrer'
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-    }
-  }
-
-  const contentStyle: React.CSSProperties = {
-    willChange: 'transform',
-    width: '100%',
-    height: '100%',
-    objectFit: 'contain',
-    objectPosition: 'center',
-    maxWidth: '95vw',
-    maxHeight: '100dvh',
-  }
-
-  const content = (
-    <img
-      style={contentStyle}
-      draggable="false"
-      src={currentImage.imageUrl}
-      alt={currentImage.imageRole}
-      onLoad={handleImageLoad}
-      className={isLoading ? 'opacity-0' : 'transition-opacity opacity-100 will-change-transform'}
-    />
-  )
-
-  // --- Render into a Portal ---
   return ReactDOM.createPortal(
-    <div className="bg-opacity-80 fixed inset-0 z-[999999] bg-black backdrop-blur-sm" onClick={handleBackdropClick}>
-      <style>{`
-        ._viewer-minimap_1mddk_19 {
-          position: absolute !important;
-          bottom: 16px !important;
-          right: 16px !important;
-          top: auto !important;
-          left: auto !important;
-          border-radius: 6px !important;
-        }
-      `}</style>
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-        </div>
-      )}
+    <div className="fixed inset-0 z-50 bg-black bg-opacity-95 flex items-center justify-center">
+      {/* Overlay */}
+      <div 
+        className="absolute inset-0 cursor-pointer"
+        onClick={onClose}
+      />
       
-      {/* Navigation Arrows */}
-      {hasMultipleImages && (
-        <>
-          {canGoPrevious && (
-            <Button
-              onClick={goToPrevious}
-              variant="ghost"
-              size="icon"
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white hover:bg-black/70 size-12 z-10"
-              aria-label="Previous Image"
+      {/* Main container */}
+      <div className="relative w-full h-full max-w-7xl max-h-full mx-4 my-4 bg-black rounded-lg overflow-hidden">
+        
+        {/* Header */}
+        <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-black/80 to-transparent p-4">
+          <div className="flex justify-between items-center text-white">
+            <div className="flex items-center space-x-4">
+              <h3 className="text-lg font-semibold truncate">
+                Image {currentIndex + 1} of {mediaData.length}
+              </h3>
+              {currentItem?.identifier && (
+                <span className="text-sm text-gray-300">
+                  ID: {currentItem.identifier}
+                </span>
+              )}
+            </div>
+            
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-white/20 rounded-full transition-colors"
+              aria-label="Close lightbox"
             >
-              <ChevronLeft size={24} />
-            </Button>
-          )}
-          {canGoNext && (
-            <Button
-              onClick={goToNext}
-              variant="ghost"
-              size="icon"
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white hover:bg-black/70 size-12 z-10"
-              aria-label="Next Image"
-            >
-              <ChevronRight size={24} />
-            </Button>
-          )}
-        </>
-      )}
-
-      <ViewerProvider
-        key={currentIdentifier} // Force re-render when image changes
-        settings={{
-          zoom: {
-            enabled: true,
-            default: 1, // Default zoom level when the viewer is opened.
-            min: 1,
-            max: 8,
-            mouseWheelStep: 2, // How much zoom per mouse wheel step.
-            zoomButtonStep: 1,
-          },
-          resetView: {
-            enabled: true,
-            keyboardShortcut: 'r', // The keyboard shortcut to reset the view (set to `false` to disable).
-          },
-          minimap: {
-            enabled: true,
-            width: '160px', // Width of the minimap.
-            keyboardShortcut: 'm', // The keyboard shortcut to toggle the minimap (set to `false` to disable).
-            outlineStyle: '1px solid black', // Outline style for the minimap.
-            viewportAreaOutlineStyle: '2px solid #333', // Outline style for the viewport
-          },
-        }}
-      >
-        <div className="flex h-full w-full flex-col">
-          <div className="flex h-full w-full items-center justify-center">
-            <Viewer viewportContent={content} minimapContent={content} />
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
-          <LightboxToolbar 
-            onClose={onClose} 
-            closeButtonRef={closeButtonRef} 
-            onDownload={handleDownload}
-            currentIndex={currentIndex}
-            totalImages={mediaData.length}
-            imageRole={currentImage.imageRole}
-          />
         </div>
-      </ViewerProvider>
+
+        {/* OpenSeaDragon Viewer */}
+        <div 
+          ref={viewerRef}
+          className="w-full h-full"
+          style={{ minHeight: '400px' }}
+        />
+
+        {/* Custom zoom controls */}
+        <div className="absolute top-20 left-4 z-20 flex flex-col space-y-2">
+          <button
+            id="zoom-in-btn"
+            className="p-2 bg-black/70 hover:bg-black/90 text-white rounded transition-colors"
+            aria-label="Zoom in"
+            title="Zoom in"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+          </button>
+          
+          <button
+            id="zoom-out-btn"
+            className="p-2 bg-black/70 hover:bg-black/90 text-white rounded transition-colors"
+            aria-label="Zoom out"
+            title="Zoom out"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+            </svg>
+          </button>
+          
+          <button
+            id="home-btn"
+            className="p-2 bg-black/70 hover:bg-black/90 text-white rounded transition-colors"
+            aria-label="Reset zoom"
+            title="Reset zoom"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Navigation arrows */}
+        {hasPrevious && (
+          <button
+            onClick={goToPrevious}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/70 hover:bg-black/90 text-white rounded-full transition-colors"
+            aria-label="Previous image"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+        )}
+
+        {hasNext && (
+          <button
+            onClick={goToNext}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/70 hover:bg-black/90 text-white rounded-full transition-colors"
+            aria-label="Next image"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        )}
+
+        {/* Footer with image counter */}
+        {mediaData.length > 1 && (
+          <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black/80 to-transparent p-4">
+            <div className="flex justify-center">
+              <div className="flex space-x-2">
+                {mediaData.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      const identifier = mediaData[index]?.identifier;
+                      if (identifier && onNavigate) {
+                        onNavigate(identifier);
+                      }
+                    }}
+                    className={`w-2 h-2 rounded-full transition-colors ${
+                      index === currentIndex 
+                        ? 'bg-white' 
+                        : 'bg-white/40 hover:bg-white/60'
+                    }`}
+                    aria-label={`Go to image ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>,
-    document.body,
-  )
-}
-
-const LightboxToolbar = ({
-  onClose,
-  closeButtonRef,
-  onDownload,
-  currentIndex,
-  totalImages,
-  imageRole,
-}: {
-  onClose: () => void
-  closeButtonRef: React.RefObject<HTMLButtonElement | null>
-  onDownload: () => void
-  currentIndex: number
-  totalImages: number
-  imageRole: string
-}) => {
-  const { zoomOut, zoomIn, resetView, crop } = useContext(ViewerContext)
-
-  const handleToolbarClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
-  }
-
-  return (
-    <>
-      {/* Image Info */}
-      <div className="absolute top-4 left-4 flex flex-col gap-2 text-white" onClick={handleToolbarClick}>
-        {totalImages > 1 && (
-          <div className="bg-black/50 backdrop-blur-sm px-3 py-1 rounded-md text-sm">
-            {currentIndex + 1} / {totalImages}
-          </div>
-        )}
-        {imageRole && (
-          <div className="bg-black/50 backdrop-blur-sm px-3 py-1 rounded-md text-sm max-w-xs truncate">
-            {imageRole}
-          </div>
-        )}
-      </div>
-
-      {/* Toolbar */}
-      <div className="absolute top-4 right-4 flex items-center gap-3 text-white" onClick={handleToolbarClick}>
-        <div className="bg-background border-input flex h-8 items-center gap-1 rounded-md border">
-          <Button
-            onClick={zoomOut}
-            variant="ghost"
-            size="icon"
-            className="bg-background text-primary hover:bg-accent size-8 border-0"
-            aria-label="Zoom Out"
-          >
-            <ZoomOut size={16} />
-          </Button>
-          <span className="bg-background text-primary hover:bg-accent min-w-[3rem] text-center text-sm">
-            {(crop.zoom * 100).toFixed(0)}%
-          </span>
-          <Button
-            onClick={zoomIn}
-            variant="ghost"
-            size="icon"
-            className="bg-background text-primary hover:bg-accent size-8 border-0"
-            aria-label="Zoom In"
-          >
-            <ZoomIn size={16} />
-          </Button>
-        </div>
-        <Button
-          onClick={resetView}
-          variant="ghost"
-          size="icon"
-          className="bg-background text-primary hover:bg-accent border-input size-8 border"
-          aria-label="Reset View"
-        >
-          <RotateCcw size={18} />
-        </Button>
-        <Button
-          onClick={onDownload}
-          variant="ghost"
-          size="icon"
-          className="bg-background text-primary hover:bg-accent border-input size-8 border"
-          aria-label="Download Image"
-        >
-          <Download size={18} />
-        </Button>
-        <Button
-          ref={closeButtonRef}
-          onClick={onClose}
-          variant="ghost"
-          size="icon"
-          className="bg-background text-primary hover:bg-accent border-input size-8 border"
-          aria-label="Close Lightbox"
-        >
-          <X size={18} />
-        </Button>
-      </div>
-    </>
-  )
-}
+    document.body
+  );
+};

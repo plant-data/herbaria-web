@@ -12,6 +12,7 @@ import { FLORITALY_URL } from '@/features/search/constants/constants'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import 'leaflet/dist/leaflet.css'
 import { Button } from '@/components/ui/button'
+import { OpenSeaDragonMVP } from '@/components/test/openseadragon-mvp'
 
 // Helper function to get country name from country code
 const getCountryName = (countryCode: unknown): string => {
@@ -424,6 +425,9 @@ export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }
         onClose={() => setIsLightboxOpen(false)}
         onNavigate={setCurrentImageIdentifier}
       />
+      <div>
+        <OpenSeaDragonMVP imgUrl={occurrence.multimedia[0]?.imageUrl} />
+      </div>
     </div>
   )
 }

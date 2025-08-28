@@ -42,65 +42,71 @@ function RouteComponent() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="mx-auto py-16 pr-4 pl-4 sm:pr-0 lg:py-24">
-        <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[550px_1fr] lg:grid-cols-[650px_1fr]">
-          {/* Hero Text - Left Side */}
-          <div className="space-y-6 lg:ml-10">
-            <div className="space-y-2">
-              <Badge variant="outline" className="w-fit">
-                <Leaf className="mr-2 h-4 w-4" />
-                Herbarium FI-HCI
-              </Badge>
-              <h1 className="text-primary text-4xl font-medium tracking-tight md:text-5xl lg:text-6xl">
-                Herbarium Centrale Italicum of
-                <span className="text-ring"> Florence</span>
-              </h1>
-            </div>
-            {/* UPDATED: More scientific tone */}
-            <p className="text-primary/80 max-w-lg">
-              Established in 1842, the Herbarium Centrale Italicum (FI-HCI) was conceived as a national institution to
-              centralize botanical research. It serves as an essential repository for systematic and phytogeographical
-              studies, housing a global collection of plant specimens.
-            </p>
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <div className="relative min-w-[300px]">
-                <AutocompleteSimple
-                  placeholder={t('search.filters.scientific-name-placeholder')}
-                  queryKey={['simplesearch', herbariaId]}
-                  query={
-                    `${BASE_API_URL}autocomplete?` +
-                    (herbariaId ? `institutionCode=${herbariaId}&` : '') +
-                    `field=scientificName&value=`
-                  }
-                  onSelectedValueChange={handleScientificNameSelected}
-                />
+      <section className="overflow-x-clip py-16 lg:py-24">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[550px_1fr] lg:grid-cols-[650px_1fr]">
+            {/* Hero Text - Left Side (stays aligned with container) */}
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Badge variant="outline" className="w-fit">
+                  <Leaf className="mr-2 h-4 w-4" />
+                  Herbarium FI-HCI
+                </Badge>
+                <h1 className="text-primary text-4xl font-medium tracking-tight md:text-5xl lg:text-6xl">
+                  Herbarium Centrale Italicum of
+                  <span className="text-ring"> Florence</span>
+                </h1>
               </div>
-              <Button asChild variant="default" className="bg-ring" size="lg" onClick={() => resetFilters()}>
-                <Link to="/$herbariaId/search" params={{ herbariaId }}>
-                  <Database className="mr-2 h-5 w-5" />
-                  Explore the Collection
-                </Link>
-              </Button>
-            </div>
-          </div>
 
-          {/* Images Grid - Right Side */}
-          <div className="flex w-full items-center justify-around gap-4 overflow-hidden sm:justify-start">
-            <div className="mt-8 sm:block">
-              <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
-                <img src={homeImages[0]} alt="Herbarium specimen" className="h-full w-full object-cover" />
+              <p className="text-primary/80 max-w-lg">
+                Established in 1842, the Herbarium Centrale Italicum (FI-HCI) was conceived as a national institution to
+                centralize botanical research. It serves as an essential repository for systematic and phytogeographical
+                studies, housing a global collection of plant specimens.
+              </p>
+
+              <div className="flex flex-col gap-4 sm:flex-row">
+                <div className="relative min-w-[300px]">
+                  <AutocompleteSimple
+                    placeholder={t('search.filters.scientific-name-placeholder')}
+                    queryKey={['simplesearch', herbariaId]}
+                    query={
+                      `${BASE_API_URL}autocomplete?` +
+                      (herbariaId ? `institutionCode=${herbariaId}&` : '') +
+                      `field=scientificName&value=`
+                    }
+                    onSelectedValueChange={handleScientificNameSelected}
+                  />
+                </div>
+                <Button asChild variant="default" className="bg-ring" size="lg" onClick={() => resetFilters()}>
+                  <Link to="/$herbariaId/search" params={{ herbariaId }}>
+                    <Database className="mr-2 h-5 w-5" />
+                    Explore the Collection
+                  </Link>
+                </Button>
               </div>
             </div>
-            <div className="-mt-4 md:block">
-              <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
-                <img src={homeImages[1]} alt="Herbarium specimen" className="h-full w-full object-cover" />
+
+            {/* Images - Right Side (bleeds to viewport edge) */}
+            <div className="md:-mr-[calc(50vw-50%+1rem)] md:pr-[calc(50vw-50%+1rem)]">
+              <div className="flex w-full items-center justify-around gap-4 sm:justify-start">
+                <div className="mt-8">
+                  <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
+                    <img src={homeImages[0]} alt="Herbarium specimen" className="h-full w-full object-cover" />
+                  </div>
+                </div>
+                <div className="-mt-4">
+                  <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
+                    <img src={homeImages[1]} alt="Herbarium specimen" className="h-full w-full object-cover" />
+                  </div>
+                </div>
+                <div className="mt-6">
+                  <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
+                    <img src={homeImages[2]} alt="Herbarium specimen" className="h-full w-full object-cover" />
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="mt-6 md:block">
-              <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
-                <img src={homeImages[2]} alt="Herbarium specimen" className="h-full w-full object-cover" />
-              </div>
-            </div>
+            {/* ^ the magic: md:-mr-[calc(50vw-50%+1rem)] + matching padding */}
           </div>
         </div>
       </section>

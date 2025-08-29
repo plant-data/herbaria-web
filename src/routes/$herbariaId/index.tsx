@@ -241,7 +241,7 @@ function RouteComponent() {
       <footer className="mt-16 bg-gray-900 py-8 text-white">
         <div className="container mx-auto px-4 text-center">
           <div className="mb-4 flex items-center justify-center gap-2">
-            <img src="/images/flor.png" alt="Herbaria Logo" width={32} height={32} className="rounded-md" />
+            <img src="images/flor.png" alt="Herbaria Logo" width={32} height={32} className="rounded-md" />
             <span className="text-xl font-bold">FlorItaly Herbaria</span>
           </div>
           {/*  <p className="text-gray-400">

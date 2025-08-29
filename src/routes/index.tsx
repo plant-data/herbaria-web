@@ -8,7 +8,6 @@ import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 
 // Configuration for herbaria
 
-
 export const Route = createFileRoute('/')({
   component: App,
 })
@@ -93,7 +92,7 @@ function App() {
                 </div>
               </div>
               <div className="border-input h-40 overflow-hidden rounded-lg border">
-                <img src="/images/global-search.png" alt="" className="h-full w-full object-cover" />
+                <img src="images/global-search.png" alt="" className="h-full w-full object-cover" />
               </div>
             </CardHeader>
             <CardContent className="flex flex-1 flex-col">

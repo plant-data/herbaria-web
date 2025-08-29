@@ -7,6 +7,7 @@ import '@/i18n'
 import { routeTree } from '@/routeTree.gen'
 import reportWebVitals from '@/reportWebVitals.ts'
 import { ThemeProvider } from '@/components/theme-provider'
+import { BASE_PATH } from '@/config'
 import '@/styles.css'
 
 scan({
@@ -19,6 +20,7 @@ const router = createRouter({
   context: {
     ...TanStackQueryProvider.getContext(),
   },
+  basepath: BASE_PATH,
   defaultPreload: 'intent',
   scrollRestoration: true,
   defaultStructuralSharing: true,

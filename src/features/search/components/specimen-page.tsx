@@ -259,7 +259,7 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           {occurrence.floritalyID ? (
             <Button asChild className="ml-2 h-6 gap-1 px-2 py-1">
               <span>
-                <img src="/images/flor.png" alt="Herbaria Logo" width={18} height={18} className=""></img>
+                <img src="images/flor.png" alt="Herbaria Logo" width={18} height={18} className=""></img>
                 <a className="text-xs" target="_blank" href={`${FLORITALY_URL}${occurrence.floritalyID}`}>
                   Open taxon page
                 </a>
@@ -383,7 +383,7 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
 export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }) {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
   const [currentImageIdentifier, setCurrentImageIdentifier] = useState('')
-  
+
   // Filter out primary images to show only additional images
   const imagesData = occurrence.multimedia.filter((image) => image.imageRole !== 'primary')
 
@@ -417,7 +417,7 @@ export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }
           </div>
         ))}
       </div>
-      
+
       <ImageLightbox
         mediaData={occurrence.multimedia}
         currentIdentifier={currentImageIdentifier}

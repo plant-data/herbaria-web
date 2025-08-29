@@ -253,7 +253,7 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           {occurrence.floritalyID ? (
             <Button asChild className="ml-2 h-6 gap-1 px-2 py-1">
               <span>
-                <img src="/images/flor.png" alt="Herbaria Logo" width={18} height={18} className=""></img>
+                <img src="images/flor.png" alt="Herbaria Logo" width={18} height={18} className=""></img>
                 <a className="text-xs" target="_blank" href={`${FLORITALY_URL}${occurrence.floritalyID}`}>
                   Open taxon page
                 </a>

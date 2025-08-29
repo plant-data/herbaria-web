@@ -20,7 +20,7 @@ export function Header() {
           <div className="flex w-full items-center justify-between">
             <div className="flex flex-1 justify-center">
               <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
-                <img src="/images/flor.png" alt="Herbaria Logo" width={38} height={38} className="" />
+                <img src="images/flor.png" alt="Herbaria Logo" width={38} height={38} className="" />
                 <span className="text-md text-foreground font-semibold">FlorItaly</span>
               </Link>
             </div>
@@ -65,7 +65,7 @@ export function Header() {
         {/* Logo and Brand */}
         <div className="flex items-center gap-3">
           <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
-            <img src="/images/flor.png" alt="Herbaria Logo" width={38} height={38} className="" />
+            <img src="images/flor.png" alt="Herbaria Logo" width={38} height={38} className="" />
             <span className="text-md text-foreground hidden font-semibold sm:inline-block">FlorItaly</span>
           </Link>
 

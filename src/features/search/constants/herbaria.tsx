@@ -2,7 +2,7 @@ export const HERBARIA_CONFIG = [
   {
     id: 'PI',
     translationKey: 'herbaria.pi',
-    image: '/images/pi.png',
+    image: 'images/pi.png',
     description: "Explore the rich botanical heritage of the University of Pisa's herbarium collection",
     badgeLabel: 'Herbarium PI',
     homeImages: [
@@ -15,7 +15,7 @@ export const HERBARIA_CONFIG = [
   {
     id: 'TSB',
     translationKey: 'herbaria.tsb',
-    image: '/images/tsb.png',
+    image: 'images/tsb.png',
     description: "Discover botanical specimens from the Trieste Science Museum's specialized collection",
     badgeLabel: 'Herbarium TSB',
     homeImages: [
@@ -28,7 +28,7 @@ export const HERBARIA_CONFIG = [
   {
     id: 'FI-HCI',
     translationKey: 'herbaria.fi-hci',
-    image: '/images/fi.jpg',
+    image: 'images/fi.jpg',
     description: "Explore the rich botanical heritage of the University of Florence's herbarium collection",
     badgeLabel: 'Herbarium FI-HCI',
     homeImages: [
@@ -38,5 +38,4 @@ export const HERBARIA_CONFIG = [
     ],
     ringColor: 'oklch(0.6 0.2541 175.76)', // a beautiful teal green
   },
-  
 ]

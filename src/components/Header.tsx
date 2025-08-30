@@ -21,7 +21,7 @@ export function Header() {
             <div className="flex flex-1 justify-center">
               <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
                 <img src="images/flor.png" alt="Herbaria Logo" width={38} height={38} className="" />
-                <span className="text-md text-foreground font-semibold">FlorItaly</span>
+                <span className="text-md text-foreground font-semibold">FlorItaly Herbaria</span>
               </Link>
             </div>
 
@@ -33,7 +33,7 @@ export function Header() {
               </SheetTrigger>
               <SheetContent side="right" className="w-80 p-6 sm:w-96">
                 <SheetHeader className="pb-6">
-                  <SheetTitle className="text-left text-lg">FlorItaly</SheetTitle>
+                  <SheetTitle className="text-left text-lg">FlorItaly Herbaria</SheetTitle>
                 </SheetHeader>
 
                 <div className="flex h-full flex-col justify-between gap-8">
@@ -66,7 +66,7 @@ export function Header() {
         <div className="flex items-center gap-3">
           <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
             <img src="images/flor.png" alt="Herbaria Logo" width={38} height={38} className="" />
-            <span className="text-md text-foreground hidden font-semibold sm:inline-block">FlorItaly</span>
+            <span className="text-md text-foreground hidden font-semibold sm:inline-block">FlorItaly Herbaria</span>
           </Link>
 
           {/* Navigation Links */}

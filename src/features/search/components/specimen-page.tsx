@@ -36,18 +36,21 @@ export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
   }, [])
 
   return (
-    <div className="relative container mx-auto max-w-6xl px-4 py-6">
-      <Button
-        ref={backRef}
-        variant="outline"
-        onClick={() => router.history.back()}
-        className="border-input bg-background absolute top-4 right-2 h-9 w-9 rounded-full border shadow-xs md:top-6 md:right-4"
-      >
-        <ArrowLeft className="size-4" />
-      </Button>
-      <h1 className="mb-6 px-2 text-center text-2xl font-bold sm:px-0 sm:text-left sm:text-3xl">
-        {occurrence.scientificName}
-      </h1>
+    <div className="container mx-auto max-w-6xl px-4 py-6">
+      <div className='grid grid-cols-[1fr_2.5rem] mb-6 items-center'>
+        <h1 className="px-2  text-2xl font-bold sm:px-0  sm:text-3xl">
+          {occurrence.scientificName}
+        </h1>
+
+        <Button
+          ref={backRef}
+          variant="outline"
+          onClick={() => router.history.back()}
+          className="border-input bg-background h-9 w-9 rounded-full border shadow-xs"
+        >
+          <ArrowLeft className="size-4" />
+        </Button>
+      </div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-[254px_1fr] md:grid-cols-[354px_1fr]">
         <div className="space-y-6">
           <SpecimenImage multimedia={occurrence.multimedia} scientificName={occurrence.scientificName} />
@@ -97,7 +100,7 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
   const hasImage = multimedia.length > 0
   if (!hasImage) {
     return (
-      <Card className="mx-auto max-w-[280px] rounded-md p-0 shadow-xs sm:max-w-full">
+      <Card className="mx-auto rounded-md p-0 shadow-xs max-w-full">
         <CardContent className="m-0 p-1 sm:h-[370px] sm:w-[254px] md:h-[500px] md:w-[352px]">
           <div className="flex h-full w-full items-center justify-center rounded-md bg-gray-200">
             <span className="text-gray-500">No image available</span>

@@ -122,7 +122,7 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
 
   return (
     <>
-      <Card className="mx-auto max-w-[280px] rounded-md p-0 shadow-xs sm:max-w-full">
+      <Card className="mx-auto rounded-md p-0 shadow-xs max-w-full">
         <ViewerProvider
           settings={{
             zoom: {
@@ -148,8 +148,8 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
           }}
         >
           <div className="flex w-full flex-col">
-            <div className="flex-1 p-1">
-              <div className="border-input h-[370px] w-full overflow-hidden rounded-[4px] border sm:h-[340px] md:h-[480px]">
+            <div className="flex flex-1 p-1 justify-center">
+              <div className="max-w-[250px] sm:max-w-full border-input h-[370px] w-full overflow-hidden rounded-[4px] border sm:h-[340px] md:h-[480px]">
                 <Viewer
                   viewportContent={
                     <img

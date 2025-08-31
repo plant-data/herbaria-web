@@ -5,6 +5,7 @@ import { ChartColumn, Image, LoaderCircle, MapPinned, Table } from 'lucide-react
 import { useSpecimensData } from '@/features/search/api/get-occurrences'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
+import { BASE_PATH } from '@/config'
 
 export function SpecimensNavbar() {
   const location = useLocation()
@@ -13,7 +14,7 @@ export function SpecimensNavbar() {
 
   const navItems = useMemo(() => {
     const herbariaId = 'herbariaId' in params ? params.herbariaId : null
-    const basePath = herbariaId ? `/${herbariaId}/search` : '/search'
+    const basePath = herbariaId ? `${BASE_PATH}${herbariaId}/search` : `${BASE_PATH}search`
 
     return [
       { path: `${basePath}/table`, icon: Table, label: t('search.results.nav-table') },
@@ -21,7 +22,7 @@ export function SpecimensNavbar() {
       { path: `${basePath}/map`, icon: MapPinned, label: t('search.results.nav-map') },
       { path: `${basePath}/graphs`, icon: ChartColumn, label: t('search.results.nav-graphs') },
     ]
-  }, [params, t])
+  }, [params, t])  
 
   return (
     <div className="flex flex-col items-center justify-center gap-2 @lg:flex-row @lg:justify-between">

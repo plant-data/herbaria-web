@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { CircleMarker, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
+import L from 'leaflet'
 import { Earth, House } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
 import { Link } from '@tanstack/react-router'
@@ -21,6 +22,112 @@ type PaletteFn = (count: number) => string
 const INITIAL_VIEW_STATE = {
   center: [41.902782, 12.496366] as [number, number],
   zoom: 5,
+}
+
+class CanvasMarkerLayer extends L.Layer {
+  private canvas: HTMLCanvasElement
+  private ctx: CanvasRenderingContext2D
+  private clusters: Array<ClusterData> = []
+  private getCircleColor: PaletteFn
+
+  constructor(options?: L.LayerOptions & { initialPalette: PaletteFn }) {
+    super(options)
+    this.canvas = document.createElement('canvas')
+    this.canvas.style.imageRendering = 'pixelated'
+    this.ctx = this.canvas.getContext('2d')!
+    this.getCircleColor = options?.initialPalette || palettes.Classic
+  }
+
+  public updatePalette(newPalette: PaletteFn): void {
+    this.getCircleColor = newPalette
+    this.redraw()
+  }
+
+  onAdd(map: L.Map): this {
+    map.getPanes().overlayPane.appendChild(this.canvas)
+    map.on('viewreset zoom movend resize', this.redraw, this)
+    this.redraw()
+    return this
+  }
+
+  onRemove(map: L.Map): this {
+    map.getPanes().overlayPane.removeChild(this.canvas)
+    map.off('viewreset zoom movend resize', this.redraw, this)
+    return this
+  }
+
+  updateData(clusters: Array<ClusterData>): void {
+    this.clusters = clusters
+    this.redraw()
+  }
+
+  private redraw = (): void => {
+    const map = this._map
+    if (!map) return
+    const size = map.getSize()
+    const bounds = map.getBounds()
+    const dpr = window.devicePixelRatio || 1
+    this.canvas.width = size.x * dpr
+    this.canvas.height = size.y * dpr
+    this.canvas.style.width = `${size.x}px`
+    this.canvas.style.height = `${size.y}px`
+    this.ctx.scale(dpr, dpr)
+    const topLeft = map.latLngToLayerPoint(bounds.getNorthWest())
+    L.DomUtil.setPosition(this.canvas, topLeft)
+    this.ctx.clearRect(0, 0, size.x, size.y)
+    const mapZoom = map.getZoom()
+    const markerSize = (baseSize: number, factor: number) => {
+      if (factor > 7) {
+        return baseSize * Math.max(0.5, factor / 15)
+      } else if (factor == 5) {
+        return baseSize * Math.max(factor / 9)
+      } else if (factor > 3) {
+        return baseSize * Math.max(0.7, Math.min(2, factor / 10))
+      } else {
+        return baseSize * Math.max(factor / 6)
+      }
+    }
+
+    this.clusters.forEach((cluster) => {
+      const [lng, lat] = cluster.coordinates
+      if (!bounds.contains([lat, lng])) return
+      const point = map.latLngToLayerPoint(new L.LatLng(lat, lng))
+      const x = point.x - topLeft.x
+      const y = point.y - topLeft.y
+
+      this.ctx.fillStyle = this.getCircleColor(cluster.count)
+      this.ctx.globalAlpha = 0.8
+
+      const size = markerSize(8, mapZoom)
+      const roundedX = Math.round(x - size / 2)
+      const roundedY = Math.round(y - size / 2)
+      this.ctx.fillRect(roundedX, roundedY, size, size)
+    })
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0)
+  }
+}
+
+function CanvasMarkers({ clusters, palette }: { clusters: Array<ClusterData>; palette: PaletteFn }) {
+  const map = useMap()
+  const layerRef = useRef(new CanvasMarkerLayer({ initialPalette: palette }))
+
+  useEffect(() => {
+    const layer = layerRef.current
+    map.addLayer(layer)
+    return () => {
+      map.removeLayer(layer)
+    }
+  }, [map])
+
+  useEffect(() => {
+    layerRef.current.updateData(clusters)
+  }, [clusters])
+
+  useEffect(() => {
+    layerRef.current.updatePalette(palette)
+  }, [palette])
+
+  return null
 }
 
 function MapEventHandler() {
@@ -146,52 +253,23 @@ function SpecimenPopupContent({
   )
 }
 
-// Simplified markers component that works at all zoom levels
-function LeafletMarkers({
+// ============================================================================
+// MODIFIED: `SimpleMarkers` now uses a dynamic key to force re-renders.
+// ============================================================================
+function SimpleMarkers({
   clusters,
   onMarkerClick,
   palette,
-  paletteName,
+  paletteName, // Accept the palette name string as a prop
 }: {
   clusters: Array<ClusterData>
   onMarkerClick: (cluster: ClusterData) => void
   palette: PaletteFn
-  paletteName: string
+  paletteName: string // Add paletteName to the type definition
 }) {
   const zoom = useFilterStore((state) => state.zoom)
 
-  // Calculate marker radius based on zoom level and count
-  const getMarkerRadius = (count: number, zoom: number) => {
-    //const baseRadius = Math.min(Math.max(Math.log(count) * 2, 2), 15)
-    //const zoomFactor = Math.max(0.5, zoom / 10)
-    //return baseRadius * zoomFactor
-    switch (zoom) {
-      case 2:
-        return 1
-      case 3:
-        return 2
-      case 4:
-        return 2
-      case 5:
-        return 2
-      case 6:
-        return 2
-      case 7:
-        return 1.5
-      case 8:
-        return 1.5
-      case 9:
-        return 1.5
-      case 10:
-        return 1.5
-      case 11:
-        return 1.5
-      case 12:
-        return 1.5
-      default:
-        return 4
-    }
-  }
+  if (zoom <= 12) return null
 
   return (
     <>
@@ -200,16 +278,15 @@ function LeafletMarkers({
         if (isNaN(lat) || isNaN(lng)) return null
 
         const markerColor = palette(cluster.count)
-        const radius = getMarkerRadius(cluster.count, zoom)
 
         return (
           <CircleMarker
             key={`${lat}-${lng}-${index}-${paletteName}`}
             center={[lat, lng]}
-            radius={radius}
+            radius={3}
             fillColor={markerColor}
             color={markerColor}
-            weight={1}
+            weight={2}
             opacity={0.8}
             fillOpacity={0.6}
             eventHandlers={{
@@ -241,10 +318,13 @@ function SpecimenPointDialog({ point, isOpen, onClose }: { point: ClusterData; i
   )
 }
 
-// Main component with simplified rendering
+// ============================================================================
+// MODIFIED: The main SpecimensMap component passes the palette name.
+// ============================================================================
 export function SpecimensMap() {
   const { data, isPending, error } = useSpecimensMap()
   const [activePalette, setActivePalette] = useState<PaletteName>('Classic')
+  const zoom = useFilterStore((state) => state.zoom)
 
   const [selectedPoint, setSelectedPoint] = useState<ClusterData | null>(null)
 
@@ -271,11 +351,15 @@ export function SpecimensMap() {
           />
           <MapEventHandler />
           <MapControls />
+          {layerData.length > 0 && zoom <= 12 && (
+            <CanvasMarkers clusters={layerData} palette={palettes[activePalette]} />
+          )}
           {layerData.length > 0 && (
-            <LeafletMarkers
+            <SimpleMarkers
               clusters={layerData}
               onMarkerClick={setSelectedPoint}
               palette={palettes[activePalette]}
+              // Pass the palette name string down to be used in the key
               paletteName={activePalette}
             />
           )}

@@ -7,7 +7,7 @@ import type { PaletteName } from '@/features/search/constants/map-palettes'
 import type { SpecimenData } from '@/features/search/types/types'
 import { palettes } from '@/features/search/constants/map-palettes'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-import { useSpecimensMap, useSpecimensPoint, useSpecimensCluster } from '@/features/search/api/get-occurrences'
+import { useSpecimensMap, useSpecimensPoint } from '@/features/search/api/get-occurrences'
 import 'leaflet/dist/leaflet.css'
 import { Card, CardContent } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -15,12 +15,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
 
-type ClusterData = {
-  coordinates: [number, number]
-  count: number
-  gridCode?: string
-  clusterCode?: string
-}
+type ClusterData = { coordinates: [number, number]; count: number }
 type PaletteFn = (count: number) => string
 
 const INITIAL_VIEW_STATE = {
@@ -105,70 +100,24 @@ function ColorLegend({ palette }: { palette: PaletteFn }) {
   )
 }
 
-function PointPopupContent({ coordinates, count }: { coordinates: [number, number]; count: number }) {
-  const [skip, setSkip] = useState(0)
-
-  const { data, isPending, error } = useSpecimensPoint({
-    customFilters: {
-      decimalLatitude: coordinates[1],
-      decimalLongitude: coordinates[0],
-    },
-    customSkip: skip,
-  })
-
-  if (isPending) return <div>Loading details...</div>
-  if (error) return <div className="text-red-500">Error fetching details.</div>
-  if (!data?.occurrences?.length) return <div>No specimen details found.</div>
-
-  return (
-    <div className="min-w-[300px] text-sm">
-      <ul className="max-h-64 space-y-1.5 overflow-y-auto pr-2">
-        {data.occurrences.map((occ: SpecimenData) => (
-          <li key={occ.occurrenceID}>
-            <span>{occ.scientificName || 'Unknown Species'}</span>{' '}
-            <Link className="text-blue-400" to="/specimens/$occurrenceID" params={{ occurrenceID: occ.occurrenceID }}>
-              ({occ.occurrenceID})
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-4 flex items-center justify-between">
-        <Button onClick={() => setSkip((prev) => Math.max(0, prev - 10))} disabled={skip === 0}>
-          Previous
-        </Button>
-        <span className="text-xs text-gray-500">
-          Showing {skip + 1}-{Math.min(skip + 10, count)} of {count}
-        </span>
-        <Button onClick={() => setSkip((prev) => prev + 10)} disabled={skip + 10 >= count}>
-          Next
-        </Button>
-      </div>
-    </div>
-  )
-}
-
-function ClusterPopupContent({
-  gridCode,
-  clusterCode,
+function SpecimenPopupContent({
+  decimalLatitude,
+  decimalLongitude,
   count,
 }: {
-  gridCode: string
-  clusterCode: string
+  decimalLatitude: number
+  decimalLongitude: number
   count: number
 }) {
   const [skip, setSkip] = useState(0)
-
-  const { data, isPending, error } = useSpecimensCluster({
-    customFilters: {
-      gridCode,
-      clusterCode,
-    },
+  const { data, isPending, error } = useSpecimensPoint({
+    customFilters: { decimalLatitude, decimalLongitude },
     customSkip: skip,
   })
 
   if (isPending) return <div>Loading details...</div>
   if (error) return <div className="text-red-500">Error fetching details.</div>
-  if (!data?.occurrences?.length) return <div>No specimen details found.</div>
+  if (!data?.occurrences?.length) return <div>No specimen details found at this point.</div>
 
   return (
     <div className="min-w-[300px] text-sm">
@@ -213,6 +162,9 @@ function LeafletMarkers({
 
   // Calculate marker radius based on zoom level and count
   const getMarkerRadius = (count: number, zoom: number) => {
+    // const baseRadius = Math.min(Math.max(Math.log(count) * 2, 2), 15)
+    // const zoomFactor = Math.max(0.5, zoom / 10)
+    // return baseRadius * zoomFactor
     switch (zoom) {
       case 2:
         return 1
@@ -272,29 +224,18 @@ function LeafletMarkers({
   )
 }
 
-function SpecimenPointDialog({
-  cluster,
-  isOpen,
-  onClose,
-}: {
-  cluster: ClusterData
-  isOpen: boolean
-  onClose: () => void
-}) {
-  const isPoint = cluster.gridCode === undefined && cluster.clusterCode === undefined
-  const title = isPoint ? `Specimens (${cluster.count})` : `Cluster Specimens (${cluster.count})`
-
+function SpecimenPointDialog({ point, isOpen, onClose }: { point: ClusterData; isOpen: boolean; onClose: () => void }) {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle>Specimens ({point.count})</DialogTitle>
         </DialogHeader>
-        {isPoint ? (
-          <PointPopupContent coordinates={cluster.coordinates} count={cluster.count} />
-        ) : (
-          <ClusterPopupContent gridCode={cluster.gridCode!} clusterCode={cluster.clusterCode!} count={cluster.count} />
-        )}
+        <SpecimenPopupContent
+          decimalLatitude={point.coordinates[1]}
+          decimalLongitude={point.coordinates[0]}
+          count={point.count}
+        />
       </DialogContent>
     </Dialog>
   )
@@ -305,7 +246,7 @@ export function SpecimensMap() {
   const { data, isPending, error } = useSpecimensMap()
   const [activePalette, setActivePalette] = useState<PaletteName>('Classic')
 
-  const [selectedCluster, setSelectedCluster] = useState<ClusterData | null>(null)
+  const [selectedPoint, setSelectedPoint] = useState<ClusterData | null>(null)
 
   const layerData = useMemo(() => {
     if (!data?.clusters) return []
@@ -313,11 +254,11 @@ export function SpecimensMap() {
   }, [data?.clusters])
 
   if (isPending) return <MapSkeleton />
-  if (error) return <div className="flex h-[50vh] items-center justify-center text-red-500 md:h-[70vh]">Error.</div>
+  if (error) return <div className="flex h-[50vh] md:h-[70vh] items-center justify-center text-red-500">Error.</div>
 
   return (
     <>
-      <div className="relative mt-6 h-[50vh] w-full overflow-hidden rounded-lg md:h-[70vh]">
+      <div className="relative mt-6 h-[50vh] md:h-[70vh] w-full overflow-hidden rounded-lg">
         <MapContainer
           center={INITIAL_VIEW_STATE.center}
           zoom={INITIAL_VIEW_STATE.zoom}
@@ -333,19 +274,15 @@ export function SpecimensMap() {
           {layerData.length > 0 && (
             <LeafletMarkers
               clusters={layerData}
-              onMarkerClick={setSelectedCluster}
+              onMarkerClick={setSelectedPoint}
               palette={palettes[activePalette]}
               paletteName={activePalette}
             />
           )}
         </MapContainer>
 
-        {selectedCluster && (
-          <SpecimenPointDialog
-            cluster={selectedCluster}
-            isOpen={!!selectedCluster}
-            onClose={() => setSelectedCluster(null)}
-          />
+        {selectedPoint && (
+          <SpecimenPointDialog point={selectedPoint} isOpen={!!selectedPoint} onClose={() => setSelectedPoint(null)} />
         )}
       </div>
 
@@ -372,7 +309,7 @@ export function SpecimensMap() {
 function MapSkeleton() {
   return (
     <>
-      <div className="relative mt-6 h-[50vh] w-full overflow-hidden rounded-lg border border-gray-200 @sm/mainresult:h-[70vh]">
+      <div className="relative mt-6 h-[50vh] @sm/mainresult:h-[70vh] w-full overflow-hidden rounded-lg border border-gray-200">
         {/* Main map skeleton */}
         <div className="h-full w-full">
           <Skeleton className="h-full w-full" />

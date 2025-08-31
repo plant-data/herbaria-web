@@ -9,7 +9,7 @@ import { COMMON_QUERY_OPTIONS, MAX_YEAR, MIN_YEAR, SEARCH_CONFIG } from '@/featu
 // 1. Configuration & Constants
 // ============================================================================
 
-type SearchType = 'data' | 'map' | 'graph' | 'point'
+type SearchType = 'data' | 'map' | 'graph' | 'point' | 'cluster'
 
 export type CustomFilters = Partial<FilterStateData & FilterMapData & { sortBy: string }>
 
@@ -74,6 +74,12 @@ const prepareQueryPayload = (
         groupBy: customGroupBy,
       }
     case 'point':
+      return {
+        filters,
+        limit: 10,
+        skip: customSkip,
+      }
+    case 'cluster':
       return {
         filters,
         limit: 10,
@@ -158,6 +164,14 @@ interface UseSpecimensPointOptions {
   customSkip?: number
 }
 
+interface UseSpecimensClusterOptions {
+  customFilters?: CustomFilters & {
+    gridCode?: string
+    clusterCode?: string
+  }
+  customSkip?: number
+}
+
 export function useSpecimensMap(options: UseSpecimensMapOptions = {}) {
   const { customFilters } = options
   return useSpecimensQuery({ searchType: 'map', customFilters })
@@ -176,6 +190,15 @@ export function useSpecimensPoint(options: UseSpecimensPointOptions = {}) {
   const { customFilters, customSkip } = options
   return useSpecimensQuery({
     searchType: 'point',
+    customFilters,
+    customSkip,
+  })
+}
+
+export function useSpecimensCluster(options: UseSpecimensClusterOptions = {}) {
+  const { customFilters, customSkip } = options
+  return useSpecimensQuery({
+    searchType: 'cluster',
     customFilters,
     customSkip,
   })

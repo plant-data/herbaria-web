@@ -75,6 +75,10 @@ const SEARCH_CONFIG = {
     url: `${BASE_API_URL}occurrences/search`,
     key: 'point-data',
   },
+  cluster: {
+    url: `${BASE_API_URL}occurrences/search`,
+    key: 'cluster-data',
+  },
 } as const
 
 const COMMON_QUERY_OPTIONS = {

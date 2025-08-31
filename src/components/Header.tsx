@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Link } from '@tanstack/react-router'
+import { Link, useParams } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { Menu } from 'lucide-react'
 
 import { BreadcrumbResponsive } from '@/components/breadcrumb'
@@ -8,10 +9,20 @@ import { LanguageToggle } from '@/components/language-toggle'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
+import { HERBARIA } from '@/features/search/constants/constants'
 
+
+  
 export function Header() {
   const isMobile = useIsMobile()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { herbariaId } = useParams({ strict: false })
+  const { t } = useTranslation()
+
+  const getHerbariumName = (id: string) => {
+    const herbarium = HERBARIA.find((h) => h.id === id)
+    return herbarium ? t(herbarium.value) : id
+  }
 
   if (isMobile) {
     return (
@@ -22,6 +33,9 @@ export function Header() {
               <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
                 <img src="images/flor.png" alt="Herbaria Logo" width={38} height={38} className="" />
                 <span className="text-md text-foreground font-semibold">FlorItaly Herbaria</span>
+                {herbariaId && (
+                  <span className="text-sm font-medium">{getHerbariumName(herbariaId)}</span>
+                )}
               </Link>
             </div>
 

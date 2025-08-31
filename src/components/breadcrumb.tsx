@@ -123,11 +123,11 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
           </BreadcrumbLink>
         </BreadcrumbItem> */}
         {pathnames.map((value, index) => {
-          console.log([value, index]);
-          
+          console.log([value, index])
+
           let to = `/${pathnames.slice(0, index + 1).join('/')}`
           const isLast = index === pathnames.length - 1
-          let name= getBreadcrumbName(value)
+          let name = getBreadcrumbName(value)
 
           if (value === 'specimens') {
             // replace specimens with search

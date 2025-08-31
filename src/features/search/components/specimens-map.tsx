@@ -162,9 +162,9 @@ function LeafletMarkers({
 
   // Calculate marker radius based on zoom level and count
   const getMarkerRadius = (count: number, zoom: number) => {
-    //const baseRadius = Math.min(Math.max(Math.log(count) * 2, 2), 15)
-    //const zoomFactor = Math.max(0.5, zoom / 10)
-    //return baseRadius * zoomFactor
+    // const baseRadius = Math.min(Math.max(Math.log(count) * 2, 2), 15)
+    // const zoomFactor = Math.max(0.5, zoom / 10)
+    // return baseRadius * zoomFactor
     switch (zoom) {
       case 2:
         return 1
@@ -254,11 +254,11 @@ export function SpecimensMap() {
   }, [data?.clusters])
 
   if (isPending) return <MapSkeleton />
-  if (error) return <div className="flex h-[70vh] items-center justify-center text-red-500">Error.</div>
+  if (error) return <div className="flex h-[50vh] @sm/map:h-[70vh] items-center justify-center text-red-500">Error.</div>
 
   return (
     <>
-      <div className="relative mt-6 h-[70vh] w-full overflow-hidden rounded-lg">
+      <div className="relative mt-6 h-[50vh] @sm/map:h-[70vh] w-full overflow-hidden rounded-lg">
         <MapContainer
           center={INITIAL_VIEW_STATE.center}
           zoom={INITIAL_VIEW_STATE.zoom}
@@ -309,7 +309,7 @@ export function SpecimensMap() {
 function MapSkeleton() {
   return (
     <>
-      <div className="relative mt-6 h-[70vh] w-full overflow-hidden rounded-lg border border-gray-200">
+      <div className="relative mt-6 h-[50vh] @sm/map:h-[70vh] w-full overflow-hidden rounded-lg border border-gray-200">
         {/* Main map skeleton */}
         <div className="h-full w-full">
           <Skeleton className="h-full w-full" />

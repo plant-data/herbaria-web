@@ -7,7 +7,7 @@ export const Route = createFileRoute('/search/map')({
 
 function RouteComponent() {
   return (
-    <div>
+    <div className='@container/map'>
       <SpecimensMap />
     </div>
   )

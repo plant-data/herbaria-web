@@ -7,7 +7,7 @@ export function SpecimensGraphs() {
 
   return (
     <div className="max-w-full space-y-8 py-4">
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 @min-4xl/mainresult:grid-cols-2">
         <GenericGraph
           title={t('search.results.specimens-by-scientific-name')}
           groupBy="scientificName"
@@ -23,7 +23,7 @@ export function SpecimensGraphs() {
           chartType="line"
           color="#91cc75"
         />
-        <MapGraph className="col-span-1 lg:col-span-2" />
+        <MapGraph className="col-span-1 @min-4xl/mainresult:col-span-2" />
 
         <GenericGraph
           title={t('search.results.specimens-by-floritaly-name')}

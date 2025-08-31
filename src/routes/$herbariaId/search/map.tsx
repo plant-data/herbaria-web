@@ -7,7 +7,7 @@ export const Route = createFileRoute('/$herbariaId/search/map')({
 
 function RouteComponent() {
   return (
-    <div className='@container/map'>
+    <div>
       <SpecimensMap />
     </div>
   )

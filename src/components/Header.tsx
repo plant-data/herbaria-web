@@ -32,10 +32,12 @@ export function Header() {
             <div className="flex flex-1 justify-center">
               <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
                 <img src="images/flor.png" alt="Herbaria Logo" width={38} height={38} className="" />
-                <span className="text-md text-foreground font-semibold">FlorItaly Herbaria</span>
-                {herbariaId && (
-                  <span className="text-sm font-medium">{getHerbariumName(herbariaId)}</span>
-                )}
+                <div className='flex flex-col '>
+                  <span className="text-foreground font-semibold">FlorItaly Herbaria</span>
+                  {herbariaId && (
+                    <span className="text-xs font-medium">{getHerbariumName(herbariaId)}</span>
+                  )}
+                </div>
               </Link>
             </div>
 

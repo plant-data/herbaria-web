@@ -254,11 +254,11 @@ export function SpecimensMap() {
   }, [data?.clusters])
 
   if (isPending) return <MapSkeleton />
-  if (error) return <div className="flex h-[50vh] @sm/mainresult:h-[70vh] items-center justify-center text-red-500">Error.</div>
+  if (error) return <div className="flex h-[50vh] md:h-[70vh] items-center justify-center text-red-500">Error.</div>
 
   return (
     <>
-      <div className="relative mt-6 h-[50vh] @sm/mainresult:h-[70vh] w-full overflow-hidden rounded-lg">
+      <div className="relative mt-6 h-[50vh] md:h-[70vh] w-full overflow-hidden rounded-lg">
         <MapContainer
           center={INITIAL_VIEW_STATE.center}
           zoom={INITIAL_VIEW_STATE.zoom}

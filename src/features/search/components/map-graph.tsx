@@ -7,13 +7,14 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useEchartsMap } from '@/features/search/api/get-echart-map'
 import { useTheme } from '@/components/theme-provider'
 import { cn } from '@/lib/utils'
+import { BASE_PATH } from '@/config'
 
 export function MapGraph({ className = '' }) {
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const { data, isPending, error: dataError } = useSpecimensGraph({ customGroupBy: 'country' })
 
-  const { geoJson, isLoading: isLoadingGeo, error: geoError } = useEchartsMap('countries', '/maps/countries.json')
+  const { geoJson, isLoading: isLoadingGeo, error: geoError } = useEchartsMap('countries', `${BASE_PATH}/maps/countries.json`)
 
   const countryCountMap = useMemo(() => {
     const map = new Map<string, number>()

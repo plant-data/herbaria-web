@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useParams } from '@tanstack/react-router'
+import { Link, useParams, useRouterState } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { Menu } from 'lucide-react'
 
@@ -10,14 +10,17 @@ import { useIsMobile } from '@/hooks/use-mobile'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { HERBARIA } from '@/features/search/constants/constants'
+import { cn } from '@/lib/utils'
 
-
-  
 export function Header() {
   const isMobile = useIsMobile()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { herbariaId } = useParams({ strict: false })
   const { t } = useTranslation()
+  const { location } = useRouterState()
+
+
+  const searchSegmentPresent = location.pathname.includes('/search');
 
   const getHerbariumName = (id: string) => {
     const herbarium = HERBARIA.find((h) => h.id === id)
@@ -32,11 +35,9 @@ export function Header() {
             <div className="flex flex-1 justify-center">
               <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
                 <img src="images/flor.png" alt="Herbaria Logo" width={38} height={38} className="" />
-                <div className='flex flex-col '>
+                <div className="flex flex-col">
                   <span className="text-foreground font-semibold">FlorItaly Herbaria</span>
-                  {herbariaId && (
-                    <span className="text-xs font-medium">{getHerbariumName(herbariaId)}</span>
-                  )}
+                  {herbariaId && <span className="text-xs font-medium">{getHerbariumName(herbariaId)}</span>}
                 </div>
               </Link>
             </div>
@@ -75,9 +76,12 @@ export function Header() {
     )
   }
 
+  // the search page is optimized for larger screens so the navbar shouls adapt to it
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
-      <nav className="container flex h-[var(--header-height)] max-w-screen-2xl items-center justify-between px-4">
+      <nav className={cn("flex h-[var(--header-height)] max-w-screen-2xl items-center justify-between pl-4 pr-6",
+        searchSegmentPresent ? 'max-w-[2120px]' : 'container mx-auto'
+      )}>
         {/* Logo and Brand */}
         <div className="flex items-center gap-3">
           <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">

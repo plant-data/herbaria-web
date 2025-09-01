@@ -1,7 +1,7 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import OpenSeaDragon from 'openseadragon';
+import { ZoomIn, ZoomOut, RotateCcw, X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface MultimediaData {
   imageUrl: string;
@@ -27,6 +27,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
   const viewerRef = useRef<HTMLDivElement>(null);
   const viewerInstance = useRef<OpenSeaDragon.Viewer | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [zoomPercentage, setZoomPercentage] = useState(100);
 
   // Find current index based on identifier
   useEffect(() => {
@@ -58,39 +59,42 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
         },
         prefixUrl: 'https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/',
         showNavigator: true,
-        navigatorPosition: 'TOP_RIGHT',
+        navigatorPosition: 'BOTTOM_RIGHT',
         navigatorSizeRatio: 0.15,
         navigatorMaintainSizeRatio: true,
         navigatorBackground: '#000',
         navigatorOpacity: 0.8,
-        navigatorBorderColor: '#555',
+        navigatorBorderColor: '#fff',
         navigatorDisplayRegionColor: '#900',
-        maxZoomLevel: 8,
-        minZoomLevel: 0.5,
-        defaultZoomLevel: 1,
+        maxZoomLevel: 10,
+        minZoomLevel: 0,
+        defaultZoomLevel: 0, // 0 means fit to viewer
         zoomInButton: 'zoom-in-btn',
         zoomOutButton: 'zoom-out-btn',
         homeButton: 'home-btn',
-        fullPageButton: 'fullpage-btn',
-        showZoomControl: true,
-        showHomeControl: true,
+        showZoomControl: false,
+        showHomeControl: false,
         showFullPageControl: false,
         showSequenceControl: false,
-        animationTime: 1.0,
-        springStiffness: 6.5,
+        animationTime: 0.5,
+        springStiffness: 10,
         imageLoaderLimit: 2,
         timeout: 120000,
         useCanvas: true,
         preserveImageSizeOnResize: true,
         visibilityRatio: 1,
-        constrainDuringPan: false,
+        constrainDuringPan: true,
         wrapHorizontal: false,
         wrapVertical: false,
         panHorizontal: true,
         panVertical: true,
-        showNavigationControl: true,
-        navigationControlAnchor: OpenSeaDragon.ControlAnchor.TOP_LEFT,
-        sequenceMode: false
+        showNavigationControl: false,
+        sequenceMode: false,
+        immediateRender: true,
+        homeFillsViewer: false,
+        minZoomImageRatio: 1,
+        maxZoomPixelRatio: 10,
+
       });
 
       // Add custom styling to navigator
@@ -101,6 +105,22 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
           navigator.style.borderRadius = '4px';
           navigator.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
         }
+
+        // Ensure the image fits height on open
+        /* if (viewerInstance.current) {
+          const viewport = viewerInstance.current.viewport;
+          viewport.fitVertically();
+          viewport.applyConstraints();
+        } */
+      });
+
+      // Update zoom percentage when zoom changes
+      viewerInstance.current.addHandler('zoom', () => {
+        if (!viewerInstance.current) return;
+        const zoom = viewerInstance.current.viewport.getZoom();
+        const homeZoom = viewerInstance.current.viewport.getHomeZoom();
+        const percentage = Math.round((zoom / homeZoom) * 100);
+        setZoomPercentage(percentage);
       });
 
     } catch (error) {
@@ -114,6 +134,26 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
       }
     };
   }, [isOpen, currentIndex, mediaData]);
+
+  // Zoom control functions
+  const handleZoomIn = () => {
+    if (viewerInstance.current) {
+      viewerInstance.current.viewport.zoomBy(1.5);
+    }
+  };
+
+  const handleZoomOut = () => {
+    if (viewerInstance.current) {
+      viewerInstance.current.viewport.zoomBy(0.67);
+    }
+  };
+
+  const handleResetView = () => {
+    if (viewerInstance.current) {
+      viewerInstance.current.viewport.fitVertically();
+      viewerInstance.current.viewport.applyConstraints();
+    }
+  };
 
   // Navigation functions
   const goToPrevious = () => {
@@ -173,10 +213,10 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
       />
       
       {/* Main container */}
-      <div className="relative w-full h-full max-w-7xl max-h-full mx-4 my-4 bg-black rounded-lg overflow-hidden">
+      <div className="relative w-full h-full max-w-[90vw] max-h-[100dvh] mx-auto my-auto bg-black rounded-lg overflow-hidden flex flex-col">
         
         {/* Header */}
-        <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-black/80 to-transparent p-4">
+        <div className="relative z-20 bg-black/80 px-4 py-3 flex-shrink-0">
           <div className="flex justify-between items-center text-white">
             <div className="flex items-center space-x-4">
               <h3 className="text-lg font-semibold truncate">
@@ -194,84 +234,82 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
               className="p-2 hover:bg-white/20 rounded-full transition-colors"
               aria-label="Close lightbox"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <X className="w-6 h-6" />
             </button>
           </div>
         </div>
 
-        {/* OpenSeaDragon Viewer */}
-        <div 
-          ref={viewerRef}
-          className="w-full h-full"
-          style={{ minHeight: '400px' }}
-        />
+        {/* OpenSeaDragon Viewer Container */}
+        <div className="relative flex-1 overflow-hidden">
+          <div 
+            ref={viewerRef}
+            className="absolute inset-0"
+          />
 
-        {/* Custom zoom controls */}
-        <div className="absolute top-20 left-4 z-20 flex flex-col space-y-2">
-          <button
-            id="zoom-in-btn"
-            className="p-2 bg-black/70 hover:bg-black/90 text-white rounded transition-colors"
-            aria-label="Zoom in"
-            title="Zoom in"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-          </button>
-          
-          <button
-            id="zoom-out-btn"
-            className="p-2 bg-black/70 hover:bg-black/90 text-white rounded transition-colors"
-            aria-label="Zoom out"
-            title="Zoom out"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-            </svg>
-          </button>
-          
-          <button
-            id="home-btn"
-            className="p-2 bg-black/70 hover:bg-black/90 text-white rounded transition-colors"
-            aria-label="Reset zoom"
-            title="Reset zoom"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
-            </svg>
-          </button>
+          {/* Custom zoom controls */}
+          <div className="absolute top-4 left-4 z-20 bg-black/70 rounded-lg p-1 flex items-center space-x-1">
+            <button
+              id="zoom-out-btn"
+              onClick={handleZoomOut}
+              className="p-2 hover:bg-white/20 text-white rounded transition-colors"
+              aria-label="Zoom out"
+              title="Zoom out"
+            >
+              <ZoomOut className="w-5 h-5" />
+            </button>
+            
+            <span className="min-w-[3rem] text-center text-sm font-medium text-white px-1">
+              {zoomPercentage}%
+            </span>
+            
+            <button
+              id="zoom-in-btn"
+              onClick={handleZoomIn}
+              className="p-2 hover:bg-white/20 text-white rounded transition-colors"
+              aria-label="Zoom in"
+              title="Zoom in"
+            >
+              <ZoomIn className="w-5 h-5" />
+            </button>
+            
+            <div className="w-px h-6 bg-white/30 mx-1" />
+            
+            <button
+              id="home-btn"
+              onClick={handleResetView}
+              className="p-2 hover:bg-white/20 text-white rounded transition-colors"
+              aria-label="Reset zoom"
+              title="Reset zoom"
+            >
+              <RotateCcw className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Navigation arrows */}
+          {hasPrevious && (
+            <button
+              onClick={goToPrevious}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/70 hover:bg-black/90 text-white rounded-full transition-colors"
+              aria-label="Previous image"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+          )}
+
+          {hasNext && (
+            <button
+              onClick={goToNext}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/70 hover:bg-black/90 text-white rounded-full transition-colors"
+              aria-label="Next image"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          )}
         </div>
-
-        {/* Navigation arrows */}
-        {hasPrevious && (
-          <button
-            onClick={goToPrevious}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/70 hover:bg-black/90 text-white rounded-full transition-colors"
-            aria-label="Previous image"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-        )}
-
-        {hasNext && (
-          <button
-            onClick={goToNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/70 hover:bg-black/90 text-white rounded-full transition-colors"
-            aria-label="Next image"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        )}
 
         {/* Footer with image counter */}
         {mediaData.length > 1 && (
-          <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black/80 to-transparent p-4">
+          <div className="relative z-20 bg-black/80 px-4 py-3 flex-shrink-0">
             <div className="flex justify-center">
               <div className="flex space-x-2">
                 {mediaData.map((_, index) => (

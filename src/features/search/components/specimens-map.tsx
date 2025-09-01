@@ -7,13 +7,14 @@ import type { PaletteName } from '@/features/search/constants/map-palettes'
 import type { SpecimenData } from '@/features/search/types/types'
 import { palettes } from '@/features/search/constants/map-palettes'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-import { useSpecimensMap, useSpecimensPoint, useSpecimensCluster } from '@/features/search/api/get-occurrences'
+import { useSpecimensCluster, useSpecimensMap, useSpecimensPoint } from '@/features/search/api/get-occurrences'
 import 'leaflet/dist/leaflet.css'
 import { Card, CardContent } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
+import { MAP_CENTER, ZOOM } from '@/features/search/constants/constants'
 
 type ClusterData = {
   coordinates: [number, number]
@@ -24,24 +25,27 @@ type ClusterData = {
 type PaletteFn = (count: number) => string
 
 const INITIAL_VIEW_STATE = {
-  center: [41.902782, 12.496366] as [number, number],
-  zoom: 5,
+  center: MAP_CENTER,
+  zoom: ZOOM,
 }
 
 function MapEventHandler() {
-  const { setZoom, setBbox } = useFilterStore(
+  const { setZoom, setBbox, setMapCenter } = useFilterStore(
     useShallow((state) => ({
       setZoom: state.setZoom,
       setBbox: state.setBbox,
+      setMapCenter: state.setMapCenter,
     })),
   )
   const map = useMap()
   const updateFilters = useCallback(() => {
     const bounds = map.getBounds()
     const zoom = map.getZoom()
+    const center = map.getCenter()
     setZoom(zoom)
     setBbox([bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()])
-  }, [map, setZoom, setBbox])
+    setMapCenter([center.lat, center.lng])
+  }, [map, setZoom, setBbox, setMapCenter])
   useEffect(() => {
     map.whenReady(updateFilters)
   }, [map, updateFilters])
@@ -302,6 +306,10 @@ function SpecimenPointDialog({
 
 // Main component with simplified rendering
 export function SpecimensMap() {
+  const { zoom, mapCenter } = useFilterStore(useShallow((state) => ({
+      zoom: state.zoom,
+      mapCenter: state.mapCenter,
+    })), )
   const { data, isPending, error } = useSpecimensMap()
   const [activePalette, setActivePalette] = useState<PaletteName>('Classic')
 
@@ -319,8 +327,8 @@ export function SpecimensMap() {
     <>
       <div className="relative mt-6 h-[50vh] w-full overflow-hidden rounded-lg md:h-[70vh]">
         <MapContainer
-          center={INITIAL_VIEW_STATE.center}
-          zoom={INITIAL_VIEW_STATE.zoom}
+          center={mapCenter}
+          zoom={zoom}
           style={{ height: '100%', width: '100%', zIndex: 0 }}
           zoomControl={true}
         >

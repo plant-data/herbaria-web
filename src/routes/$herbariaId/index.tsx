@@ -18,6 +18,7 @@ function RouteComponent() {
   const { herbariaId } = Route.useParams()
   const navigate = useNavigate()
   const resetFilters = useFilterStore((state) => state.resetFilters)
+  const resetMap = useFilterStore((state) => state.resetMap)
   const setScientificName = useFilterStore((state) => state.setScientificName)
 
   // Find the current herbarium configuration
@@ -32,6 +33,7 @@ function RouteComponent() {
 
   const handleScientificNameSelected = (value: string) => {
     resetFilters()
+    resetMap()
     setScientificName([value])
     navigate({
       to: '/$herbariaId/search',
@@ -77,7 +79,7 @@ function RouteComponent() {
                     onSelectedValueChange={handleScientificNameSelected}
                   />
                 </div>
-                <Button asChild variant="default" className="bg-ring" size="lg" onClick={() => resetFilters()}>
+                <Button asChild variant="default" className="bg-ring" size="lg" onClick={() => { resetFilters(); resetMap(); }}>
                   <Link to="/$herbariaId/search" params={{ herbariaId }}>
                     <Database className="mr-2 h-5 w-5" />
                     Explore the Collection

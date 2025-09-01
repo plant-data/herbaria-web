@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import { BBOX, MAX_YEAR, MIN_YEAR, SKIP, ZOOM } from '@/features/search/constants/constants'
+import { BBOX, MAP_CENTER, MAX_YEAR, MIN_YEAR, SKIP, ZOOM } from '@/features/search/constants/constants'
 
 // skip zoom and bb aren't considered visible filters
 export interface FilterStateData {
@@ -25,6 +25,7 @@ export type LockedFilters = Array<keyof Omit<FilterStateData, 'skip' | 'activeFi
 export interface FilterMapData {
   zoom: number
   bbox: [number, number, number, number]
+  mapCenter: [number, number]
 }
 
 interface FilterActions {
@@ -46,6 +47,7 @@ interface FilterActions {
   setSkip: (skip: number) => void
   setZoom: (zoom: number) => void
   setBbox: (bbox: [number, number, number, number]) => void
+  setMapCenter: (mapCenter: [number, number]) => void
   resetMap: () => void
 }
 
@@ -70,6 +72,7 @@ const initialState: FilterStateData = {
 const initialMapState: FilterMapData = {
   zoom: ZOOM,
   bbox: BBOX,
+  mapCenter: MAP_CENTER,
 }
 
 // helper function to calculate active filters count
@@ -179,10 +182,11 @@ export const useFilterStore = create<FilterState>()(
           'resetFilters',
         ),
 
-      // replace skip with number
+      // map setters
       setSkip: (newSkip: number) => set({ skip: newSkip }, false, 'setSkip'),
       setZoom: (newZoom: number) => set({ zoom: newZoom }, false, 'setZoom'),
       setBbox: (newBbox: [number, number, number, number]) => set({ bbox: newBbox }, false, 'setBbox'),
+      setMapCenter: (newMapCenter: [number, number]) => set({ mapCenter: newMapCenter }, false, 'setMapCenter'),
       resetMap: () => set(initialMapState, false, 'resetMap'),
     }),
     {

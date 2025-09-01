@@ -52,6 +52,7 @@ const MAP_STYLE = {
 
 const ZOOM = 5
 const BBOX: [number, number, number, number] = [5, 20, 30, 50]
+const MAP_CENTER: [number, number] = [41.902782, 12.496366]
 
 const MINIMAP_ZOOM = 2
 const MINIMAP_CENTER: [number, number] = [40, 10] //
@@ -98,6 +99,7 @@ export {
   HERBARIA,
   MAP_STYLE,
   ZOOM,
+  MAP_CENTER,
   BBOX,
   MINIMAP_CENTER,
   MINIMAP_ZOOM,

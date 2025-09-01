@@ -15,6 +15,7 @@ export const Route = createFileRoute('/')({
 function HerbariumCard({ herbarium }: { herbarium: (typeof HERBARIA_CONFIG)[0] }) {
   const { t } = useTranslation()
   const resetFilters = useFilterStore((state) => state.resetFilters)
+  const resetMap = useFilterStore((state) => state.resetMap)
 
   return (
     <Card className="group flex flex-col border shadow-xs">
@@ -40,7 +41,7 @@ function HerbariumCard({ herbarium }: { herbarium: (typeof HERBARIA_CONFIG)[0] }
         <p className="mb-4 flex-1">{herbarium.description}</p>
         <div className="flex gap-4">
           <Link
-            onClick={() => resetFilters()}
+            onClick={() => { resetFilters(); resetMap(); }}
             to="/$herbariaId"
             params={{ herbariaId: herbarium.id }}
             className="hover:bg-ring/80 bg-ring mt-auto inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors duration-200 focus:ring-2"
@@ -49,7 +50,7 @@ function HerbariumCard({ herbarium }: { herbarium: (typeof HERBARIA_CONFIG)[0] }
             Home
           </Link>
           <Link
-            onClick={() => resetFilters()}
+            onClick={() => { resetFilters(); resetMap(); }}
             to="/$herbariaId/search"
             params={{ herbariaId: herbarium.id }}
             className="hover:bg-ring/80 bg-ring mt-auto inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors duration-200 focus:ring-2"
@@ -65,6 +66,7 @@ function HerbariumCard({ herbarium }: { herbarium: (typeof HERBARIA_CONFIG)[0] }
 
 function App() {
   const resetFilters = useFilterStore((state) => state.resetFilters)
+  const resetMap = useFilterStore((state) => state.resetMap)
 
   return (
     <div className="min-h-screen">
@@ -101,7 +103,7 @@ function App() {
               </p>
               <Link
                 to="/search"
-                onClick={() => resetFilters()}
+                onClick={() => { resetFilters(); resetMap(); }}
                 className="bg-ring hover:bg-ring/80 mt-auto inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors duration-200 focus:ring-2"
               >
                 <Search className="mr-2 h-4 w-4" />

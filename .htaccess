@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /testo/
+RewriteBase /herbaria/
 # Pass through existing files/directories
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d

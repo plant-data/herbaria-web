@@ -12,6 +12,7 @@ import { FLORITALY_URL } from '@/features/search/constants/constants'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import 'leaflet/dist/leaflet.css'
 import { Button } from '@/components/ui/button'
+import { BASE_PATH } from '@/config'
 
 // Helper function to get country name from country code
 const getCountryName = (countryCode: unknown): string => {
@@ -281,7 +282,7 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           {occurrence.floritalyID ? (
             <Button asChild className="ml-2 h-6 gap-1 px-2 py-1">
               <span>
-                <img src="images/flor.png" alt="Herbaria Logo" width={18} height={18} className=""></img>
+                <img src={`${BASE_PATH}images/flor.png`} alt="Herbaria Logo" width={18} height={18} className=""></img>
                 <a className="text-xs" target="_blank" href={`${FLORITALY_URL}${occurrence.floritalyID}`}>
                   Open taxon page
                 </a>

@@ -1,9 +1,9 @@
-import { useContext, useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import { useRouter } from '@tanstack/react-router'
 import { ArrowLeft, Maximize2, RotateCcw, ZoomIn, ZoomOut } from 'lucide-react'
-import { Viewer, ViewerContext, ViewerProvider } from 'react-viewer-pan-zoom'
 import { useTranslation } from 'react-i18next'
+import OpenSeadragon from 'openseadragon'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
@@ -93,11 +93,95 @@ function SpecimenMap({ decimalLatitude, decimalLongitude }: SpecimenMapProps) {
 }
 
 export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps) {
-  // State to control the lightbox visibility and current image
+  const viewerRef = useRef<OpenSeadragon.Viewer | null>(null)
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
   const [currentImageIdentifier, setCurrentImageIdentifier] = useState('')
+  const [zoomPercentage, setZoomPercentage] = useState(100)
 
   const hasImage = multimedia.length > 0
+
+  useEffect(() => {
+    if (!hasImage) return
+
+    const imageData = multimedia[0]
+    const viewer = OpenSeadragon({
+      id: 'specimen-seadragon-viewer',
+      tileSources: {
+        type: 'image',
+        url: imageData.imageUrl,
+      },
+      prefixUrl: 'https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/',
+      showNavigator: true,
+      navigatorPosition: 'BOTTOM_RIGHT',
+      navigatorSizeRatio: 0.15,
+      navigatorMaintainSizeRatio: true,
+      navigatorBackground: '#fff',
+      navigatorOpacity: 0.8,
+      navigatorBorderColor: '#ccc',
+      navigatorDisplayRegionColor: '#333',
+      maxZoomLevel: 8,
+      minZoomLevel: 1,
+      defaultZoomLevel: 1,
+      showZoomControl: false,
+      showHomeControl: false,
+      showFullPageControl: false,
+      showSequenceControl: false,
+      animationTime: 0.5,
+      springStiffness: 10,
+      imageLoaderLimit: 2,
+      timeout: 120000,
+      useCanvas: true,
+      preserveImageSizeOnResize: true,
+      visibilityRatio: 1,
+      constrainDuringPan: true,
+      wrapHorizontal: false,
+      wrapVertical: false,
+      panHorizontal: true,
+      panVertical: true,
+      showNavigationControl: false,
+      sequenceMode: false,
+    })
+
+    viewerRef.current = viewer
+
+    // Update zoom percentage when zoom changes
+    viewer.addHandler('zoom', () => {
+      const zoom = viewer.viewport.getZoom()
+      const homeZoom = viewer.viewport.getHomeZoom()
+      const percentage = Math.round((zoom / homeZoom) * 100)
+      setZoomPercentage(percentage)
+    })
+
+    return () => {
+      viewerRef.current?.destroy()
+    }
+  }, [hasImage, multimedia])
+
+  const handleZoomIn = () => {
+    if (viewerRef.current) {
+      viewerRef.current.viewport.zoomBy(1.5)
+    }
+  }
+
+  const handleZoomOut = () => {
+    if (viewerRef.current) {
+      viewerRef.current.viewport.zoomBy(0.67)
+    }
+  }
+
+  const handleResetView = () => {
+    if (viewerRef.current) {
+      viewerRef.current.viewport.goHome()
+    }
+  }
+
+  const handleFullScreen = () => {
+    if (hasImage) {
+      setCurrentImageIdentifier(multimedia[0].identifier)
+      setIsLightboxOpen(true)
+    }
+  }
+
   if (!hasImage) {
     return (
       <Card className="mx-auto rounded-md p-0 shadow-xs max-w-full">
@@ -110,79 +194,55 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
     )
   }
 
-  // Define URLs for both the thumbnail and the full-resolution lightbox image
-  const imageIdentifier = multimedia[0]
-  const thumbnailUrl = imageIdentifier.thumbnailUrl
-  const highResUrl = imageIdentifier.imageUrl
-
-  const handleFullScreen = () => {
-    setCurrentImageIdentifier(imageIdentifier.identifier)
-    setIsLightboxOpen(true)
-  }
-
   return (
     <>
       <Card className="mx-auto rounded-md p-0 shadow-xs max-w-full">
-        <ViewerProvider
-          settings={{
-            zoom: {
-              enabled: true,
-              default: 1,
-              min: 1,
-              max: 8,
-              mouseWheelStep: 0,
-              zoomButtonStep: 1,
-            },
-            resetView: {
-              enabled: true,
-              keyboardShortcut: 'r',
-            },
-            minimap: {
-              enabled: true,
-              width: '50px',
-              keyboardShortcut: 'm',
-              outlineStyle: '1px solid #ccc',
-              viewportAreaOutlineStyle: '2px solid #333',
-            },
-            fillHeight: false,
-          }}
-        >
-          <div className="flex w-full flex-col">
-            <div className="flex flex-1 p-1 justify-center">
-              <div className="max-w-[250px] sm:max-w-full border-input h-[370px] w-full overflow-hidden rounded-[4px] border sm:h-[340px] md:h-[480px]">
-                <Viewer
-                  viewportContent={
-                    <img
-                      className="h-[370px] w-full object-contain will-change-transform sm:h-[340px] md:h-[480px]"
-                      src={highResUrl}
-                      alt={scientificName || 'Specimen Image'}
-                      draggable="false"
-                      style={{
-                        width: '100%',
-                        objectFit: 'fill',
-                        objectPosition: 'center',
-                      }}
-                    />
-                  }
-                  minimapContent={
-                    <img
-                      className="h-[370px] w-full object-contain will-change-transform sm:h-[340px] md:h-[480px]"
-                      src={thumbnailUrl}
-                      alt={scientificName || 'Specimen Image'}
-                      draggable="false"
-                      style={{
-                        width: '100%',
-                        objectFit: 'fill',
-                        objectPosition: 'center',
-                      }}
-                    />
-                  }
-                />
-              </div>
+        <div className="flex w-full flex-col">
+          <div className="flex flex-1 p-1 justify-center">
+            <div className="max-w-[250px] sm:max-w-full border-input h-[370px] w-full overflow-hidden rounded-[4px] border sm:h-[340px] sm:w-[250px] md:h-[480px] md:w-[350px]">
+              <div 
+                id="specimen-seadragon-viewer" 
+                className="h-full w-full"
+                style={{ backgroundColor: '#f5f5f5' }}
+              />
             </div>
-            <ImageViewerControls onFullScreen={handleFullScreen} />
           </div>
-        </ViewerProvider>
+          <div className="border-input flex items-center justify-between border-t px-2 py-1">
+            <div className="flex items-center gap-1">
+              <button
+                onClick={handleZoomOut}
+                className="cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
+                aria-label="Zoom Out"
+              >
+                <ZoomOut size={16} />
+              </button>
+              <span className="min-w-[2.5rem] text-center text-xs font-medium">
+                {zoomPercentage}%
+              </span>
+              <button
+                onClick={handleZoomIn}
+                className="cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
+                aria-label="Zoom In"
+              >
+                <ZoomIn size={16} />
+              </button>
+              <button
+                onClick={handleResetView}
+                className="ml-1 cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
+                aria-label="Reset View"
+              >
+                <RotateCcw size={16} />
+              </button>
+            </div>
+            <button
+              onClick={handleFullScreen}
+              className="cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
+              aria-label="Full Screen"
+            >
+              <Maximize2 size={16} />
+            </button>
+          </div>
+        </div>
       </Card>
 
       <ImageLightbox
@@ -193,46 +253,6 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
         onNavigate={setCurrentImageIdentifier}
       />
     </>
-  )
-}
-
-const ImageViewerControls = ({ onFullScreen }: { onFullScreen: () => void }) => {
-  const { zoomOut, zoomIn, resetView, crop } = useContext(ViewerContext)
-
-  return (
-    <div className="border-input flex items-center justify-between border-t px-2 py-1">
-      <div className="flex items-center gap-1">
-        <button
-          onClick={zoomOut}
-          className="cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
-          aria-label="Zoom Out"
-        >
-          <ZoomOut size={16} />
-        </button>
-        <span className="min-w-[2.5rem] text-center text-xs font-medium">{(crop.zoom * 100).toFixed(0)}%</span>
-        <button
-          onClick={zoomIn}
-          className="cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
-          aria-label="Zoom In"
-        >
-          <ZoomIn size={16} />
-        </button>
-        <button
-          onClick={resetView}
-          className="ml-1 cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
-          aria-label="Reset View"
-        >
-          <RotateCcw size={16} />
-        </button>
-      </div>
-      <button
-        onClick={onFullScreen}
-        className="cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
-        aria-label="Full Screen"
-      >
-        <Maximize2 size={16} />
-      </button>
-    </div>
   )
 }
 

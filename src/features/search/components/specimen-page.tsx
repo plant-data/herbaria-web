@@ -421,7 +421,7 @@ export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }
 
   return (
     <div className="mt-6">
-      <h3 className="mb-4 text-lg font-semibold">Additional Images</h3>
+      <h3 className="mb-4 text-xl font-medium ">Additional Images</h3>
       <div className="flex flex-wrap gap-4">
         {imagesData.map((imageData) => (
           <div key={imageData.identifier} className="flex-shrink-0">
@@ -431,7 +431,7 @@ export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }
               onClick={() => handleImageClick(imageData.identifier)}
             >
               <img
-                className="h-32 w-32 rounded-md object-cover shadow-sm transition-opacity sm:h-40 sm:w-40"
+                className="h-[150px] w-[110px] sm:h-[300px] sm:w-[220px] rounded-md object-cover shadow-sm transition-opacity"
                 src={imageData.thumbnailUrl}
                 alt={imageData.imageRole || 'Specimen Image'}
                 draggable="false"

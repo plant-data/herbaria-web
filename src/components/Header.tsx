@@ -11,6 +11,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Button } from '@/components/ui/button'
 import { HERBARIA } from '@/features/search/constants/constants'
 import { cn } from '@/lib/utils'
+import { BASE_PATH } from '@/config'
 
 export function Header() {
   const isMobile = useIsMobile()
@@ -34,7 +35,7 @@ export function Header() {
           <div className="flex w-full items-center justify-between">
             <div className="flex flex-1 justify-center">
               <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
-                <img src="images/flor.png" alt="Herbaria Logo" width={38} height={38} className="" />
+                <img src={`${BASE_PATH}images/flor.png`} alt="Herbaria Logo" width={38} height={38} className="" />
                 <div className="flex flex-col">
                   <span className="text-foreground font-semibold">FlorItaly Herbaria</span>
                   {herbariaId && <span className="text-xs font-medium">{getHerbariumName(herbariaId)}</span>}
@@ -85,7 +86,7 @@ export function Header() {
         {/* Logo and Brand */}
         <div className="flex items-center gap-3">
           <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
-            <img src="images/flor.png" alt="Herbaria Logo" width={38} height={38} className="" />
+            <img src={`${BASE_PATH}images/flor.png`} alt="Herbaria Logo" width={38} height={38} className="" />
             <span className="text-md text-foreground hidden font-semibold sm:inline-block">FlorItaly Herbaria</span>
           </Link>
 

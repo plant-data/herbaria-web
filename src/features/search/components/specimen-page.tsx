@@ -37,10 +37,8 @@ export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
 
   return (
     <div className="container mx-auto max-w-6xl px-4 py-6">
-      <div className='grid grid-cols-[1fr_2.5rem] mb-6 items-center'>
-        <h1 className="px-2  text-2xl font-bold sm:px-0  sm:text-3xl">
-          {occurrence.scientificName}
-        </h1>
+      <div className="mb-6 grid grid-cols-[1fr_2.5rem] items-center">
+        <h1 className="px-2 text-2xl font-bold sm:px-0 sm:text-3xl">{occurrence.scientificName}</h1>
 
         <Button
           ref={backRef}
@@ -59,8 +57,9 @@ export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
         <div className="space-y-6">
           <SpecimenData occurrence={occurrence} />
         </div>
+        
+        <SpecimenOtherImages occurrence={occurrence} />
       </div>
-      <SpecimenOtherImages occurrence={occurrence} />
     </div>
   )
 }
@@ -184,7 +183,7 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
 
   if (!hasImage) {
     return (
-      <Card className="mx-auto rounded-md p-0 shadow-xs max-w-full">
+      <Card className="mx-auto max-w-full rounded-md p-0 shadow-xs">
         <CardContent className="m-0 p-1 sm:h-[370px] sm:w-[254px] md:h-[500px] md:w-[352px]">
           <div className="flex h-full w-full items-center justify-center rounded-md bg-gray-200">
             <span className="text-gray-500">No image available</span>
@@ -196,15 +195,11 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
 
   return (
     <>
-      <Card className="mx-auto rounded-md p-0 shadow-xs max-w-full">
+      <Card className="mx-auto max-w-full rounded-md p-0 shadow-xs">
         <div className="flex w-full flex-col">
-          <div className="flex flex-1 p-1 justify-center">
-            <div className="max-w-[250px] sm:max-w-full border-input h-[370px] w-full overflow-hidden rounded-[4px] border sm:h-[340px] sm:w-[250px] md:h-[480px] md:w-[350px]">
-              <div 
-                id="specimen-seadragon-viewer" 
-                className="h-full w-full"
-                style={{ backgroundColor: '#f5f5f5' }}
-              />
+          <div className="flex flex-1 justify-center p-1">
+            <div className="border-input h-[370px] w-full max-w-[250px] overflow-hidden rounded-[4px] border sm:h-[340px] sm:w-[250px] sm:max-w-full md:h-[480px] md:w-[350px]">
+              <div id="specimen-seadragon-viewer" className="h-full w-full" style={{ backgroundColor: '#f5f5f5' }} />
             </div>
           </div>
           <div className="border-input flex items-center justify-between border-t px-2 py-1">
@@ -216,9 +211,7 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
               >
                 <ZoomOut size={16} />
               </button>
-              <span className="min-w-[2.5rem] text-center text-xs font-medium">
-                {zoomPercentage}%
-              </span>
+              <span className="min-w-[2.5rem] text-center text-xs font-medium">{zoomPercentage}%</span>
               <button
                 onClick={handleZoomIn}
                 className="cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
@@ -421,7 +414,7 @@ export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }
 
   return (
     <div className="mt-6">
-      <h3 className="mb-4 text-xl font-medium ">Additional Images</h3>
+      <h3 className="mb-4 text-xl font-medium">Additional Images</h3>
       <div className="flex flex-wrap gap-4">
         {imagesData.map((imageData) => (
           <div key={imageData.identifier} className="flex-shrink-0">
@@ -431,7 +424,7 @@ export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }
               onClick={() => handleImageClick(imageData.identifier)}
             >
               <img
-                className="h-[150px] w-[110px] sm:h-[300px] sm:w-[220px] rounded-md object-cover shadow-sm transition-opacity"
+                className="h-[150px] w-[110px] rounded-md object-cover shadow-sm transition-opacity sm:h-[300px] sm:w-[220px]"
                 src={imageData.thumbnailUrl}
                 alt={imageData.imageRole || 'Specimen Image'}
                 draggable="false"

@@ -1,28 +1,29 @@
-import { useMemo, useState } from 'react'
-import { Settings2 } from 'lucide-react'
+import { useMemo } from 'react'
 import { Link, useParams } from '@tanstack/react-router'
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { useTranslation } from 'react-i18next'
 import type { ColumnDef } from '@tanstack/react-table'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Pagination } from '@/features/search/components/pagination'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { useSpecimensData } from '@/features/search/api/get-occurrences'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { BASE_IMAGE_URL, ITEMS_PER_PAGE } from '@/config'
+import { ITEMS_PER_PAGE } from '@/config'
+import { COUNTRIES } from '@/features/search/constants/countries'
+
+// Helper function to get country name from country code
+const getCountryName = (countryCode: unknown): string => {
+  if (!countryCode || typeof countryCode !== 'string') return '-'
+  const country = COUNTRIES.find((c) => c.id === countryCode)
+  return country ? country.value : countryCode
+}
 
 interface DataTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
 }
 
-const createColumns = (herbariaId?: string): Array<ColumnDef<SpecimenData>> => [
+const createColumns = (herbariaId?: string, t?: any): Array<ColumnDef<SpecimenData>> => [
   {
     accessorKey: 'catalogNumber',
     header: 'ID',
@@ -83,13 +84,18 @@ const createColumns = (herbariaId?: string): Array<ColumnDef<SpecimenData>> => [
     header: 'Identified By',
   },
   {
-    accessorKey: 'country',
+    accessorKey: 'countryCode',
     header: 'Country',
+    cell: ({ row }) => {
+      const countryName = getCountryName(row.original.countryCode)
+      return countryName === '-' ? '-' : t?.(countryName as any) || countryName
+    },
   },
 ]
 
 export function SpecimensTable() {
   const { herbariaId } = useParams({ strict: false })
+  const { t } = useTranslation()
   const skip = useFilterStore((state) => state.skip)
   const setSkip = useFilterStore((state) => state.setSkip)
   const { data, isPending, error } = useSpecimensData()
@@ -100,7 +106,7 @@ export function SpecimensTable() {
     country: false,
   }) */
 
-  const columns = useMemo(() => createColumns(herbariaId), [herbariaId])
+  const columns = useMemo(() => createColumns(herbariaId, t), [herbariaId, t])
 
   const table = useReactTable({
     data: data?.occurrences ?? [],

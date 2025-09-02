@@ -177,7 +177,8 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       />
       <Accordion type="multiple">
         <AccordionItem value="area">
-          <AccordionTrigger className='hover:cursor-pointer'>{t('search.filters.geometry-label')}</AccordionTrigger>
+          {/* <AccordionTrigger className='hover:cursor-pointer'>{t('search.filters.geometry-label')}</AccordionTrigger> */}
+          <AccordionTrigger className='hover:cursor-pointer'>Test</AccordionTrigger>
           <AccordionContent>
             <AreaMapFilter
               label={t('search.filters.geometry-description')}

@@ -12,7 +12,7 @@ export const HERBARIA_CONFIG = [
     ],
     ringColor: 'oklch(0.6 0.15 240)', // blue
   },
-  {
+  /* {
     id: 'TSB',
     translationKey: 'herbaria.tsb',
     image: 'images/tsb.png',
@@ -24,7 +24,7 @@ export const HERBARIA_CONFIG = [
       'https://object.jacq.org/europeana/PI/2204769.jpg',
     ],
     ringColor: 'oklch(0.7 0.2 50)', // orange
-  },
+  }, */
   {
     id: 'FI-HCI',
     translationKey: 'herbaria.fi-hci',

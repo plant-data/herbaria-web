@@ -316,6 +316,31 @@
     "tsb": "Herbarium Universitatis Tergestinae",
     "fi-hci": "Herbarium Centrale Italicum"
   },
+  "herbaria-pages": {
+  "fi-hci": {
+    "home": {
+      "hero": {
+        "badge": "Herbarium FI-HCI",
+        "title": "Herbarium Centrale Italicum di Firenze",
+        "description": "Fondato nel 1842, l'Herbarium Centrale Italicum (FI-HCI) è stato concepito come istituzione nazionale per centralizzare la ricerca botanica. Serve come deposito essenziale per studi sistematici e fitogeografici, ospitando una collezione mondiale di esemplari vegetali."
+      },
+      "section-1": {
+        "badge": "Storia",
+        "title": "L'Erbario",
+        "description": "Proposto nel 1841 da Filippo Parlatore per centralizzare le collezioni botaniche d'Italia, l'Herbarium fu ufficialmente istituito nel 1842 sotto la sua direzione, con l'approvazione del Granduca di Toscana."
+      },
+      "section-2": {
+        "badge": "Distribuzione geografica",
+        "title": "Una Collezione Globale",
+        "description": "L'ambito dell'herbarium non si limita ai confini dell'Italia. Include importanti collezioni internazionali di collezionisti come Philip Barker Webb, Antonio Figari e Joseph Dalton Hooker."
+      },
+      "section-3": {
+        "badge": "Patrimonio",
+        "title": "Più di 180 anni di ricerca botanica",
+        "description": "La crescita fu esponenziale fin dall'inizio. I 40.000 esemplari del 1842 divennero rapidamente più di un milione, fornendo il materiale necessario per sostenere la creazione della \"Flora Italiana\"."
+      }
+    }
+  },
   "common": {
     "yes": "Sì",
     "no": "No"

@@ -24,6 +24,8 @@ function RouteComponent() {
   // Find the current herbarium configuration
   const currentHerbarium = HERBARIA_CONFIG.find((herbarium) => herbarium.id === herbariaId.toUpperCase())
 
+
+
   // Use homeImages if available, otherwise fallback to default images
   const homeImages = currentHerbarium?.homeImages || [
     `${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00204271.jpg`,
@@ -52,7 +54,8 @@ function RouteComponent() {
               <div className="space-y-2">
                 <Badge variant="outline" className="w-fit">
                   <Leaf className="mr-2 h-4 w-4" />
-                  Herbarium FI-HCI
+                  {/* Herbarium FI-HCI */}
+                  {t(currentHerbarium?.sections[0]?.badge)}
                 </Badge>
                 <h1 className="text-primary text-4xl font-medium tracking-tight md:text-5xl lg:text-6xl">
                   Herbarium Centrale Italicum of

@@ -39,22 +39,22 @@ export const HERBARIA_CONFIG = [
     ringColor: 'oklch(0.6 0.2541 175.76)', // a beautiful teal green
     sections: [
       {
-        badge: '',
+        badge: 'herbaria-pages.fi-hci.home.section-1.badge',
         image: '',
-        title: '',
-        description: '',
+        title: 'herbaria-pages.fi-hci.home.section-1.title',
+        description: 'herbaria-pages.fi-hci.home.section-1.description',
       },
       {
-        badge: '',
+        badge: 'herbaria-pages.fi-hci.home.section-2.badge',
         image: '',
-        title: '',
-        description: '',
+        title: 'herbaria-pages.fi-hci.home.section-2.title',
+        description: 'herbaria-pages.fi-hci.home.section-2.description',
       },
       {
-        badge: '',
+        badge: 'herbaria-pages.fi-hci.home.section-3.badge',
         image: '',
-        title: '',
-        description: '',
+        title: 'herbaria-pages.fi-hci.home.section-3.title',
+        description: 'herbaria-pages.fi-hci.home.section-3.description',
       }
     ],
   },

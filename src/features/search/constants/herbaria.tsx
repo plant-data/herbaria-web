@@ -37,5 +37,25 @@ export const HERBARIA_CONFIG = [
       'https://object.jacq.org/europeana/PI/2204769.jpg',
     ],
     ringColor: 'oklch(0.6 0.2541 175.76)', // a beautiful teal green
+    sections: [
+      {
+        badge: '',
+        image: '',
+        title: '',
+        description: '',
+      },
+      {
+        badge: '',
+        image: '',
+        title: '',
+        description: '',
+      },
+      {
+        badge: '',
+        image: '',
+        title: '',
+        description: '',
+      }
+    ],
   },
 ]

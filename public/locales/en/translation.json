@@ -317,11 +317,35 @@
     "fi-hci": "Herbarium Centrale Italicum"
   },
   "herbaria-pages": {
+    "pi": {
+      "home": {
+        "hero": {
+          "badge": "Herbarium PI",
+          "title": "Herbarium Horti Botanici <1>Pisani</1>",
+          "description": "Established in 1822, the Herbarium Horti Botanici Pisani (PI) is one of the oldest botanical institutions in Italy. It serves as a crucial center for the study of plant diversity and conservation."
+        },
+        "section-1": {
+          "badge": "History",
+          "title": "About the Herbarium",
+          "description": "Proposed in 1841 by Filippo Parlatore to centralize Italy's botanical collections, the Herbarium was officially established in 1842 under his direction, with the approval of the Grand Duke of Tuscany."
+        },
+        "section-2": {
+          "badge": "Geographic distribution",
+          "title": "A Global Collection",
+          "description": "The herbarium scope is not limited to the boundaries of Italy. It includes significant international holdings from collectors like Philip Barker Webb, Antonio Figari, and Joseph Dalton Hooker."
+        },
+        "section-3": {
+          "badge": "Heritage",
+          "title": "More than 180 years of botanical research",
+          "description": "Growth was exponential from the start. The 40,000 specimens in 1842 quickly became over one million, providing material necessary to support the creation of the \"Flora Italiana\"."
+        }
+      }
+    },
     "fi-hci": {
       "home": {
         "hero": {
           "badge": "Herbarium FI-HCI",
-          "title": "Herbarium Centrale Italicum of Florence",
+          "title": "Herbarium Centrale Italicum of <1>Florence</1>",
           "description": "Established in 1842, the Herbarium Centrale Italicum (FI-HCI) was conceived as a national institution to centralize botanical research. It serves as an essential repository for systematic and phytogeographical studies, housing a global collection of plant specimens."
         },
         "section-1": {

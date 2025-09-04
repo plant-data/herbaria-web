@@ -1,6 +1,6 @@
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ChartSpline, Database, Earth, Layers, Leaf } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Card, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -23,8 +23,6 @@ function RouteComponent() {
 
   // Find the current herbarium configuration
   const currentHerbarium = HERBARIA_CONFIG.find((herbarium) => herbarium.id === herbariaId.toUpperCase())
-
-
 
   // Use homeImages if available, otherwise fallback to default images
   const homeImages = currentHerbarium?.homeImages || [
@@ -55,18 +53,20 @@ function RouteComponent() {
                 <Badge variant="outline" className="w-fit">
                   <Leaf className="mr-2 h-4 w-4" />
                   {/* Herbarium FI-HCI */}
-                  {t(currentHerbarium?.sections[0]?.badge)}
+                  {t(currentHerbarium?.hero?.badge)}
                 </Badge>
                 <h1 className="text-primary text-4xl font-medium tracking-tight md:text-5xl lg:text-6xl">
-                  Herbarium Centrale Italicum of
-                  <span className="text-ring"> Florence</span>
+                  <Trans
+                    i18nKey={currentHerbarium?.hero?.title}
+                    components={{
+                      1: <span className="text-ring" />,
+                    }}
+                  />
                 </h1>
               </div>
 
               <p className="text-primary/80 max-w-lg">
-                Established in 1842, the Herbarium Centrale Italicum (FI-HCI) was conceived as a national institution to
-                centralize botanical research. It serves as an essential repository for systematic and phytogeographical
-                studies, housing a global collection of plant specimens.
+                {t(currentHerbarium?.hero?.description)}
               </p>
 
               <div className="flex flex-col gap-4 sm:flex-row">
@@ -82,7 +82,16 @@ function RouteComponent() {
                     onSelectedValueChange={handleScientificNameSelected}
                   />
                 </div>
-                <Button asChild variant="default" className="bg-ring" size="lg" onClick={() => { resetFilters(); resetMap(); }}>
+                <Button
+                  asChild
+                  variant="default"
+                  className="bg-ring"
+                  size="lg"
+                  onClick={() => {
+                    resetFilters()
+                    resetMap()
+                  }}
+                >
                   <Link to="/$herbariaId/search" params={{ herbariaId }}>
                     <Database className="mr-2 h-5 w-5" />
                     Explore the Collection
@@ -162,15 +171,14 @@ function RouteComponent() {
           <div className="order-1 space-y-6 lg:order-2">
             <div className="space-y-2">
               <Badge variant="outline" className="w-fit text-sm">
-                History
+                {t(currentHerbarium?.sections[0]?.badge)}
               </Badge>
               <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
-                About the Herbarium
+                {t(currentHerbarium?.sections[0]?.title)}
               </h2>
             </div>
             <p className="text-primary/80">
-              Proposed in 1841 by Filippo Parlatore to centralize Italy's botanical collections, the Herbarium was
-              officially established in 1842 under his direction, with the approval of the Grand Duke of Tuscany.
+              {t(currentHerbarium?.sections[0]?.description)}
             </p>
             <Button className="bg-ring hover:bg-ring/90 text-white">Learn More</Button>
           </div>
@@ -181,19 +189,17 @@ function RouteComponent() {
       <section className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
           {/* Content - Left Side */}
-          {/* UPDATED: More scientific language and examples */}
           <div className="space-y-6">
             <div className="space-y-2">
               <Badge variant="outline" className="w-fit text-sm">
-                Geographic distribution
+                {t(currentHerbarium?.sections[1]?.badge)}
               </Badge>
               <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
-                A Global Collection
+                {t(currentHerbarium?.sections[1]?.title)}
               </h2>
             </div>
             <p className="text-primary/80">
-              The herbarium scope is not limited to the boundaries of Italy. It includes significant international
-              holdings from collectors like Philip Barker Webb, Antonio Figari, and Joseph Dalton Hooker.
+              {t(currentHerbarium?.sections[1]?.description)}
             </p>
             <Button className="bg-ring hover:bg-ring/90 text-white">Explore</Button>
           </div>
@@ -228,15 +234,14 @@ function RouteComponent() {
           <div className="order-1 space-y-6 lg:order-2">
             <div className="space-y-2">
               <Badge variant="outline" className="w-fit text-sm">
-                Heritage
+                {t(currentHerbarium?.sections[2]?.badge)}
               </Badge>
               <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
-                More than 180 years of botanical research
+                {t(currentHerbarium?.sections[2]?.title)}
               </h2>
             </div>
             <p className="text-primary/80">
-              Growth was exponential from the start. The 40,000 specimens in 1842 quickly became over one million,
-              providing material necessary to support the creation of the "Flora Italiana".
+              {t(currentHerbarium?.sections[2]?.description)}
             </p>
           </div>
         </div>

@@ -11,6 +11,36 @@ export const HERBARIA_CONFIG = [
       'https://object.jacq.org/europeana/PI/2204769.jpg',
     ],
     ringColor: 'oklch(0.6 0.15 240)', // blue
+    hero: {
+      badge: '',
+      title: 'herbaria-pages.pi.home.hero.title',
+      description: 'herbaria-pages.pi.home.hero.description',
+      images: [
+        'https://object.jacq.org/europeana/PI/1310678.jpg',
+        'https://object.jacq.org/europeana/PI/2145582.jpg',
+        'https://object.jacq.org/europeana/PI/2204769.jpg',
+      ],
+    },
+    sections: [
+      {
+        badge: 'herbaria-pages.pi.home.section-1.badge',
+        image: '',
+        title: 'herbaria-pages.pi.home.section-1.title',
+        description: 'herbaria-pages.pi.home.section-1.description',
+      },
+      {
+        badge: 'herbaria-pages.pi.home.section-2.badge',
+        image: '',
+        title: 'herbaria-pages.pi.home.section-2.title',
+        description: 'herbaria-pages.pi.home.section-2.description',
+      },
+      {
+        badge: 'herbaria-pages.pi.home.section-3.badge',
+        image: '',
+        title: 'herbaria-pages.pi.home.section-3.title',
+        description: 'herbaria-pages.pi.home.section-3.description',
+      },
+    ],
   },
   /* {
     id: 'TSB',
@@ -36,7 +66,17 @@ export const HERBARIA_CONFIG = [
       'https://object.jacq.org/europeana/PI/2145582.jpg',
       'https://object.jacq.org/europeana/PI/2204769.jpg',
     ],
-    ringColor: 'oklch(0.6 0.2541 175.76)', // a beautiful teal green
+    ringColor: 'oklch(0.6 0.2541 175.76)',
+    hero: {
+      badge: 'herbaria-pages.fi-hci.home.hero.badge',
+      title: 'herbaria-pages.fi-hci.home.hero.title',
+      description: 'herbaria-pages.fi-hci.home.hero.description',
+      images: [
+        'https://object.jacq.org/europeana/PI/1310678.jpg',
+        'https://object.jacq.org/europeana/PI/2145582.jpg',
+        'https://object.jacq.org/europeana/PI/2204769.jpg',
+      ],
+    },
     sections: [
       {
         badge: 'herbaria-pages.fi-hci.home.section-1.badge',
@@ -55,7 +95,7 @@ export const HERBARIA_CONFIG = [
         image: '',
         title: 'herbaria-pages.fi-hci.home.section-3.title',
         description: 'herbaria-pages.fi-hci.home.section-3.description',
-      }
+      },
     ],
   },
 ]

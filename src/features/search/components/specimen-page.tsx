@@ -76,6 +76,9 @@ function SpecimenMap({ decimalLatitude, decimalLongitude }: SpecimenMapProps) {
           <MapContainer
             center={position}
             zoom={2}
+            // block touch movements
+            touchZoom={false}
+            dragging={false}
             scrollWheelZoom={false}
             style={{ height: '100%', width: '100%', zIndex: 0 }}
           >

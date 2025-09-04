@@ -126,7 +126,7 @@ function RouteComponent() {
       </section>
 
       {/* Stats Section */}
-      <section className="container mx-auto mb-12 grid grid-cols-2 gap-8 px-4 text-center md:grid-cols-4">
+      <section className="container hidden  mx-auto mb-12 sm:grid grid-cols-2 gap-8 px-4 text-center md:grid-cols-4">
         <Card className="border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
           <CardDescription className="flex flex-col items-center gap-2">
             <Leaf className="text-ring size-9" />

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 import { useTranslation } from 'react-i18next'
 import { useSpecimensGraph } from '@/features/search/api/get-occurrences'
@@ -13,59 +13,68 @@ export function MapGraph({ className = '' }) {
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const { data, isPending, error: dataError } = useSpecimensGraph({ customGroupBy: 'country' })
+  const chartContainerRef = useRef<HTMLDivElement | null>(null)
+  const [isWideContainer, setIsWideContainer] = useState(false)
 
-  const { geoJson, isLoading: isLoadingGeo, error: geoError } = useEchartsMap('countries', `${BASE_PATH}/maps/countries.json`)
+  const {
+    geoJson,
+    isLoading: isLoadingGeo,
+    error: geoError,
+  } = useEchartsMap('countries', `${BASE_PATH}/maps/countries.json`)
 
   const countryCountMap = useMemo(() => {
     const map = new Map<string, number>()
-    if (data && data.occurrences && Array.isArray(data.occurrences)) {
-      data.occurrences.forEach((item) => {
-        map.set(item.countryCode, item.count)
-      })
-    }
+    data?.occurrences?.forEach((item: { countryCode: string; count: number }) => {
+      map.set(item.countryCode, item.count)
+    })
     return map
   }, [data])
 
-  const seriesData = useMemo(() => {
-    if (!geoJson) return []
+  const { seriesData, minValue, maxValue } = useMemo(() => {
+    if (!geoJson) return { seriesData: [], minValue: 0, maxValue: 1 }
 
-    return geoJson.features.map((feature) => {
-      //const fipsCode = feature.properties.fips_10
-      //ciao
+    let min = Infinity
+    let max = -Infinity
+
+    const data = geoJson.features.map((feature) => {
       const fipsCode = feature.properties.iso_a2_eh
       const count = countryCountMap.get(fipsCode) || 0
+      const logValue = Math.log10(count + 1)
+
+      min = Math.min(min, logValue)
+      max = Math.max(max, logValue)
 
       return {
         name: feature.properties.name,
-        value: Math.log10(count + 1),
+        value: logValue,
         originalValue: count,
-        displayName:
-          i18n.language === 'it' && feature.properties.name_it ? feature.properties.name_it : feature.properties.name,
+        displayName: i18n.language === 'it' && feature.properties.name_it 
+          ? feature.properties.name_it 
+          : feature.properties.name,
       }
     })
+
+    return { 
+      seriesData: data, 
+      minValue: min === Infinity ? 0 : min, 
+      maxValue: max === -Infinity ? 1 : max 
+    }
   }, [geoJson, countryCountMap, i18n.language])
 
   const countryOptions = useMemo(() => {
     if (seriesData.length === 0) return null
 
-    const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    const isDark = theme === 'dark' || 
+      (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
     const textColor = isDark ? '#ffffff' : '#000000'
-
-    const values = seriesData.map((item) => item.value)
-    const minValue = values.length > 0 ? Math.min(...values) : 0
-    const maxValue = values.length > 0 ? Math.max(...values) : 1
 
     return {
       tooltip: {
         trigger: 'item',
-        formatter: function (params: any) {
+        formatter: (params: any) => {
           const itemData = params.data
           if (!itemData) return params.name
-
-          const displayName = itemData.displayName || params.name
-          const displayValue = itemData.originalValue
-
-          return `${displayName}<br/>${displayValue} ${t('search.results.specimens')}`
+          return `${itemData.displayName || params.name}<br/>${itemData.originalValue} ${t('search.results.specimens')}`
         },
       },
       visualMap: {
@@ -75,10 +84,7 @@ export function MapGraph({ className = '' }) {
         textStyle: { color: textColor },
         realtime: false,
         calculable: true,
-        formatter: function (value) {
-          const originalValue = Math.round(Math.pow(10, value) - 1)
-          return originalValue.toLocaleString()
-        },
+        formatter: (value: number) => Math.round(Math.pow(10, value) - 1).toLocaleString(),
         inRange: {
           color: ['#ffffff', '#e0f3ff', '#5470c6'],
         },
@@ -91,6 +97,12 @@ export function MapGraph({ className = '' }) {
           type: 'map',
           map: 'countries',
           roam: false,
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          layoutCenter: ['50%', '50%'],
+          layoutSize: isWideContainer ? '150%' : '100%',
           data: seriesData,
           emphasis: {
             label: { show: false },
@@ -99,11 +111,28 @@ export function MapGraph({ className = '' }) {
         },
       ],
     }
-  }, [seriesData, theme, t])
+  }, [seriesData, minValue, maxValue, theme, t, isWideContainer])
+
+  // Use useLayoutEffect directly - no SSR concerns
+  useLayoutEffect(() => {
+    const element = chartContainerRef.current
+    if (!element) return
+
+    const updateWidth = (width: number) => {
+      setIsWideContainer(width > 600)
+    }
+
+    updateWidth(element.getBoundingClientRect().width)
+
+    const observer = new ResizeObserver((entries) => {
+      updateWidth(entries[0].contentRect.width)
+    })
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [])
 
   const isLoading = isPending || isLoadingGeo
-  const isError = dataError || geoError
-  const isNoData = countryOptions === null || seriesData.length === 0
+  const hasError = !!(dataError || geoError)
 
   if (isLoading) {
     return (
@@ -118,14 +147,14 @@ export function MapGraph({ className = '' }) {
     )
   }
 
-  if (isError || isNoData) {
+  if (hasError || !countryOptions) {
     return (
       <Card className={cn('gap-0 overflow-hidden shadow-xs', className)}>
         <CardHeader>
           <CardTitle>{t('search.results.specimens-country')}</CardTitle>
         </CardHeader>
         <CardContent className="flex h-[400px] items-center justify-center">
-          <p className="">{isError ? t('search.results.error-graph') : t('search.results.error-no-data')}</p>
+          <p>{hasError ? t('search.results.error-graph') : t('search.results.error-no-data')}</p>
         </CardContent>
       </Card>
     )
@@ -137,12 +166,14 @@ export function MapGraph({ className = '' }) {
         <CardTitle>{t('search.results.specimens-country')}</CardTitle>
       </CardHeader>
       <CardContent className="p-0 sm:p-2 md:p-4">
-        <ReactECharts
-          option={countryOptions}
-          style={{ height: '400px', width: '100%' }}
-          opts={{ renderer: 'svg' }}
-          notMerge={true}
-        />
+        <div ref={chartContainerRef} className="h-[400px] w-full">
+          <ReactECharts
+            option={countryOptions}
+            style={{ height: '100%', width: '100%' }}
+            opts={{ renderer: 'svg' }}
+            notMerge={true}
+          />
+        </div>
       </CardContent>
     </Card>
   )

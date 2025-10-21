@@ -52,6 +52,7 @@ const prepareQueryPayload = (
   if (searchType !== 'map') {
     delete filters.zoom
     delete filters.bbox
+    delete filters.mapCenter
   } else {
     // Ensure zoom is an integer for the map API
     if (filters.zoom !== undefined) {

@@ -2,22 +2,23 @@ import { Link } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { Separator } from '@/components/ui/separator'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
+import { BASE_PATH } from '@/config'
+
+const LOGO_BASE_PATH = `${BASE_PATH}images/uni-loghi/`
+const ORGANIZATION_BASE_PATH = `${BASE_PATH}images/org-loghi/`
 
 const UNIVERSITY_LOGOS = [
-  { name: 'Università degli Studi di Trieste', src: 'https://placehold.co/120x40?text=Logo+1' },
-  { name: 'Sapienza Università di Roma', src: 'https://placehold.co/120x40?text=Logo+2' },
-  { name: 'Università di Camerino', src: 'https://placehold.co/120x40?text=Logo+3' },
-  { name: 'Università di Perugia', src: 'https://placehold.co/120x40?text=Logo+4' },
-  { name: 'Università di Bologna', src: 'https://placehold.co/120x40?text=Logo+5' },
-  { name: 'Università di Pisa', src: 'https://placehold.co/120x40?text=Logo+6' },
-  { name: 'Università di Firenze', src: 'https://placehold.co/120x40?text=Logo+7' },
-  { name: 'Università di Padova', src: 'https://placehold.co/120x40?text=Logo+8' },
+  { name: 'Università degli Studi di Trieste', src: `${LOGO_BASE_PATH}units.png` },
+  { name: 'Sapienza Università di Roma', src: `${LOGO_BASE_PATH}sap-full.png` },
+  { name: 'Università di Camerino', src: `${LOGO_BASE_PATH}cam-full.png` },
+  { name: 'Università di Perugia', src: `${LOGO_BASE_PATH}perugia-full.svg` },
+  { name: 'Università di Bologna', src: `${LOGO_BASE_PATH}unibo.png` },
+  { name: 'Università di Pisa', src: `${LOGO_BASE_PATH}pisa-full.png` },
 ]
 
-const SUPPORT_LOGOS = [
-  { name: 'Plant Data Interuniversity Center', src: 'https://placehold.co/140x60?text=Plant+Data' },
-  { name: 'LifeWatch Italia', src: 'https://placehold.co/140x60?text=LifeWatch' },
-]
+const SUPPORT_LOGOS = [{ name: 'LifeWatch Italia', src: `${ORGANIZATION_BASE_PATH}lw-ita.png` }]
+
+const MAIN_LOGO = { name: 'Plant Data Interuniversity Center', src: `${ORGANIZATION_BASE_PATH}plantdata.png` }
 
 const CONTACTS = [
   { role: 'Coordinator', name: 'Stefano Martellos', email: 'martelst@units.it' },
@@ -39,16 +40,16 @@ export function Footer() {
       <div className="mx-auto flex max-w-screen-2xl flex-col gap-12 px-4 py-12 md:px-6">
         <section className="grid gap-8 lg:grid-cols-[3fr_2fr]">
           <div className="space-y-6">
-            <p className="text-muted-foreground/80 text-xs font-semibold tracking-[0.18em] uppercase">
+            <p className="text-muted-foreground/80 text-center text-xs font-semibold tracking-[0.18em] uppercase">
               {t('footer.partners', { defaultValue: 'University partners' })}
             </p>
-            <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-3">
               {UNIVERSITY_LOGOS.map((logo) => (
                 <figure key={logo.name} className="flex flex-col items-center gap-3">
                   <img
                     src={logo.src}
                     alt={logo.name}
-                    className="h-10 w-full max-w-[8rem] object-contain opacity-80 transition hover:opacity-100"
+                    className="h-16 w-full max-w-[8rem] object-contain opacity-80 transition hover:opacity-100"
                     loading="lazy"
                   />
                   <figcaption className="text-muted-foreground/90 text-center text-[11px] leading-snug">
@@ -59,20 +60,19 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="space-y-6">
-            <p className="text-muted-foreground/80 text-xs font-semibold tracking-[0.18em] uppercase">
+          <div className="flex flex-col space-y-6">
+            <p className="text-muted-foreground/80 text-center text-xs font-semibold tracking-[0.18em] uppercase">
               {t('footer.support', { defaultValue: 'In collaboration with' })}
             </p>
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-1 flex-col justify-center gap-6">
               {SUPPORT_LOGOS.map((logo) => (
                 <div key={logo.name} className="flex flex-col items-center gap-2">
                   <img
                     src={logo.src}
                     alt={logo.name}
-                    className="h-12 w-full max-w-[9rem] object-contain opacity-80 transition hover:opacity-100"
+                    className="h-24 w-full max-w-[9rem] object-contain opacity-80 transition hover:opacity-100"
                     loading="lazy"
                   />
-                  <span className="text-foreground/90 text-center text-xs font-medium">{logo.name}</span>
                 </div>
               ))}
             </div>
@@ -83,7 +83,9 @@ export function Footer() {
 
         <section className="grid gap-10 lg:grid-cols-[1.5fr_1fr_1fr]">
           <div className="space-y-4">
-            <h3 className="text-foreground text-base font-semibold">{t('footer.about', { defaultValue: 'About' })}</h3>
+            <h3 className="text-muted-foreground/80 text-xs font-semibold tracking-[0.18em] uppercase">
+              {t('footer.about', { defaultValue: 'About' })}
+            </h3>
             <p className="text-muted-foreground max-w-prose text-sm leading-relaxed">
               {t('footer.mission', {
                 defaultValue:
@@ -93,7 +95,7 @@ export function Footer() {
           </div>
 
           <nav className="space-y-4">
-            <h3 className="text-foreground text-base font-semibold">
+            <h3 className="text-muted-foreground/80 text-xs font-semibold tracking-[0.18em] uppercase">
               {t('footer.mainPages', { defaultValue: 'Main pages' })}
             </h3>
             <ul className="space-y-3">
@@ -112,7 +114,7 @@ export function Footer() {
                   <span className="text-foreground text-sm font-semibold">
                     {t('footer.herbaria', { defaultValue: 'Herbaria' })}
                   </span>
-                  <ul className="space-y-1 pl-3">
+                  <ul className="space-y-1">
                     {HERBARIA_CONFIG.map((herbarium) => (
                       <li key={herbarium.id}>
                         <Link
@@ -131,7 +133,7 @@ export function Footer() {
           </nav>
 
           <div id="contacts" className="space-y-4">
-            <h3 className="text-foreground text-base font-semibold">
+            <h3 className="text-muted-foreground/80 text-xs font-semibold tracking-[0.18em] uppercase">
               {t('footer.contacts', { defaultValue: 'Contacts' })}
             </h3>
             <ul className="text-muted-foreground space-y-4 text-sm">
@@ -139,9 +141,7 @@ export function Footer() {
                 <li key={role} className="space-y-1">
                   <p className="text-muted-foreground/80 text-xs font-semibold tracking-wide uppercase">{role}</p>
                   <p className="text-foreground text-sm">{name}</p>
-                  <a href={`mailto:${email}`} className="text-primary text-sm font-medium transition hover:underline">
-                    {email}
-                  </a>
+                  <p className="text-foreground text-sm">{email}</p>
                 </li>
               ))}
             </ul>

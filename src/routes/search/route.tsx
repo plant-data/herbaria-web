@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { SearchSidebar } from '@/features/search/components/search-sidebar'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { SpecimensNavbar } from '@/features/search/components/specimens-navbar'
+import { Footer } from '@/components/footer'
 
 export const Route = createFileRoute('/search')({
   component: RouteComponent,
@@ -20,6 +21,7 @@ function RouteComponent() {
             <SpecimensNavbar />
             <Outlet />
           </div>
+          <Footer />
         </SidebarInset>
       </div>
       <SidebarTrigger

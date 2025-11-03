@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { SpecimenPage } from '@/features/search/components/specimen-page'
 import { BASE_API_URL } from '@/config'
+import { Footer } from '@/components/footer'
 
 export const Route = createFileRoute('/$herbariaId/specimens/$occurrenceID')({
   loader: async ({ params }) => {
@@ -15,5 +16,10 @@ export const Route = createFileRoute('/$herbariaId/specimens/$occurrenceID')({
 
 function OccurrenceDetail() {
   const occurrence = Route.useLoaderData()
-  return <SpecimenPage occurrence={occurrence} />
+  return (
+    <>
+      <SpecimenPage occurrence={occurrence} />
+      <Footer></Footer>
+    </>
+  )
 }

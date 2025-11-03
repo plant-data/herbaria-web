@@ -6,6 +6,7 @@ import { SearchSidebar } from '@/features/search/components/search-sidebar'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { SpecimensNavbar } from '@/features/search/components/specimens-navbar'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
+import { Footer } from '@/components/footer'
 
 export const Route = createFileRoute('/$herbariaId/search')({
   component: RouteComponent,
@@ -30,6 +31,7 @@ function RouteComponent() {
             <SpecimensNavbar />
             <Outlet />
           </div>
+          <Footer />
         </SidebarInset>
       </div>
       <SidebarTrigger

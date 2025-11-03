@@ -57,7 +57,7 @@ export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
         <div className="space-y-6">
           <SpecimenData occurrence={occurrence} />
         </div>
-        
+
         <SpecimenOtherImages occurrence={occurrence} />
       </div>
     </div>
@@ -270,19 +270,17 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           <span className="font-medium">GBIF Name:</span>
           <span className="ml-2">{occurrence.gbifName ?? '-'}</span>
         </div>
-        <div className="flex h-6 flex-wrap items-center">
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <div>
             <span className="font-medium">Floritaly Name:</span>
             <span className="ml-2">{occurrence.floritalyName ?? '-'}</span>
           </div>
           {occurrence.floritalyID ? (
-            <Button asChild className="ml-2 h-6 gap-1 px-2 py-1">
-              <span>
+            <Button asChild className="h-6 gap-1 px-2 py-1">
+              <a className="text-xs" target="_blank" href={`${FLORITALY_URL}${occurrence.floritalyID}`}>
                 <img src={`${BASE_PATH}images/flor.png`} alt="Herbaria Logo" width={18} height={18} className=""></img>
-                <a className="text-xs" target="_blank" href={`${FLORITALY_URL}${occurrence.floritalyID}`}>
-                  Open taxon page
-                </a>
-              </span>
+                Open taxon page
+              </a>
             </Button>
           ) : null}
         </div>

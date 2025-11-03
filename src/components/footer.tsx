@@ -32,11 +32,11 @@ interface Logo {
 
 export function Footer() {
   return (
-    <footer className="border-border/60 bg-muted/20 text-muted-foreground dark:bg-muted/5 @container/footer border-t text-sm">
-      <div className="mx-auto flex max-w-screen-2xl flex-col gap-12 px-4 py-12 md:px-6">
+    <footer className="@container/footer border-border/60 bg-muted/20 text-muted-foreground dark:bg-muted/40 border-t text-sm">
+      <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 py-12 @md/footer:px-6">
         <PartnersSection />
         <Separator className="bg-border/40 dark:bg-border/60" />
-        <section className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[3fr_3fr_2fr]">
+        <section className="mx-auto grid gap-10 @2xl/footer:grid-cols-[3fr_3fr_2fr]">
           <AboutSection />
           <NavigationSection />
           <ContactsSection />
@@ -52,13 +52,13 @@ function LogoGrid({ logos, title }: { logos: Array<Logo>; title: string }) {
   return (
     <div className="space-y-6">
       <p className="text-muted-foreground/80 text-center text-xs font-semibold tracking-[0.18em] uppercase">{title}</p>
-      <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-6 @4xl/footer:grid-cols-3">
         {logos.map((logo) => (
           <figure key={logo.name} className="flex flex-col items-center gap-3">
             <img
               src={logo.src}
               alt={logo.name}
-              className="h-16 w-full max-w-[8rem] object-contain opacity-80 transition hover:opacity-100"
+              className="h-16 w-full max-w-[8rem] object-contain opacity-100 transition hover:opacity-80"
               loading="lazy"
             />
             <figcaption className="text-muted-foreground/90 text-center text-[11px] leading-snug">
@@ -81,7 +81,7 @@ function SupportLogos({ logos, title }: { logos: Array<Logo>; title: string }) {
             <img
               src={logo.src}
               alt={logo.name}
-              className="h-24 w-full max-w-[9rem] object-contain opacity-80 transition hover:opacity-100"
+              className="h-24 w-full max-w-[9rem] object-contain opacity-100 transition hover:opacity-80"
               loading="lazy"
             />
           </div>
@@ -95,7 +95,7 @@ function PartnersSection() {
   const { t } = useTranslation()
 
   return (
-    <section className="grid gap-8 lg:grid-cols-[4fr_2fr]">
+    <section className="grid gap-16 @4xl/footer:grid-cols-[4fr_2fr] @4xl/footer:gap-8">
       <LogoGrid logos={UNIVERSITY_LOGOS} title={t('footer.partners', { defaultValue: 'University partners' })} />
       <SupportLogos logos={SUPPORT_LOGOS} title={t('footer.support', { defaultValue: 'In collaboration with' })} />
     </section>
@@ -104,11 +104,11 @@ function PartnersSection() {
 
 function AboutSection() {
   return (
-    <div className="flex w-full items-center justify-start">
+    <div className="flex w-full mt-1 items-start justify-center">
       <img
         src={MAIN_LOGO.src}
         alt={MAIN_LOGO.name}
-        className="h-30 object-contain opacity-80 transition hover:opacity-100"
+        className="h-30 object-contain opacity-100 transition hover:opacity-80 dark:invert-100"
         loading="lazy"
       />
     </div>
@@ -173,8 +173,8 @@ function ContactsSection() {
         {CONTACTS.map(({ role, name, email }) => (
           <li key={role} className="space-y-1">
             <p className="text-muted-foreground/80 text-xs font-semibold tracking-wide uppercase">{role}</p>
-            <p className="text-foreground text-sm">{name}</p>
-            <p className="text-foreground text-sm">{email}</p>
+            <p className="text-foreground/80 text-sm">{name}</p>
+            <p className="text-foreground/80 text-sm">{email}</p>
           </li>
         ))}
       </ul>
@@ -186,8 +186,8 @@ function FooterBottom() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <div className="text-muted-foreground flex w-full flex-col items-center justify-between gap-1 text-xs sm:flex-row">
-      <span>© {currentYear} Plant Data Interuniversity Center</span>
+    <div className="text-muted-foreground flex w-full items-center justify-center gap-1 text-xs">
+      <span>{currentYear} Plant Data Interuniversity Center</span>
     </div>
   )
 }

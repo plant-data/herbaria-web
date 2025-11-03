@@ -198,9 +198,6 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
   if (!isOpen) return null
 
-  const hasPrevious = mediaData.length > 1
-  const hasNext = mediaData.length > 1
-
   return ReactDOM.createPortal(
     <div className="bg-opacity-95 fixed inset-0 z-50 flex items-center justify-center bg-black">
       {/* Overlay */}
@@ -211,7 +208,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
         {/* Header */}
         <div className="relative z-20 flex-shrink-0 bg-black/80 px-4 py-3">
           <div className="flex items-center justify-between text-white">
-            <h3 className="truncate text-lg font-semibold">
+            <h3 className="truncate">
               Image {currentIndex + 1} of {mediaData.length}
             </h3>
 
@@ -267,24 +264,26 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
           </div>
 
           {/* Navigation arrows */}
-          {hasPrevious && (
-            <button
-              onClick={goToPrevious}
-              className="absolute top-1/2 left-2 z-20 -translate-y-1/2 rounded-full bg-black/70 p-2 text-white transition-colors hover:bg-black/90 md:left-4 md:p-3"
-              aria-label="Previous image"
-            >
-              <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
-            </button>
-          )}
+          {mediaData.length > 1 && (
+            <div className="absolute top-4 right-4 z-20 flex items-center space-x-1 rounded-lg bg-black/70 p-1">
+              <button
+                onClick={goToPrevious}
+                className="rounded p-2 text-white transition-colors hover:bg-white/20"
+                aria-label="Previous image"
+                title="Previous image"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
 
-          {hasNext && (
-            <button
-              onClick={goToNext}
-              className="absolute top-1/2 right-2 z-20 -translate-y-1/2 rounded-full bg-black/70 p-2 text-white transition-colors hover:bg-black/90 md:right-4 md:p-3"
-              aria-label="Next image"
-            >
-              <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
-            </button>
+              <button
+                onClick={goToNext}
+                className="rounded p-2 text-white transition-colors hover:bg-white/20"
+                aria-label="Next image"
+                title="Next image"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
           )}
         </div>
 

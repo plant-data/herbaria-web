@@ -20,6 +20,12 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
   const totalPages = Math.ceil(count / limit)
   const firstPageSkip = 0
 
+  // Helper function to handle pagination click with scroll to top
+  const handlePageChange = (newSkip: number) => {
+    setSkip(newSkip)
+    window.scrollTo({ top: 0, behavior: 'instant' })
+  }
+
   return (
     <div className="my-2 flex h-[50px] items-center justify-between">
       <div className="text-muted-foreground flex-1 text-sm">
@@ -30,7 +36,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
           <Button
             variant="ghost"
             className="h-8 w-8 p-0 active:bg-transparent disabled:opacity-30"
-            onClick={() => setSkip(firstPageSkip)}
+            onClick={() => handlePageChange(firstPageSkip)}
             disabled={page === 1}
           >
             <span className="sr-only">Go to first page</span>
@@ -39,7 +45,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
           <Button
             variant="ghost"
             className="hidden h-8 w-8 p-0 active:bg-transparent disabled:opacity-30 lg:flex"
-            onClick={() => setSkip(Math.max(0, normalizedSkip - limit))}
+            onClick={() => handlePageChange(Math.max(0, normalizedSkip - limit))}
             disabled={page === 1}
           >
             <span className="sr-only">Go to previous page</span>
@@ -51,7 +57,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
               variant="ghost"
               size="sm"
               className="active:bg-transparent"
-              onClick={() => setSkip(Math.max(0, normalizedSkip - 2 * limit))}
+              onClick={() => handlePageChange(Math.max(0, normalizedSkip - 2 * limit))}
             >
               {page - 2}
             </Button>
@@ -61,7 +67,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
               variant="ghost"
               size="sm"
               className="active:bg-transparent"
-              onClick={() => setSkip(Math.max(0, normalizedSkip - limit))}
+              onClick={() => handlePageChange(Math.max(0, normalizedSkip - limit))}
             >
               {page - 1}
             </Button>
@@ -74,7 +80,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
               variant="ghost"
               size="sm"
               className="active:bg-transparent"
-              onClick={() => setSkip(normalizedSkip + limit)}
+              onClick={() => handlePageChange(normalizedSkip + limit)}
             >
               {page + 1}
             </Button>
@@ -84,7 +90,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
               variant="ghost"
               size="sm"
               className="active:bg-transparent"
-              onClick={() => setSkip(normalizedSkip + 2 * limit)}
+              onClick={() => handlePageChange(normalizedSkip + 2 * limit)}
             >
               {page + 2}
             </Button>
@@ -99,7 +105,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
           <Button
             variant="ghost"
             className="hidden h-8 w-8 p-0 active:bg-transparent lg:flex"
-            onClick={() => setSkip(normalizedSkip + limit)}
+            onClick={() => handlePageChange(normalizedSkip + limit)}
             disabled={page >= totalPages}
           >
             <span className="sr-only">Go to next page</span>

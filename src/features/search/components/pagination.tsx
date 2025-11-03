@@ -35,7 +35,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
         <div className="flex items-center space-x-2">
           <Button
             variant="ghost"
-            className="h-8 w-8 p-0 active:bg-transparent disabled:opacity-30"
+            className="hidden lg:flex h-8 w-8 p-0 active:bg-transparent disabled:opacity-30"
             onClick={() => handlePageChange(firstPageSkip)}
             disabled={page === 1}
           >
@@ -44,7 +44,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
           </Button>
           <Button
             variant="ghost"
-            className="hidden h-8 w-8 p-0 active:bg-transparent disabled:opacity-30 lg:flex"
+            className="h-8 w-8 p-0 active:bg-transparent disabled:opacity-30"
             onClick={() => handlePageChange(Math.max(0, normalizedSkip - limit))}
             disabled={page === 1}
           >
@@ -104,7 +104,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
           )}
           <Button
             variant="ghost"
-            className="hidden h-8 w-8 p-0 active:bg-transparent lg:flex"
+            className="h-8 w-8 p-0 active:bg-transparent"
             onClick={() => handlePageChange(normalizedSkip + limit)}
             disabled={page >= totalPages}
           >

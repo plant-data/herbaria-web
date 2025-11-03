@@ -25,136 +25,169 @@ const CONTACTS = [
   { role: 'Secretary', name: 'Jury Nascimbene', email: 'juri.nascimbene@unibo.it' },
 ]
 
+interface Logo {
+  name: string
+  src: string
+}
+
 export function Footer() {
+  return (
+    <footer className="border-border/60 bg-muted/20 text-muted-foreground dark:bg-muted/5 @container/footer border-t text-sm">
+      <div className="mx-auto flex max-w-screen-2xl flex-col gap-12 px-4 py-12 md:px-6">
+        <PartnersSection />
+        <Separator className="bg-border/40 dark:bg-border/60" />
+        <section className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[3fr_3fr_2fr]">
+          <AboutSection />
+          <NavigationSection />
+          <ContactsSection />
+        </section>
+        <Separator className="bg-border/40 dark:bg-border/60" />
+        <FooterBottom />
+      </div>
+    </footer>
+  )
+}
+
+function LogoGrid({ logos, title }: { logos: Array<Logo>; title: string }) {
+  return (
+    <div className="space-y-6">
+      <p className="text-muted-foreground/80 text-center text-xs font-semibold tracking-[0.18em] uppercase">{title}</p>
+      <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-3">
+        {logos.map((logo) => (
+          <figure key={logo.name} className="flex flex-col items-center gap-3">
+            <img
+              src={logo.src}
+              alt={logo.name}
+              className="h-16 w-full max-w-[8rem] object-contain opacity-80 transition hover:opacity-100"
+              loading="lazy"
+            />
+            <figcaption className="text-muted-foreground/90 text-center text-[11px] leading-snug">
+              {logo.name}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function SupportLogos({ logos, title }: { logos: Array<Logo>; title: string }) {
+  return (
+    <div className="flex flex-col space-y-6">
+      <p className="text-muted-foreground/80 text-center text-xs font-semibold tracking-[0.18em] uppercase">{title}</p>
+      <div className="flex flex-1 flex-col justify-center gap-6">
+        {logos.map((logo) => (
+          <div key={logo.name} className="flex flex-col items-center gap-2">
+            <img
+              src={logo.src}
+              alt={logo.name}
+              className="h-24 w-full max-w-[9rem] object-contain opacity-80 transition hover:opacity-100"
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function PartnersSection() {
   const { t } = useTranslation()
-  const currentYear = new Date().getFullYear()
+
+  return (
+    <section className="grid gap-8 lg:grid-cols-[4fr_2fr]">
+      <LogoGrid logos={UNIVERSITY_LOGOS} title={t('footer.partners', { defaultValue: 'University partners' })} />
+      <SupportLogos logos={SUPPORT_LOGOS} title={t('footer.support', { defaultValue: 'In collaboration with' })} />
+    </section>
+  )
+}
+
+function AboutSection() {
+  return (
+    <div className="flex w-full items-center justify-start">
+      <img
+        src={MAIN_LOGO.src}
+        alt={MAIN_LOGO.name}
+        className="h-30 object-contain opacity-80 transition hover:opacity-100"
+        loading="lazy"
+      />
+    </div>
+  )
+}
+
+function NavigationSection() {
+  const { t } = useTranslation()
 
   const navLinks = [
-    { label: t('navbar.home', { defaultValue: 'Home' }), to: '/' as const },
+    { label: t('navbar.home', { defaultValue: 'Home' }), to: '/' },
     { label: t('footer.globalSearch', { defaultValue: 'Global Search' }), to: '/search' as const },
     { label: t('footer.contacts', { defaultValue: 'Contacts' }), to: '#contacts' as const },
   ]
 
   return (
-    <footer className="border-border/60 bg-muted/20 text-muted-foreground dark:bg-muted/5 border-t text-sm">
-      <div className="mx-auto flex max-w-screen-2xl flex-col gap-12 px-4 py-12 md:px-6">
-        <section className="grid gap-8 lg:grid-cols-[3fr_2fr]">
-          <div className="space-y-6">
-            <p className="text-muted-foreground/80 text-center text-xs font-semibold tracking-[0.18em] uppercase">
-              {t('footer.partners', { defaultValue: 'University partners' })}
-            </p>
-            <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-3">
-              {UNIVERSITY_LOGOS.map((logo) => (
-                <figure key={logo.name} className="flex flex-col items-center gap-3">
-                  <img
-                    src={logo.src}
-                    alt={logo.name}
-                    className="h-16 w-full max-w-[8rem] object-contain opacity-80 transition hover:opacity-100"
-                    loading="lazy"
-                  />
-                  <figcaption className="text-muted-foreground/90 text-center text-[11px] leading-snug">
-                    {logo.name}
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </div>
+    <nav className="space-y-4">
+      <h3 className="text-muted-foreground/80 text-xs font-semibold tracking-[0.18em] uppercase">
+        {t('footer.mainPages', { defaultValue: 'Navigate' })}
+      </h3>
 
-          <div className="flex flex-col space-y-6">
-            <p className="text-muted-foreground/80 text-center text-xs font-semibold tracking-[0.18em] uppercase">
-              {t('footer.support', { defaultValue: 'In collaboration with' })}
-            </p>
-            <div className="flex flex-1 flex-col justify-center gap-6">
-              {SUPPORT_LOGOS.map((logo) => (
-                <div key={logo.name} className="flex flex-col items-center gap-2">
-                  <img
-                    src={logo.src}
-                    alt={logo.name}
-                    className="h-24 w-full max-w-[9rem] object-contain opacity-80 transition hover:opacity-100"
-                    loading="lazy"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+      <ul className="space-y-1">
+        {/* home */}
+        <li>
+          <Link to="/" className="text-muted-foreground hover:text-primary dark:hover:text-primary text-sm transition">
+            {t('footer.home', { defaultValue: 'Home' })}
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/herbaria/search"
+            className="text-muted-foreground hover:text-primary dark:hover:text-primary text-sm transition"
+          >
+            {t('footer.allHerbaria', { defaultValue: 'All Herbaria' })}
+          </Link>
+        </li>
+        {HERBARIA_CONFIG.map((herbarium) => (
+          <li key={herbarium.id}>
+            <Link
+              to="/$herbariaId"
+              params={{ herbariaId: herbarium.id }}
+              className="text-muted-foreground hover:text-primary dark:hover:text-primary text-sm transition"
+            >
+              {t(herbarium.translationKey)}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
 
-        <Separator className="bg-border/40 dark:bg-border/60" />
+function ContactsSection() {
+  const { t } = useTranslation()
 
-        <section className="grid gap-10 lg:grid-cols-[1.5fr_1fr_1fr]">
-          <div className="space-y-4">
-            <h3 className="text-muted-foreground/80 text-xs font-semibold tracking-[0.18em] uppercase">
-              {t('footer.about', { defaultValue: 'About' })}
-            </h3>
-            <p className="text-muted-foreground max-w-prose text-sm leading-relaxed">
-              {t('footer.mission', {
-                defaultValue:
-                  'FlorItaly Herbaria aggregates university collections within the Plant Data Interuniversity Center, providing access to historic and contemporary botanical specimens.',
-              })}
-            </p>
-          </div>
+  return (
+    <div id="contacts" className="space-y-4">
+      <h3 className="text-muted-foreground/80 text-xs font-semibold tracking-[0.18em] uppercase">
+        {t('footer.contacts', { defaultValue: 'Contacts' })}
+      </h3>
+      <ul className="text-muted-foreground space-y-4 text-sm">
+        {CONTACTS.map(({ role, name, email }) => (
+          <li key={role} className="space-y-1">
+            <p className="text-muted-foreground/80 text-xs font-semibold tracking-wide uppercase">{role}</p>
+            <p className="text-foreground text-sm">{name}</p>
+            <p className="text-foreground text-sm">{email}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
 
-          <nav className="space-y-4">
-            <h3 className="text-muted-foreground/80 text-xs font-semibold tracking-[0.18em] uppercase">
-              {t('footer.mainPages', { defaultValue: 'Main pages' })}
-            </h3>
-            <ul className="space-y-3">
-              {navLinks.map((link) => (
-                <li key={link.to}>
-                  <Link
-                    to={link.to}
-                    className="text-foreground hover:text-primary dark:hover:text-primary text-sm font-medium transition"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <div className="space-y-2">
-                  <span className="text-foreground text-sm font-semibold">
-                    {t('footer.herbaria', { defaultValue: 'Herbaria' })}
-                  </span>
-                  <ul className="space-y-1">
-                    {HERBARIA_CONFIG.map((herbarium) => (
-                      <li key={herbarium.id}>
-                        <Link
-                          to="/$herbariaId/"
-                          params={{ herbariaId: herbarium.id }}
-                          className="text-muted-foreground hover:text-primary dark:hover:text-primary text-sm transition"
-                        >
-                          {t(herbarium.translationKey)}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          </nav>
+function FooterBottom() {
+  const currentYear = new Date().getFullYear()
 
-          <div id="contacts" className="space-y-4">
-            <h3 className="text-muted-foreground/80 text-xs font-semibold tracking-[0.18em] uppercase">
-              {t('footer.contacts', { defaultValue: 'Contacts' })}
-            </h3>
-            <ul className="text-muted-foreground space-y-4 text-sm">
-              {CONTACTS.map(({ role, name, email }) => (
-                <li key={role} className="space-y-1">
-                  <p className="text-muted-foreground/80 text-xs font-semibold tracking-wide uppercase">{role}</p>
-                  <p className="text-foreground text-sm">{name}</p>
-                  <p className="text-foreground text-sm">{email}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <Separator className="bg-border/40 dark:bg-border/60" />
-
-        <div className="text-muted-foreground flex flex-col items-start justify-between gap-4 text-xs sm:flex-row">
-          <span>© {currentYear} Plant Data Interuniversity Center</span>
-          <span>{t('footer.rights', { defaultValue: 'All rights reserved.' })}</span>
-        </div>
-      </div>
-    </footer>
+  return (
+    <div className="text-muted-foreground flex w-full flex-col items-center justify-between gap-1 text-xs sm:flex-row">
+      <span>© {currentYear} Plant Data Interuniversity Center</span>
+    </div>
   )
 }

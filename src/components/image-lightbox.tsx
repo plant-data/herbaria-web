@@ -1,20 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
-import OpenSeaDragon from 'openseadragon';
-import { ZoomIn, ZoomOut, RotateCcw, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react'
+import ReactDOM from 'react-dom'
+import OpenSeaDragon from 'openseadragon'
+import { ZoomIn, ZoomOut, RotateCcw, X, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface MultimediaData {
-  imageUrl: string;
-  identifier: string;
-  [key: string]: any;
+  imageUrl: string
+  identifier: string
+  [key: string]: any
 }
 
 interface ImageLightboxProps {
-  mediaData: MultimediaData[];
-  currentIdentifier: string;
-  isOpen: boolean;
-  onClose: () => void;
-  onNavigate?: (identifier: string) => void;
+  mediaData: MultimediaData[]
+  currentIdentifier: string
+  isOpen: boolean
+  onClose: () => void
+  onNavigate?: (identifier: string) => void
 }
 
 export const ImageLightbox: React.FC<ImageLightboxProps> = ({
@@ -22,32 +22,32 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
   currentIdentifier,
   isOpen,
   onClose,
-  onNavigate
+  onNavigate,
 }) => {
-  const viewerRef = useRef<HTMLDivElement>(null);
-  const viewerInstance = useRef<OpenSeaDragon.Viewer | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [zoomPercentage, setZoomPercentage] = useState(100);
+  const viewerRef = useRef<HTMLDivElement>(null)
+  const viewerInstance = useRef<OpenSeaDragon.Viewer | null>(null)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [zoomPercentage, setZoomPercentage] = useState(100)
 
   // Find current index based on identifier
   useEffect(() => {
-    const index = mediaData.findIndex(item => item.identifier === currentIdentifier);
+    const index = mediaData.findIndex((item) => item.identifier === currentIdentifier)
     if (index !== -1) {
-      setCurrentIndex(index);
+      setCurrentIndex(index)
     }
-  }, [currentIdentifier, mediaData]);
+  }, [currentIdentifier, mediaData])
 
   // Initialize OpenSeaDragon viewer
   useEffect(() => {
-    if (!isOpen || !viewerRef.current || !mediaData.length) return;
+    if (!isOpen || !viewerRef.current || !mediaData.length) return
 
-    const currentItem = mediaData[currentIndex];
-    if (!currentItem) return;
+    const currentItem = mediaData[currentIndex]
+    if (!currentItem) return
 
     // Destroy existing viewer
     if (viewerInstance.current) {
-      viewerInstance.current.destroy();
-      viewerInstance.current = null;
+      viewerInstance.current.destroy()
+      viewerInstance.current = null
     }
 
     try {
@@ -55,7 +55,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
         element: viewerRef.current,
         tileSources: {
           type: 'image',
-          url: currentItem.imageUrl
+          url: currentItem.imageUrl,
         },
         prefixUrl: 'https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/',
         showNavigator: true,
@@ -94,16 +94,15 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
         homeFillsViewer: false,
         minZoomImageRatio: 1,
         maxZoomPixelRatio: 10,
-
-      });
+      })
 
       // Add custom styling to navigator
       viewerInstance.current.addHandler('open', () => {
-        const navigator = viewerInstance.current?.navigator?.element;
+        const navigator = viewerInstance.current?.navigator?.element
         if (navigator) {
-          navigator.style.border = '2px solid #555';
-          navigator.style.borderRadius = '4px';
-          navigator.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+          navigator.style.border = '2px solid #555'
+          navigator.style.borderRadius = '4px'
+          navigator.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)'
         }
 
         // Ensure the image fits height on open
@@ -112,176 +111,158 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
           viewport.fitVertically();
           viewport.applyConstraints();
         } */
-      });
+      })
 
       // Update zoom percentage when zoom changes
       viewerInstance.current.addHandler('zoom', () => {
-        if (!viewerInstance.current) return;
-        const zoom = viewerInstance.current.viewport.getZoom();
-        const homeZoom = viewerInstance.current.viewport.getHomeZoom();
-        const percentage = Math.round((zoom / homeZoom) * 100);
-        setZoomPercentage(percentage);
-      });
-
+        if (!viewerInstance.current) return
+        const zoom = viewerInstance.current.viewport.getZoom()
+        const homeZoom = viewerInstance.current.viewport.getHomeZoom()
+        const percentage = Math.round((zoom / homeZoom) * 100)
+        setZoomPercentage(percentage)
+      })
     } catch (error) {
-      console.error('Failed to initialize OpenSeaDragon:', error);
+      console.error('Failed to initialize OpenSeaDragon:', error)
     }
 
     return () => {
       if (viewerInstance.current) {
-        viewerInstance.current.destroy();
-        viewerInstance.current = null;
+        viewerInstance.current.destroy()
+        viewerInstance.current = null
       }
-    };
-  }, [isOpen, currentIndex, mediaData]);
+    }
+  }, [isOpen, currentIndex, mediaData])
 
   // Zoom control functions
   const handleZoomIn = () => {
     if (viewerInstance.current) {
-      viewerInstance.current.viewport.zoomBy(1.5);
+      viewerInstance.current.viewport.zoomBy(1.5)
     }
-  };
+  }
 
   const handleZoomOut = () => {
     if (viewerInstance.current) {
-      viewerInstance.current.viewport.zoomBy(0.67);
+      viewerInstance.current.viewport.zoomBy(0.67)
     }
-  };
+  }
 
   const handleResetView = () => {
     if (viewerInstance.current) {
-      viewerInstance.current.viewport.fitVertically();
-      viewerInstance.current.viewport.applyConstraints();
+      viewerInstance.current.viewport.fitVertically()
+      viewerInstance.current.viewport.applyConstraints()
     }
-  };
+  }
 
   // Navigation functions
   const goToPrevious = () => {
-    if (mediaData.length === 0) return;
-    const newIndex = currentIndex > 0 ? currentIndex - 1 : mediaData.length - 1;
-    const newIdentifier = mediaData[newIndex]?.identifier;
+    if (mediaData.length === 0) return
+    const newIndex = currentIndex > 0 ? currentIndex - 1 : mediaData.length - 1
+    const newIdentifier = mediaData[newIndex]?.identifier
     if (newIdentifier && onNavigate) {
-      onNavigate(newIdentifier);
+      onNavigate(newIdentifier)
     }
-  };
+  }
 
   const goToNext = () => {
-    if (mediaData.length === 0) return;
-    const newIndex = currentIndex < mediaData.length - 1 ? currentIndex + 1 : 0;
-    const newIdentifier = mediaData[newIndex]?.identifier;
+    if (mediaData.length === 0) return
+    const newIndex = currentIndex < mediaData.length - 1 ? currentIndex + 1 : 0
+    const newIdentifier = mediaData[newIndex]?.identifier
     if (newIdentifier && onNavigate) {
-      onNavigate(newIdentifier);
+      onNavigate(newIdentifier)
     }
-  };
+  }
 
   // Keyboard navigation
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) return
 
     const handleKeyDown = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'Escape':
-          onClose();
-          break;
+          onClose()
+          break
         case 'ArrowLeft':
-          e.preventDefault();
-          goToPrevious();
-          break;
+          e.preventDefault()
+          goToPrevious()
+          break
         case 'ArrowRight':
-          e.preventDefault();
-          goToNext();
-          break;
+          e.preventDefault()
+          goToNext()
+          break
       }
-    };
+    }
 
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, currentIndex, mediaData.length, onClose, onNavigate]);
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [isOpen, currentIndex, mediaData.length, onClose, onNavigate])
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
-  const currentItem = mediaData[currentIndex];
-  const hasPrevious = mediaData.length > 1;
-  const hasNext = mediaData.length > 1;
+  const hasPrevious = mediaData.length > 1
+  const hasNext = mediaData.length > 1
 
   return ReactDOM.createPortal(
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-95 flex items-center justify-center">
+    <div className="bg-opacity-95 fixed inset-0 z-50 flex items-center justify-center bg-black">
       {/* Overlay */}
-      <div 
-        className="absolute inset-0 cursor-pointer"
-        onClick={onClose}
-      />
-      
+      <div className="absolute inset-0 cursor-pointer" onClick={onClose} />
+
       {/* Main container */}
-      <div className="relative w-full h-full max-w-[90vw] max-h-[100dvh] mx-auto my-auto bg-black rounded-lg overflow-hidden flex flex-col">
-        
+      <div className="relative mx-auto my-auto flex h-full max-h-[100dvh] w-full max-w-[100vw] flex-col overflow-hidden rounded-lg bg-black">
         {/* Header */}
-        <div className="relative z-20 bg-black/80 px-4 py-3 flex-shrink-0">
-          <div className="flex justify-between items-center text-white">
-            <div className="flex items-center space-x-4">
-              <h3 className="text-lg font-semibold truncate">
-                Image {currentIndex + 1} of {mediaData.length}
-              </h3>
-              {currentItem?.identifier && (
-                <span className="text-sm text-gray-300">
-                  ID: {currentItem.identifier}
-                </span>
-              )}
-            </div>
-            
+        <div className="relative z-20 flex-shrink-0 bg-black/80 px-4 py-3">
+          <div className="flex items-center justify-between text-white">
+            <h3 className="truncate text-lg font-semibold">
+              Image {currentIndex + 1} of {mediaData.length}
+            </h3>
+
             <button
               onClick={onClose}
-              className="p-2 hover:bg-white/20 rounded-full transition-colors"
+              className="flex-shrink-0 rounded-full p-2 transition-colors hover:bg-white/20"
               aria-label="Close lightbox"
             >
-              <X className="w-6 h-6" />
+              <X className="h-6 w-6" />
             </button>
           </div>
         </div>
 
         {/* OpenSeaDragon Viewer Container */}
         <div className="relative flex-1 overflow-hidden">
-          <div 
-            ref={viewerRef}
-            className="absolute inset-0"
-          />
+          <div ref={viewerRef} className="absolute inset-0" />
 
           {/* Custom zoom controls */}
-          <div className="absolute top-4 left-4 z-20 bg-black/70 rounded-lg p-1 flex items-center space-x-1">
+          <div className="absolute top-4 left-4 z-20 flex items-center space-x-1 rounded-lg bg-black/70 p-1">
             <button
               id="zoom-out-btn"
               onClick={handleZoomOut}
-              className="p-2 hover:bg-white/20 text-white rounded transition-colors"
+              className="rounded p-2 text-white transition-colors hover:bg-white/20"
               aria-label="Zoom out"
               title="Zoom out"
             >
-              <ZoomOut className="w-5 h-5" />
+              <ZoomOut className="h-5 w-5" />
             </button>
-            
-            <span className="min-w-[3rem] text-center text-sm font-medium text-white px-1">
-              {zoomPercentage}%
-            </span>
-            
+
+            <span className="min-w-[3rem] px-1 text-center text-sm font-medium text-white">{zoomPercentage}%</span>
+
             <button
               id="zoom-in-btn"
               onClick={handleZoomIn}
-              className="p-2 hover:bg-white/20 text-white rounded transition-colors"
+              className="rounded p-2 text-white transition-colors hover:bg-white/20"
               aria-label="Zoom in"
               title="Zoom in"
             >
-              <ZoomIn className="w-5 h-5" />
+              <ZoomIn className="h-5 w-5" />
             </button>
-            
-            <div className="w-px h-6 bg-white/30 mx-1" />
-            
+
+            <div className="mx-1 h-6 w-px bg-white/30" />
+
             <button
               id="home-btn"
               onClick={handleResetView}
-              className="p-2 hover:bg-white/20 text-white rounded transition-colors"
+              className="rounded p-2 text-white transition-colors hover:bg-white/20"
               aria-label="Reset zoom"
               title="Reset zoom"
             >
-              <RotateCcw className="w-5 h-5" />
+              <RotateCcw className="h-5 w-5" />
             </button>
           </div>
 
@@ -289,42 +270,40 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
           {hasPrevious && (
             <button
               onClick={goToPrevious}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/70 hover:bg-black/90 text-white rounded-full transition-colors"
+              className="absolute top-1/2 left-2 z-20 -translate-y-1/2 rounded-full bg-black/70 p-2 text-white transition-colors hover:bg-black/90 md:left-4 md:p-3"
               aria-label="Previous image"
             >
-              <ChevronLeft className="w-6 h-6" />
+              <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
             </button>
           )}
 
           {hasNext && (
             <button
               onClick={goToNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/70 hover:bg-black/90 text-white rounded-full transition-colors"
+              className="absolute top-1/2 right-2 z-20 -translate-y-1/2 rounded-full bg-black/70 p-2 text-white transition-colors hover:bg-black/90 md:right-4 md:p-3"
               aria-label="Next image"
             >
-              <ChevronRight className="w-6 h-6" />
+              <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
             </button>
           )}
         </div>
 
         {/* Footer with image counter */}
         {mediaData.length > 1 && (
-          <div className="relative z-20 bg-black/80 px-4 py-3 flex-shrink-0">
+          <div className="relative z-20 flex-shrink-0 bg-black/80 px-4 py-3">
             <div className="flex justify-center">
               <div className="flex space-x-2">
                 {mediaData.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => {
-                      const identifier = mediaData[index]?.identifier;
+                      const identifier = mediaData[index]?.identifier
                       if (identifier && onNavigate) {
-                        onNavigate(identifier);
+                        onNavigate(identifier)
                       }
                     }}
-                    className={`w-2 h-2 rounded-full transition-colors ${
-                      index === currentIndex 
-                        ? 'bg-white' 
-                        : 'bg-white/40 hover:bg-white/60'
+                    className={`h-2 w-2 rounded-full transition-colors ${
+                      index === currentIndex ? 'bg-white' : 'bg-white/40 hover:bg-white/60'
                     }`}
                     aria-label={`Go to image ${index + 1}`}
                   />
@@ -335,6 +314,6 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
         )}
       </div>
     </div>,
-    document.body
-  );
-};
+    document.body,
+  )
+}

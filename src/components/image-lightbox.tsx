@@ -214,7 +214,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
             <button
               onClick={onClose}
-              className="flex-shrink-0 rounded-full p-2 transition-colors hover:bg-white/20"
+              className="flex-shrink-0 rounded-full p-2 hover:cursor-pointer transition-colors hover:bg-white/20"
               aria-label="Close lightbox"
             >
               <X className="h-6 w-6" />
@@ -227,11 +227,11 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
           <div ref={viewerRef} className="absolute inset-0" />
 
           {/* Custom zoom controls */}
-          <div className="absolute top-4 left-4 z-20 flex items-center space-x-1 rounded-lg bg-black/70 p-1">
+          <div className="absolute top-4 left-4 z-20 p-0 flex items-center space-x-1 rounded-lg border border-border/10 bg-zinc-900 shadow-lg">
             <button
               id="zoom-out-btn"
               onClick={handleZoomOut}
-              className="rounded p-2 text-white transition-colors hover:bg-white/20"
+              className="cursor-pointer rounded p-2 text-white transition-colors hover:bg-zinc-800"
               aria-label="Zoom out"
               title="Zoom out"
             >
@@ -243,19 +243,19 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
             <button
               id="zoom-in-btn"
               onClick={handleZoomIn}
-              className="rounded p-2 text-white transition-colors hover:bg-white/20"
+              className="cursor-pointer rounded p-2 text-white transition-colors hover:bg-zinc-800"
               aria-label="Zoom in"
               title="Zoom in"
             >
               <ZoomIn className="h-5 w-5" />
             </button>
 
-            <div className="mx-1 h-6 w-px bg-white/30" />
+            <div className="mx-1 h-6 w-px bg-zinc-700" />
 
             <button
               id="home-btn"
               onClick={handleResetView}
-              className="rounded p-2 text-white transition-colors hover:bg-white/20"
+              className="cursor-pointer rounded p-2 text-white transition-colors hover:bg-zinc-800"
               aria-label="Reset zoom"
               title="Reset zoom"
             >
@@ -265,10 +265,10 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
           {/* Navigation arrows */}
           {mediaData.length > 1 && (
-            <div className="absolute top-4 right-4 z-20 flex items-center space-x-1 rounded-lg bg-black/70 p-1">
+            <div className="absolute top-4 right-4 z-20 p-0 flex items-center space-x-1 rounded-lg border border-border/10 bg-zinc-900 shadow-lg">
               <button
                 onClick={goToPrevious}
-                className="rounded p-2 text-white transition-colors hover:bg-white/20"
+                className="cursor-pointer rounded p-2 text-white transition-colors hover:bg-zinc-800"
                 aria-label="Previous image"
                 title="Previous image"
               >
@@ -277,7 +277,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
               <button
                 onClick={goToNext}
-                className="rounded p-2 text-white transition-colors hover:bg-white/20"
+                className="cursor-pointer rounded p-2 text-white transition-colors hover:bg-zinc-800"
                 aria-label="Next image"
                 title="Next image"
               >
@@ -288,29 +288,34 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
         </div>
 
         {/* Footer with image counter */}
-        {mediaData.length > 1 && (
-          <div className="relative z-20 flex-shrink-0 bg-black/80 px-4 py-3">
-            <div className="flex justify-center">
-              <div className="flex space-x-2">
-                {mediaData.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      const identifier = mediaData[index]?.identifier
-                      if (identifier && onNavigate) {
-                        onNavigate(identifier)
-                      }
-                    }}
-                    className={`h-2 w-2 rounded-full transition-colors ${
-                      index === currentIndex ? 'bg-white' : 'bg-white/40 hover:bg-white/60'
-                    }`}
-                    aria-label={`Go to image ${index + 1}`}
-                  />
-                ))}
-              </div>
+        <div className="relative z-20 flex-shrink-0 bg-black/80 px-4 py-3">
+          <div className="flex justify-center">
+            <div className="flex space-x-2">
+              {mediaData.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    const identifier = mediaData[index]?.identifier
+                    if (identifier && onNavigate) {
+                      onNavigate(identifier)
+                    }
+                  }}
+                  className={`h-2 w-2 rounded-full transition-colors ${
+                    mediaData.length === 1
+                      ? index === currentIndex
+                        ? 'cursor-default bg-white/30'
+                        : 'cursor-default bg-white/10'
+                      : index === currentIndex
+                        ? 'cursor-pointer bg-white'
+                        : 'cursor-pointer bg-white/40 hover:bg-white/60'
+                  }`}
+                  aria-label={`Go to image ${index + 1}`}
+                  disabled={mediaData.length === 1}
+                />
+              ))}
             </div>
           </div>
-        )}
+        </div>
       </div>
     </div>,
     document.body,

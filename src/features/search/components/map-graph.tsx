@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 import { useTranslation } from 'react-i18next'
+import { LoaderCircle } from 'lucide-react'
 import { useSpecimensGraph } from '@/features/search/api/get-occurrences'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -12,7 +13,8 @@ import { BASE_PATH } from '@/config'
 export function MapGraph({ className = '' }) {
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
-  const { data, isPending, error: dataError } = useSpecimensGraph({ customGroupBy: 'country' })
+  const { data, isPending, isFetching, error: dataError } = useSpecimensGraph({ customGroupBy: 'country' })
+  const isFetchingNewData = isFetching && !isPending
   const chartContainerRef = useRef<HTMLDivElement | null>(null)
   const [isWideContainer, setIsWideContainer] = useState(false)
 
@@ -36,7 +38,7 @@ export function MapGraph({ className = '' }) {
     let min = Infinity
     let max = -Infinity
 
-    const data = geoJson.features.map((feature) => {
+    const featureData = geoJson.features.map((feature) => {
       const fipsCode = feature.properties.iso_a2_eh
       const count = countryCountMap.get(fipsCode) || 0
       const logValue = Math.log10(count + 1)
@@ -48,24 +50,22 @@ export function MapGraph({ className = '' }) {
         name: feature.properties.name,
         value: logValue,
         originalValue: count,
-        displayName: i18n.language === 'it' && feature.properties.name_it 
-          ? feature.properties.name_it 
-          : feature.properties.name,
+        displayName:
+          i18n.language === 'it' && feature.properties.name_it ? feature.properties.name_it : feature.properties.name,
       }
     })
 
-    return { 
-      seriesData: data, 
-      minValue: min === Infinity ? 0 : min, 
-      maxValue: max === -Infinity ? 1 : max 
+    return {
+      seriesData: featureData,
+      minValue: min === Infinity ? 0 : min,
+      maxValue: max === -Infinity ? 1 : max,
     }
   }, [geoJson, countryCountMap, i18n.language])
 
   const countryOptions = useMemo(() => {
     if (seriesData.length === 0) return null
 
-    const isDark = theme === 'dark' || 
-      (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
     const textColor = isDark ? '#ffffff' : '#000000'
 
     return {
@@ -149,7 +149,17 @@ export function MapGraph({ className = '' }) {
 
   if (hasError || !countryOptions) {
     return (
-      <Card className={cn('gap-0 overflow-hidden shadow-xs', className)}>
+      <Card className={cn('relative gap-0 overflow-hidden shadow-xs', className)}>
+        {isFetchingNewData && (
+          <div
+            className="border-border bg-background/90 text-muted-foreground absolute top-3 right-3 flex items-center gap-2 rounded-full border px-2 py-1 text-xs shadow-sm"
+            role="status"
+            aria-live="polite"
+          >
+            <LoaderCircle className="text-primary h-3 w-3 animate-spin" />
+            <span>{t('search.filters.loading-data')}</span>
+          </div>
+        )}
         <CardHeader>
           <CardTitle>{t('search.results.specimens-country')}</CardTitle>
         </CardHeader>
@@ -161,7 +171,17 @@ export function MapGraph({ className = '' }) {
   }
 
   return (
-    <Card className={cn('gap-0 overflow-hidden shadow-xs', className)}>
+    <Card className={cn('relative gap-0 overflow-hidden shadow-xs', className)}>
+      {isFetchingNewData && (
+        <div
+          className="border-border bg-background/90 text-muted-foreground absolute top-3 right-3 flex items-center gap-2 rounded-full border px-2 py-1 text-xs shadow-sm"
+          role="status"
+          aria-live="polite"
+        >
+          <LoaderCircle className="text-primary h-3 w-3 animate-spin" />
+          <span>{t('search.filters.loading-data')}</span>
+        </div>
+      )}
       <CardHeader>
         <CardTitle>{t('search.results.specimens-country')}</CardTitle>
       </CardHeader>

@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import ReactECharts from 'echarts-for-react'
 import { useTranslation } from 'react-i18next'
+import { LoaderCircle } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useSpecimensGraph } from '@/features/search/api/get-occurrences'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -157,9 +158,10 @@ function createSeriesConfig(chartType: string, color: string, data: Array<number
 export function GenericGraph({ title, groupBy, xAxisKey, chartType = 'bar', color, topN = null }: GenericGraphProps) {
   const { t } = useTranslation()
   const { theme } = useTheme()
-  const { data, isPending } = useSpecimensGraph({
+  const { data, isPending, isFetching } = useSpecimensGraph({
     customGroupBy: groupBy as any,
   })
+  const isFetchingNewData = isFetching && !isPending
 
   const chartOptions = useMemo(() => {
     if (!data?.occurrences || data.occurrences.length === 0) {
@@ -210,7 +212,17 @@ export function GenericGraph({ title, groupBy, xAxisKey, chartType = 'bar', colo
 
   if (!chartOptions && !isPending) {
     return (
-      <Card className="gap-0 pb-1 shadow-xs">
+      <Card className="relative gap-0 pb-1 shadow-xs">
+        {isFetchingNewData && (
+          <div
+            className="border-border bg-background/90 text-muted-foreground absolute top-3 right-3 flex items-center gap-2 rounded-full border px-2 py-1 text-xs shadow-sm"
+            role="status"
+            aria-live="polite"
+          >
+            <LoaderCircle className="text-primary h-3 w-3 animate-spin" />
+            <span>{t('search.filters.loading-data')}</span>
+          </div>
+        )}
         <CardHeader>
           <CardTitle className="h-6">{title}</CardTitle>
         </CardHeader>
@@ -234,7 +246,17 @@ export function GenericGraph({ title, groupBy, xAxisKey, chartType = 'bar', colo
   }
 
   return (
-    <Card className="gap-0 pb-1 shadow-xs">
+    <Card className="relative gap-0 pb-1 shadow-xs">
+      {isFetchingNewData && (
+        <div
+          className="border-border bg-background/90 text-muted-foreground absolute top-3 right-3 flex items-center gap-2 rounded-full border px-2 py-1 text-xs shadow-sm"
+          role="status"
+          aria-live="polite"
+        >
+          <LoaderCircle className="text-primary h-3 w-3 animate-spin" />
+          <span>{t('search.filters.loading-data')}</span>
+        </div>
+      )}
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>

@@ -1,72 +1,72 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { Building2, Home, Search } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { ArrowRight, Home, Search } from 'lucide-react'
+import { Card, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { Footer } from '@/components/footer'
 
-// Configuration for herbaria
+// Configuration for herbaria including global search
+const GLOBAL_SEARCH_CONFIG = {
+  id: 'global',
+  translationKey: 'herbaria.global',
+  image: 'images/global-search.png',
+  description:
+    'Search across every collection simultaneously and surface specimens by taxonomy, geography, or dataset.',
+  badgeLabel: 'All Herbaria',
+  isGlobal: true,
+} as const
+
+const HERBARIA_WITH_GLOBAL = [GLOBAL_SEARCH_CONFIG, ...HERBARIA_CONFIG]
 
 export const Route = createFileRoute('/')({
   component: App,
 })
 
-function HerbariumCard({ herbarium }: { herbarium: (typeof HERBARIA_CONFIG)[0] }) {
+function HerbariumCard({
+  herbarium,
+  onNavigate,
+}: {
+  herbarium: (typeof HERBARIA_WITH_GLOBAL)[number]
+  onNavigate: () => void
+}) {
   const { t } = useTranslation()
-  const resetFilters = useFilterStore((state) => state.resetFilters)
-  const resetMap = useFilterStore((state) => state.resetMap)
 
   return (
-    <Card className="group flex flex-col border shadow-xs">
-      <Badge className="mx-6 mb-[-10px]" variant="outline">
-        {herbarium.badgeLabel}
-      </Badge>
-      <CardHeader>
-        <div className="mb-3 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="bg-ring/10 rounded-lg p-2 transition-transform duration-300 group-hover:scale-110">
-              <Building2 className="text-ring h-6 w-6" />
-            </div>
-            <div>
-              <CardTitle className="text-xl">{t(herbarium.translationKey)}</CardTitle>
-            </div>
-          </div>
+    <Card className="group border-border/60 bg-background/80 hover:border-border relative flex h-full flex-col justify-between overflow-hidden border py-0 shadow-xs">
+      <div className="relative aspect-[16/11]">
+        <img src={herbarium.image} alt={t(herbarium.translationKey)} className="h-full w-full object-cover" />
+        <Badge className="border-border/60 bg-background/80 text-primary/80 absolute top-4 left-4 border text-xs font-semibold  uppercase">
+          {herbarium.badgeLabel}
+        </Badge>
+      </div>
+      <div className="flex flex-1 flex-col gap-6 p-6">
+        <div className="space-y-3 text-left">
+          <CardTitle className="text-foreground text-xl font-semibold">{t(herbarium.translationKey)}</CardTitle>
+          <p className="text-muted-foreground text-sm">{herbarium.description}</p>
         </div>
-        <div className="border-input h-40 overflow-hidden rounded-lg border">
-          <img src={herbarium.image} alt="" className="h-full w-full object-cover" />
-        </div>
-      </CardHeader>
-      <CardContent className="flex flex-1 flex-col">
-        <p className="mb-4 flex-1">{herbarium.description}</p>
-        <div className="flex gap-4">
-          <Link
-            onClick={() => {
-              resetFilters()
-              resetMap()
-            }}
-            to="/$herbariaId"
-            params={{ herbariaId: herbarium.id }}
-            className="hover:bg-ring/80 bg-ring mt-auto inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors duration-200 focus:ring-2"
-          >
-            <Home className="mr-2 h-4 w-4" />
-            Home
-          </Link>
-          <Link
-            onClick={() => {
-              resetFilters()
-              resetMap()
-            }}
-            to="/$herbariaId/search"
-            params={{ herbariaId: herbarium.id }}
-            className="hover:bg-ring/80 bg-ring mt-auto inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors duration-200 focus:ring-2"
-          >
-            <Search className="mr-2 h-4 w-4" />
-            Explore
-          </Link>
-        </div>
-      </CardContent>
+      </div>
+      <div className="mx-2 mb-6 grid gap-2 sm:grid-cols-2">
+        <Link
+          onClick={onNavigate}
+          to="/$herbariaId"
+          params={{ herbariaId: herbarium.id }}
+          className="border-border/70 text-foreground hover:border-foreground focus-visible:ring/50 focus-visible:ring-[2px]-ring inline-flex items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-ring/50 focus-visible:ring-[2px] focus-visible:outline-none"
+        >
+          <Home className="h-4 w-4" />
+          Home
+        </Link>
+        <Link
+          onClick={onNavigate}
+          to="/$herbariaId/search"
+          params={{ herbariaId: herbarium.id }}
+          className="group bg-foreground text-background hover:bg-foreground/90 focus-visible:ring/50 focus-visible:ring-[2px]-ring inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-ring/50 focus-visible:ring-[2px] focus-visible:outline-none"
+        >
+          <Search className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          Explore
+        </Link>
+      </div>
     </Card>
   )
 }
@@ -74,60 +74,67 @@ function HerbariumCard({ herbarium }: { herbarium: (typeof HERBARIA_CONFIG)[0] }
 function App() {
   const resetFilters = useFilterStore((state) => state.resetFilters)
   const resetMap = useFilterStore((state) => state.resetMap)
+  const totalHerbaria = HERBARIA_CONFIG.length
+
+  const handleNavigate = () => {
+    resetFilters()
+    resetMap()
+  }
 
   return (
     <>
-      <div className="min-h-screen">
-        <div className="container mx-auto px-4 py-12">
-          <div className="mb-8 text-center">
-            <h1 className="text-2xl font-bold md:text-5xl">FlorItaly Herbaria</h1>
-          </div>
+      <div className="bg-background relative min-h-screen overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.15),_transparent_55%),radial-gradient(circle_at_bottom,_rgba(34,197,94,0.12),_transparent_45%)]" />
+        <div className="container mx-auto flex flex-col gap-24 px-4 pt-10 pb-24 md:pt-18">
+          <section className="mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
+            <div className="space-y-6">
+              <h1 className="text-foreground text-4xl font-semibold tracking-tight text-balance md:text-6xl">
+                FlorItaly Herbaria
+              </h1>
+              <p className="text-muted-foreground text-lg leading-relaxed md:text-xl">
+                Discover digitised specimens and curated histories from Italy's leading herbaria.
+              </p>
+              <p className="text-muted-foreground text-sm">
+                Currently showcasing <span className="text-foreground font-medium">{totalHerbaria}</span> curated
+                collections with unified search.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link
+                to="/search"
+                onClick={handleNavigate}
+                className="bg-foreground text-background focus-visible:ring/50 focus-visible:ring-[2px]-ring inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium shadow-lg transition-transform hover:-translate-y-0.5 hover:shadow-xl focus-visible:ring-ring/50 focus-visible:ring-[2px] focus-visible:outline-none"
+              >
+                <Search className="h-4 w-4" />
+                Explore Collections
+              </Link>
+              <a
+                href="#collections"
+                className="border-border/70 text-foreground hover:border-foreground hover:text-foreground focus-visible:ring/50 focus-visible:ring-[2px]-ring inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium transition-colors focus-visible:ring-ring/50 focus-visible:ring-[2px] focus-visible:outline-none"
+              >
+                <ArrowRight className="h-4 w-4" />
+                Browse Herbaria
+              </a>
+            </div>
+          </section>
 
-          {/* Search and Collections Grid */}
-          <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {/* Global Search Card */}
-            <Card className="group hover:border-border flex flex-col border shadow-xs">
-              <Badge className="mx-6 mb-[-10px]" variant="outline">
-                All Herbaria
-              </Badge>
-              <CardHeader>
-                <div className="mb-3 flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="bg-ring/10 rounded-lg p-2 transition-transform duration-300 group-hover:scale-110">
-                      <Search className="text-ring h-6 w-6" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-xl">Global Search</CardTitle>
-                    </div>
-                  </div>
-                </div>
-                <div className="border-input h-40 overflow-hidden rounded-lg border">
-                  <img src="images/global-search.png" alt="" className="h-full w-full object-cover" />
-                </div>
-              </CardHeader>
-              <CardContent className="flex flex-1 flex-col">
-                <p className="mb-4 flex-1">
-                  Search across all herbaria collections and explore botanical diversity worldwide
-                </p>
-                <Link
-                  to="/search"
-                  onClick={() => {
-                    resetFilters()
-                    resetMap()
-                  }}
-                  className="bg-ring hover:bg-ring/80 mt-auto inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors duration-200 focus:ring-2"
-                >
-                  <Search className="mr-2 h-4 w-4" />
-                  Explore
-                </Link>
-              </CardContent>
-            </Card>
+          <section id="collections" className="flex flex-col gap-10">
+            <div className="max-w-3xl">
+              <h2 className="text-foreground text-2xl font-semibold tracking-tight md:text-3xl">
+                Collections at a glance
+              </h2>
+              <p className="text-muted-foreground mt-3 text-base">
+                Jump straight to a partner herbarium or start with the global index to filter by location, taxonomy, or
+                specimen metadata.
+              </p>
+            </div>
 
-            {/* Herbarium Cards */}
-            {HERBARIA_CONFIG.map((herbarium) => (
-              <HerbariumCard key={herbarium.id} herbarium={herbarium} />
-            ))}
-          </div>
+            <div className="grid gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+              {HERBARIA_WITH_GLOBAL.map((herbarium) => (
+                <HerbariumCard key={herbarium.id} herbarium={herbarium} onNavigate={handleNavigate} />
+              ))}
+            </div>
+          </section>
         </div>
       </div>
       <Footer />

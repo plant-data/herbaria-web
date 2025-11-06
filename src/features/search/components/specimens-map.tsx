@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CircleMarker, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
-import { Earth, House } from 'lucide-react'
+import { Earth, House, LoaderCircle } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import { Link } from '@tanstack/react-router'
 import type { PaletteName } from '@/features/search/constants/map-palettes'
@@ -91,16 +92,16 @@ function ColorLegend({ palette }: { palette: PaletteFn }) {
     { label: '1-5', value: 3 },
   ]
   return (
-    <Card className="rounded-sm p-2.5 shadow-xs">
+    <Card className="rounded-md p-2 shadow-xs md:p-2.5">
       <CardContent className="p-0">
-        <div className="flex flex-wrap gap-4">
+        <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3 md:gap-4">
           {ranges.map((range, index) => (
-            <div key={index} className="flex items-center gap-1 text-xs">
+            <div key={index} className="flex items-center gap-1.5 text-xs">
               <div
-                className="h-4 w-4 rounded-sm border border-gray-300"
+                className="h-3.5 w-3.5 shrink-0 rounded-sm border border-gray-300 md:h-4 md:w-4"
                 style={{ backgroundColor: palette(range.value) }}
               />
-              <span className="text-gray-700">{range.label}</span>
+              <span className="whitespace-nowrap text-gray-700">{range.label}</span>
             </div>
           ))}
         </div>
@@ -216,8 +217,8 @@ function LeafletMarkers({
   const zoom = useFilterStore((state) => state.zoom)
 
   // Calculate marker radius based on zoom level and count
-  const getMarkerRadius = (count: number, zoom: number) => {
-    switch (zoom) {
+  const getMarkerRadius = (count: number, currentZoom: number) => {
+    switch (currentZoom) {
       case 2:
         return 1
       case 3:
@@ -306,11 +307,14 @@ function SpecimenPointDialog({
 
 // Main component with simplified rendering
 export function SpecimensMap() {
-  const { zoom, mapCenter } = useFilterStore(useShallow((state) => ({
+  const { t } = useTranslation()
+  const { zoom, mapCenter } = useFilterStore(
+    useShallow((state) => ({
       zoom: state.zoom,
       mapCenter: state.mapCenter,
-    })), )
-  const { data, isPending, error } = useSpecimensMap()
+    })),
+  )
+  const { data, isPending, isFetching, error } = useSpecimensMap()
   const [activePalette, setActivePalette] = useState<PaletteName>('Classic')
 
   const [selectedCluster, setSelectedCluster] = useState<ClusterData | null>(null)
@@ -320,12 +324,24 @@ export function SpecimensMap() {
     return data.clusters.filter((c: ClusterData) => !isNaN(c.coordinates[0]) && !isNaN(c.coordinates[1]))
   }, [data?.clusters])
 
+  const isFetchingNewData = isFetching && !isPending
+
   if (isPending) return <MapSkeleton />
   if (error) return <div className="flex h-[50vh] items-center justify-center text-red-500 md:h-[70vh]">Error.</div>
 
   return (
     <>
       <div className="relative mt-6 h-[50vh] w-full overflow-hidden rounded-lg md:h-[70vh]">
+        {isFetchingNewData && (
+          <div
+            className="border-border bg-background/90 text-muted-foreground absolute top-3 right-3 z-[1001] flex items-center gap-2 rounded-full border px-2 py-1 text-xs shadow-sm"
+            role="status"
+            aria-live="polite"
+          >
+            <LoaderCircle className="text-primary h-3 w-3 animate-spin" />
+            <span>{t('search.filters.loading-data')}</span>
+          </div>
+        )}
         <MapContainer
           center={mapCenter}
           zoom={zoom}
@@ -357,9 +373,9 @@ export function SpecimensMap() {
         )}
       </div>
 
-      <div className="mt-2 flex items-center justify-between gap-4">
+      <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
         <Select value={activePalette} onValueChange={(value: PaletteName) => setActivePalette(value)}>
-          <SelectTrigger>
+          <SelectTrigger className="w-full sm:w-auto sm:min-w-[180px]">
             <SelectValue placeholder="Select a palette" />
           </SelectTrigger>
           <SelectContent className="z-[999999]">
@@ -428,19 +444,19 @@ function MapSkeleton() {
       </div>
 
       {/* Skeleton for controls below the map */}
-      <div className="mt-2 flex items-center justify-between">
+      <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Palette selector skeleton */}
         <div className="flex items-center gap-2">
-          <Skeleton className="h-10 w-32" />
+          <Skeleton className="h-10 w-full sm:w-32" />
         </div>
 
         {/* Color legend skeleton */}
-        <Card className="rounded-sm p-2.5 shadow-xs">
+        <Card className="rounded-sm p-2 shadow-xs md:p-2.5">
           <CardContent className="p-0">
-            <div className="flex flex-wrap gap-4">
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3 md:gap-4">
               {Array.from({ length: 6 }).map((_, index) => (
                 <div key={index} className="flex items-center gap-1">
-                  <Skeleton className="h-4 w-4 rounded-sm" />
+                  <Skeleton className="h-3.5 w-3.5 rounded-sm md:h-4 md:w-4" />
                   <Skeleton className="h-3 w-12" />
                 </div>
               ))}

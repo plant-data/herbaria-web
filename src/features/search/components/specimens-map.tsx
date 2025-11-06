@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CircleMarker, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
-import { Earth, House, LoaderCircle } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
+import { Earth, House } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
 import { Link } from '@tanstack/react-router'
 import type { PaletteName } from '@/features/search/constants/map-palettes'
@@ -16,6 +15,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
 import { MAP_CENTER, ZOOM } from '@/features/search/constants/constants'
+import { LoadingBadge } from '@/features/search/components/loading-badge'
 
 type ClusterData = {
   coordinates: [number, number]
@@ -217,7 +217,7 @@ function LeafletMarkers({
   const zoom = useFilterStore((state) => state.zoom)
 
   // Calculate marker radius based on zoom level and count
-  const getMarkerRadius = (count: number, currentZoom: number) => {
+  const getMarkerRadius = (currentZoom: number) => {
     switch (currentZoom) {
       case 2:
         return 1
@@ -253,7 +253,7 @@ function LeafletMarkers({
         if (isNaN(lat) || isNaN(lng)) return null
 
         const markerColor = palette(cluster.count)
-        const radius = getMarkerRadius(cluster.count, zoom)
+        const radius = getMarkerRadius(zoom)
 
         return (
           <CircleMarker
@@ -307,7 +307,6 @@ function SpecimenPointDialog({
 
 // Main component with simplified rendering
 export function SpecimensMap() {
-  const { t } = useTranslation()
   const { zoom, mapCenter } = useFilterStore(
     useShallow((state) => ({
       zoom: state.zoom,
@@ -332,16 +331,7 @@ export function SpecimensMap() {
   return (
     <>
       <div className="relative mt-6 h-[50vh] w-full overflow-hidden rounded-lg md:h-[70vh]">
-        {isFetchingNewData && (
-          <div
-            className="border-border bg-background/90 text-muted-foreground absolute top-3 right-3 z-[1001] flex items-center gap-2 rounded-full border px-2 py-1 text-xs shadow-sm"
-            role="status"
-            aria-live="polite"
-          >
-            <LoaderCircle className="text-primary h-3 w-3 animate-spin" />
-            <span>{t('search.filters.loading-data')}</span>
-          </div>
-        )}
+        {isFetchingNewData && <LoadingBadge className="absolute top-3 right-3 z-[1001]" />}
         <MapContainer
           center={mapCenter}
           zoom={zoom}

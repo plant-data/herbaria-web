@@ -1,12 +1,12 @@
 import { useMemo } from 'react'
 import ReactECharts from 'echarts-for-react'
 import { useTranslation } from 'react-i18next'
-import { LoaderCircle } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useSpecimensGraph } from '@/features/search/api/get-occurrences'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useTheme } from '@/components/theme-provider'
 import { MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
+import { LoadingBadge } from '@/features/search/components/loading-badge'
 
 // Types
 interface GenericGraphProps {
@@ -213,16 +213,7 @@ export function GenericGraph({ title, groupBy, xAxisKey, chartType = 'bar', colo
   if (!chartOptions && !isPending) {
     return (
       <Card className="relative gap-0 pb-1 shadow-xs">
-        {isFetchingNewData && (
-          <div
-            className="border-border bg-background/90 text-muted-foreground absolute top-3 right-3 flex items-center gap-2 rounded-full border px-2 py-1 text-xs shadow-sm"
-            role="status"
-            aria-live="polite"
-          >
-            <LoaderCircle className="text-primary h-3 w-3 animate-spin" />
-            <span>{t('search.filters.loading-data')}</span>
-          </div>
-        )}
+        {isFetchingNewData && <LoadingBadge className="absolute top-3 right-3" />}
         <CardHeader>
           <CardTitle className="h-6">{title}</CardTitle>
         </CardHeader>
@@ -247,16 +238,7 @@ export function GenericGraph({ title, groupBy, xAxisKey, chartType = 'bar', colo
 
   return (
     <Card className="relative gap-0 pb-1 shadow-xs">
-      {isFetchingNewData && (
-        <div
-          className="border-border bg-background/90 text-muted-foreground absolute top-3 right-3 flex items-center gap-2 rounded-full border px-2 py-1 text-xs shadow-sm"
-          role="status"
-          aria-live="polite"
-        >
-          <LoaderCircle className="text-primary h-3 w-3 animate-spin" />
-          <span>{t('search.filters.loading-data')}</span>
-        </div>
-      )}
+      {isFetchingNewData && <LoadingBadge className="absolute top-3 right-3" />}
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>

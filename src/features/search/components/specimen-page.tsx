@@ -104,8 +104,9 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
 
   useEffect(() => {
     if (!hasImage) return
+    const imageData = multimedia.find((media) => media.imageRole === 'primary')
+    if (!imageData) return
 
-    const imageData = multimedia[0]
     const viewer = OpenSeadragon({
       id: 'specimen-seadragon-viewer',
       tileSources: {

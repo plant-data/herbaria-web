@@ -1,4 +1,4 @@
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
+import { Link, createFileRoute, notFound, useNavigate } from '@tanstack/react-router'
 import { ChartSpline, Database, Earth, Layers, Leaf } from 'lucide-react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
@@ -9,10 +9,25 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { AutocompleteSimple } from '@/features/search/components/autocomplete-simple'
 import { Footer } from '@/components/footer'
+import { HerbariumNotFound } from '@/features/search/components/herbarium-not-found'
 
 export const Route = createFileRoute('/$herbariaId/')({
+  loader: ({ params }) => {
+    const { herbariaId } = params
+    const herbariumExists = HERBARIA_CONFIG.some((herbarium) => herbarium.id.toLowerCase() === herbariaId.toLowerCase())
+
+    if (!herbariumExists) {
+      throw notFound()
+    }
+  },
   component: RouteComponent,
+  notFoundComponent: NotFoundComponent,
 })
+
+function NotFoundComponent() {
+  const { herbariaId } = Route.useParams()
+  return <HerbariumNotFound herbariaId={herbariaId} />
+}
 
 function RouteComponent() {
   const { t } = useTranslation()

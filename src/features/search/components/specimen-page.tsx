@@ -267,15 +267,11 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           <span className="font-medium">Scientific Name</span>
           <span className="ml-2">{occurrence.scientificName ?? '-'}</span>
         </div>
-        <div>
+        {/* <div>
           <span className="font-medium">GBIF Name:</span>
           <span className="ml-2">{occurrence.gbifName ?? '-'}</span>
-        </div>
+        </div> */}
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-          <div>
-            <span className="font-medium">Floritaly Name:</span>
-            <span className="ml-2">{occurrence.floritalyName ?? '-'}</span>
-          </div>
           {occurrence.floritalyID ? (
             <Button asChild className="h-6 gap-1 px-2 py-1">
               <a className="text-xs" target="_blank" href={`${FLORITALY_URL}${occurrence.floritalyID}`}>
@@ -310,6 +306,10 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           <span className="font-medium">Identified By:</span>
           <span className="ml-2">{occurrence.identifiedBy ?? '-'}</span>
         </div>
+        <div>
+          <span className="font-medium">Floritaly Name:</span>
+          <span className="ml-2">{occurrence.floritalyName ?? '-'}</span>
+        </div>
         <Separator />
         {/* Date Information */}
         <div>
@@ -342,11 +342,11 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
         </div>
         <div>
           <span className="font-medium">verbatimLocality:</span>
-          <span className="ml-2">{occurrence.locality}</span>
+          <span className="ml-2">{occurrence.verbatimLocality}</span>
         </div>
         <div>
           <span className="font-medium">Locality:</span>
-          <span className="ml-2">{occurrence.processedLocality ?? '-'}</span>
+          <span className="ml-2">{occurrence.locality ?? '-'}</span>
         </div>
         <div>
           <span className="font-medium">Latitude:</span>
@@ -419,7 +419,7 @@ export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }
       <h3 className="mb-4 text-xl font-medium">Additional Images</h3>
       <div className="flex flex-wrap gap-4">
         {imagesData.map((imageData) => (
-          <div key={imageData.identifier} className="flex-shrink-0">
+          <div key={imageData.identifier} className="flex flex-shrink-0 flex-col items-center">
             <Button
               variant="ghost"
               className="h-auto p-0 hover:opacity-80"
@@ -432,6 +432,7 @@ export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }
                 draggable="false"
               />
             </Button>
+            <span className="mt-2 text-sm text-gray-600">{imageData.imageRole || '-'}</span>
           </div>
         ))}
       </div>

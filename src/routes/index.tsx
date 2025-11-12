@@ -44,7 +44,7 @@ function HerbariumCard({
           className="border-border/70 text-foreground hover:bg-accent focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium shadow-xs transition-colors focus-visible:ring-[2px] focus-visible:outline-none"
         >
           <Home className="h-4 w-4" />
-          Home
+          {t('herbaria-homepage.home-button')}
         </Link>
         <Link
           onClick={onNavigate}
@@ -53,7 +53,7 @@ function HerbariumCard({
           className="bg-foreground text-background hover:bg-primary/90 focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium shadow-sm transition-colors focus-visible:ring-[2px] focus-visible:outline-none"
         >
           <Search className="h-4 w-4" />
-          Explore
+          {t('herbaria-homepage.explore-button')}
         </Link>
       </div>
     </Card>
@@ -61,6 +61,7 @@ function HerbariumCard({
 }
 
 function App() {
+  const { t } = useTranslation()
   const resetFilters = useFilterStore((state) => state.resetFilters)
   const resetMap = useFilterStore((state) => state.resetMap)
   const totalHerbaria = HERBARIA_CONFIG.length
@@ -78,16 +79,12 @@ function App() {
           <section className="mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
             <div className="space-y-6">
               <h1 className="text-foreground text-4xl font-semibold tracking-tight text-balance md:text-6xl">
-                FlorItaly Herbaria
+                {t('herbaria-homepage.title')}
               </h1>
               <p className="text-muted-foreground text-lg leading-relaxed md:text-xl">
-                Discover digitised specimens from Italy's herbaria.
+                {t('herbaria-homepage.description')}
               </p>
-              <p className="text-muted-foreground text-sm">
-                Development version, currently showcasing{' '}
-                <span className="text-foreground font-medium">{totalHerbaria} </span>
-                collections.
-              </p>
+              <p className="text-muted-foreground text-sm">{t('herbaria-homepage.sub-description')}</p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
@@ -96,23 +93,25 @@ function App() {
                 className="bg-foreground text-background focus-visible:ring/50 focus-visible:ring-[2px]-ring hover:bg-primary/90 focus-visible:ring-ring/50 inline-flex min-w-[200px] items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium shadow-sm focus-visible:ring-[2px] focus-visible:outline-none"
               >
                 <Search className="h-4 w-4" />
-                Explore
+                {t('herbaria-homepage.explore-button')}
               </Link>
               <a
                 href="#collections"
                 className="border-border/70 text-foreground hover:bg-accent focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex min-w-[200px] items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium shadow-xs transition-colors focus-visible:ring-[2px] focus-visible:outline-none"
               >
                 <ArrowRight className="h-4 w-4" />
-                Browse Herbaria
+                {t('herbaria-homepage.browse-herbaria-button')}
               </a>
             </div>
           </section>
 
           <section id="collections" className="mx-auto flex max-w-6xl flex-col gap-10">
             <div className="mx-auto max-w-3xl text-center">
-              <h2 className="text-foreground text-2xl font-semibold tracking-tight md:text-3xl">Herbaria</h2>
+              <h2 className="text-foreground text-2xl font-semibold tracking-tight md:text-3xl">
+                {t('herbaria-homepage.herbaria-section-title')}
+              </h2>
               <p className="text-muted-foreground mt-3 text-base">
-                Explore the data of the aggregated herbaria and filter by taxonomy, location or specimen metadata.
+                {t('herbaria-homepage.herbaria-section-description')}
               </p>
             </div>
 

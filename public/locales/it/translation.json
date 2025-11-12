@@ -312,11 +312,14 @@
     "zimbabwe": "Zimbabwe"
   },
   "herbaria-homepage": {
-    "title": "FlorItaly Erbari",
+    "title": "FlorItaly Herbaria",
     "description": "Scopri i campioni digitalizzati dagli erbari italiani.",
     "sub-description": "Versione di sviluppo, attualmente aggrega 2 erbari.",
     "herbaria-section-title": "Erbari",
-    "herbaria-section-description": "Esplora i dati degli erbari aggregati e filtra per nome, località o metadati del campione."
+    "herbaria-section-description": "Esplora i dati degli erbari aggregati e filtra per nome, località o metadati del campione.",
+    "explore-button": "Esplora",
+    "browse-herbaria-button": "Sfoglia gli Erbari",
+    "home-button": "Home"
   },
   "herbaria": {
     "pi": "Herbarium Horti Botanici Pisani",

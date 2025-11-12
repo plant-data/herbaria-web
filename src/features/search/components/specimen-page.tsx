@@ -4,15 +4,27 @@ import { useRouter } from '@tanstack/react-router'
 import { ArrowLeft, Maximize2, RotateCcw, ZoomIn, ZoomOut } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import OpenSeadragon from 'openseadragon'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
+// Fix Leaflet default marker icon issue in production
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
+import markerIcon from 'leaflet/dist/images/marker-icon.png'
+import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { ImageLightbox } from '@/components/image-lightbox'
 import { FLORITALY_URL } from '@/features/search/constants/constants'
 import { COUNTRIES } from '@/features/search/constants/countries'
-import 'leaflet/dist/leaflet.css'
 import { Button } from '@/components/ui/button'
 import { BASE_PATH } from '@/config'
+
+delete (L.Icon.Default.prototype as any)._getIconUrl
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon,
+  iconRetinaUrl: markerIcon2x,
+  shadowUrl: markerShadow,
+})
 
 // Helper function to get country name from country code
 const getCountryName = (countryCode: unknown): string => {

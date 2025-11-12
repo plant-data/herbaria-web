@@ -416,7 +416,7 @@ export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }
 
   return (
     <div className="mt-6">
-      <h3 className="mb-4 text-xl font-medium">Additional Images</h3>
+      <h3 className="mb-4 text-xl font-medium">Other Images</h3>
       <div className="flex flex-wrap gap-4">
         {imagesData.map((imageData) => (
           <div key={imageData.identifier} className="flex flex-shrink-0 flex-col items-center">

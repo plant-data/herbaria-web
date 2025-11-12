@@ -12,7 +12,7 @@ export const HERBARIA_CONFIG = [
     ],
     ringColor: 'oklch(0.6 0.15 240)', // blue
     hero: {
-      badge: 'Hherbarium PI',
+      badge: 'Herbarium PI',
       title: 'herbaria-pages.pi.home.hero.title',
       description: 'herbaria-pages.pi.home.hero.description',
       images: [

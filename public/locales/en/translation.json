@@ -357,7 +357,8 @@
         "hero": {
           "badge": "Herbarium FI-HCI",
           "title": "Herbarium Centrale Italicum of <1>Florence</1>",
-          "description": "Established in 1842, the Herbarium Centrale Italicum (FI-HCI) was conceived as a national institution to centralize botanical research. It serves as an essential repository for systematic and phytogeographical studies, housing a global collection of plant specimens."
+          "description": "Established in 1842, the Herbarium Centrale Italicum (FI-HCI) was conceived as a national institution to centralize botanical research.",
+          "short-description": "Established in 1842, the Herbarium Centrale Italicum (FI-HCI) was conceived as a national institution to centralize botanical research."
         },
         "section-1": {
           "badge": "History",

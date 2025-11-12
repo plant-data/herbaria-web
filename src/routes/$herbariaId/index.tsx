@@ -141,7 +141,7 @@ function RouteComponent() {
         </section>
 
         {/* Stats Section */}
-        <section className="container mx-auto mb-12 hidden grid-cols-2 gap-8 px-4 text-center sm:grid md:grid-cols-4">
+        {/* <section className="container mx-auto mb-12 hidden grid-cols-2 gap-8 px-4 text-center sm:grid md:grid-cols-4">
           <Card className="border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
             <CardDescription className="flex flex-col items-center gap-2">
               <Leaf className="text-ring size-9" />
@@ -170,7 +170,7 @@ function RouteComponent() {
               <span className="text-primary/80">Years of Collection</span>
             </CardDescription>
           </Card>
-        </section>
+        </section> */}
 
         {/* First Content Section - Image on Left */}
         <section className="container mx-auto px-4 py-16">

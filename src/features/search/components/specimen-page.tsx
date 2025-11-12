@@ -271,16 +271,7 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           <span className="font-medium">GBIF Name:</span>
           <span className="ml-2">{occurrence.gbifName ?? '-'}</span>
         </div> */}
-        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-          {occurrence.floritalyID ? (
-            <Button asChild className="h-6 gap-1 px-2 py-1">
-              <a className="text-xs" target="_blank" href={`${FLORITALY_URL}${occurrence.floritalyID}`}>
-                <img src={`${BASE_PATH}images/flor.png`} alt="Herbaria Logo" width={18} height={18} className=""></img>
-                Open taxon page
-              </a>
-            </Button>
-          ) : null}
-        </div>
+
         <div>
           <span className="font-medium">Verbatim Identification:</span>
           <span className="ml-2">{occurrence.verbatimIdentification ?? '-'}</span>
@@ -306,10 +297,21 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           <span className="font-medium">Identified By:</span>
           <span className="ml-2">{occurrence.identifiedBy ?? '-'}</span>
         </div>
-        <div>
-          <span className="font-medium">Floritaly Name:</span>
-          <span className="ml-2">{occurrence.floritalyName ?? '-'}</span>
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <div>
+            <span className="font-medium">Floritaly Name:</span>
+            <span className="ml-2">{occurrence.floritalyName ?? '-'}</span>
+          </div>
+          {occurrence.floritalyID ? (
+            <Button asChild className="h-6 gap-1 px-2 py-1">
+              <a className="text-xs" target="_blank" href={`${FLORITALY_URL}${occurrence.floritalyID}`}>
+                <img src={`${BASE_PATH}images/flor.png`} alt="Herbaria Logo" width={18} height={18} className=""></img>
+                Open taxon page
+              </a>
+            </Button>
+          ) : null}
         </div>
+
         <Separator />
         {/* Date Information */}
         <div>

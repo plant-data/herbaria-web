@@ -64,7 +64,7 @@ function DataItemCard({ item }: { item: SpecimenData }) {
   const { t } = useTranslation()
 
   const countryTranslationKey = getCountryNameByCode(item.countryCode)
-  const countryName = countryTranslationKey ? t(countryTranslationKey as any) : 'Unknown'
+  const countryName = countryTranslationKey ? t(countryTranslationKey as any) : '-'
 
   return (
     <Card className="focus-visible:border-ring focus-visible:ring-ring/50 h-full min-h-40 w-full rounded-md p-1 shadow-xs hover:cursor-pointer focus-visible:ring-[3px]">
@@ -85,7 +85,7 @@ function DataItemCard({ item }: { item: SpecimenData }) {
           <p className="pb-1 text-sm font-semibold">{item.scientificName || 'Unknown Species'}</p>
           <p className="text-muted-foreground text-xs">Country: {countryName}</p>
 
-          <p className="text-muted-foreground text-xs">Date: {item.eventDate ? item.eventDate : 'Not specified'}</p>
+          <p className="text-muted-foreground text-xs">Date: {item.eventDate ? item.eventDate : '-'}</p>
           <p className="flex-grow"></p>
           <p className="text-muted-foreground pr-1 text-right text-xs">{item.catalogNumber || 'N/A'}</p>
         </div>

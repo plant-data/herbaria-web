@@ -332,7 +332,8 @@
         "hero": {
           "badge": "Herbarium PI",
           "title": "Herbarium Horti Botanici <1>Pisani</1>",
-          "description": "Established in 1822, the Herbarium Horti Botanici Pisani (PI) is one of the oldest botanical institutions in Italy. It serves as a crucial center for the study of plant diversity and conservation."
+          "description": "Established in 1822, the Herbarium Horti Botanici Pisani (PI) is one of the oldest botanical institutions in Italy.",
+          "short-description": "Established in 1822, the Herbarium Horti Botanici Pisani (PI) is one of the oldest botanical institutions in Italy."
         },
         "section-1": {
           "badge": "History",

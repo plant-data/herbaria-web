@@ -33,7 +33,7 @@ function HerbariumCard({
       <div className="flex flex-1 flex-col gap-6 p-6">
         <div className="space-y-3 text-left">
           <CardTitle className="text-foreground text-xl font-semibold">{t(herbarium.translationKey)}</CardTitle>
-          <p className="text-muted-foreground text-sm">{herbarium.description}</p>
+          <p className="text-muted-foreground text-sm">{t(herbarium.description as any)}</p>
         </div>
       </div>
       <div className="mx-2 mb-6 grid gap-2 sm:grid-cols-2">

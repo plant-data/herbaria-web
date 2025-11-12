@@ -3,7 +3,7 @@ export const HERBARIA_CONFIG = [
     id: 'PI',
     translationKey: 'herbaria.pi',
     image: 'images/pi.png',
-    description: "Explore the rich botanical heritage of the University of Pisa's herbarium collection",
+    description: "herbaria-pages.pi.home.hero.short-description",
     badgeLabel: 'Herbarium PI',
     homeImages: [
       'https://object.jacq.org/europeana/PI/1310678.jpg',
@@ -12,7 +12,7 @@ export const HERBARIA_CONFIG = [
     ],
     ringColor: 'oklch(0.6 0.15 240)', // blue
     hero: {
-      badge: '',
+      badge: 'Hherbarium PI',
       title: 'herbaria-pages.pi.home.hero.title',
       description: 'herbaria-pages.pi.home.hero.description',
       images: [
@@ -59,7 +59,7 @@ export const HERBARIA_CONFIG = [
     id: 'FI-HCI',
     translationKey: 'herbaria.fi-hci',
     image: 'images/fi.jpg',
-    description: "Explore the rich botanical heritage of the University of Florence's herbarium collection",
+    description: "herbaria-pages.fi-hci.home.hero.short-description",
     badgeLabel: 'Herbarium FI-HCI',
     homeImages: [
       'https://object.jacq.org/europeana/PI/1310678.jpg',

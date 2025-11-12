@@ -332,7 +332,8 @@
         "hero": {
           "badge": "Herbarium PI",
           "title": "Herbarium Horti Botanici <1>Pisani</1>",
-          "description": "Fondato nel 1822, l'Herbarium Horti Botanici Pisani (PI) è una delle più antiche istituzioni botaniche in Italia. Serve come centro cruciale per lo studio della diversità vegetale e della conservazione."
+          "description": "Fondato nel 1822, l'Herbarium Horti Botanici Pisani (PI) è una delle più antiche istituzioni botaniche in Italia.",
+          "short-description": "Fondato nel 1822, l'Herbarium Horti Botanici Pisani (PI) è una delle più antiche istituzioni botaniche in Italia."
         },
         "section-1": {
           "badge": "Storia",
@@ -356,7 +357,8 @@
         "hero": {
           "badge": "Herbarium FI-HCI",
           "title": "Herbarium Centrale Italicum di <1> Firenze</1>",
-          "description": "Fondato nel 1842, l'Herbarium Centrale Italicum (FI-HCI) è stato concepito come istituzione nazionale per centralizzare la ricerca botanica. Serve come deposito essenziale per studi sistematici e fitogeografici, ospitando una collezione mondiale di esemplari vegetali."
+          "description": "Fondato nel 1842, l'Herbarium Centrale Italicum (FI-HCI) è stato concepito come istituzione nazionale per la ricerca botanica.",
+          "short-description": "Fondato nel 1842, l'Herbarium Centrale Italicum (FI-HCI) è stato concepito come istituzione nazionale per la ricerca botanica."
         },
         "section-1": {
           "badge": "Storia",

@@ -64,7 +64,7 @@ export function Header() {
                   {/* Controls */}
                   <div className="mt-20 flex flex-col gap-6">
                     <div className="flex justify-center gap-8">
-                      <ThemeToggle />
+                    {/*   <ThemeToggle /> */}
                       <LanguageToggle />
                     </div>
                   </div>
@@ -98,7 +98,7 @@ export function Header() {
 
         {/* Theme and Language Controls */}
         <div className="flex items-center gap-2">
-          <ThemeToggle />
+         {/*  <ThemeToggle /> */}
           <LanguageToggle />
         </div>
       </nav>

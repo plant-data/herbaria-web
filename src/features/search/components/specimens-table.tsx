@@ -60,6 +60,23 @@ const createColumns = (herbariaId?: string, t?: any): Array<ColumnDef<SpecimenDa
     header: 'Date',
   },
   {
+    accessorKey: 'locality',
+    header: 'Locality',
+    cell: ({ row }) => (
+      <div className="w-[300px] truncate" title={row.getValue('locality')}>
+        {row.getValue('locality')}
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'countryCode',
+    header: 'Country',
+    cell: ({ row }) => {
+      const countryName = getCountryName(row.original.countryCode)
+      return countryName === '-' ? '-' : t?.(countryName as any) || countryName
+    },
+  },
+  {
     accessorKey: 'decimalLatitude',
     header: 'Latitude',
   },
@@ -72,24 +89,12 @@ const createColumns = (herbariaId?: string, t?: any): Array<ColumnDef<SpecimenDa
     header: 'Name in FlorItaly',
   },
   {
-    accessorKey: 'locality',
-    header: 'Locality',
-  },
-  {
     accessorKey: 'recordedBy',
     header: 'Recorded By',
   },
   {
     accessorKey: 'identifiedBy',
     header: 'Identified By',
-  },
-  {
-    accessorKey: 'countryCode',
-    header: 'Country',
-    cell: ({ row }) => {
-      const countryName = getCountryName(row.original.countryCode)
-      return countryName === '-' ? '-' : t?.(countryName as any) || countryName
-    },
   },
 ]
 

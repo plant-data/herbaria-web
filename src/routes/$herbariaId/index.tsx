@@ -109,7 +109,7 @@ function RouteComponent() {
                   >
                     <Link to="/$herbariaId/search" params={{ herbariaId }}>
                       <Database className="mr-2 h-5 w-5" />
-                      Explore the Collection
+                      {t('herbaria-pages.buttons.explore-collection')}
                     </Link>
                   </Button>
                 </div>
@@ -193,7 +193,7 @@ function RouteComponent() {
                 </h2>
               </div>
               <p className="text-primary/80">{t(currentHerbarium?.sections[0]?.description)}</p>
-              <Button className="bg-ring hover:bg-ring/90 text-white">Learn More</Button>
+              <Button className="bg-ring hover:bg-ring/90 text-white">{t('herbaria-pages.buttons.learn-more')}</Button>
             </div>
           </div>
         </section>
@@ -212,13 +212,13 @@ function RouteComponent() {
                 </h2>
               </div>
               <p className="text-primary/80">{t(currentHerbarium?.sections[1]?.description)}</p>
-              <Button className="bg-ring hover:bg-ring/90 text-white">Explore</Button>
+              <Button className="bg-ring hover:bg-ring/90 text-white">{t('herbaria-pages.buttons.explore')}</Button>
             </div>
             {/* Image - Right Side */}
             <div>
               <div className="aspect-[16/10] overflow-hidden rounded-lg">
                 <img
-                  src="images/m1.png"
+                  src={currentHerbarium?.sections[1]?.image}
                   alt="A map showing global plant distribution"
                   className="h-full w-full object-cover"
                 />
@@ -234,7 +234,7 @@ function RouteComponent() {
             <div className="order-2 lg:order-1">
               <div className="border-primary/40 aspect-[16/10] overflow-hidden rounded-lg border">
                 <img
-                  src="images/g1.png"
+                  src={currentHerbarium?.sections[2]?.image}
                   alt="A historical botanical illustration"
                   className="h-full w-full object-cover"
                 />
@@ -257,18 +257,7 @@ function RouteComponent() {
         </section>
 
         {/* Footer */}
-        <footer className="mt-16 bg-gray-900 py-8 text-white">
-          <div className="container mx-auto px-4 text-center">
-            <div className="mb-4 flex items-center justify-center gap-2">
-              <img src="images/flor.png" alt="Herbaria Logo" width={32} height={32} className="rounded-md" />
-              <span className="text-xl font-bold">FlorItaly Herbaria</span>
-            </div>
-            {/*  <p className="text-gray-400">
-            The Herbarium Centrale Italicum (FI-HCI), a cornerstone of botanical research, preserving global plant
-            biodiversity since 1842.
-          </p> */}
-          </div>
-        </footer>
+        
       </div>
       <Footer />
     </>

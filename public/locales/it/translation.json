@@ -327,6 +327,11 @@
     "fi-hci": "Herbarium Centrale Italicum"
   },
   "herbaria-pages": {
+    "buttons": {
+      "explore-collection": "Esplora la Collezione",
+      "learn-more": "Scopri di più",
+      "explore": "Esplora"
+    },
     "pi": {
       "home": {
         "hero": {

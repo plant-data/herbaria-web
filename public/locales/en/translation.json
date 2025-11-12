@@ -311,6 +311,13 @@
     "zambia": "Zambia",
     "zimbabwe": "Zimbabwe"
   },
+  "herbaria-homepage": {
+    "title": "FlorItaly Herbaria",
+    "description": "Discover digitised specimens from Italy's herbaria.",
+    "sub-description": "Development version, currently showcasing 2 herbaria.",
+    "herbaria-section-title": "Herbaria",
+    "herbaria-section-description": "Explore the data of the aggregated herbaria and filter by taxonomy, location or specimen metadata."
+  },
   "herbaria": {
     "pi": "Herbarium Horti Botanici Pisani",
     "tsb": "Herbarium Universitatis Tergestinae",
@@ -365,7 +372,6 @@
         }
       }
     }
-    
   },
   "common": {
     "yes": "Yes",

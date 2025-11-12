@@ -7,18 +7,7 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { Footer } from '@/components/footer'
 
-// Configuration for herbaria including global search
-const GLOBAL_SEARCH_CONFIG = {
-  id: 'global',
-  translationKey: 'herbaria.global',
-  image: 'images/global-search.png',
-  description:
-    'Search across every collection simultaneously and surface specimens by taxonomy, geography, or dataset.',
-  badgeLabel: 'All Herbaria',
-  isGlobal: true,
-} as const
-
-const HERBARIA_WITH_GLOBAL = [GLOBAL_SEARCH_CONFIG, ...HERBARIA_CONFIG]
+const HERBARIA_WITH_GLOBAL = HERBARIA_CONFIG
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -34,10 +23,10 @@ function HerbariumCard({
   const { t } = useTranslation()
 
   return (
-    <Card className="group border-border/60 bg-background/80 hover:border-border relative flex h-full flex-col justify-between overflow-hidden border py-0 shadow-xs">
+    <Card className="group border-border/60 bg-background/80 hover:border-border relative flex h-full max-w-[400px] flex-col justify-between overflow-hidden border py-0 shadow-xs">
       <div className="relative aspect-[16/11]">
         <img src={herbarium.image} alt={t(herbarium.translationKey)} className="h-full w-full object-cover" />
-        <Badge className="border-border/60 bg-background/80 text-primary/80 absolute top-4 left-4 border text-xs font-semibold  uppercase">
+        <Badge className="border-border/60 bg-background/80 text-primary/80 absolute top-4 left-4 border text-xs font-semibold uppercase">
           {herbarium.badgeLabel}
         </Badge>
       </div>
@@ -52,7 +41,7 @@ function HerbariumCard({
           onClick={onNavigate}
           to="/$herbariaId"
           params={{ herbariaId: herbarium.id }}
-          className="border-border/70 text-foreground hover:border-foreground focus-visible:ring/50 focus-visible:ring-[2px]-ring inline-flex items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-ring/50 focus-visible:ring-[2px] focus-visible:outline-none"
+          className="border-border/70 text-foreground hover:bg-accent focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium shadow-xs transition-colors focus-visible:ring-[2px] focus-visible:outline-none"
         >
           <Home className="h-4 w-4" />
           Home
@@ -61,9 +50,9 @@ function HerbariumCard({
           onClick={onNavigate}
           to="/$herbariaId/search"
           params={{ herbariaId: herbarium.id }}
-          className="group bg-foreground text-background hover:bg-foreground/90 focus-visible:ring/50 focus-visible:ring-[2px]-ring inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-ring/50 focus-visible:ring-[2px] focus-visible:outline-none"
+          className="bg-foreground text-background hover:bg-primary/90 focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium shadow-sm transition-colors focus-visible:ring-[2px] focus-visible:outline-none"
         >
-          <Search className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          <Search className="h-4 w-4" />
           Explore
         </Link>
       </div>
@@ -92,25 +81,26 @@ function App() {
                 FlorItaly Herbaria
               </h1>
               <p className="text-muted-foreground text-lg leading-relaxed md:text-xl">
-                Discover digitised specimens and curated histories from Italy's leading herbaria.
+                Discover digitised specimens from Italy's herbaria.
               </p>
               <p className="text-muted-foreground text-sm">
-                Currently showcasing <span className="text-foreground font-medium">{totalHerbaria}</span> curated
-                collections with unified search.
+                Development version, currently showcasing{' '}
+                <span className="text-foreground font-medium">{totalHerbaria} </span>
+                collections.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 to="/search"
                 onClick={handleNavigate}
-                className="bg-foreground text-background focus-visible:ring/50 focus-visible:ring-[2px]-ring inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium shadow-lg transition-transform hover:-translate-y-0.5 hover:shadow-xl focus-visible:ring-ring/50 focus-visible:ring-[2px] focus-visible:outline-none"
+                className="bg-foreground text-background focus-visible:ring/50 focus-visible:ring-[2px]-ring hover:bg-primary/90 focus-visible:ring-ring/50 inline-flex min-w-[200px] items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium shadow-sm focus-visible:ring-[2px] focus-visible:outline-none"
               >
                 <Search className="h-4 w-4" />
-                Explore Collections
+                Explore
               </Link>
               <a
                 href="#collections"
-                className="border-border/70 text-foreground hover:border-foreground hover:text-foreground focus-visible:ring/50 focus-visible:ring-[2px]-ring inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium transition-colors focus-visible:ring-ring/50 focus-visible:ring-[2px] focus-visible:outline-none"
+                className="border-border/70 text-foreground hover:bg-accent focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex min-w-[200px] items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium shadow-xs transition-colors focus-visible:ring-[2px] focus-visible:outline-none"
               >
                 <ArrowRight className="h-4 w-4" />
                 Browse Herbaria
@@ -118,18 +108,15 @@ function App() {
             </div>
           </section>
 
-          <section id="collections" className="flex flex-col gap-10">
-            <div className="max-w-3xl">
-              <h2 className="text-foreground text-2xl font-semibold tracking-tight md:text-3xl">
-                Collections at a glance
-              </h2>
+          <section id="collections" className="mx-auto flex max-w-6xl flex-col gap-10">
+            <div className="mx-auto max-w-3xl text-center">
+              <h2 className="text-foreground text-2xl font-semibold tracking-tight md:text-3xl">Herbaria</h2>
               <p className="text-muted-foreground mt-3 text-base">
-                Jump straight to a partner herbarium or start with the global index to filter by location, taxonomy, or
-                specimen metadata.
+                Explore the data of the aggregated herbaria and filter by taxonomy, location or specimen metadata.
               </p>
             </div>
 
-            <div className="grid gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid justify-items-center gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-2">
               {HERBARIA_WITH_GLOBAL.map((herbarium) => (
                 <HerbariumCard key={herbarium.id} herbarium={herbarium} onNavigate={handleNavigate} />
               ))}

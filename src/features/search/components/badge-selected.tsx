@@ -36,7 +36,7 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
           <Badge
             key={item}
             variant="secondary"
-            className="bg-background dark:bg-input border-input hover:bg-background/80 focus:ring-ring cursor-pointer text-xs font-normal transition-colors focus:ring-2 focus:outline-none"
+            className="bg-background dark:bg-input border-input hover:bg-background/80 focus:ring-ring cursor-pointer text-xs font-normal transition-colors focus:ring-2 focus:outline-none [&:hover>svg]:text-red-500"
             onClick={() => onItemRemove(item)}
             tabIndex={0}
             role="button"
@@ -48,7 +48,7 @@ export const BadgeSelected = memo(function FilterCheckboxSelected({
               }
             }}
           >
-            <X className="mr-1 h-3 w-3" />
+            <X className="mr-1 h-3 w-3 transition-colors" />
             <span className="max-w-[220px] truncate">{item}</span>
           </Badge>
         ))}

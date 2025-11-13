@@ -80,6 +80,10 @@ const SEARCH_CONFIG = {
     url: `${BASE_API_URL}occurrences/search`,
     key: 'cluster-data',
   },
+  count: {
+    url: `${BASE_API_URL}occurrences/count`,
+    key: 'specimens-count',
+  },
 } as const
 
 const COMMON_QUERY_OPTIONS = {

@@ -9,7 +9,7 @@ import { COMMON_QUERY_OPTIONS, MAX_YEAR, MIN_YEAR, SEARCH_CONFIG } from '@/featu
 // 1. Configuration & Constants
 // ============================================================================
 
-type SearchType = 'data' | 'map' | 'graph' | 'point' | 'cluster'
+type SearchType = 'data' | 'map' | 'graph' | 'point' | 'cluster' | 'count'
 
 export type CustomFilters = Partial<FilterStateData & FilterMapData & { sortBy: string }>
 
@@ -85,6 +85,10 @@ const prepareQueryPayload = (
         filters,
         limit: 10,
         skip: customSkip,
+      }
+    case 'count':
+      return {
+        filters,
       }
     default:
       // 'map' and 'graph' only require filters.
@@ -173,9 +177,18 @@ interface UseSpecimensClusterOptions {
   customSkip?: number
 }
 
+interface UseSpecimensCountOptions {
+  customFilters?: CustomFilters
+}
+
 export function useSpecimensMap(options: UseSpecimensMapOptions = {}) {
   const { customFilters } = options
   return useSpecimensQuery({ searchType: 'map', customFilters })
+}
+
+export function useSpecimensCount(options: UseSpecimensCountOptions = {}) {
+  const { customFilters } = options
+  return useSpecimensQuery({ searchType: 'count', customFilters })
 }
 
 export function useSpecimensData(options: UseSpecimensDataOptions = {}) {

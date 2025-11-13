@@ -104,6 +104,7 @@ export function SpecimensTable() {
   const skip = useFilterStore((state) => state.skip)
   const setSkip = useFilterStore((state) => state.setSkip)
   const { data, isPending, error } = useSpecimensData()
+  const { data: countData, isPending: isCountPending } = useSpecimensCount()
 
   /* const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     recordedBy: false,
@@ -124,14 +125,14 @@ export function SpecimensTable() {
     debugTable: true,
   })
 
-  return isPending ? (
+  return isPending || isCountPending ? (
     <TableSkeleton />
   ) : (
     <>
       {/* pagination and select  */}
       {/* <div className="flex items-center justify-between"> */}
       <>
-        <Pagination count={data.count} skip={skip} limit={ITEMS_PER_PAGE} setSkip={setSkip} />
+        <Pagination count={countData.count} skip={skip} limit={ITEMS_PER_PAGE} setSkip={setSkip} />
         {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="ml-auto">
@@ -199,7 +200,7 @@ export function SpecimensTable() {
           </TableBody>
         </Table>
       </div>
-      <Pagination count={data.count} skip={skip} limit={ITEMS_PER_PAGE} setSkip={setSkip} />
+      <Pagination count={countData.count} skip={skip} limit={ITEMS_PER_PAGE} setSkip={setSkip} />
     </>
   )
 }

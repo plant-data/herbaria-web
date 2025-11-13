@@ -2,7 +2,7 @@ import { Link, useLocation, useParams } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChartColumn, Image, LoaderCircle, MapPinned, Table } from 'lucide-react'
-import { useSpecimensData } from '@/features/search/api/get-occurrences'
+import { useSpecimensCount } from '@/features/search/api/get-occurrences'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import { BASE_PATH } from '@/config'
@@ -57,7 +57,7 @@ export function SpecimensNavbar() {
 }
 
 function ResultOccurrencesCounter() {
-  const { data, isPending, isFetching, error } = useSpecimensData()
+  const { data, isPending, isFetching, error } = useSpecimensCount()
 
   if (isPending) {
     return (

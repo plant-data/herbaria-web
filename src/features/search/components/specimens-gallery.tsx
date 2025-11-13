@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useSpecimensData } from '@/features/search/api/get-occurrences'
+import { useSpecimensCount, useSpecimensData } from '@/features/search/api/get-occurrences'
 import { Pagination } from '@/features/search/components/pagination'
 import { ITEMS_PER_PAGE } from '@/config'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
@@ -28,8 +28,9 @@ export default function SpecimensGallery({ customFilters = {} }) {
   const skip = useFilterStore((state) => state.skip)
   const setSkip = useFilterStore((state) => state.setSkip)
   const { data, isPending } = useSpecimensData(customFilters)
+  const { data: countData, isPending: isCountPending } = useSpecimensCount(customFilters)
 
-  return isPending ? (
+  return isPending || isCountPending ? (
     <>
       <div className="m-2 h-[50px]"></div>
       <div className="grid grid-cols-1 gap-4 @xl:grid-cols-2 @4xl:grid-cols-3 @7xl:grid-cols-4">
@@ -40,7 +41,7 @@ export default function SpecimensGallery({ customFilters = {} }) {
     </>
   ) : (
     <>
-      <Pagination count={data.count} skip={skip} limit={ITEMS_PER_PAGE} setSkip={setSkip} />
+      <Pagination count={countData.count} skip={skip} limit={ITEMS_PER_PAGE} setSkip={setSkip} />
       <div className="grid grid-cols-1 gap-4 @xl:grid-cols-2 @4xl:grid-cols-3 @7xl:grid-cols-4">
         {data.occurrences.map((item: SpecimenData) => (
           <Link
@@ -53,7 +54,7 @@ export default function SpecimensGallery({ customFilters = {} }) {
           </Link>
         ))}
       </div>
-      <Pagination count={data.count} skip={skip} limit={ITEMS_PER_PAGE} setSkip={setSkip} />
+      <Pagination count={countData.count} skip={skip} limit={ITEMS_PER_PAGE} setSkip={setSkip} />
     </>
   )
 }

@@ -27,7 +27,7 @@ function RouteComponent() {
       <div className="flex flex-1">
         <SearchSidebar lockedFilters={lockedFilters} />
         <SidebarInset>
-          <div className="@container/mainresult max-w-[1800px] px-4 pt-4 pb-2 md:px-6">
+          <div className="@container/mainresult max-w-[1800px] min-h-[80vh] px-4 pt-4 pb-2 md:px-6">
             <SpecimensNavbar />
             <Outlet />
           </div>

@@ -191,7 +191,7 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
 
   const handleFullScreen = () => {
     if (hasImage) {
-      setCurrentImageIdentifier(multimedia[0].identifier)
+      setCurrentImageIdentifier(multimedia.find((media) => media.imageRole === 'primary')?.identifier || '')
       setIsLightboxOpen(true)
     }
   }

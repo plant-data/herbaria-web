@@ -30,6 +30,7 @@
       "institution-code-placeholder": "Select an herbarium",
       "has-coordinates-label": "Show only georeferenced records",
       "clear-all": "Clear all",
+      "clear": "Clear",
       "show-filters": "Show filters",
       "hide-filters": "Hide filters",
       "active-filters": "Active filters",

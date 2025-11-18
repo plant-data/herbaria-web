@@ -10,7 +10,7 @@ interface MultimediaData {
 }
 
 interface ImageLightboxProps {
-  mediaData: MultimediaData[]
+  mediaData: Array<MultimediaData>
   currentIdentifier: string
   isOpen: boolean
   onClose: () => void
@@ -209,7 +209,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
         <div className="relative z-20 flex-shrink-0 bg-black/80 px-4 py-3">
           <div className="flex items-center justify-between text-white">
             <h3 className="truncate">
-              Image {currentIndex + 1} of {mediaData.length}
+              Image {currentIndex + 1} of {mediaData.length} ({mediaData[currentIndex]?.imageRole})
             </h3>
 
             <button

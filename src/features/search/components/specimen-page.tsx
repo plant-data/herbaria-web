@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import { useRouter } from '@tanstack/react-router'
 import { ArrowLeft, Maximize2, RotateCcw, ZoomIn, ZoomOut } from 'lucide-react'

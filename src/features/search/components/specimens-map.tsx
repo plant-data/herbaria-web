@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { CircleMarker, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
+import { CircleMarker, LayersControl, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
 import { Earth, House } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
 import { Link } from '@tanstack/react-router'
@@ -338,10 +338,20 @@ export function SpecimensMap() {
           style={{ height: '100%', width: '100%', zIndex: 0 }}
           zoomControl={true}
         >
-          <TileLayer
-            url="https://tile.gbif.org/3857/omt/{z}/{x}/{y}@2x.png?style=gbif-geyser-en"
-            attribution='© <a href="https://www.gbif.org/citation-guidelines">GBIF</a>'
-          />
+          <LayersControl position="topright">
+            <LayersControl.BaseLayer checked name="GBIF Geyser">
+              <TileLayer
+                url="https://tile.gbif.org/3857/omt/{z}/{x}/{y}@2x.png?style=gbif-geyser-en"
+                attribution='© <a href="https://www.gbif.org/citation-guidelines">GBIF</a>'
+              />
+            </LayersControl.BaseLayer>
+            <LayersControl.BaseLayer name="OpenStreetMap">
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+            </LayersControl.BaseLayer>
+          </LayersControl>
           <MapEventHandler />
           <MapControls />
           {layerData.length > 0 && (

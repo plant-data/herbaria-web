@@ -68,7 +68,7 @@ function DataItemCard({ item }: { item: SpecimenData }) {
   const countryName = countryTranslationKey ? t(countryTranslationKey as any) : '-'
 
   return (
-    <Card className="focus-visible:border-ring focus-visible:ring-ring/50 h-full min-h-40 w-full rounded-md p-1 shadow-xs hover:cursor-pointer focus-visible:ring-[3px]">
+    <Card className="focus-visible:border-ring focus-visible:ring-ring/50 h-full min-h-40 w-full rounded-md p-1 shadow-xs hover:cursor-pointer hover:bg-muted/50 focus-visible:ring-[3px]">
       <CardContent className="flex min-h-full items-start gap-4 p-0">
         {/* Placeholder Image Area */}
         <div className="bg-muted relative flex h-[150px] w-[110px] shrink-0 items-center justify-center overflow-hidden rounded-sm border-1">

@@ -1,4 +1,4 @@
-import { Link, useLocation, useParams } from '@tanstack/react-router'
+import { Link, useParams } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChartColumn, Image, LoaderCircle, MapPinned, Table } from 'lucide-react'
@@ -7,21 +7,20 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 
 export function SpecimensNavbar() {
-  const location = useLocation()
   const { t } = useTranslation()
   const params = useParams({ strict: false })
 
   const navItems = useMemo(() => {
     const herbariaId = 'herbariaId' in params ? params.herbariaId : null
-    const basePath = herbariaId ? `${herbariaId}/search` : `search`
+    const basePath = herbariaId ? `/${herbariaId}/search` : `/search`
 
     return [
-      { path: `${basePath}/table`, icon: Table, label: t('search.results.nav-table') },
-      { path: basePath, icon: Image, label: t('search.results.nav-images') },
-      { path: `${basePath}/map`, icon: MapPinned, label: t('search.results.nav-map') },
-      { path: `${basePath}/graphs`, icon: ChartColumn, label: t('search.results.nav-graphs') },
+      { path: `${basePath}/table`, icon: Table, label: t('search.results.nav-table'), exact: false },
+      { path: basePath, icon: Image, label: t('search.results.nav-images'), exact: true },
+      { path: `${basePath}/map`, icon: MapPinned, label: t('search.results.nav-map'), exact: false },
+      { path: `${basePath}/graphs`, icon: ChartColumn, label: t('search.results.nav-graphs'), exact: false },
     ]
-  }, [params, t])  
+  }, [params, t])
 
   return (
     <div className="flex flex-col items-center justify-center gap-2 @lg:flex-row @lg:justify-between">
@@ -31,19 +30,19 @@ export function SpecimensNavbar() {
 
       <div className="flex justify-center">
         <nav className="bg-muted dark:bg-card dark:border-input flex gap-2 rounded-lg p-0.5 dark:border">
-          {navItems.map(({ path, icon: Icon, label }) => (
+          {navItems.map(({ path, icon: Icon, label, exact }) => (
             <Link
               key={path}
               to={path}
-              from={'/'}
               params={{ herbariaId: params.herbariaId }}
-              className={cn(
-                'flex items-center gap-2 rounded-md px-1 py-[7px] text-xs font-medium transition-colors @xs:px-2 @sm:px-3',
-                'hover:bg-background hover:shadow-sm',
-                location.pathname === path
-                  ? 'bg-background text-foreground dark:border-input shadow-sm dark:border'
-                  : 'text-muted-foreground',
-              )}
+              className="flex items-center gap-2 rounded-md px-2 py-[7px] text-xs font-medium transition-colors"
+              activeOptions={exact ? { exact: true } : undefined}
+              activeProps={{
+                className: cn('bg-background text-foreground dark:border-input shadow-sm dark:border'),
+              }}
+              inactiveProps={{
+                className: cn('text-muted-foreground hover:bg-background hover:shadow-sm'),
+              }}
             >
               <Icon className="h-4 w-4" />
               {label}

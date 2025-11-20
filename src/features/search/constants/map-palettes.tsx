@@ -1,41 +1,26 @@
 // A collection of functions, each defining a color palette.
 // Each function takes a 'count' and returns a color string.
 
-const classic = (count: number): string => {
-  if (count > 100) return '#7AD151'
-  if (count > 50) return '#2A9D8F'
-  if (count > 20) return '#357F7F'
-  if (count > 10) return '#3F4A75'
-  if (count > 5) return '#3A528B'
-  return '#482878'
+export const paletteColors = {
+  Classic: ['#482878', '#3A528B', '#3F4A75', '#357F7F', '#2A9D8F', '#7AD151'],
+  Inferno: ['#0C0830', '#5D016D', '#F9E55B', '#FDB92E', '#FC800F', '#F7370A'],
+  Viridis: ['#482878', '#440154', '#3A528B', '#2A9D8F', '#7AD151', '#FDE725'],
+  Grayscale: ['#eeeeee', '#cccccc', '#aaaaaa', '#777777', '#444444', '#000000'],
 }
 
-const inferno = (count: number): string => {
-  if (count > 100) return '#F7370A'
-  if (count > 50) return '#FC800F'
-  if (count > 20) return '#FDB92E'
-  if (count > 10) return '#F9E55B'
-  if (count > 5) return '#5D016D'
-  return '#0C0830'
+const getColor = (count: number, colors: string[]) => {
+  if (count > 100) return colors[5]
+  if (count > 50) return colors[4]
+  if (count > 20) return colors[3]
+  if (count > 10) return colors[2]
+  if (count > 5) return colors[1]
+  return colors[0]
 }
 
-const viridis = (count: number): string => {
-  if (count > 100) return '#FDE725'
-  if (count > 50) return '#7AD151'
-  if (count > 20) return '#2A9D8F'
-  if (count > 10) return '#3A528B'
-  if (count > 5) return '#440154'
-  return '#482878'
-}
-
-const grayscale = (count: number): string => {
-  if (count > 100) return '#000000'
-  if (count > 50) return '#444444'
-  if (count > 20) return '#777777'
-  if (count > 10) return '#aaaaaa'
-  if (count > 5) return '#cccccc'
-  return '#eeeeee'
-}
+const classic = (count: number): string => getColor(count, paletteColors.Classic)
+const inferno = (count: number): string => getColor(count, paletteColors.Inferno)
+const viridis = (count: number): string => getColor(count, paletteColors.Viridis)
+const grayscale = (count: number): string => getColor(count, paletteColors.Grayscale)
 
 export const palettes = {
   Classic: classic,

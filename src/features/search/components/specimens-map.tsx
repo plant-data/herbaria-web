@@ -1,19 +1,21 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CircleMarker, LayersControl, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
-import { Earth, House } from 'lucide-react'
+import { Earth, House, Settings } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
 import { Link } from '@tanstack/react-router'
 import type { PaletteName } from '@/features/search/constants/map-palettes'
 import type { SpecimenData } from '@/features/search/types/types'
-import { palettes } from '@/features/search/constants/map-palettes'
+import { paletteColors, palettes } from '@/features/search/constants/map-palettes'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { useSpecimensCluster, useSpecimensMap, useSpecimensPoint } from '@/features/search/api/get-occurrences'
 import 'leaflet/dist/leaflet.css'
 import { Card, CardContent } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { MAP_CENTER, ZOOM } from '@/features/search/constants/constants'
 import { LoadingBadge } from '@/features/search/components/loading-badge'
 
@@ -23,7 +25,6 @@ type ClusterData = {
   gridCode?: string
   clusterCode?: string
 }
-type PaletteFn = (count: number) => string
 
 const INITIAL_VIEW_STATE = {
   center: MAP_CENTER,
@@ -82,14 +83,15 @@ function MapControls() {
   )
 }
 
-function ColorLegend({ palette }: { palette: PaletteFn }) {
+function ColorLegend({ min, max, colors }: { min: number; max: number; colors: string[] }) {
+  const step = (max - min) / 5
   const ranges = [
-    { label: '> 100', value: 101 },
-    { label: '51-100', value: 75 },
-    { label: '21-50', value: 35 },
-    { label: '11-20', value: 15 },
-    { label: '6-10', value: 8 },
-    { label: '1-5', value: 3 },
+    { label: `> ${Math.round(max)}`, color: colors[5] },
+    { label: `${Math.round(min + step * 4) + 1}-${Math.round(max)}`, color: colors[4] },
+    { label: `${Math.round(min + step * 3) + 1}-${Math.round(min + step * 4)}`, color: colors[3] },
+    { label: `${Math.round(min + step * 2) + 1}-${Math.round(min + step * 3)}`, color: colors[2] },
+    { label: `${Math.round(min + step) + 1}-${Math.round(min + step * 2)}`, color: colors[1] },
+    { label: `${min}-${Math.round(min + step)}`, color: colors[0] },
   ]
   return (
     <Card className="rounded-md p-2 shadow-xs md:p-2.5">
@@ -99,7 +101,7 @@ function ColorLegend({ palette }: { palette: PaletteFn }) {
             <div key={index} className="flex items-center gap-1.5 text-xs">
               <div
                 className="h-3.5 w-3.5 shrink-0 rounded-sm border border-gray-300 md:h-4 md:w-4"
-                style={{ backgroundColor: palette(range.value) }}
+                style={{ backgroundColor: range.color }}
               />
               <span className="whitespace-nowrap text-gray-700">{range.label}</span>
             </div>
@@ -202,19 +204,33 @@ function ClusterPopupContent({
   )
 }
 
+const getDynamicColor = (count: number, thresholds: Array<number>, colors: Array<string>) => {
+  if (count > thresholds[4]) return colors[5]
+  if (count > thresholds[3]) return colors[4]
+  if (count > thresholds[2]) return colors[3]
+  if (count > thresholds[1]) return colors[2]
+  if (count > thresholds[0]) return colors[1]
+  return colors[0]
+}
+
 // Simplified markers component that works at all zoom levels
 function LeafletMarkers({
   clusters,
   onMarkerClick,
-  palette,
-  paletteName,
+  colors,
+  min,
+  max,
 }: {
   clusters: Array<ClusterData>
   onMarkerClick: (cluster: ClusterData) => void
-  palette: PaletteFn
-  paletteName: string
+  colors: Array<string>
+  min: number
+  max: number
 }) {
   const zoom = useFilterStore((state) => state.zoom)
+
+  const step = (max - min) / 5
+  const thresholds = [min + step, min + step * 2, min + step * 3, min + step * 4, max]
 
   // Calculate marker radius based on zoom level and count
   const getMarkerRadius = (currentZoom: number) => {
@@ -252,12 +268,12 @@ function LeafletMarkers({
         const [lng, lat] = cluster.coordinates
         if (isNaN(lat) || isNaN(lng)) return null
 
-        const markerColor = palette(cluster.count)
+        const markerColor = getDynamicColor(cluster.count, thresholds, colors)
         const radius = getMarkerRadius(zoom)
 
         return (
           <CircleMarker
-            key={`${lat}-${lng}-${index}-${paletteName}`}
+            key={`${lat}-${lng}-${index}-${colors[0]}-${min}-${max}`}
             center={[lat, lng]}
             radius={radius}
             fillColor={markerColor}
@@ -305,6 +321,79 @@ function SpecimenPointDialog({
   )
 }
 
+function MapSettingsDialog({
+  currentPalette,
+  currentMax,
+  onApply,
+}: {
+  currentPalette: PaletteName
+  currentMax: number
+  onApply: (palette: PaletteName, max: number) => void
+}) {
+  const [open, setOpen] = useState(false)
+  const [palette, setPalette] = useState<PaletteName>(currentPalette)
+  const [max, setMax] = useState(currentMax)
+
+  useEffect(() => {
+    if (open) {
+      setPalette(currentPalette)
+      setMax(currentMax)
+    }
+  }, [open, currentPalette, currentMax])
+
+  const handleConfirm = () => {
+    onApply(palette, max)
+    setOpen(false)
+  }
+
+  const handleReset = () => {
+    onApply('Classic', 100)
+    setOpen(false)
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="icon" className="shrink-0" title="Map Settings">
+          <Settings className="h-4 w-4" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Map Settings</DialogTitle>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid gap-2">
+            <Label htmlFor="palette">Color Palette</Label>
+            <Select value={palette} onValueChange={(value: PaletteName) => setPalette(value)}>
+              <SelectTrigger id="palette">
+                <SelectValue placeholder="Select a palette" />
+              </SelectTrigger>
+              <SelectContent className="z-[99999999]">
+                {Object.keys(palettes).map((paletteName) => (
+                  <SelectItem key={paletteName} value={paletteName}>
+                    {paletteName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="max-scale">Max Scale Value</Label>
+            <Input id="max-scale" type="number" value={max} onChange={(e) => setMax(Number(e.target.value))} />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={handleReset}>
+            Reset
+          </Button>
+          <Button onClick={handleConfirm}>Confirm</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 // Main component with simplified rendering
 export function SpecimensMap() {
   const { zoom, mapCenter } = useFilterStore(
@@ -315,6 +404,7 @@ export function SpecimensMap() {
   )
   const { data, isPending, isFetching, error } = useSpecimensMap()
   const [activePalette, setActivePalette] = useState<PaletteName>('Classic')
+  const [maxScale, setMaxScale] = useState(100)
 
   const [selectedCluster, setSelectedCluster] = useState<ClusterData | null>(null)
 
@@ -358,8 +448,9 @@ export function SpecimensMap() {
             <LeafletMarkers
               clusters={layerData}
               onMarkerClick={setSelectedCluster}
-              palette={palettes[activePalette]}
-              paletteName={activePalette}
+              colors={paletteColors[activePalette]}
+              min={0}
+              max={maxScale}
             />
           )}
         </MapContainer>
@@ -374,20 +465,17 @@ export function SpecimensMap() {
       </div>
 
       <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-        <Select value={activePalette} onValueChange={(value: PaletteName) => setActivePalette(value)}>
-          <SelectTrigger className="w-full sm:w-auto sm:min-w-[180px]">
-            <SelectValue placeholder="Select a palette" />
-          </SelectTrigger>
-          <SelectContent className="z-[999999]">
-            {Object.keys(palettes).map((paletteName) => (
-              <SelectItem key={paletteName} value={paletteName}>
-                {paletteName}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        <ColorLegend palette={palettes[activePalette]} />
+        <div className="flex items-center gap-2">
+          <MapSettingsDialog
+            currentPalette={activePalette}
+            currentMax={maxScale}
+            onApply={(p, m) => {
+              setActivePalette(p)
+              setMaxScale(m)
+            }}
+          />
+          <ColorLegend min={0} max={maxScale} colors={paletteColors[activePalette]} />
+        </div>
       </div>
     </>
   )

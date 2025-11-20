@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import OpenSeaDragon from 'openseadragon'
-import { ZoomIn, ZoomOut, RotateCcw, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Download, RotateCcw, X, ZoomIn, ZoomOut } from 'lucide-react'
 
 interface MultimediaData {
   imageUrl: string
@@ -153,6 +153,19 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
     }
   }
 
+  const handleDownload = () => {
+    const currentItem = mediaData[currentIndex]
+    if (!currentItem.imageUrl) return
+
+    const link = document.createElement('a')
+    link.href = currentItem.imageUrl
+    link.target = '_blank'
+    link.download = currentItem.identifier || 'download'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   // Navigation functions
   const goToPrevious = () => {
     if (mediaData.length === 0) return
@@ -214,7 +227,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
 
             <button
               onClick={onClose}
-              className="flex-shrink-0 rounded-full p-2 hover:cursor-pointer transition-colors hover:bg-white/20"
+              className="flex-shrink-0 rounded-full p-2 transition-colors hover:cursor-pointer hover:bg-white/20"
               aria-label="Close lightbox"
             >
               <X className="h-6 w-6" />
@@ -227,7 +240,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
           <div ref={viewerRef} className="absolute inset-0" />
 
           {/* Custom zoom controls */}
-          <div className="absolute top-4 left-4 z-20 p-0 flex items-center space-x-1 rounded-lg border border-border/10 bg-zinc-900 shadow-lg">
+          <div className="border-border/10 absolute top-4 left-4 z-20 flex items-center space-x-1 rounded-lg border bg-zinc-900 p-0 shadow-lg">
             <button
               id="zoom-out-btn"
               onClick={handleZoomOut}
@@ -261,11 +274,22 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({
             >
               <RotateCcw className="h-5 w-5" />
             </button>
+
+            <div className="mx-1 h-6 w-px bg-zinc-700" />
+
+            <button
+              onClick={handleDownload}
+              className="cursor-pointer rounded p-2 text-white transition-colors hover:bg-zinc-800"
+              aria-label="Download image"
+              title="Download image"
+            >
+              <Download className="h-5 w-5" />
+            </button>
           </div>
 
           {/* Navigation arrows */}
           {mediaData.length > 1 && (
-            <div className="absolute top-4 right-4 z-20 p-0 flex items-center space-x-1 rounded-lg border border-border/10 bg-zinc-900 shadow-lg">
+            <div className="border-border/10 absolute top-4 right-4 z-20 flex items-center space-x-1 rounded-lg border bg-zinc-900 p-0 shadow-lg">
               <button
                 onClick={goToPrevious}
                 className="cursor-pointer rounded p-2 text-white transition-colors hover:bg-zinc-800"

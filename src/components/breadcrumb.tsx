@@ -11,7 +11,6 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { HERBARIA } from '@/features/search/constants/constants'
-import { BASE_PATH } from '@/config'
 import { useIsMobile } from '@/hooks/use-mobile'
 
 export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void }) {
@@ -19,7 +18,7 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
   const { herbariaId, occurrenceID } = useParams({ strict: false })
   const { t } = useTranslation()
   const isMobile = useIsMobile()
-  const cleanBasePath = BASE_PATH?.replace(/^\/|\/$/g, '') || '' // remove leading/trailing slashes
+  const cleanBasePath = '' // remove leading/trailing slashes
   const pathnames = location.pathname.split('/').filter((x) => x !== cleanBasePath && x !== '')
 
   const getHerbariumName = (id: string) => {
@@ -68,7 +67,7 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
   // Mobile view - vertical layout
   if (isMobile) {
     const allSegments = [
-      { to: BASE_PATH, name: t('navbar.home'), isLast: false },
+      { to: '/', name: t('navbar.home'), isLast: false },
       ...pathnames.map((value, index) => {
         let to = `/${pathnames.slice(0, index + 1).join('/')}`
         const isLast = index === pathnames.length - 1
@@ -115,13 +114,6 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {/* <BreadcrumbItem>
-          <BreadcrumbLink asChild>
-            <Link to={BASE_PATH} onClick={onLinkClick}>
-              {t('navbar.home')}
-            </Link>
-          </BreadcrumbLink>
-        </BreadcrumbItem> */}
         {pathnames.map((value, index) => {
         
 

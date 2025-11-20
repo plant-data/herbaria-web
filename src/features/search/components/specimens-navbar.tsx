@@ -5,7 +5,6 @@ import { ChartColumn, Image, LoaderCircle, MapPinned, Table } from 'lucide-react
 import { useSpecimensCount } from '@/features/search/api/get-occurrences'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
-import { BASE_PATH } from '@/config'
 
 export function SpecimensNavbar() {
   const location = useLocation()
@@ -14,7 +13,7 @@ export function SpecimensNavbar() {
 
   const navItems = useMemo(() => {
     const herbariaId = 'herbariaId' in params ? params.herbariaId : null
-    const basePath = herbariaId ? `${BASE_PATH}${herbariaId}/search` : `${BASE_PATH}search`
+    const basePath = herbariaId ? `${herbariaId}/search` : `search`
 
     return [
       { path: `${basePath}/table`, icon: Table, label: t('search.results.nav-table') },

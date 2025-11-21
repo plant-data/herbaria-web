@@ -2,17 +2,19 @@ import { useMemo } from 'react'
 import { Link, useParams } from '@tanstack/react-router'
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { useTranslation } from 'react-i18next'
+import { Image } from 'lucide-react'
 import type { ColumnDef } from '@tanstack/react-table'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Pagination } from '@/features/search/components/pagination'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { useSpecimensCount, useSpecimensData } from '@/features/search/api/get-occurrences'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { LoadingBadge } from '@/features/search/components/loading-badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ITEMS_PER_PAGE } from '@/config'
 import { COUNTRIES } from '@/features/search/constants/countries'
 
-// Helper function to get country name from country code
+// helper function to get country name from country code
 const getCountryName = (countryCode: unknown): string => {
   if (!countryCode || typeof countryCode !== 'string') return '-'
   const country = COUNTRIES.find((c) => c.id === countryCode)
@@ -28,28 +30,35 @@ const createColumns = (herbariaId?: string, t?: any): Array<ColumnDef<SpecimenDa
     accessorKey: 'catalogNumber',
     header: 'ID',
 
-    cell: ({ row }) => (
-      <Link
-        to={herbariaId ? '/$herbariaId/specimens/$occurrenceID' : '/specimens/$occurrenceID'}
-        params={
-          herbariaId
-            ? { herbariaId, occurrenceID: row.original.occurrenceID }
-            : { occurrenceID: row.original.occurrenceID }
-        }
-        className="text-blue-500 hover:underline"
-      >
-        <span className="flex min-w-50 items-center gap-2">
-          <span className="flex h-8 w-7 gap-2">
-            <img
-              className="object-contain"
-              src={row.original.multimedia.filter((media) => media.imageRole === 'primary')[0]?.thumbnailUrl}
-              alt=""
-            />
+    cell: ({ row }) => {
+      const thumbnail = row.original.multimedia.find((media) => media.imageRole === 'primary')?.thumbnailUrl
+      return (
+        <Link
+          to={herbariaId ? '/$herbariaId/specimens/$occurrenceID' : '/specimens/$occurrenceID'}
+          params={
+            herbariaId
+              ? { herbariaId, occurrenceID: row.original.occurrenceID }
+              : { occurrenceID: row.original.occurrenceID }
+          }
+          className="text-blue-500 hover:underline"
+        >
+          <span className="flex min-w-50 items-center gap-2">
+            <span className="flex h-8 w-7 gap-2">
+              {thumbnail ? (
+                <img
+                  className="h-full w-full object-contain"
+                  src={thumbnail}
+                  alt={`Specimen ${row.getValue('catalogNumber')}`}
+                />
+              ) : (
+                <Image className="h-full w-full text-gray-300" />
+              )}
+            </span>
+            {row.getValue('catalogNumber')}
           </span>
-          {row.getValue('catalogNumber')}
-        </span>
-      </Link>
-    ),
+        </Link>
+      )
+    },
   },
   {
     accessorKey: 'scientificName',
@@ -103,8 +112,8 @@ export function SpecimensTable() {
   const { t } = useTranslation()
   const skip = useFilterStore((state) => state.skip)
   const setSkip = useFilterStore((state) => state.setSkip)
-  const { data, isPending, error } = useSpecimensData()
-  const { data: countData, isPending: isCountPending } = useSpecimensCount()
+  const { data, isPending, error, isFetching } = useSpecimensData()
+  const { data: countData, isPending: isCountPending, error: errorCount } = useSpecimensCount()
 
   /* const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     recordedBy: false,
@@ -125,48 +134,22 @@ export function SpecimensTable() {
     debugTable: true,
   })
 
-  return isPending || isCountPending ? (
-    <TableSkeleton />
-  ) : (
+  if (error || errorCount) {
+    return <div>Error loading data</div> // Or throw to let the boundary handle it cleanly
+  }
+  if (isPending || isCountPending) {
+    return <TableSkeleton />
+  }
+  return (
     <>
       {/* pagination and select  */}
       {/* <div className="flex items-center justify-between"> */}
       <>
         <Pagination count={countData.count} skip={skip} limit={ITEMS_PER_PAGE} setSkip={setSkip} />
-        {/* <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="ml-auto">
-              <Settings2 className="h-4 w-4 mr-2" />
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-48">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                    onSelect={(e) => {
-                      e.preventDefault()
-                    }}
-                  >
-                    {column.columnDef.header?.toString() || column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu> */}
       </>
-      {/* </div> */}
       {/* table */}
-      <div className="overflow-hidden rounded-md border">
+      <div className="relative overflow-hidden rounded-md border">
+        {isFetching && <LoadingBadge className="absolute top-2 left-2 z-10" />}
         <Table>
           <TableHeader className="bg-muted">
             {table.getHeaderGroups().map((headerGroup) => (

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, useParams } from '@tanstack/react-router'
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { useTranslation } from 'react-i18next'
@@ -19,6 +19,28 @@ const getCountryName = (countryCode: unknown): string => {
   if (!countryCode || typeof countryCode !== 'string') return '-'
   const country = COUNTRIES.find((c) => c.id === countryCode)
   return country ? country.value : countryCode
+}
+
+function SpecimenImage({ thumbnail, alt }: { thumbnail?: string; alt: string }) {
+  const [imageLoaded, setImageLoaded] = useState(false)
+
+  if (!thumbnail) {
+    return <Image className="h-full w-full text-gray-300" />
+  }
+
+  return (
+    <div className="bg-muted relative flex h-full w-full items-center justify-center overflow-hidden rounded-sm">
+      {!imageLoaded && <Skeleton className="absolute inset-0 h-full w-full" />}
+      <img
+        className={`h-full w-full object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+        src={thumbnail}
+        alt={alt}
+        loading="lazy"
+        onLoad={() => setImageLoaded(true)}
+        onError={() => setImageLoaded(false)}
+      />
+    </div>
+  )
 }
 
 interface DataTableProps<TData, TValue> {
@@ -44,15 +66,7 @@ const createColumns = (herbariaId?: string, t?: any): Array<ColumnDef<SpecimenDa
         >
           <span className="flex min-w-50 items-center gap-2">
             <span className="flex h-8 w-7 gap-2">
-              {thumbnail ? (
-                <img
-                  className="h-full w-full object-contain"
-                  src={thumbnail}
-                  alt={`Specimen ${row.getValue('catalogNumber')}`}
-                />
-              ) : (
-                <Image className="h-full w-full text-gray-300" />
-              )}
+              <SpecimenImage key={thumbnail} thumbnail={thumbnail} alt={`Specimen ${row.getValue('catalogNumber')}`} />
             </span>
             {row.getValue('catalogNumber')}
           </span>

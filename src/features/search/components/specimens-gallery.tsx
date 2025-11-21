@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useParams } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
+import { ImageOff } from 'lucide-react'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -72,18 +73,29 @@ function DataItemCard({ item }: { item: SpecimenData }) {
   const countryTranslationKey = getCountryNameByCode(item.countryCode)
   const countryName = countryTranslationKey ? t(countryTranslationKey as any) : '-'
 
+  const thumbnail = item.multimedia.find((media) => media.imageRole === 'primary')?.thumbnailUrl
+
   return (
     <Card className="focus-visible:border-ring focus-visible:ring-ring/50 hover:bg-muted/50 h-full min-h-40 w-full rounded-md p-1 shadow-xs hover:cursor-pointer focus-visible:ring-[3px]">
       <CardContent className="flex min-h-full items-start gap-4 p-0">
         {/* Placeholder Image Area */}
         <div className="bg-muted relative flex h-[150px] w-[110px] shrink-0 items-center justify-center overflow-hidden rounded-sm border-1">
-          {!imageLoaded && <Skeleton className="absolute inset-0 h-full w-full" />}
-          <img
-            className={`object-cover transition-opacity duration-200 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-            src={item.multimedia.filter((media) => media.imageRole === 'primary')[0]?.thumbnailUrl}
-            onLoad={() => setImageLoaded(true)}
-            onError={() => setImageLoaded(true)}
-          />
+          {thumbnail ? (
+            <>
+              {!imageLoaded && <Skeleton className="absolute inset-0 h-full w-full" />}
+              <img
+                className={`h-full w-full object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                src={thumbnail}
+                alt={`${item.scientificName} specimen`}
+                loading="lazy"
+                onLoad={() => setImageLoaded(true)}
+                onError={() => setImageLoaded(false)} // Handle load failure
+              />
+            </>
+          ) : (
+            // Fallback for no image
+            <ImageOff className="h-8 w-8 text-muted-foreground/50" />
+          )}
         </div>
 
         {/* Text Content Area */}
@@ -112,7 +124,7 @@ function DataItemCardSkeleton() {
           <Skeleton className="mb-1 h-4 w-3/4" />
           <Skeleton className="h-3 w-1/2" />
           <Skeleton className="h-3 w-2/3" />
-          <div className="flex-grow"></div>
+          <div className="grow"></div>
           <div className="pr-1 text-right">
             <Skeleton className="ml-auto h-3 w-16" />
           </div>

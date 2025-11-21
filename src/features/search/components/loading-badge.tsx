@@ -12,7 +12,7 @@ export function LoadingBadge({ className }: LoadingBadgeProps) {
   return (
     <div
       className={cn(
-        'border-border bg-background/90 text-muted-foreground flex items-center gap-2 rounded-full border px-2 py-1 text-xs shadow-sm',
+        'border-border bg-background text-muted-foreground flex items-center gap-2 rounded-full border px-2 py-1 text-xs shadow-sm',
         className,
       )}
       role="status"

@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import type { FilterState, LockedFilters } from '@/features/search/stores/use-filters-store'

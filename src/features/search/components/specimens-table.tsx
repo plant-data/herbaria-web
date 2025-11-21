@@ -29,7 +29,7 @@ function SpecimenImage({ thumbnail, alt }: { thumbnail?: string; alt: string }) 
   }
 
   return (
-    <div className="bg-muted relative flex h-full w-full items-center justify-center overflow-hidden rounded-sm">
+    <div className="bg-muted relative flex h-full w-full items-center justify-center overflow-hidden rounded-xs">
       {!imageLoaded && <Skeleton className="absolute inset-0 h-full w-full" />}
       <img
         className={`h-full w-full object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
@@ -65,7 +65,7 @@ const createColumns = (herbariaId?: string, t?: any): Array<ColumnDef<SpecimenDa
           className="text-blue-500 hover:underline"
         >
           <span className="flex min-w-50 items-center gap-2">
-            <span className="flex h-8 w-7 gap-2">
+            <span className="flex h-8 w-6 gap-2">
               <SpecimenImage key={thumbnail} thumbnail={thumbnail} alt={`Specimen ${row.getValue('catalogNumber')}`} />
             </span>
             {row.getValue('catalogNumber')}

@@ -9,6 +9,7 @@ import { Pagination } from '@/features/search/components/pagination'
 import { ITEMS_PER_PAGE } from '@/config'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { COUNTRIES } from '@/features/search/constants/countries'
+import { LoadingBadge } from '@/features/search/components/loading-badge'
 
 // Helper function to get country name by country code
 function getCountryNameByCode(countryCode: string | null): string | null {
@@ -19,30 +20,34 @@ function getCountryNameByCode(countryCode: string | null): string | null {
 
 export default function SpecimensGallery({ customFilters = {} }) {
   const { herbariaId } = useParams({ strict: false })
-  /* const { skip } = useFilterStore((state) => ({
-    skip: state.skip,
-  }))
-  const { setSkip } = useFilterStore((state) => ({
-    setSkip: state.setSkip,
-  })) */
+
   const skip = useFilterStore((state) => state.skip)
   const setSkip = useFilterStore((state) => state.setSkip)
-  const { data, isPending } = useSpecimensData(customFilters)
-  const { data: countData, isPending: isCountPending } = useSpecimensCount(customFilters)
+  const { data, isPending, error, isFetching } = useSpecimensData(customFilters)
+  const { data: countData, isPending: isCountPending, error: errorCount } = useSpecimensCount(customFilters)
 
-  return isPending || isCountPending ? (
-    <>
-      <div className="m-2 h-[50px]"></div>
-      <div className="grid grid-cols-1 gap-4 @xl:grid-cols-2 @4xl:grid-cols-3 @7xl:grid-cols-4">
-        {Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
-          <DataItemCardSkeleton key={index} />
-        ))}
-      </div>
-    </>
-  ) : (
+  if (error || errorCount) {
+    return <div>Error loading data</div> // Or throw to let the boundary handle it cleanly
+  }
+
+  if (isPending || isCountPending) {
+    return (
+      <>
+        <div className="m-2 h-[50px]"></div>
+        <div className="grid grid-cols-1 gap-4 @xl:grid-cols-2 @4xl:grid-cols-3 @7xl:grid-cols-4">
+          {Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
+            <DataItemCardSkeleton key={index} />
+          ))}
+        </div>
+      </>
+    )
+  }
+
+  return (
     <>
       <Pagination count={countData.count} skip={skip} limit={ITEMS_PER_PAGE} setSkip={setSkip} />
-      <div className="grid grid-cols-1 gap-4 @xl:grid-cols-2 @4xl:grid-cols-3 @7xl:grid-cols-4">
+      <div className="relative grid grid-cols-1 gap-4 @xl:grid-cols-2 @4xl:grid-cols-3 @7xl:grid-cols-4">
+        {isFetching && <LoadingBadge className="absolute top-2 left-2 z-10" />}
         {data.occurrences.map((item: SpecimenData) => (
           <Link
             key={item.occurrenceID}
@@ -68,7 +73,7 @@ function DataItemCard({ item }: { item: SpecimenData }) {
   const countryName = countryTranslationKey ? t(countryTranslationKey as any) : '-'
 
   return (
-    <Card className="focus-visible:border-ring focus-visible:ring-ring/50 h-full min-h-40 w-full rounded-md p-1 shadow-xs hover:cursor-pointer hover:bg-muted/50 focus-visible:ring-[3px]">
+    <Card className="focus-visible:border-ring focus-visible:ring-ring/50 hover:bg-muted/50 h-full min-h-40 w-full rounded-md p-1 shadow-xs hover:cursor-pointer focus-visible:ring-[3px]">
       <CardContent className="flex min-h-full items-start gap-4 p-0">
         {/* Placeholder Image Area */}
         <div className="bg-muted relative flex h-[150px] w-[110px] shrink-0 items-center justify-center overflow-hidden rounded-sm border-1">

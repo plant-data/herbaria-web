@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useMemo } from 'react'
 import ReactECharts from 'echarts-for-react'
 import { useTranslation } from 'react-i18next'
 import { useSpecimensGraph } from '@/features/search/api/get-occurrences'
@@ -15,8 +15,6 @@ export function MapGraph({ className = '' }) {
   const { theme } = useTheme()
   const { data, isPending, isFetching, error: dataError } = useSpecimensGraph({ customGroupBy: 'country' })
   const isFetchingNewData = isFetching && !isPending
-  const chartContainerRef = useRef<HTMLDivElement | null>(null)
-  const [isWideContainer, setIsWideContainer] = useState(false)
 
   const {
     geoJson,
@@ -38,7 +36,7 @@ export function MapGraph({ className = '' }) {
     let min = Infinity
     let max = -Infinity
 
-    const featureData = geoJson.features.map((feature) => {
+    const featureData = geoJson.features.map((feature: any) => {
       const fipsCode = feature.properties.iso_a2_eh
       const count = countryCountMap.get(fipsCode) || 0
       const logValue = Math.log10(count + 1)
@@ -91,18 +89,16 @@ export function MapGraph({ className = '' }) {
         left: 'left',
         bottom: 20,
       },
+      // 1. DEFAULT CONFIG (Mobile First)
+      // layoutSize: '100%' ensures it fits perfectly on narrow screens where Width is the limiting factor
       series: [
         {
           name: 'Occurrences',
           type: 'map',
           map: 'countries',
           roam: false,
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
           layoutCenter: ['50%', '50%'],
-          layoutSize: isWideContainer ? '150%' : '100%',
+          layoutSize: '100%', 
           data: seriesData,
           emphasis: {
             label: { show: false },
@@ -110,26 +106,25 @@ export function MapGraph({ className = '' }) {
           },
         },
       ],
+      // 2. MEDIA QUERY
+      // When width > 600px, the Height (400px) becomes the limiting factor.
+      // We increase layoutSize to >100% (relative to height) to fill the width.
+      media: [
+        {
+          query: {
+            minWidth: 550,
+          },
+          option: {
+            series: [
+              {
+                layoutSize: '155%'
+              },
+            ],
+          },
+        },
+      ],
     }
-  }, [seriesData, minValue, maxValue, theme, t, isWideContainer])
-
-  // Use useLayoutEffect directly - no SSR concerns
-  useLayoutEffect(() => {
-    const element = chartContainerRef.current
-    if (!element) return
-
-    const updateWidth = (width: number) => {
-      setIsWideContainer(width > 600)
-    }
-
-    updateWidth(element.getBoundingClientRect().width)
-
-    const observer = new ResizeObserver((entries) => {
-      updateWidth(entries[0].contentRect.width)
-    })
-    observer.observe(element)
-    return () => observer.disconnect()
-  }, [])
+  }, [seriesData, minValue, maxValue, theme, t])
 
   const isLoading = isPending || isLoadingGeo
   const hasError = !!(dataError || geoError)
@@ -168,7 +163,7 @@ export function MapGraph({ className = '' }) {
         <CardTitle>{t('search.results.specimens-country')}</CardTitle>
       </CardHeader>
       <CardContent className="p-0 sm:p-2 md:p-4">
-        <div ref={chartContainerRef} className="h-[400px] w-full">
+        <div className="h-[400px] w-full">
           <ReactECharts
             option={countryOptions}
             style={{ height: '100%', width: '100%' }}

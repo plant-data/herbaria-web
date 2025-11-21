@@ -1,7 +1,7 @@
 import { Link, useParams } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChartColumn, Image, LoaderCircle, MapPinned, Table } from 'lucide-react'
+import { AlertCircle, ChartColumn, Image, LoaderCircle, MapPinned, Table } from 'lucide-react'
 import { useSpecimensCount } from '@/features/search/api/get-occurrences'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
@@ -66,7 +66,12 @@ function ResultOccurrencesCounter() {
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>
+    return (
+      <div className="text-muted-foreground flex items-center gap-2 text-sm">
+        <AlertCircle className="h-4 w-4" />
+        <span>Failed to get data</span>
+      </div>
+    )
   }
 
   return (

@@ -73,7 +73,12 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
     })),
   )
   const { t } = useTranslation()
-  const { herbariaId } = useParams({ strict: false })
+  let { herbariaId } = useParams({ strict: false })
+
+  // necessario per le query di autocomplete
+  if (herbariaId === 'all') {
+    herbariaId = ''
+  }
 
   const handleSetYear = useDebouncedCallback((value: [number, number]) => {
     console.log('SearchFilters: Debounced setYears called with:', value)

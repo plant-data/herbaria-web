@@ -10,43 +10,26 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TestsRouteImport } from './routes/tests'
-import { Route as SearchRouteRouteImport } from './routes/search/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as SearchIndexRouteImport } from './routes/search/index'
 import { Route as ExternalIndexRouteImport } from './routes/external/index'
 import { Route as HerbariaIdIndexRouteImport } from './routes/$herbariaId/index'
-import { Route as SpecimensOccurrenceIDRouteImport } from './routes/specimens/$occurrenceID'
-import { Route as SearchTableRouteImport } from './routes/search/table'
-import { Route as SearchMapRouteImport } from './routes/search/map'
-import { Route as SearchGraphsRouteImport } from './routes/search/graphs'
-import { Route as SearchDebugFiltersRouteImport } from './routes/search/debug-filters'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo.tanstack-query'
 import { Route as HerbariaIdSearchRouteRouteImport } from './routes/$herbariaId/search/route'
 import { Route as HerbariaIdSearchIndexRouteImport } from './routes/$herbariaId/search/index'
 import { Route as HerbariaIdSpecimensOccurrenceIDRouteImport } from './routes/$herbariaId/specimens/$occurrenceID'
 import { Route as HerbariaIdSearchTableRouteImport } from './routes/$herbariaId/search/table'
 import { Route as HerbariaIdSearchMapRouteImport } from './routes/$herbariaId/search/map'
 import { Route as HerbariaIdSearchGraphsRouteImport } from './routes/$herbariaId/search/graphs'
+import { Route as HerbariaIdSearchDebugFiltersRouteImport } from './routes/$herbariaId/search/debug-filters'
 
 const TestsRoute = TestsRouteImport.update({
   id: '/tests',
   path: '/tests',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SearchRouteRoute = SearchRouteRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const SearchIndexRoute = SearchIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SearchRouteRoute,
 } as any)
 const ExternalIndexRoute = ExternalIndexRouteImport.update({
   id: '/external/',
@@ -56,36 +39,6 @@ const ExternalIndexRoute = ExternalIndexRouteImport.update({
 const HerbariaIdIndexRoute = HerbariaIdIndexRouteImport.update({
   id: '/$herbariaId/',
   path: '/$herbariaId/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SpecimensOccurrenceIDRoute = SpecimensOccurrenceIDRouteImport.update({
-  id: '/specimens/$occurrenceID',
-  path: '/specimens/$occurrenceID',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SearchTableRoute = SearchTableRouteImport.update({
-  id: '/table',
-  path: '/table',
-  getParentRoute: () => SearchRouteRoute,
-} as any)
-const SearchMapRoute = SearchMapRouteImport.update({
-  id: '/map',
-  path: '/map',
-  getParentRoute: () => SearchRouteRoute,
-} as any)
-const SearchGraphsRoute = SearchGraphsRouteImport.update({
-  id: '/graphs',
-  path: '/graphs',
-  getParentRoute: () => SearchRouteRoute,
-} as any)
-const SearchDebugFiltersRoute = SearchDebugFiltersRouteImport.update({
-  id: '/debug-filters',
-  path: '/debug-filters',
-  getParentRoute: () => SearchRouteRoute,
-} as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HerbariaIdSearchRouteRoute = HerbariaIdSearchRouteRouteImport.update({
@@ -119,21 +72,20 @@ const HerbariaIdSearchGraphsRoute = HerbariaIdSearchGraphsRouteImport.update({
   path: '/graphs',
   getParentRoute: () => HerbariaIdSearchRouteRoute,
 } as any)
+const HerbariaIdSearchDebugFiltersRoute =
+  HerbariaIdSearchDebugFiltersRouteImport.update({
+    id: '/debug-filters',
+    path: '/debug-filters',
+    getParentRoute: () => HerbariaIdSearchRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/search': typeof SearchRouteRouteWithChildren
   '/tests': typeof TestsRoute
   '/$herbariaId/search': typeof HerbariaIdSearchRouteRouteWithChildren
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
-  '/search/debug-filters': typeof SearchDebugFiltersRoute
-  '/search/graphs': typeof SearchGraphsRoute
-  '/search/map': typeof SearchMapRoute
-  '/search/table': typeof SearchTableRoute
-  '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/$herbariaId': typeof HerbariaIdIndexRoute
   '/external': typeof ExternalIndexRoute
-  '/search/': typeof SearchIndexRoute
+  '/$herbariaId/search/debug-filters': typeof HerbariaIdSearchDebugFiltersRoute
   '/$herbariaId/search/graphs': typeof HerbariaIdSearchGraphsRoute
   '/$herbariaId/search/map': typeof HerbariaIdSearchMapRoute
   '/$herbariaId/search/table': typeof HerbariaIdSearchTableRoute
@@ -143,15 +95,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/tests': typeof TestsRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
-  '/search/debug-filters': typeof SearchDebugFiltersRoute
-  '/search/graphs': typeof SearchGraphsRoute
-  '/search/map': typeof SearchMapRoute
-  '/search/table': typeof SearchTableRoute
-  '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/$herbariaId': typeof HerbariaIdIndexRoute
   '/external': typeof ExternalIndexRoute
-  '/search': typeof SearchIndexRoute
+  '/$herbariaId/search/debug-filters': typeof HerbariaIdSearchDebugFiltersRoute
   '/$herbariaId/search/graphs': typeof HerbariaIdSearchGraphsRoute
   '/$herbariaId/search/map': typeof HerbariaIdSearchMapRoute
   '/$herbariaId/search/table': typeof HerbariaIdSearchTableRoute
@@ -161,18 +107,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/search': typeof SearchRouteRouteWithChildren
   '/tests': typeof TestsRoute
   '/$herbariaId/search': typeof HerbariaIdSearchRouteRouteWithChildren
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
-  '/search/debug-filters': typeof SearchDebugFiltersRoute
-  '/search/graphs': typeof SearchGraphsRoute
-  '/search/map': typeof SearchMapRoute
-  '/search/table': typeof SearchTableRoute
-  '/specimens/$occurrenceID': typeof SpecimensOccurrenceIDRoute
   '/$herbariaId/': typeof HerbariaIdIndexRoute
   '/external/': typeof ExternalIndexRoute
-  '/search/': typeof SearchIndexRoute
+  '/$herbariaId/search/debug-filters': typeof HerbariaIdSearchDebugFiltersRoute
   '/$herbariaId/search/graphs': typeof HerbariaIdSearchGraphsRoute
   '/$herbariaId/search/map': typeof HerbariaIdSearchMapRoute
   '/$herbariaId/search/table': typeof HerbariaIdSearchTableRoute
@@ -183,18 +122,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/search'
     | '/tests'
     | '/$herbariaId/search'
-    | '/demo/tanstack-query'
-    | '/search/debug-filters'
-    | '/search/graphs'
-    | '/search/map'
-    | '/search/table'
-    | '/specimens/$occurrenceID'
     | '/$herbariaId'
     | '/external'
-    | '/search/'
+    | '/$herbariaId/search/debug-filters'
     | '/$herbariaId/search/graphs'
     | '/$herbariaId/search/map'
     | '/$herbariaId/search/table'
@@ -204,15 +136,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/tests'
-    | '/demo/tanstack-query'
-    | '/search/debug-filters'
-    | '/search/graphs'
-    | '/search/map'
-    | '/search/table'
-    | '/specimens/$occurrenceID'
     | '/$herbariaId'
     | '/external'
-    | '/search'
+    | '/$herbariaId/search/debug-filters'
     | '/$herbariaId/search/graphs'
     | '/$herbariaId/search/map'
     | '/$herbariaId/search/table'
@@ -221,18 +147,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/search'
     | '/tests'
     | '/$herbariaId/search'
-    | '/demo/tanstack-query'
-    | '/search/debug-filters'
-    | '/search/graphs'
-    | '/search/map'
-    | '/search/table'
-    | '/specimens/$occurrenceID'
     | '/$herbariaId/'
     | '/external/'
-    | '/search/'
+    | '/$herbariaId/search/debug-filters'
     | '/$herbariaId/search/graphs'
     | '/$herbariaId/search/map'
     | '/$herbariaId/search/table'
@@ -242,11 +161,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SearchRouteRoute: typeof SearchRouteRouteWithChildren
   TestsRoute: typeof TestsRoute
   HerbariaIdSearchRouteRoute: typeof HerbariaIdSearchRouteRouteWithChildren
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
-  SpecimensOccurrenceIDRoute: typeof SpecimensOccurrenceIDRoute
   HerbariaIdIndexRoute: typeof HerbariaIdIndexRoute
   ExternalIndexRoute: typeof ExternalIndexRoute
   HerbariaIdSpecimensOccurrenceIDRoute: typeof HerbariaIdSpecimensOccurrenceIDRoute
@@ -261,26 +177,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TestsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/search': {
-      id: '/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/search/': {
-      id: '/search/'
-      path: '/'
-      fullPath: '/search/'
-      preLoaderRoute: typeof SearchIndexRouteImport
-      parentRoute: typeof SearchRouteRoute
     }
     '/external/': {
       id: '/external/'
@@ -294,48 +196,6 @@ declare module '@tanstack/react-router' {
       path: '/$herbariaId'
       fullPath: '/$herbariaId'
       preLoaderRoute: typeof HerbariaIdIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/specimens/$occurrenceID': {
-      id: '/specimens/$occurrenceID'
-      path: '/specimens/$occurrenceID'
-      fullPath: '/specimens/$occurrenceID'
-      preLoaderRoute: typeof SpecimensOccurrenceIDRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/search/table': {
-      id: '/search/table'
-      path: '/table'
-      fullPath: '/search/table'
-      preLoaderRoute: typeof SearchTableRouteImport
-      parentRoute: typeof SearchRouteRoute
-    }
-    '/search/map': {
-      id: '/search/map'
-      path: '/map'
-      fullPath: '/search/map'
-      preLoaderRoute: typeof SearchMapRouteImport
-      parentRoute: typeof SearchRouteRoute
-    }
-    '/search/graphs': {
-      id: '/search/graphs'
-      path: '/graphs'
-      fullPath: '/search/graphs'
-      preLoaderRoute: typeof SearchGraphsRouteImport
-      parentRoute: typeof SearchRouteRoute
-    }
-    '/search/debug-filters': {
-      id: '/search/debug-filters'
-      path: '/debug-filters'
-      fullPath: '/search/debug-filters'
-      preLoaderRoute: typeof SearchDebugFiltersRouteImport
-      parentRoute: typeof SearchRouteRoute
-    }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$herbariaId/search': {
@@ -380,30 +240,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HerbariaIdSearchGraphsRouteImport
       parentRoute: typeof HerbariaIdSearchRouteRoute
     }
+    '/$herbariaId/search/debug-filters': {
+      id: '/$herbariaId/search/debug-filters'
+      path: '/debug-filters'
+      fullPath: '/$herbariaId/search/debug-filters'
+      preLoaderRoute: typeof HerbariaIdSearchDebugFiltersRouteImport
+      parentRoute: typeof HerbariaIdSearchRouteRoute
+    }
   }
 }
 
-interface SearchRouteRouteChildren {
-  SearchDebugFiltersRoute: typeof SearchDebugFiltersRoute
-  SearchGraphsRoute: typeof SearchGraphsRoute
-  SearchMapRoute: typeof SearchMapRoute
-  SearchTableRoute: typeof SearchTableRoute
-  SearchIndexRoute: typeof SearchIndexRoute
-}
-
-const SearchRouteRouteChildren: SearchRouteRouteChildren = {
-  SearchDebugFiltersRoute: SearchDebugFiltersRoute,
-  SearchGraphsRoute: SearchGraphsRoute,
-  SearchMapRoute: SearchMapRoute,
-  SearchTableRoute: SearchTableRoute,
-  SearchIndexRoute: SearchIndexRoute,
-}
-
-const SearchRouteRouteWithChildren = SearchRouteRoute._addFileChildren(
-  SearchRouteRouteChildren,
-)
-
 interface HerbariaIdSearchRouteRouteChildren {
+  HerbariaIdSearchDebugFiltersRoute: typeof HerbariaIdSearchDebugFiltersRoute
   HerbariaIdSearchGraphsRoute: typeof HerbariaIdSearchGraphsRoute
   HerbariaIdSearchMapRoute: typeof HerbariaIdSearchMapRoute
   HerbariaIdSearchTableRoute: typeof HerbariaIdSearchTableRoute
@@ -411,6 +259,7 @@ interface HerbariaIdSearchRouteRouteChildren {
 }
 
 const HerbariaIdSearchRouteRouteChildren: HerbariaIdSearchRouteRouteChildren = {
+  HerbariaIdSearchDebugFiltersRoute: HerbariaIdSearchDebugFiltersRoute,
   HerbariaIdSearchGraphsRoute: HerbariaIdSearchGraphsRoute,
   HerbariaIdSearchMapRoute: HerbariaIdSearchMapRoute,
   HerbariaIdSearchTableRoute: HerbariaIdSearchTableRoute,
@@ -424,11 +273,8 @@ const HerbariaIdSearchRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SearchRouteRoute: SearchRouteRouteWithChildren,
   TestsRoute: TestsRoute,
   HerbariaIdSearchRouteRoute: HerbariaIdSearchRouteRouteWithChildren,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
-  SpecimensOccurrenceIDRoute: SpecimensOccurrenceIDRoute,
   HerbariaIdIndexRoute: HerbariaIdIndexRoute,
   ExternalIndexRoute: ExternalIndexRoute,
   HerbariaIdSpecimensOccurrenceIDRoute: HerbariaIdSpecimensOccurrenceIDRoute,

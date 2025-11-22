@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { CircleMarker, LayersControl, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
-import { Earth, House, Settings } from 'lucide-react'
+import { Earth, House, Route, Settings } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
-import { Link } from '@tanstack/react-router'
+import { Link, useParams } from '@tanstack/react-router'
 import type { PaletteName } from '@/features/search/constants/map-palettes'
 import type { SpecimenData } from '@/features/search/types/types'
 import { paletteColors, palettes } from '@/features/search/constants/map-palettes'
@@ -114,6 +114,7 @@ function ColorLegend({ min, max, colors }: { min: number; max: number; colors: s
 
 function PointPopupContent({ coordinates, count }: { coordinates: [number, number]; count: number }) {
   const [skip, setSkip] = useState(0)
+  const { herbariaId } = useParams({ strict: false })
 
   const { data, isPending, error } = useSpecimensPoint({
     customFilters: {
@@ -133,7 +134,11 @@ function PointPopupContent({ coordinates, count }: { coordinates: [number, numbe
         {data.occurrences.map((occ: SpecimenData) => (
           <li key={occ.occurrenceID}>
             <span>{occ.scientificName || 'Unknown Species'}</span>{' '}
-            <Link className="text-blue-400" to="/specimens/$occurrenceID" params={{ occurrenceID: occ.occurrenceID }}>
+            <Link
+              className="text-blue-400"
+              to="/$herbariaId/specimens/$occurrenceID"
+              params={{ herbariaId, occurrenceID: occ.occurrenceID }}
+            >
               ({occ.occurrenceID})
             </Link>
           </li>
@@ -164,6 +169,7 @@ function ClusterPopupContent({
   count: number
 }) {
   const [skip, setSkip] = useState(0)
+  const { herbariaId } = useParams({ strict: false })
 
   const { data, isPending, error } = useSpecimensCluster({
     customFilters: {
@@ -183,7 +189,7 @@ function ClusterPopupContent({
         {data.occurrences.map((occ: SpecimenData) => (
           <li key={occ.occurrenceID}>
             <span>{occ.scientificName || 'Unknown Species'}</span>{' '}
-            <Link className="text-blue-400" to="/specimens/$occurrenceID" params={{ occurrenceID: occ.occurrenceID }}>
+            <Link className="text-blue-400" to="/$herbariaId/specimens/$occurrenceID" params={{ herbariaId, occurrenceID: occ.occurrenceID }}>
               ({occ.occurrenceID})
             </Link>
           </li>

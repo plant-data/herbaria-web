@@ -52,8 +52,8 @@ export default function SpecimensGallery({ customFilters = {} }) {
         {data.occurrences.map((item: SpecimenData) => (
           <Link
             key={item.occurrenceID}
-            to={herbariaId ? '/$herbariaId/specimens/$occurrenceID' : '/specimens/$occurrenceID'}
-            params={herbariaId ? { herbariaId, occurrenceID: item.occurrenceID } : { occurrenceID: item.occurrenceID }}
+            to='/$herbariaId/specimens/$occurrenceID'
+            params={{ herbariaId, occurrenceID: item.occurrenceID }}
             className="rounded-md"
           >
             <DataItemCard item={item} />

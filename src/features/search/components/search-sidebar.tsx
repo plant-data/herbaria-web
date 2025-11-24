@@ -1,3 +1,4 @@
+import { useParams } from '@tanstack/react-router'
 import { useShallow } from 'zustand/react/shallow'
 import { useTranslation } from 'react-i18next'
 import type { LockedFilters } from '@/features/search/stores/use-filters-store'
@@ -22,6 +23,7 @@ interface SearchSidebarProps extends React.ComponentProps<typeof Sidebar> {
 
 export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
   const { t } = useTranslation()
+  const { herbariaId } = useParams({ strict: false })
   const { activeFiltersCount, resetFilters } = useFilterStore(
     useShallow((state) => ({
       activeFiltersCount: state.activeFiltersCount,
@@ -29,6 +31,8 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
     })),
   )
 
+  // in the search of each herbarium i need to substract 1 from the active filters count
+  const trueActiveFiltersCount = herbariaId !== 'all' ? activeFiltersCount - 1 : activeFiltersCount;
   const lockedFiltersPresent = lockedFilters && lockedFilters.length > 0;
 
   return (
@@ -57,7 +61,7 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
             {(!lockedFiltersPresent && activeFiltersCount > 0) || (lockedFiltersPresent && activeFiltersCount > 1) ? (
               <span className="absolute top-0.5 right-2">
                 <ResetFilterButton
-                  itemCount={activeFiltersCount}
+                  itemCount={trueActiveFiltersCount}
                   onResetClick={() => resetFilters(lockedFilters)}
                   size="sm"
                 />

@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute } from '@tanstack/react-router'
+import { Outlet, createFileRoute, useParams } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import type { FilterState, LockedFilters } from '@/features/search/stores/use-filters-store'
 import { SearchSidebar } from '@/features/search/components/search-sidebar'
@@ -10,23 +10,28 @@ import { Footer } from '@/components/footer'
 export const Route = createFileRoute('/$herbariaId/search')({
   component: RouteComponent,
   loader: async ({ params }) => {
-    // importante che sia async
-    const { setInstitutionCodeNoResetSkip } = useFilterStore.getState()
-    await setInstitutionCodeNoResetSkip([params.herbariaId])
+    const herbariaId = params.herbariaId
+
+    if (herbariaId !== 'all') {
+      // importante che sia async
+      const { setInstitutionCodeNoResetSkip } = useFilterStore.getState()
+      await setInstitutionCodeNoResetSkip([params.herbariaId])
+    }
   },
 })
 
 function RouteComponent() {
   const { t } = useTranslation()
+  const { herbariaId } = Route.useParams()
 
-  const lockedFilters: LockedFilters = ['institutionCode']
+  const lockedFilters: LockedFilters = herbariaId === 'all' ? []: ['institutionCode']
 
   return (
     <SidebarProvider className="flex flex-col">
       <div className="flex flex-1">
         <SearchSidebar lockedFilters={lockedFilters} />
         <SidebarInset>
-          <div className="@container/mainresult max-w-[1800px] min-h-[80vh] px-4 pt-4 pb-2 md:px-6">
+          <div className="@container/mainresult min-h-[80vh] max-w-[1800px] px-4 pt-4 pb-2 md:px-6">
             <SpecimensNavbar />
             <Outlet />
           </div>
@@ -34,7 +39,7 @@ function RouteComponent() {
         </SidebarInset>
       </div>
       <SidebarTrigger
-        className="hover:bg-background fixed bottom-3 left-3 z-[51]"
+        className="hover:bg-background fixed bottom-3 left-3 z-51"
         textShow={t('search.filters.show-filters')}
         textHide={t('search.filters.hide-filters')}
       ></SidebarTrigger>

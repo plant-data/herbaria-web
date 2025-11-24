@@ -43,11 +43,11 @@ function SpecimenImage({ thumbnail, alt }: { thumbnail?: string; alt: string }) 
   )
 }
 
-interface DataTableProps<TData, TValue> {
+/* interface DataTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>
-}
+} */
 
-const createColumns = (herbariaId?: string, t?: any): Array<ColumnDef<SpecimenData>> => [
+const createColumns = (herbariaId: string, t?: any): Array<ColumnDef<SpecimenData>> => [
   {
     accessorKey: 'catalogNumber',
     header: 'ID',
@@ -56,11 +56,9 @@ const createColumns = (herbariaId?: string, t?: any): Array<ColumnDef<SpecimenDa
       const thumbnail = row.original.multimedia.find((media) => media.imageRole === 'primary')?.thumbnailUrl
       return (
         <Link
-          to={herbariaId ? '/$herbariaId/specimens/$occurrenceID' : '/specimens/$occurrenceID'}
+          to={'/$herbariaId/specimens/$occurrenceID'}
           params={
-            herbariaId
-              ? { herbariaId, occurrenceID: row.original.occurrenceID }
-              : { occurrenceID: row.original.occurrenceID }
+            { herbariaId, occurrenceID: row.original.occurrenceID }
           }
           className="text-blue-500 hover:underline"
         >

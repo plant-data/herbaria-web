@@ -1,4 +1,4 @@
-import { Link, createFileRoute, notFound, useNavigate } from '@tanstack/react-router'
+import { Link, createFileRoute, notFound, redirect, useNavigate } from '@tanstack/react-router'
 import { ChartSpline, Database, Earth, Layers, Leaf } from 'lucide-react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
@@ -15,6 +15,11 @@ export const Route = createFileRoute('/$herbariaId/')({
   loader: ({ params }) => {
     const { herbariaId } = params
     const herbariumExists = HERBARIA_CONFIG.some((herbarium) => herbarium.id.toLowerCase() === herbariaId.toLowerCase())
+
+    // all does not have a dedicated homepage
+    if (herbariaId === 'all') {
+      throw redirect({ to: '/$herbariaId/search', params: { herbariaId } })
+    }
 
     if (!herbariumExists) {
       throw notFound()
@@ -257,7 +262,6 @@ function RouteComponent() {
         </section>
 
         {/* Footer */}
-        
       </div>
       <Footer />
     </>

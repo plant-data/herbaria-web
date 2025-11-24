@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 
-export const Route = createFileRoute('/search/debug-filters')({
+export const Route = createFileRoute('/$herbariaId/search/debug-filters')({
   component: RouteComponent,
   loader: () => {
     const { setHasCoordinates } = useFilterStore.getState()
@@ -10,7 +10,7 @@ export const Route = createFileRoute('/search/debug-filters')({
 })
 
 function RouteComponent() {
-  const { scientificName, floritalyName, country, locality, year, month, hasCoordinates, activeFiltersCount } =
+  const { scientificName, genus, floritalyName, countryCode, locality, year, month, institutionCode, hasCoordinates, geometry, activeFiltersCount } =
     useFilterStore()
 
   return (
@@ -21,12 +21,16 @@ function RouteComponent() {
         {JSON.stringify(
           {
             scientificName,
-            floritalyName,
-            country,
+            genus,
+            
+            countryCode,
             locality,
             year,
             month,
             hasCoordinates,
+            institutionCode,
+            floritalyName,
+            geometry,
             activeFiltersCount,
           },
           null,

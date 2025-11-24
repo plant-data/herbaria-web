@@ -118,11 +118,6 @@ function AboutSection() {
 function NavigationSection() {
   const { t } = useTranslation()
 
-  const navLinks = [
-    { label: t('navbar.home', { defaultValue: 'Home' }), to: '/' },
-    { label: t('footer.globalSearch', { defaultValue: 'Global Search' }), to: '/search' as const },
-    { label: t('footer.contacts', { defaultValue: 'Contacts' }), to: '#contacts' as const },
-  ]
 
   return (
     <nav className="space-y-4">
@@ -139,7 +134,8 @@ function NavigationSection() {
         </li>
         <li>
           <Link
-            to="/herbaria/search"
+            to="/$herbariaId/search"
+            params={{ herbariaId: 'all' }}
             className="text-muted-foreground hover:text-primary dark:hover:text-primary text-sm transition"
           >
             {t('footer.allHerbaria', { defaultValue: 'All Herbaria' })}

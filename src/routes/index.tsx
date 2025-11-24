@@ -75,36 +75,97 @@ function App() {
     <>
       <div className="bg-background relative min-h-screen overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.15),transparent_55%),radial-gradient(circle_at_bottom,rgba(34,197,94,0.12),transparent_45%)]" />
-        <div className="container mx-auto flex flex-col gap-24 px-4 pt-10 pb-24 md:pt-18">
-          <section className="mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
-            <div className="space-y-6">
-              <h1 className="text-foreground text-4xl font-semibold tracking-tight text-balance md:text-6xl">
-                {t('herbaria-homepage.title')}
-              </h1>
-              <p className="text-muted-foreground text-lg leading-relaxed md:text-xl">
-                {t('herbaria-homepage.description')}
-              </p>
-              <p className="text-muted-foreground text-sm">{t('herbaria-homepage.sub-description')}</p>
+        <div className="container mx-auto flex flex-col gap-16 px-4 pt-12 pb-24 md:gap-24 md:pt-20">
+          <section className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
+            {/* Left Decorative Column */}
+            <div className="hidden flex-col gap-8 lg:col-span-3 lg:flex">
+              <div className="bg-background/50 relative aspect-3/4 w-full max-w-[260px] -rotate-6 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
+                <img
+                  src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                  alt="Herbarium Specimen"
+                  className="h-full w-full rounded-xl object-cover"
+                />
+              </div>
+              <div className="bg-background/50 relative ml-12 aspect-3/4 w-full max-w-[260px] rotate-3 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
+                <img
+                  src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                  alt="Herbarium Specimen"
+                  className="h-full w-full rounded-xl object-cover"
+                />
+              </div>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Link
-                to="/$herbariaId/search"
-                params={{herbariaId: 'all'}}
-                onClick={handleNavigate}
-                className="bg-foreground text-background focus-visible:ring/50 focus-visible:ring-[2px]-ring hover:bg-primary/90 focus-visible:ring-ring/50 inline-flex min-w-[200px] items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium shadow-sm focus-visible:ring-2 focus-visible:outline-none"
-              >
-                <Search className="h-4 w-4" />
-                {t('herbaria-homepage.explore-button')}
-              </Link>
-              <Link
-                to="/"
-                hash="collections"
-                preload={false}
-                className="border-border/70 text-foreground hover:bg-accent focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex min-w-[200px] items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium shadow-xs transition-colors focus-visible:ring-2 focus-visible:outline-none"
-              >
-                <ArrowRight className="h-4 w-4" />
-                {t('herbaria-homepage.browse-herbaria-button')}
-              </Link>
+
+            {/* Center Content */}
+            <div className="flex flex-col items-center gap-8 text-center lg:col-span-6">
+              <div className="space-y-6">
+                <h1 className="text-foreground text-4xl font-bold tracking-tight text-balance sm:text-5xl md:text-6xl">
+                  {t('herbaria-homepage.title')}
+                </h1>
+                <p className="text-muted-foreground mx-auto max-w-[600px] text-lg leading-relaxed md:text-xl">
+                  {t('herbaria-homepage.description')}
+                </p>
+                <p className="text-muted-foreground text-sm font-medium">{t('herbaria-homepage.sub-description')}</p>
+              </div>
+              <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+                <Link
+                  to="/$herbariaId/search"
+                  params={{ herbariaId: 'all' }}
+                  onClick={handleNavigate}
+                  className="bg-foreground text-background focus-visible:ring/50 focus-visible:ring-[2px]-ring hover:bg-primary/90 focus-visible:ring-ring/50 inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-medium shadow-sm transition-all hover:scale-105 focus-visible:ring-2 focus-visible:outline-none sm:w-auto"
+                >
+                  <Search className="h-5 w-5" />
+                  {t('herbaria-homepage.explore-button')}
+                </Link>
+                <Link
+                  to="/"
+                  hash="collections"
+                  preload={false}
+                  className="border-border/70 text-foreground hover:bg-accent focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex w-full items-center justify-center gap-2 rounded-full border px-8 py-4 text-base font-medium shadow-xs transition-all hover:scale-105 focus-visible:ring-2 focus-visible:outline-none sm:w-auto"
+                >
+                  <ArrowRight className="h-5 w-5" />
+                  {t('herbaria-homepage.browse-herbaria-button')}
+                </Link>
+              </div>
+
+              {/* Mobile Decorative Images */}
+              <div className="relative mt-8 flex h-[280px] w-full items-center justify-center lg:hidden">
+                <div className="absolute top-1/2 left-1/2 w-40 -translate-x-[65%] -translate-y-1/2 -rotate-6 transform transition-transform hover:z-10 hover:scale-110">
+                  <div className="bg-background/50 overflow-hidden rounded-xl border p-2 shadow-xl backdrop-blur-sm">
+                    <img
+                      src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                      alt="Herbarium Specimen"
+                      className="aspect-3/4 w-full rounded-lg object-cover"
+                    />
+                  </div>
+                </div>
+                <div className="absolute top-1/2 left-1/2 w-40 -translate-x-[35%] -translate-y-1/2 rotate-6 transform transition-transform hover:z-10 hover:scale-110">
+                  <div className="bg-background/50 overflow-hidden rounded-xl border p-2 shadow-xl backdrop-blur-sm">
+                    <img
+                      src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                      alt="Herbarium Specimen"
+                      className="aspect-3/4 w-full rounded-lg object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Decorative Column */}
+            <div className="hidden flex-col gap-8 lg:col-span-3 lg:flex">
+              <div className="bg-background/50 relative mt-12 aspect-3/4 w-full max-w-[260px] rotate-6 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
+                <img
+                  src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                  alt="Herbarium Specimen"
+                  className="h-full w-full rounded-xl object-cover"
+                />
+              </div>
+              <div className="bg-background/50 relative -ml-8 aspect-3/4 w-full max-w-[260px] -rotate-4 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
+                <img
+                  src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                  alt="Herbarium Specimen"
+                  className="h-full w-full rounded-xl object-cover"
+                />
+              </div>
             </div>
           </section>
 

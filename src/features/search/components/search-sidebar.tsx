@@ -29,6 +29,8 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
     })),
   )
 
+  const lockedFiltersPresent = lockedFilters && lockedFilters.length > 0;
+
   return (
     <Tabs defaultValue="filters" asChild>
       <Sidebar className="top-[var(--header-height)] !h-[calc(100svh-var(--header-height))]" {...props}>
@@ -52,7 +54,7 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
                 </TabsTrigger>
               </TabsList>
             </SidebarMenuItem>
-            {(!lockedFilters && activeFiltersCount > 0) || (lockedFilters && activeFiltersCount > 1) ? (
+            {(!lockedFiltersPresent && activeFiltersCount > 0) || (lockedFiltersPresent && activeFiltersCount > 1) ? (
               <span className="absolute top-0.5 right-2">
                 <ResetFilterButton
                   itemCount={activeFiltersCount}

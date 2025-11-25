@@ -17,22 +17,21 @@ import {
   Undo2Icon,
   WaypointsIcon,
 } from 'lucide-react'
-import { useTheme } from '@/components/theme-provider'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { renderToString } from 'react-dom/server'
 import {
-  MapContainer as LeafletMapContainer,
-  TileLayer as LeafletTileLayer,
-  Marker as LeafletMarker,
-  Popup as LeafletPopup,
-  Tooltip as LeafletTooltip,
   Circle as LeafletCircle,
   CircleMarker as LeafletCircleMarker,
-  Polyline as LeafletPolyline,
-  Polygon as LeafletPolygon,
-  Rectangle as LeafletRectangle,
-  LayerGroup as LeafletLayerGroup,
   FeatureGroup as LeafletFeatureGroup,
+  LayerGroup as LeafletLayerGroup,
+  MapContainer as LeafletMapContainer,
+  Marker as LeafletMarker,
+  Polygon as LeafletPolygon,
+  Polyline as LeafletPolyline,
+  Popup as LeafletPopup,
+  Rectangle as LeafletRectangle,
+  TileLayer as LeafletTileLayer,
+  Tooltip as LeafletTooltip,
   useMap,
   useMapEvents,
 } from 'react-leaflet'
@@ -76,6 +75,7 @@ import type {
   TileLayer,
   Tooltip,
 } from 'leaflet'
+import {useTheme} from '@/components/theme-provider'
 import { ButtonGroup } from '@/components/ui/button-group'
 import {
   DropdownMenu,
@@ -121,13 +121,13 @@ interface MapLayerGroupOption extends Pick<React.ComponentProps<typeof CheckboxI
 
 interface MapLayersContextType {
   registerTileLayer: (layer: MapTileLayerOption) => void
-  tileLayers: MapTileLayerOption[]
+  tileLayers: Array<MapTileLayerOption>
   selectedTileLayer: string
   setSelectedTileLayer: (name: string) => void
   registerLayerGroup: (layer: MapLayerGroupOption) => void
-  layerGroups: MapLayerGroupOption[]
-  activeLayerGroups: string[]
-  setActiveLayerGroups: (names: string[]) => void
+  layerGroups: Array<MapLayerGroupOption>
+  activeLayerGroups: Array<string>
+  setActiveLayerGroups: (names: Array<string>) => void
 }
 
 const MapLayersContext = createContext<MapLayersContextType | null>(null)

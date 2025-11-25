@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { CircleMarker, LayersControl, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
+import { CircleMarker, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
 import { Earth, House, Settings } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
@@ -21,7 +21,17 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { MAP_CENTER, ZOOM } from '@/features/search/constants/constants'
 import { LoadingBadge } from '@/features/search/components/loading-badge'
-import { MapDrawControl, MapDrawDelete, MapDrawEdit, MapDrawPolygon } from '@/components/ui/map'
+import {
+  Map,
+  MapDrawControl,
+  MapDrawDelete,
+  MapDrawEdit,
+  MapDrawPolygon,
+  MapLayers,
+  MapLayersControl,
+  MapTileLayer,
+  MapZoomControl,
+} from '@/components/ui/map'
 
 type ClusterData = {
   coordinates: [number, number]
@@ -547,26 +557,21 @@ export function SpecimensMap() {
     <>
       <div className="relative mt-6 h-[50vh] w-full overflow-hidden rounded-lg md:h-[70vh]">
         {isFetchingNewData && <LoadingBadge className="absolute top-3 right-3 z-[1001]" />}
-        <MapContainer
-          center={mapCenter}
-          zoom={zoom}
-          style={{ height: '100%', width: '100%', zIndex: 0 }}
-          zoomControl={true}
-        >
-          <LayersControl position="topright">
-            <LayersControl.BaseLayer checked name="GBIF Geyser">
-              <TileLayer
-                url="https://tile.gbif.org/3857/omt/{z}/{x}/{y}@2x.png?style=gbif-geyser-en"
-                attribution='© <a href="https://www.gbif.org/citation-guidelines">GBIF</a>'
-              />
-            </LayersControl.BaseLayer>
-            <LayersControl.BaseLayer name="OpenStreetMap">
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              />
-            </LayersControl.BaseLayer>
-          </LayersControl>
+        <Map center={mapCenter} zoom={zoom}>
+          <MapLayers defaultTileLayer="GBIF Geyser">
+            <MapTileLayer
+              name="GBIF Geyser"
+              url="https://tile.gbif.org/3857/omt/{z}/{x}/{y}@2x.png?style=gbif-geyser-en"
+              attribution='© <a href="https://www.gbif.org/citation-guidelines">GBIF</a>'
+            />
+            <MapTileLayer
+              name="OpenStreetMap"
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <MapLayersControl />
+          </MapLayers>
+          <MapZoomControl />
           <MapEventHandler />
           <MapControls />
           <MapDrawControls geometry={geometry} setGeometry={setGeometry} />
@@ -579,7 +584,7 @@ export function SpecimensMap() {
               max={maxScale}
             />
           )}
-        </MapContainer>
+        </Map>
 
         {selectedCluster && (
           <SpecimenPointDialog

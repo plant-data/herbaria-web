@@ -128,10 +128,11 @@ function MapDrawControls({
       const leafletCoords = geometry.map(([lat, lng]) => [lat, lng] as [number, number])
 
       const polygon = L.polygon(leafletCoords, {
-        color: '#3388ff',
-        weight: 3,
+        color: 'var(--primary)',
+        weight: 2,
         opacity: 0.8,
-        fillOpacity: 0.2,
+        fillOpacity: 0,
+        interactive: false,
       })
 
       featureGroup.addLayer(polygon)
@@ -192,7 +193,10 @@ function MapDrawControls({
     >
       <MapDrawPolygon
         shapeOptions={{
-          fillOpacity: 0,
+          color: 'var(--primary)',
+          weight: 2,
+          opacity: 0.8,
+          fillOpacity: 0.2,
         }}
         drawError={{
           color: 'red',

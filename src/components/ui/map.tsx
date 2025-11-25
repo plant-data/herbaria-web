@@ -733,6 +733,21 @@ function MapDrawShapeButton<T extends Draw.Feature>({
     const control = createDrawTool(L, map as DrawMap)
     control.enable()
     controlRef.current = control
+
+    // Hide tooltip initially until mouse moves over the map
+    // The tooltip starts at [0,0] because mouse position isn't tracked until mousemove
+    const handler = control as unknown as { _tooltip?: { _container?: HTMLElement } }
+    if (handler._tooltip?._container) {
+      handler._tooltip._container.style.visibility = 'hidden'
+      const showTooltip = () => {
+        if (handler._tooltip?._container) {
+          handler._tooltip._container.style.visibility = 'visible'
+        }
+        map.off('mousemove', showTooltip)
+      }
+      map.on('mousemove', showTooltip)
+    }
+
     return () => {
       control.disable()
       controlRef.current = null
@@ -920,6 +935,20 @@ function MapDrawActionButton<T extends EditToolbar.Edit | EditToolbar.Delete>({
     const control = createDrawTool(L, map as DrawMap, featureGroup)
     control.enable()
     controlRef.current = control
+
+    // Hide tooltip initially until mouse moves over the map
+    const handler = control as unknown as { _tooltip?: { _container?: HTMLElement } }
+    if (handler._tooltip?._container) {
+      handler._tooltip._container.style.visibility = 'hidden'
+      const showTooltip = () => {
+        if (handler._tooltip?._container) {
+          handler._tooltip._container.style.visibility = 'visible'
+        }
+        map.off('mousemove', showTooltip)
+      }
+      map.on('mousemove', showTooltip)
+    }
+
     return () => {
       control.disable()
       controlRef.current = null

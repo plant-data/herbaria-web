@@ -90,6 +90,22 @@ import {
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 
+// Fix for Leaflet.Draw 1.0.4 touch support
+// @ts-ignore: Fix for Leaflet.Draw 1.0.4 touch support
+if (typeof window !== 'undefined') {
+  // @ts-ignore: Fix for Leaflet.Draw 1.0.4 touch support
+  window.type = true
+}
+
+// @ts-ignore: Fix for Leaflet.Draw 1.0.4 touch support
+L.Draw.Polyline.include({
+  _onTouch: function (e: any) {
+    if (e.originalEvent.type === 'touchstart') {
+      this._map.fire('mousedown', e)
+    }
+  },
+})
+
 function Map({
   zoom = 15,
   className,
@@ -664,13 +680,18 @@ function MapDrawControl({
     const { layer } = event
     featureGroupRef.current.addLayer(layer)
     notifyChange()
-    setActiveMode(null)
+    // Workaround for mobile: delay disabling the tool to prevent the next click being ignored
+    setTimeout(() => {
+      setActiveMode(null)
+    }, 0)
   }
 
   function handleDrawEditedOrDeleted() {
     if (!featureGroupRef.current) return
     notifyChange()
-    setActiveMode(null)
+    setTimeout(() => {
+      setActiveMode(null)
+    }, 0)
   }
 
   function notifyChange() {
@@ -787,7 +808,7 @@ function MapDrawMarker({ ...props }: DrawOptions.MarkerOptions) {
   return (
     <MapDrawShapeButton
       drawMode="marker"
-      createDrawTool={(L, map) =>
+      createDrawTool={(_L, map) =>
         new L.Draw.Marker(map, {
           icon: L.divIcon({
             className: '', // For fixing the moving bug when going in and out the edit mode
@@ -820,7 +841,7 @@ function MapDrawPolyline({
   return (
     <MapDrawShapeButton
       drawMode="polyline"
-      createDrawTool={(L, map) =>
+      createDrawTool={(_L, map) =>
         new L.Draw.Polyline(map, {
           icon: mapDrawHandleIcon,
           touchIcon: mapDrawHandleIcon,
@@ -848,7 +869,7 @@ function MapDrawCircle({
   return (
     <MapDrawShapeButton
       drawMode="circle"
-      createDrawTool={(L, map) =>
+      createDrawTool={(_L, map) =>
         new L.Draw.Circle(map, {
           showRadius,
           shapeOptions,
@@ -873,7 +894,7 @@ function MapDrawRectangle({
   return (
     <MapDrawShapeButton
       drawMode="rectangle"
-      createDrawTool={(L, map) =>
+      createDrawTool={(_L, map) =>
         new L.Draw.Rectangle(map, {
           showArea,
           shapeOptions,
@@ -902,7 +923,7 @@ function MapDrawPolygon({
   return (
     <MapDrawShapeButton
       drawMode="polygon"
-      createDrawTool={(L, map) =>
+      createDrawTool={(_L, map) =>
         new L.Draw.Polygon(map, {
           icon: mapDrawHandleIcon,
           touchIcon: mapDrawHandleIcon,

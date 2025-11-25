@@ -2,7 +2,7 @@ import { Outlet, createRootRouteWithContext, useParams } from '@tanstack/react-r
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import type { QueryClient } from '@tanstack/react-query'
 import TanStackQueryLayout from '@/integrations/tanstack-query/layout'
-import { Header } from '@/components/header'
+import { Header } from '@/components/Header'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 
 interface MyRouterContext {

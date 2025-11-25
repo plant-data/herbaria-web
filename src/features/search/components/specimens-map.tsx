@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { CircleMarker, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
 import { Earth, House, Settings } from 'lucide-react'
@@ -105,7 +105,7 @@ function MapControls() {
   )
 }
 
-function MapDrawControls({
+const MapDrawControls = memo(function MapDrawControls({
   geometry,
   setGeometry,
 }: {
@@ -208,9 +208,9 @@ function MapDrawControls({
       <MapDrawDelete />
     </MapDrawControl>
   )
-}
+})
 
-function ColorLegend({ min, max, colors }: { min: number; max: number; colors: string[] }) {
+function ColorLegend({ min, max, colors }: { min: number; max: number; colors: Array<string> }) {
   const step = (max - min) / 5
   const ranges = [
     { label: `> ${Math.round(max)}`, color: colors[5] },

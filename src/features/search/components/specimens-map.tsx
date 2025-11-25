@@ -351,7 +351,7 @@ const getDynamicColor = (count: number, thresholds: Array<number>, colors: Array
 }
 
 // Simplified markers component that works at all zoom levels
-function LeafletMarkers({
+const LeafletMarkers = memo(function LeafletMarkers({
   clusters,
   onMarkerClick,
   colors,
@@ -428,7 +428,7 @@ function LeafletMarkers({
       })}
     </>
   )
-}
+})
 
 function SpecimenPointDialog({
   cluster,
@@ -561,7 +561,7 @@ export function SpecimensMap() {
     <>
       <div className="relative mt-6 h-[50vh] w-full overflow-hidden rounded-lg md:h-[70vh]">
         {isFetchingNewData && <LoadingBadge className="absolute top-3 right-3 z-[1001]" />}
-        <Map center={mapCenter} zoom={zoom}>
+        <Map center={mapCenter} zoom={zoom} preferCanvas={true}>
           <MapLayers defaultTileLayer="GBIF Geyser">
             <MapTileLayer
               name="GBIF Geyser"

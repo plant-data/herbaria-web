@@ -182,10 +182,7 @@ function MapDrawControls({
     >
       <MapDrawPolygon
         shapeOptions={{
-          color: '#3388ff',
-          weight: 3,
-          opacity: 0.8,
-          fillOpacity: 0.2,
+          fillOpacity: 0,
         }}
         drawError={{
           color: 'red',

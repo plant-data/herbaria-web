@@ -634,6 +634,7 @@ interface MapDrawContextType {
   setActiveMode: (mode: MapDrawMode) => void
   readonly editControlRef: React.RefObject<EditToolbar.Edit | null>
   readonly deleteControlRef: React.RefObject<EditToolbar.Delete | null>
+  notifyChange: () => void
 }
 
 const MapDrawContext = createContext<MapDrawContextType | null>(null)
@@ -656,19 +657,27 @@ function MapDrawControl({
   const editControlRef = useRef<EditToolbar.Edit | null>(null)
   const deleteControlRef = useRef<EditToolbar.Delete | null>(null)
   const [activeMode, setActiveMode] = useState<MapDrawMode>(null)
+  const [_, setTick] = useState(0)
 
   function handleDrawCreated(event: DrawEvents.Created) {
     if (!featureGroupRef.current) return
     const { layer } = event
     featureGroupRef.current.addLayer(layer)
-    onLayersChange?.(featureGroupRef.current)
+    notifyChange()
     setActiveMode(null)
   }
 
   function handleDrawEditedOrDeleted() {
     if (!featureGroupRef.current) return
-    onLayersChange?.(featureGroupRef.current)
+    notifyChange()
     setActiveMode(null)
+  }
+
+  function notifyChange() {
+    if (featureGroupRef.current) {
+      onLayersChange?.(featureGroupRef.current)
+      setTick((t) => t + 1)
+    }
   }
 
   useEffect(() => {
@@ -698,6 +707,7 @@ function MapDrawControl({
         setActiveMode,
         editControlRef,
         deleteControlRef,
+        notifyChange,
       }}
     >
       <LeafletFeatureGroup ref={setFeatureGroupRef} />
@@ -1029,20 +1039,35 @@ function MapDrawEdit({
   )
 }
 
-function MapDrawDelete() {
+function MapDrawDelete({ className, ...props }: React.ComponentProps<'button'>) {
   const drawContext = useMapDrawContext()
   if (!drawContext) {
     throw new Error('MapDrawDelete must be used within MapDrawControl')
   }
 
+  const { featureGroup, notifyChange, setActiveMode } = drawContext
+  const hasFeatures = (featureGroup?.getLayers().length ?? 0) > 0
+
+  function handleClick() {
+    featureGroup?.clearLayers()
+    notifyChange()
+    setActiveMode(null)
+  }
+
   return (
-    <MapDrawActionButton
-      drawAction="delete"
-      controlRef={drawContext.deleteControlRef}
-      createDrawTool={(_L, map, featureGroup) => new L.EditToolbar.Delete(map, { featureGroup })}
+    <Button
+      type="button"
+      size="icon"
+      variant="secondary"
+      aria-label="Clear shapes"
+      title="Clear shapes"
+      disabled={!hasFeatures}
+      onClick={handleClick}
+      className={cn('border', className)}
+      {...props}
     >
       <Trash2Icon />
-    </MapDrawActionButton>
+    </Button>
   )
 }
 

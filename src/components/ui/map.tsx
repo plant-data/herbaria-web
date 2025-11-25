@@ -75,7 +75,7 @@ import type {
   TileLayer,
   Tooltip,
 } from 'leaflet'
-import {useTheme} from '@/components/theme-provider'
+import { useTheme } from '@/components/theme-provider'
 import { ButtonGroup } from '@/components/ui/button-group'
 import {
   DropdownMenu,

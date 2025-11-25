@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { CircleMarker, LayersControl, MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet'
-import { Earth, House, Route, Settings } from 'lucide-react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { CircleMarker, useMap, useMapEvents } from 'react-leaflet'
+import L from 'leaflet'
+import { Earth, House, Settings } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
 import { Link, useParams } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import type { PaletteName } from '@/features/search/constants/map-palettes'
 import type { SpecimenData } from '@/features/search/types/types'
 import { paletteColors, palettes } from '@/features/search/constants/map-palettes'
@@ -12,12 +14,24 @@ import 'leaflet/dist/leaflet.css'
 import { Card, CardContent } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
+import { ButtonGroup } from '@/components/ui/button-group'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { MAP_CENTER, ZOOM } from '@/features/search/constants/constants'
 import { LoadingBadge } from '@/features/search/components/loading-badge'
+import {
+  Map,
+  MapDrawControl,
+  MapDrawDelete,
+  MapDrawEdit,
+  MapDrawPolygon,
+  MapLayers,
+  MapLayersControl,
+  MapTileLayer,
+  MapZoomControl,
+} from '@/components/ui/map'
 
 type ClusterData = {
   coordinates: [number, number]
@@ -60,30 +74,143 @@ function MapControls() {
   const handleResetView = () => map.setView(INITIAL_VIEW_STATE.center, INITIAL_VIEW_STATE.zoom)
   const handleWorldView = () => map.setView([20, 5], 2)
   return (
-    <div className="absolute top-20 left-3 z-[1000] flex flex-col gap-2">
+    <ButtonGroup
+      orientation="vertical"
+      aria-label="Map navigation controls"
+      className="absolute top-20 left-1 z-[1000] h-fit"
+    >
       <Button
-        size="sm"
+        type="button"
+        size="icon"
         variant="secondary"
         onClick={handleResetView}
-        className="size-[30px] rounded-[3px] bg-white text-xs ring-2 ring-gray-400"
+        className="border"
         title="Reset to initial view"
+        aria-label="Reset to initial view"
       >
-        <House className="size-4" />
+        <House />
       </Button>
       <Button
-        size="sm"
+        type="button"
+        size="icon"
         variant="secondary"
         onClick={handleWorldView}
-        className="size-[30px] rounded-[3px] bg-white text-xs ring-2 ring-gray-400"
+        className="border"
         title="Show world view"
+        aria-label="Show world view"
       >
-        <Earth className="size-4" />
+        <Earth />
       </Button>
-    </div>
+    </ButtonGroup>
   )
 }
 
-function ColorLegend({ min, max, colors }: { min: number; max: number; colors: string[] }) {
+const MapDrawControls = memo(function MapDrawControls({
+  geometry,
+  setGeometry,
+}: {
+  geometry: Array<[number, number]>
+  setGeometry: (geometry: Array<[number, number]>) => void
+}) {
+  const { t } = useTranslation()
+  const featureGroupRef = useRef<L.FeatureGroup | null>(null)
+  const currentPolygonRef = useRef<L.Polygon | null>(null)
+
+  // Function to update polygon based on geometry
+  const updatePolygon = (featureGroup: L.FeatureGroup | null) => {
+    if (!featureGroup) return
+
+    // Clear existing layers to ensure sync
+    featureGroup.clearLayers()
+    currentPolygonRef.current = null
+
+    if (geometry.length > 0) {
+      const leafletCoords = geometry.map(([lat, lng]) => [lat, lng] as [number, number])
+
+      const polygon = L.polygon(leafletCoords, {
+        color: 'var(--primary)',
+        weight: 2,
+        opacity: 0.8,
+        fillOpacity: 0,
+        interactive: false,
+      })
+
+      featureGroup.addLayer(polygon)
+      currentPolygonRef.current = polygon
+    }
+  }
+
+  // Effect to sync geometry prop with map display
+  useEffect(() => {
+    if (featureGroupRef.current) {
+      updatePolygon(featureGroupRef.current)
+    }
+  }, [geometry])
+
+  const handleLayersChange = (featureGroup: L.FeatureGroup) => {
+    const layers = featureGroup.getLayers()
+
+    // If no layers, clear geometry
+    if (layers.length === 0) {
+      setGeometry([])
+      currentPolygonRef.current = null
+      return
+    }
+
+    // If multiple layers, keep the last one (newly created)
+    if (layers.length > 1) {
+      const newLayer = layers[layers.length - 1] as L.Polygon
+
+      // Remove others
+      layers.forEach((layer) => {
+        if (layer !== newLayer) {
+          featureGroup.removeLayer(layer)
+        }
+      })
+
+      const latLngs = newLayer.getLatLngs()[0] as Array<L.LatLng>
+      const coordinates = latLngs.map((coord) => [coord.lat, coord.lng] as [number, number])
+      currentPolygonRef.current = newLayer
+      setGeometry(coordinates)
+    } else {
+      // Single layer (edited or just created)
+      const layer = layers[0] as L.Polygon
+      const latLngs = layer.getLatLngs()[0] as Array<L.LatLng>
+      const coordinates = latLngs.map((coord) => [coord.lat, coord.lng] as [number, number])
+      currentPolygonRef.current = layer
+      setGeometry(coordinates)
+    }
+  }
+
+  return (
+    <MapDrawControl
+      className="bottom-1 left-1"
+      onFeatureGroupReady={(fg) => {
+        featureGroupRef.current = fg
+        updatePolygon(fg)
+      }}
+      onLayersChange={handleLayersChange}
+    >
+      <MapDrawPolygon
+        shapeOptions={{
+          color: 'var(--primary)',
+          weight: 2,
+          opacity: 0.8,
+          fillOpacity: 0.2,
+        }}
+        drawError={{
+          color: 'red',
+          message: t('search.filters.geometry-wrong'),
+        }}
+        allowIntersection={false}
+      />
+      <MapDrawEdit />
+      <MapDrawDelete />
+    </MapDrawControl>
+  )
+})
+
+function ColorLegend({ min, max, colors }: { min: number; max: number; colors: Array<string> }) {
   const step = (max - min) / 5
   const ranges = [
     { label: `> ${Math.round(max)}`, color: colors[5] },
@@ -189,7 +316,11 @@ function ClusterPopupContent({
         {data.occurrences.map((occ: SpecimenData) => (
           <li key={occ.occurrenceID}>
             <span>{occ.scientificName || 'Unknown Species'}</span>{' '}
-            <Link className="text-blue-400" to="/$herbariaId/specimens/$occurrenceID" params={{ herbariaId, occurrenceID: occ.occurrenceID }}>
+            <Link
+              className="text-blue-400"
+              to="/$herbariaId/specimens/$occurrenceID"
+              params={{ herbariaId, occurrenceID: occ.occurrenceID }}
+            >
               ({occ.occurrenceID})
             </Link>
           </li>
@@ -220,7 +351,7 @@ const getDynamicColor = (count: number, thresholds: Array<number>, colors: Array
 }
 
 // Simplified markers component that works at all zoom levels
-function LeafletMarkers({
+const LeafletMarkers = memo(function LeafletMarkers({
   clusters,
   onMarkerClick,
   colors,
@@ -297,7 +428,7 @@ function LeafletMarkers({
       })}
     </>
   )
-}
+})
 
 function SpecimenPointDialog({
   cluster,
@@ -402,10 +533,12 @@ function MapSettingsDialog({
 
 // Main component with simplified rendering
 export function SpecimensMap() {
-  const { zoom, mapCenter } = useFilterStore(
+  const { zoom, mapCenter, geometry, setGeometry } = useFilterStore(
     useShallow((state) => ({
       zoom: state.zoom,
       mapCenter: state.mapCenter,
+      geometry: state.geometry,
+      setGeometry: state.setGeometry,
     })),
   )
   const { data, isPending, isFetching, error } = useSpecimensMap()
@@ -428,28 +561,24 @@ export function SpecimensMap() {
     <>
       <div className="relative mt-6 h-[50vh] w-full overflow-hidden rounded-lg md:h-[70vh]">
         {isFetchingNewData && <LoadingBadge className="absolute top-3 right-3 z-[1001]" />}
-        <MapContainer
-          center={mapCenter}
-          zoom={zoom}
-          style={{ height: '100%', width: '100%', zIndex: 0 }}
-          zoomControl={true}
-        >
-          <LayersControl position="topright">
-            <LayersControl.BaseLayer checked name="GBIF Geyser">
-              <TileLayer
-                url="https://tile.gbif.org/3857/omt/{z}/{x}/{y}@2x.png?style=gbif-geyser-en"
-                attribution='© <a href="https://www.gbif.org/citation-guidelines">GBIF</a>'
-              />
-            </LayersControl.BaseLayer>
-            <LayersControl.BaseLayer name="OpenStreetMap">
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              />
-            </LayersControl.BaseLayer>
-          </LayersControl>
+        <Map center={mapCenter} zoom={zoom} preferCanvas={true}>
+          <MapLayers defaultTileLayer="GBIF Geyser">
+            <MapTileLayer
+              name="GBIF Geyser"
+              url="https://tile.gbif.org/3857/omt/{z}/{x}/{y}@2x.png?style=gbif-geyser-en"
+              attribution='© <a href="https://www.gbif.org/citation-guidelines">GBIF</a>'
+            />
+            <MapTileLayer
+              name="OpenStreetMap"
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <MapLayersControl />
+          </MapLayers>
+          <MapZoomControl />
           <MapEventHandler />
           <MapControls />
+          <MapDrawControls geometry={geometry} setGeometry={setGeometry} />
           {layerData.length > 0 && (
             <LeafletMarkers
               clusters={layerData}
@@ -459,7 +588,7 @@ export function SpecimensMap() {
               max={maxScale}
             />
           )}
-        </MapContainer>
+        </Map>
 
         {selectedCluster && (
           <SpecimenPointDialog

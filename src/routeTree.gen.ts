@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TestsRouteImport } from './routes/tests'
+import { Route as MapRouteImport } from './routes/map'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ExternalIndexRouteImport } from './routes/external/index'
 import { Route as HerbariaIdIndexRouteImport } from './routes/$herbariaId/index'
@@ -24,6 +25,11 @@ import { Route as HerbariaIdSearchDebugFiltersRouteImport } from './routes/$herb
 const TestsRoute = TestsRouteImport.update({
   id: '/tests',
   path: '/tests',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -81,6 +87,7 @@ const HerbariaIdSearchDebugFiltersRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/map': typeof MapRoute
   '/tests': typeof TestsRoute
   '/$herbariaId/search': typeof HerbariaIdSearchRouteRouteWithChildren
   '/$herbariaId': typeof HerbariaIdIndexRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/map': typeof MapRoute
   '/tests': typeof TestsRoute
   '/$herbariaId': typeof HerbariaIdIndexRoute
   '/external': typeof ExternalIndexRoute
@@ -107,6 +115,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/map': typeof MapRoute
   '/tests': typeof TestsRoute
   '/$herbariaId/search': typeof HerbariaIdSearchRouteRouteWithChildren
   '/$herbariaId/': typeof HerbariaIdIndexRoute
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/map'
     | '/tests'
     | '/$herbariaId/search'
     | '/$herbariaId'
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/map'
     | '/tests'
     | '/$herbariaId'
     | '/external'
@@ -147,6 +158,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/map'
     | '/tests'
     | '/$herbariaId/search'
     | '/$herbariaId/'
@@ -161,6 +173,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MapRoute: typeof MapRoute
   TestsRoute: typeof TestsRoute
   HerbariaIdSearchRouteRoute: typeof HerbariaIdSearchRouteRouteWithChildren
   HerbariaIdIndexRoute: typeof HerbariaIdIndexRoute
@@ -175,6 +188,13 @@ declare module '@tanstack/react-router' {
       path: '/tests'
       fullPath: '/tests'
       preLoaderRoute: typeof TestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -273,6 +293,7 @@ const HerbariaIdSearchRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MapRoute: MapRoute,
   TestsRoute: TestsRoute,
   HerbariaIdSearchRouteRoute: HerbariaIdSearchRouteRouteWithChildren,
   HerbariaIdIndexRoute: HerbariaIdIndexRoute,

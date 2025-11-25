@@ -1,29 +1,16 @@
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import L from 'leaflet'
-import { FeatureGroup, MapContainer, TileLayer } from 'react-leaflet'
-import { EditControl } from 'react-leaflet-draw'
-import 'leaflet/dist/leaflet.css'
-import 'leaflet-draw/dist/leaflet.draw.css'
 import { cn } from '@/lib/utils'
-
-interface Coordinate {
-  lat: number
-  lng: number
-}
-
-interface DrawEvent {
-  layer: L.Layer
-  layerType: string
-}
-
-interface EditEvent {
-  layers: L.LayerGroup
-}
-
-interface DeleteEvent {
-  layers: L.LayerGroup
-}
+import {
+  Map,
+  MapDrawControl,
+  MapDrawDelete,
+  MapDrawEdit,
+  MapDrawPolygon,
+  MapTileLayer,
+  MapZoomControl,
+} from '@/components/ui/map'
 
 interface AreaMapFilterProps {
   label: string
@@ -36,18 +23,16 @@ interface AreaMapFilterProps {
 
 export function AreaMapFilter({ label, mapHeight, center, zoom, geometry, setGeometry }: AreaMapFilterProps) {
   const { t } = useTranslation()
-  const mapRef = useRef<L.Map>(null)
-  const featureGroupRef = useRef<L.FeatureGroup>(null)
+  const featureGroupRef = useRef<L.FeatureGroup | null>(null)
   const currentPolygonRef = useRef<L.Polygon | null>(null)
 
   // Function to update polygon based on geometry
   const updatePolygon = (featureGroup: L.FeatureGroup | null) => {
     if (!featureGroup) return
 
-    if (currentPolygonRef.current) {
-      featureGroup.removeLayer(currentPolygonRef.current)
-      currentPolygonRef.current = null
-    }
+    // Clear existing layers to ensure sync
+    featureGroup.clearLayers()
+    currentPolygonRef.current = null
 
     if (geometry.length > 0) {
       const leafletCoords = geometry.map(([lat, lng]) => [lat, lng] as [number, number])
@@ -64,14 +49,6 @@ export function AreaMapFilter({ label, mapHeight, center, zoom, geometry, setGeo
     }
   }
 
-  // Callback ref to handle FeatureGroup initialization
-  const setFeatureGroupRef = (featureGroup: L.FeatureGroup | null) => {
-    featureGroupRef.current = featureGroup
-    if (featureGroup) {
-      updatePolygon(featureGroup)
-    }
-  }
-
   // Effect to sync geometry prop with map display
   useEffect(() => {
     if (featureGroupRef.current) {
@@ -79,87 +56,75 @@ export function AreaMapFilter({ label, mapHeight, center, zoom, geometry, setGeo
     }
   }, [geometry])
 
-  const handleCreated = (e: DrawEvent): void => {
-    const { layer, layerType } = e
+  const handleLayersChange = (featureGroup: L.FeatureGroup) => {
+    const layers = featureGroup.getLayers()
 
-    if (layerType === 'polygon') {
-      if (featureGroupRef.current && currentPolygonRef.current) {
-        featureGroupRef.current.removeLayer(currentPolygonRef.current)
-      }
+    // If no layers, clear geometry
+    if (layers.length === 0) {
+      setGeometry([])
+      currentPolygonRef.current = null
+      return
+    }
 
-      const polygonLayer = layer as L.Polygon
-      const coordinates: Array<[number, number]> = polygonLayer
-        .getLatLngs()[0]
-        .map((coord: Coordinate) => [coord.lat, coord.lng])
+    // If multiple layers, keep the last one (newly created)
+    if (layers.length > 1) {
+      const newLayer = layers[layers.length - 1] as L.Polygon
 
-      currentPolygonRef.current = polygonLayer
+      // Remove others
+      layers.forEach((layer) => {
+        if (layer !== newLayer) {
+          featureGroup.removeLayer(layer)
+        }
+      })
+
+      const latLngs = newLayer.getLatLngs()[0] as Array<L.LatLng>
+      const coordinates = latLngs.map((coord) => [coord.lat, coord.lng] as [number, number])
+      currentPolygonRef.current = newLayer
+      setGeometry(coordinates)
+    } else {
+      // Single layer (edited or just created)
+      const layer = layers[0] as L.Polygon
+      const latLngs = layer.getLatLngs()[0] as Array<L.LatLng>
+      const coordinates = latLngs.map((coord) => [coord.lat, coord.lng] as [number, number])
+      currentPolygonRef.current = layer
       setGeometry(coordinates)
     }
-  }
-
-  const handleEdited = (e: EditEvent): void => {
-    const layers = e.layers
-    layers.eachLayer((layer: L.Layer) => {
-      if (layer === currentPolygonRef.current) {
-        const polygonLayer = layer as L.Polygon
-        const coordinates: Array<[number, number]> = polygonLayer
-          .getLatLngs()[0]
-          .map((coord: Coordinate) => [coord.lat, coord.lng])
-        setGeometry(coordinates)
-      }
-    })
-  }
-
-  const handleDeleted = (e: DeleteEvent): void => {
-    setGeometry([])
   }
 
   return (
     <div className="flex flex-col gap-1">
       <div className="text-sm">{label}</div>
-      <MapContainer
-        ref={mapRef}
+      <Map
         center={center}
         zoom={zoom}
         className={cn('border-input w-full overflow-hidden rounded-sm border shadow-xs', 'h-[300px]', mapHeight)}
       >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
-
-        <FeatureGroup ref={setFeatureGroupRef}>
-          <EditControl
-            position="topright"
-            onCreated={handleCreated}
-            onEdited={handleEdited}
-            onDeleted={handleDeleted}
-            draw={{
-              rectangle: false,
-              circle: false,
-              circlemarker: false,
-              marker: false,
-              polyline: false,
-              polygon: {
-                allowIntersection: false,
-                drawError: {
-                  color: 'red',
-                  message: t('search.filters.geometry-wrong'),
-                },
-                shapeOptions: {
-                  color: '#3388ff',
-                  weight: 3,
-                  opacity: 0.8,
-                  fillOpacity: 0.2,
-                },
-              },
+        <MapTileLayer />
+        <MapZoomControl />
+        <MapDrawControl
+          onFeatureGroupReady={(fg) => {
+            featureGroupRef.current = fg
+            updatePolygon(fg)
+          }}
+          onLayersChange={handleLayersChange}
+        >
+          <MapDrawPolygon
+            shapeOptions={{
+              color: '#3388ff',
+              weight: 3,
+              opacity: 0.8,
+              fillOpacity: 0.2,
             }}
-            edit={{
-              featureGroup: featureGroupRef.current,
+            drawError={{
+              color: 'red',
+              message: t('search.filters.geometry-wrong'),
             }}
+            allowIntersection={false}
           />
-        </FeatureGroup>
-      </MapContainer>
+          <MapDrawEdit />
+          <MapDrawDelete />
+        </MapDrawControl>
+      </Map>
     </div>
   )
 }

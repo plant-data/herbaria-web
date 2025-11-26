@@ -78,14 +78,14 @@ function App() {
           <section className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
             {/* Left Decorative Column */}
             <div className="hidden flex-col gap-8 lg:col-span-3 lg:flex">
-              <div className="bg-background/50 relative aspect-3/4 w-full max-w-[260px] -rotate-6 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
+              <div className="bg-background/50 relative aspect-3/4 w-full max-w-[220px] -rotate-6 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
                 <img
                   src="https://object.jacq.org/europeana/PI/2204769.jpg"
                   alt="Herbarium Specimen"
                   className="h-full w-full rounded-xl object-cover"
                 />
               </div>
-              <div className="bg-background/50 relative ml-12 aspect-3/4 w-full max-w-[260px] rotate-3 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
+              <div className="bg-background/50 relative ml-12 aspect-3/4 w-full max-w-[220px] rotate-3 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
                 <img
                   src="https://object.jacq.org/europeana/PI/2204769.jpg"
                   alt="Herbarium Specimen"
@@ -127,9 +127,9 @@ function App() {
               </div>
 
               {/* Mobile Decorative Images */}
-              <div className="relative mt-8 flex h-[280px] w-full items-center justify-center lg:hidden">
-                <div className="absolute top-1/2 left-1/2 w-40 -translate-x-[65%] -translate-y-1/2 -rotate-6 transform transition-transform hover:z-10 hover:scale-110">
-                  <div className="bg-background/50 overflow-hidden rounded-xl border p-2 shadow-xl backdrop-blur-sm">
+              <div className="relative mt-8 flex h-[220px] sm:h-[280px] w-full items-center justify-center lg:hidden">
+                <div className="absolute top-1/2 left-1/2 w-32 sm:w-40 -translate-x-[125%] -translate-y-1/2 -rotate-12 transform transition-transform hover:z-10 hover:scale-110">
+                  <div className="bg-background overflow-hidden rounded-xl border p-1 lg:p-2 shadow-xl">
                     <img
                       src="https://object.jacq.org/europeana/PI/2204769.jpg"
                       alt="Herbarium Specimen"
@@ -137,8 +137,26 @@ function App() {
                     />
                   </div>
                 </div>
-                <div className="absolute top-1/2 left-1/2 w-40 -translate-x-[35%] -translate-y-1/2 rotate-6 transform transition-transform hover:z-10 hover:scale-110">
-                  <div className="bg-background/50 overflow-hidden rounded-xl border p-2 shadow-xl backdrop-blur-sm">
+                <div className="absolute top-1/2 left-1/2 w-32 sm:w-40 -translate-x-[75%] -translate-y-1/2 -rotate-6 transform transition-transform hover:z-10 hover:scale-110">
+                  <div className="bg-background overflow-hidden rounded-xl border p-1 lg:p-2 shadow-xl">
+                    <img
+                      src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                      alt="Herbarium Specimen"
+                      className="aspect-3/4 w-full rounded-lg object-cover"
+                    />
+                  </div>
+                </div>
+                <div className="absolute top-1/2 left-1/2 w-32 sm:w-40 -translate-x-[25%] -translate-y-1/2 rotate-6 transform transition-transform hover:z-10 hover:scale-110">
+                  <div className="bg-background overflow-hidden rounded-xl border p-1 lg:p-2 shadow-xl">
+                    <img
+                      src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                      alt="Herbarium Specimen"
+                      className="aspect-3/4 w-full rounded-lg object-cover"
+                    />
+                  </div>
+                </div>
+                <div className="absolute top-1/2 left-1/2 w-32 sm:w-40 translate-x-[25%] -translate-y-1/2 rotate-12 transform transition-transform hover:z-10 hover:scale-110">
+                  <div className="bg-background overflow-hidden rounded-xl border p-1 lg:p-2 shadow-xl">
                     <img
                       src="https://object.jacq.org/europeana/PI/2204769.jpg"
                       alt="Herbarium Specimen"
@@ -151,14 +169,14 @@ function App() {
 
             {/* Right Decorative Column */}
             <div className="hidden flex-col gap-8 lg:col-span-3 lg:flex">
-              <div className="bg-background/50 relative mt-12 aspect-3/4 w-full max-w-[260px] rotate-6 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
+              <div className="bg-background/50 relative mt-12 aspect-3/4 w-full max-w-[220px] rotate-6 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
                 <img
                   src="https://object.jacq.org/europeana/PI/2204769.jpg"
                   alt="Herbarium Specimen"
                   className="h-full w-full rounded-xl object-cover"
                 />
               </div>
-              <div className="bg-background/50 relative -ml-8 aspect-3/4 w-full max-w-[260px] -rotate-4 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
+              <div className="bg-background/50 relative -ml-8 aspect-3/4 w-full max-w-[220px] -rotate-4 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
                 <img
                   src="https://object.jacq.org/europeana/PI/2204769.jpg"
                   alt="Herbarium Specimen"

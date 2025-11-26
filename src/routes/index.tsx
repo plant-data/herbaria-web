@@ -64,7 +64,6 @@ function App() {
   const { t } = useTranslation()
   const resetFilters = useFilterStore((state) => state.resetFilters)
   const resetMap = useFilterStore((state) => state.resetMap)
-  const totalHerbaria = HERBARIA_CONFIG.length
 
   const handleNavigate = () => {
     resetFilters()

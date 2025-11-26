@@ -3,7 +3,7 @@ export const HERBARIA_CONFIG = [
     id: 'PI',
     translationKey: 'herbaria.pi',
     image: 'images/pi.png',
-    description: "herbaria-pages.pi.home.hero.short-description",
+    description: 'herbaria-pages.pi.home.hero.short-description',
     badgeLabel: 'Herbarium PI',
     homeImages: [
       'https://object.jacq.org/europeana/PI/1310678.jpg',
@@ -59,7 +59,7 @@ export const HERBARIA_CONFIG = [
     id: 'FI-HCI',
     translationKey: 'herbaria.fi-hci',
     image: 'images/fi.jpg',
-    description: "herbaria-pages.fi-hci.home.hero.short-description",
+    description: 'herbaria-pages.fi-hci.home.hero.short-description',
     badgeLabel: 'Herbarium FI-HCI',
     homeImages: [
       'https://object.jacq.org/europeana/PI/1310678.jpg',
@@ -98,4 +98,4 @@ export const HERBARIA_CONFIG = [
       },
     ],
   },
-]
+] as const

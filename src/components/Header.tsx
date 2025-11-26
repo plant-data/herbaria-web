@@ -9,7 +9,7 @@ import { LanguageToggle } from '@/components/language-toggle'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
-import { HERBARIA } from '@/features/search/constants/constants'
+import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { cn } from '@/lib/utils'
 import { BASE_PATH } from '@/config'
 
@@ -23,14 +23,14 @@ export function Header() {
   const searchSegmentPresent = location.pathname.includes('/search')
 
   const getHerbariumName = (id: string) => {
-    const herbarium = HERBARIA.find((h) => h.id === id)
-    return herbarium ? t(herbarium.value) : id
+    const herbarium = HERBARIA_CONFIG.find((h) => h.id === id)
+    return herbarium ? t(herbarium.translationKey) : id
   }
 
   if (isMobile) {
     return (
-      <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
-        <nav className="container flex h-[var(--header-height)] max-w-screen-2xl items-center px-4">
+      <header className="bg-background/95 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
+        <nav className="container flex h-(--header-height) max-w-screen-2xl items-center px-4">
           <div className="flex w-full items-center justify-between">
             <div className="flex flex-1 justify-center">
               <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
@@ -45,7 +45,7 @@ export function Header() {
             <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="size-8" aria-label="Open menu">
-                  <Menu className="!size-6" />
+                  <Menu className="size-6!" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-80 p-6 sm:w-96">
@@ -78,10 +78,10 @@ export function Header() {
 
   // the search page is optimized for larger screens so the navbar shouls adapt to it
   return (
-    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
+    <header className="bg-background/95 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
       <nav
         className={cn(
-          'flex h-[var(--header-height)] max-w-screen-2xl items-center justify-between pr-6 pl-4',
+          'flex h-(--header-height) max-w-screen-2xl items-center justify-between pr-6 pl-4',
           searchSegmentPresent ? 'max-w-[2120px]' : 'container mx-auto',
         )}
       >

@@ -10,17 +10,22 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { RangeSlider } from '@/features/search/components/range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
 import {
-  HERBARIA,
   MAX_YEAR,
   MIN_YEAR,
   MONTHS,
   MINIMAP_CENTER,
   MINIMAP_ZOOM,
 } from '@/features/search/constants/constants'
+import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import { SwitchOption } from '@/features/search/components/switch-option'
 import { AreaMapFilter } from '@/features/search/components/area-map-filter'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+
+const HERBARIA_FOR_FILTER = HERBARIA_CONFIG.map((herbarium) => ({
+  id: herbarium.id,
+  value: herbarium.translationKey,
+}))
 
 export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters }) {
   const {
@@ -169,7 +174,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
           label={t('search.filters.institution-code-label')}
           placeholder={t('search.filters.institution-code-placeholder')}
           allSelectedMessage={t('search.filters.institution-code-all-selected')}
-          items={HERBARIA}
+          items={HERBARIA_FOR_FILTER}
           selectedValues={institutionCode}
           onSelectedValuesChange={setInstitutionCode}
         />

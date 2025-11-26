@@ -17,13 +17,8 @@ const MONTHS = [
   { id: 10, value: 'months.october' },
   { id: 11, value: 'months.november' },
   { id: 12, value: 'months.december' },
-]
+] as const
 
-const HERBARIA = [
-  { id: 'PI', value: 'herbaria.pi' },
-  { id: 'FI-HCI', value: 'herbaria.fi-hci' },
-  { id: 'TSB', value: 'herbaria.tsb' },
-]
 
 const MAP_STYLE = {
   version: 8,
@@ -100,7 +95,6 @@ export {
   MIN_YEAR,
   MAX_YEAR,
   MONTHS,
-  HERBARIA,
   MAP_STYLE,
   ZOOM,
   MAP_CENTER,

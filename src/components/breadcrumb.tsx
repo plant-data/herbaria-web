@@ -10,7 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { HERBARIA } from '@/features/search/constants/constants'
+import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { useIsMobile } from '@/hooks/use-mobile'
 
 export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void }) {
@@ -22,8 +22,8 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
   const pathnames = location.pathname.split('/').filter((x) => x !== cleanBasePath && x !== '')
 
   const getHerbariumName = (id: string) => {
-    const herbarium = HERBARIA.find((h) => h.id === id)
-    return herbarium ? t(herbarium.value) : id
+    const herbarium = HERBARIA_CONFIG.find((h) => h.id === id)
+    return herbarium ? t(herbarium.translationKey) : id
   }
 
   const breadcrumbNameMap: { [key: string]: string | ((s: string) => string) } = {

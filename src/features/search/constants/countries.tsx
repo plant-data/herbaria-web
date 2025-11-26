@@ -241,4 +241,4 @@ export const COUNTRIES = [
   { id: 'YE', value: 'country.yemen' },
   { id: 'ZM', value: 'country.zambia' },
   { id: 'ZW', value: 'country.zimbabwe' },
-]
+] as const

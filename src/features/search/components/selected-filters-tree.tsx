@@ -2,7 +2,8 @@ import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-import { HERBARIA, MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
+import { MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
+import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { COUNTRIES } from '@/features/search/constants/countries'
 
 interface FilterGroupProps {
@@ -92,9 +93,9 @@ export function SelectedFiltersTree() {
   } = useFilterStore()
 
   // Memoized month name mapping
-  const monthNameMap = useMemo(() => new Map(MONTHS.map((month) => [month.id, t(month.value)])), [t])
-  const herbariaMap = useMemo(() => new Map(HERBARIA.map((herbarium) => [herbarium.id, t(herbarium.value)])), [t])
-  const countryCodeMap = useMemo(() => new Map(COUNTRIES.map((country) => [country.id, t(country.value)])), [t])
+  const monthNameMap = useMemo(() => new Map(MONTHS.map((monthData) => [monthData.id, t(monthData.value)])), [t])
+  const herbariaMap = useMemo(() => new Map(HERBARIA_CONFIG.map((herbarium) => [herbarium.id, t(herbarium.translationKey)])), [t])
+  const countryCodeMap = useMemo(() => new Map(COUNTRIES.map((countryData) => [countryData.id, t(countryData.value)])), [t])
   // Unified filter configuration
   const filterConfigs: Array<FilterConfig> = useMemo(
     () => [
@@ -122,7 +123,7 @@ export function SelectedFiltersTree() {
         key: 'countryCode',
         items: countryCode,
         label: t('search.filters.country-code-label'),
-        displayValue: (countryCode: string) => countryCodeMap.get(countryCode) || `Country Code ${countryCode}`,
+        displayValue: (countryCodeData) => countryCodeMap.get(countryCodeData) || `Country Code ${countryCodeData}`,
       },
       {
         key: 'locality',
@@ -145,13 +146,13 @@ export function SelectedFiltersTree() {
         key: 'month',
         items: month,
         label: t('search.filters.month-label'),
-        displayValue: (monthId: number) => monthNameMap.get(monthId) || `Month ${monthId}`,
+        displayValue: (monthId) => monthNameMap.get(monthId) || `Month ${monthId}`,
       },
       {
         key: 'institutionCode',
         items: institutionCode,
         label: t('search.filters.institution-code-label'),
-        displayValue: (herbariumId: string) => herbariaMap.get(herbariumId) || `Herbarium ${herbariumId}`,
+        displayValue: (herbariumId) => herbariaMap.get(herbariumId) || `Herbarium ${herbariumId}`,
       },
       {
         key: 'hasCoordinates',

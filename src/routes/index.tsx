@@ -76,7 +76,7 @@ function App() {
         <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.15),transparent_55%),radial-gradient(circle_at_bottom,rgba(34,197,94,0.12),transparent_45%)]" />
         <div className="container mx-auto flex flex-col gap-16 px-4 pt-12 pb-24 md:gap-24">
           <section className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
-            {/* Left Decorative Column */}
+            {/* left images */}
             <div className="hidden flex-col gap-8 lg:col-span-3 lg:flex">
               <div className="bg-background/50 relative aspect-3/4 w-full max-w-[220px] -rotate-6 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
                 <img
@@ -94,7 +94,7 @@ function App() {
               </div>
             </div>
 
-            {/* Center Content */}
+            {/* center */}
             <div className="flex flex-col items-center gap-8 text-center lg:col-span-6">
               <div className="space-y-6">
                 <h1 className="text-foreground text-4xl font-bold tracking-tight text-balance sm:text-5xl md:text-6xl">
@@ -126,7 +126,7 @@ function App() {
                 </Link>
               </div>
 
-              {/* Mobile Decorative Images */}
+              {/* mobile images */}
               <div className="relative mt-8 flex h-[220px] sm:h-[280px] w-full items-center justify-center lg:hidden">
                 <div className="absolute top-1/2 left-1/2 w-32 sm:w-40 -translate-x-[125%] -translate-y-1/2 -rotate-12 transform transition-transform hover:z-10 hover:scale-110">
                   <div className="bg-background overflow-hidden rounded-xl border p-1 lg:p-2 shadow-xl">
@@ -167,7 +167,7 @@ function App() {
               </div>
             </div>
 
-            {/* Right Decorative Column */}
+            {/* right images */}
             <div className="hidden flex-col gap-8 lg:col-span-3 lg:flex">
               <div className="bg-background/50 relative mt-12 aspect-3/4 w-full max-w-[220px] rotate-6 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
                 <img

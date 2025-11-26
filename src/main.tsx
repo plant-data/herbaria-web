@@ -7,12 +7,14 @@ import '@/i18n'
 import { routeTree } from '@/routeTree.gen'
 import reportWebVitals from '@/reportWebVitals.ts'
 import { ThemeProvider } from '@/components/theme-provider'
-import { BASE_PATH } from '@/config'
+import { BASE_PATH, IS_DEV } from '@/config'
 import '@/styles.css'
 
-scan({
-  enabled: true,
-})
+if (IS_DEV) {
+  scan({
+    enabled: true,
+  })
+}
 
 // create a new router instance
 const router = createRouter({

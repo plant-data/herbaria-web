@@ -58,7 +58,7 @@ function LogoGrid({ logos, title }: { logos: Array<Logo>; title: string }) {
             <img
               src={logo.src}
               alt={logo.name}
-              className="h-16 w-full max-w-[8rem] object-contain opacity-100 transition hover:opacity-80"
+              className="h-16 w-full max-w-32 object-contain opacity-100 transition hover:opacity-80"
               loading="lazy"
             />
             <figcaption className="text-muted-foreground/90 text-center text-[11px] leading-snug">
@@ -81,7 +81,7 @@ function SupportLogos({ logos, title }: { logos: Array<Logo>; title: string }) {
             <img
               src={logo.src}
               alt={logo.name}
-              className="h-24 w-full max-w-[9rem] object-contain opacity-100 transition hover:opacity-80"
+              className="h-24 w-full max-w-36 object-contain opacity-100 transition hover:opacity-80"
               loading="lazy"
             />
           </div>

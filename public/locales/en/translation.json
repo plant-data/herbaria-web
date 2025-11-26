@@ -323,7 +323,9 @@
     "home-button": "Home"
   },
   "herbaria": {
-    "all": "All Herbaria"
+    "all": "All Herbaria",
+    "pi": "Herbarium Horti Botanici Pisani",
+    "fi-hci": "Herbarium Centrale Italicum"
   },
   "herbaria-pages": {
     "buttons": {

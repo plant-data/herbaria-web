@@ -22,6 +22,9 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
   const pathnames = location.pathname.split('/').filter((x) => x !== cleanBasePath && x !== '')
 
   const getHerbariumName = (id: string) => {
+    if (id === 'all') {
+      return t('herbaria.all')
+    }
     const herbarium = HERBARIA_CONFIG.find((h) => h.id === id)
     return herbarium ? t(herbarium.translationKey) : id
   }

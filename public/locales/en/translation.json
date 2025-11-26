@@ -323,9 +323,7 @@
     "home-button": "Home"
   },
   "herbaria": {
-    "pi": "Herbarium Horti Botanici Pisani",
-    "tsb": "Herbarium Universitatis Tergestinae",
-    "fi-hci": "Herbarium Centrale Italicum"
+    "all": "All Herbaria"
   },
   "herbaria-pages": {
     "buttons": {

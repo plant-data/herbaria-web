@@ -98,7 +98,7 @@ export function MapGraph({ className = '' }) {
           map: 'countries',
           roam: false,
           layoutCenter: ['50%', '50%'],
-          layoutSize: '100%', 
+          layoutSize: '100%',
           data: seriesData,
           emphasis: {
             label: { show: false },
@@ -117,7 +117,7 @@ export function MapGraph({ className = '' }) {
           option: {
             series: [
               {
-                layoutSize: '155%'
+                layoutSize: '155%',
               },
             ],
           },

@@ -57,9 +57,7 @@ const createColumns = (herbariaId: string, t?: any): Array<ColumnDef<SpecimenDat
       return (
         <Link
           to={'/$herbariaId/specimens/$occurrenceID'}
-          params={
-            { herbariaId, occurrenceID: row.original.occurrenceID }
-          }
+          params={{ herbariaId, occurrenceID: row.original.occurrenceID }}
           className="text-blue-500 hover:underline"
         >
           <span className="flex min-w-50 items-center gap-2">

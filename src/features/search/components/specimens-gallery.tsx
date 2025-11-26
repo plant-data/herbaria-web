@@ -52,7 +52,7 @@ export default function SpecimensGallery({ customFilters = {} }) {
         {data.occurrences.map((item: SpecimenData) => (
           <Link
             key={item.occurrenceID}
-            to='/$herbariaId/specimens/$occurrenceID'
+            to="/$herbariaId/specimens/$occurrenceID"
             params={{ herbariaId, occurrenceID: item.occurrenceID }}
             className="rounded-md"
           >
@@ -94,7 +94,7 @@ function DataItemCard({ item }: { item: SpecimenData }) {
             </>
           ) : (
             // Fallback for no image
-            <ImageOff className="h-8 w-8 text-muted-foreground/50" />
+            <ImageOff className="text-muted-foreground/50 h-8 w-8" />
           )}
         </div>
 

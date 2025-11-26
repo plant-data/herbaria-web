@@ -24,7 +24,7 @@ function RouteComponent() {
   const { t } = useTranslation()
   const { herbariaId } = Route.useParams()
 
-  const lockedFilters: LockedFilters = herbariaId === 'all' ? []: ['institutionCode']
+  const lockedFilters: LockedFilters = herbariaId === 'all' ? [] : ['institutionCode']
 
   return (
     <SidebarProvider className="flex flex-col">

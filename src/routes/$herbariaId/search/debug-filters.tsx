@@ -10,8 +10,19 @@ export const Route = createFileRoute('/$herbariaId/search/debug-filters')({
 })
 
 function RouteComponent() {
-  const { scientificName, genus, floritalyName, countryCode, locality, year, month, institutionCode, hasCoordinates, geometry, activeFiltersCount } =
-    useFilterStore()
+  const {
+    scientificName,
+    genus,
+    floritalyName,
+    countryCode,
+    locality,
+    year,
+    month,
+    institutionCode,
+    hasCoordinates,
+    geometry,
+    activeFiltersCount,
+  } = useFilterStore()
 
   return (
     <div>
@@ -22,7 +33,7 @@ function RouteComponent() {
           {
             scientificName,
             genus,
-            
+
             countryCode,
             locality,
             year,

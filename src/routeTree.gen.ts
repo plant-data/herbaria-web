@@ -57,12 +57,11 @@ const HerbariaIdSearchIndexRoute = HerbariaIdSearchIndexRouteImport.update({
   path: '/',
   getParentRoute: () => HerbariaIdSearchRouteRoute,
 } as any)
-const HerbariaIdSpecimensOccurrenceIDRoute =
-  HerbariaIdSpecimensOccurrenceIDRouteImport.update({
-    id: '/$herbariaId/specimens/$occurrenceID',
-    path: '/$herbariaId/specimens/$occurrenceID',
-    getParentRoute: () => rootRouteImport,
-  } as any)
+const HerbariaIdSpecimensOccurrenceIDRoute = HerbariaIdSpecimensOccurrenceIDRouteImport.update({
+  id: '/$herbariaId/specimens/$occurrenceID',
+  path: '/$herbariaId/specimens/$occurrenceID',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HerbariaIdSearchTableRoute = HerbariaIdSearchTableRouteImport.update({
   id: '/table',
   path: '/table',
@@ -78,12 +77,11 @@ const HerbariaIdSearchGraphsRoute = HerbariaIdSearchGraphsRouteImport.update({
   path: '/graphs',
   getParentRoute: () => HerbariaIdSearchRouteRoute,
 } as any)
-const HerbariaIdSearchDebugFiltersRoute =
-  HerbariaIdSearchDebugFiltersRouteImport.update({
-    id: '/debug-filters',
-    path: '/debug-filters',
-    getParentRoute: () => HerbariaIdSearchRouteRoute,
-  } as any)
+const HerbariaIdSearchDebugFiltersRoute = HerbariaIdSearchDebugFiltersRouteImport.update({
+  id: '/debug-filters',
+  path: '/debug-filters',
+  getParentRoute: () => HerbariaIdSearchRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -286,10 +284,9 @@ const HerbariaIdSearchRouteRouteChildren: HerbariaIdSearchRouteRouteChildren = {
   HerbariaIdSearchIndexRoute: HerbariaIdSearchIndexRoute,
 }
 
-const HerbariaIdSearchRouteRouteWithChildren =
-  HerbariaIdSearchRouteRoute._addFileChildren(
-    HerbariaIdSearchRouteRouteChildren,
-  )
+const HerbariaIdSearchRouteRouteWithChildren = HerbariaIdSearchRouteRoute._addFileChildren(
+  HerbariaIdSearchRouteRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -300,6 +297,4 @@ const rootRouteChildren: RootRouteChildren = {
   ExternalIndexRoute: ExternalIndexRoute,
   HerbariaIdSpecimensOccurrenceIDRoute: HerbariaIdSpecimensOccurrenceIDRoute,
 }
-export const routeTree = rootRouteImport
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+export const routeTree = rootRouteImport._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>()

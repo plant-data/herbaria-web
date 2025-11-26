@@ -32,8 +32,8 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
   )
 
   // in the search of each herbarium i need to substract 1 from the active filters count
-  const trueActiveFiltersCount = herbariaId !== 'all' ? activeFiltersCount - 1 : activeFiltersCount;
-  const lockedFiltersPresent = lockedFilters && lockedFilters.length > 0;
+  const trueActiveFiltersCount = herbariaId !== 'all' ? activeFiltersCount - 1 : activeFiltersCount
+  const lockedFiltersPresent = lockedFilters && lockedFilters.length > 0
 
   return (
     <Tabs defaultValue="filters" asChild>

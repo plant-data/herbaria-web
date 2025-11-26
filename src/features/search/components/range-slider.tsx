@@ -48,7 +48,7 @@ export function RangeSlider({
 
   return (
     <div className="max-w-full">
-      <div className="min-h-9 flex items-center justify-between pb-3 pl-1">
+      <div className="flex min-h-9 items-center justify-between pb-3 pl-1">
         <div className="text-sm font-semibold">{label}</div>
         {isChanged && (
           <Badge

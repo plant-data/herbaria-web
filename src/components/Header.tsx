@@ -20,8 +20,7 @@ export function Header() {
   const { t } = useTranslation()
   const { location } = useRouterState()
 
-
-  const searchSegmentPresent = location.pathname.includes('/search');
+  const searchSegmentPresent = location.pathname.includes('/search')
 
   const getHerbariumName = (id: string) => {
     const herbarium = HERBARIA.find((h) => h.id === id)
@@ -64,7 +63,7 @@ export function Header() {
                   {/* Controls */}
                   <div className="mt-20 flex flex-col gap-6">
                     <div className="flex justify-center gap-8">
-                    {/*   <ThemeToggle /> */}
+                      {/*   <ThemeToggle /> */}
                       <LanguageToggle />
                     </div>
                   </div>
@@ -80,9 +79,12 @@ export function Header() {
   // the search page is optimized for larger screens so the navbar shouls adapt to it
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
-      <nav className={cn("flex h-[var(--header-height)] max-w-screen-2xl items-center justify-between pl-4 pr-6",
-        searchSegmentPresent ? 'max-w-[2120px]' : 'container mx-auto'
-      )}>
+      <nav
+        className={cn(
+          'flex h-[var(--header-height)] max-w-screen-2xl items-center justify-between pr-6 pl-4',
+          searchSegmentPresent ? 'max-w-[2120px]' : 'container mx-auto',
+        )}
+      >
         {/* Logo and Brand */}
         <div className="flex items-center gap-3">
           <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
@@ -98,7 +100,7 @@ export function Header() {
 
         {/* Theme and Language Controls */}
         <div className="flex items-center gap-2">
-         {/*  <ThemeToggle /> */}
+          {/*  <ThemeToggle /> */}
           <LanguageToggle />
         </div>
       </nav>

@@ -115,8 +115,6 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
     <Breadcrumb>
       <BreadcrumbList>
         {pathnames.map((value, index) => {
-        
-
           let to = `/${pathnames.slice(0, index + 1).join('/')}`
           const isLast = index === pathnames.length - 1
           let name = getBreadcrumbName(value)

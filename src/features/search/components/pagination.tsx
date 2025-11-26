@@ -35,7 +35,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
         <div className="flex items-center space-x-2">
           <Button
             variant="ghost"
-            className="hidden lg:flex h-8 w-8 p-0 active:bg-transparent disabled:opacity-30"
+            className="hidden h-8 w-8 p-0 active:bg-transparent disabled:opacity-30 lg:flex"
             onClick={() => handlePageChange(firstPageSkip)}
             disabled={page === 1}
           >

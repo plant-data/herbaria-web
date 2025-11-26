@@ -32,7 +32,7 @@ interface Logo {
 
 export function Footer() {
   return (
-    <footer className="mt-16 @container/footer border-border/60 bg-muted/20 text-muted-foreground dark:bg-muted/40 border-t text-sm">
+    <footer className="border-border/60 bg-muted/20 text-muted-foreground dark:bg-muted/40 @container/footer mt-16 border-t text-sm">
       <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 py-12 @md/footer:px-6">
         <PartnersSection />
         <Separator className="bg-border/40 dark:bg-border/60" />
@@ -104,7 +104,7 @@ function PartnersSection() {
 
 function AboutSection() {
   return (
-    <div className="flex w-full mt-1 items-start justify-center">
+    <div className="mt-1 flex w-full items-start justify-center">
       <img
         src={MAIN_LOGO.src}
         alt={MAIN_LOGO.name}
@@ -117,7 +117,6 @@ function AboutSection() {
 
 function NavigationSection() {
   const { t } = useTranslation()
-
 
   return (
     <nav className="space-y-4">

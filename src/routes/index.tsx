@@ -41,7 +41,7 @@ function HerbariumCard({
           onClick={onNavigate}
           to="/$herbariaId"
           params={{ herbariaId: herbarium.id }}
-          className="border-border/70 text-foreground hover:bg-accent focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium shadow-xs transition-colors focus-visible:ring-[2px] focus-visible:outline-none"
+          className="border-border/70 text-foreground hover:bg-accent focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium shadow-xs transition-colors focus-visible:ring-2 focus-visible:outline-none"
         >
           <Home className="h-4 w-4" />
           {t('herbaria-homepage.home-button')}
@@ -50,7 +50,7 @@ function HerbariumCard({
           onClick={onNavigate}
           to="/$herbariaId/search"
           params={{ herbariaId: herbarium.id }}
-          className="bg-foreground text-background hover:bg-primary/90 focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium shadow-sm transition-colors focus-visible:ring-[2px] focus-visible:outline-none"
+          className="bg-foreground text-background hover:bg-primary/90 focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
         >
           <Search className="h-4 w-4" />
           {t('herbaria-homepage.explore-button')}
@@ -107,22 +107,22 @@ function App() {
               </div>
               <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
                 <Link
-                  to="/$herbariaId/search"
-                  params={{ herbariaId: 'all' }}
-                  onClick={handleNavigate}
-                  className="bg-foreground text-background focus-visible:ring/50 focus-visible:ring-[2px]-ring hover:bg-primary/90 focus-visible:ring-ring/50 inline-flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-medium shadow-sm transition-all hover:scale-105 focus-visible:ring-2 focus-visible:outline-none sm:w-auto"
-                >
-                  <Search className="h-5 w-5" />
-                  {t('herbaria-homepage.explore-button')}
-                </Link>
-                <Link
                   to="/"
                   hash="collections"
                   preload={false}
-                  className="border-border/70 text-foreground hover:bg-accent focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex w-full items-center justify-center gap-2 rounded-full border px-8 py-4 text-base font-medium shadow-xs transition-all hover:scale-105 focus-visible:ring-2 focus-visible:outline-none sm:w-auto"
+                  className="border-border/70 text-foreground hover:bg-accent focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium shadow-xs transition-colors focus-visible:ring-2 focus-visible:outline-none"
                 >
                   <ArrowRight className="h-5 w-5" />
                   {t('herbaria-homepage.browse-herbaria-button')}
+                </Link>
+                <Link
+                  to="/$herbariaId/search"
+                  params={{ herbariaId: 'all' }}
+                  onClick={handleNavigate}
+                  className="bg-foreground text-background hover:bg-primary/90 focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                >
+                  <Search className="h-5 w-5" />
+                  {t('herbaria-homepage.explore-button')}
                 </Link>
               </div>
 

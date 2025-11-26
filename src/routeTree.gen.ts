@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TestsRouteImport } from './routes/tests'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ExternalIndexRouteImport } from './routes/external/index'
@@ -22,11 +21,6 @@ import { Route as HerbariaIdSearchMapRouteImport } from './routes/$herbariaId/se
 import { Route as HerbariaIdSearchGraphsRouteImport } from './routes/$herbariaId/search/graphs'
 import { Route as HerbariaIdSearchDebugFiltersRouteImport } from './routes/$herbariaId/search/debug-filters'
 
-const TestsRoute = TestsRouteImport.update({
-  id: '/tests',
-  path: '/tests',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
@@ -57,11 +51,12 @@ const HerbariaIdSearchIndexRoute = HerbariaIdSearchIndexRouteImport.update({
   path: '/',
   getParentRoute: () => HerbariaIdSearchRouteRoute,
 } as any)
-const HerbariaIdSpecimensOccurrenceIDRoute = HerbariaIdSpecimensOccurrenceIDRouteImport.update({
-  id: '/$herbariaId/specimens/$occurrenceID',
-  path: '/$herbariaId/specimens/$occurrenceID',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const HerbariaIdSpecimensOccurrenceIDRoute =
+  HerbariaIdSpecimensOccurrenceIDRouteImport.update({
+    id: '/$herbariaId/specimens/$occurrenceID',
+    path: '/$herbariaId/specimens/$occurrenceID',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const HerbariaIdSearchTableRoute = HerbariaIdSearchTableRouteImport.update({
   id: '/table',
   path: '/table',
@@ -77,16 +72,16 @@ const HerbariaIdSearchGraphsRoute = HerbariaIdSearchGraphsRouteImport.update({
   path: '/graphs',
   getParentRoute: () => HerbariaIdSearchRouteRoute,
 } as any)
-const HerbariaIdSearchDebugFiltersRoute = HerbariaIdSearchDebugFiltersRouteImport.update({
-  id: '/debug-filters',
-  path: '/debug-filters',
-  getParentRoute: () => HerbariaIdSearchRouteRoute,
-} as any)
+const HerbariaIdSearchDebugFiltersRoute =
+  HerbariaIdSearchDebugFiltersRouteImport.update({
+    id: '/debug-filters',
+    path: '/debug-filters',
+    getParentRoute: () => HerbariaIdSearchRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
-  '/tests': typeof TestsRoute
   '/$herbariaId/search': typeof HerbariaIdSearchRouteRouteWithChildren
   '/$herbariaId': typeof HerbariaIdIndexRoute
   '/external': typeof ExternalIndexRoute
@@ -100,7 +95,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/map': typeof MapRoute
-  '/tests': typeof TestsRoute
   '/$herbariaId': typeof HerbariaIdIndexRoute
   '/external': typeof ExternalIndexRoute
   '/$herbariaId/search/debug-filters': typeof HerbariaIdSearchDebugFiltersRoute
@@ -114,7 +108,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/map': typeof MapRoute
-  '/tests': typeof TestsRoute
   '/$herbariaId/search': typeof HerbariaIdSearchRouteRouteWithChildren
   '/$herbariaId/': typeof HerbariaIdIndexRoute
   '/external/': typeof ExternalIndexRoute
@@ -130,7 +123,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/map'
-    | '/tests'
     | '/$herbariaId/search'
     | '/$herbariaId'
     | '/external'
@@ -144,7 +136,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/map'
-    | '/tests'
     | '/$herbariaId'
     | '/external'
     | '/$herbariaId/search/debug-filters'
@@ -157,7 +148,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/map'
-    | '/tests'
     | '/$herbariaId/search'
     | '/$herbariaId/'
     | '/external/'
@@ -172,7 +162,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MapRoute: typeof MapRoute
-  TestsRoute: typeof TestsRoute
   HerbariaIdSearchRouteRoute: typeof HerbariaIdSearchRouteRouteWithChildren
   HerbariaIdIndexRoute: typeof HerbariaIdIndexRoute
   ExternalIndexRoute: typeof ExternalIndexRoute
@@ -181,13 +170,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/tests': {
-      id: '/tests'
-      path: '/tests'
-      fullPath: '/tests'
-      preLoaderRoute: typeof TestsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/map': {
       id: '/map'
       path: '/map'
@@ -284,17 +266,19 @@ const HerbariaIdSearchRouteRouteChildren: HerbariaIdSearchRouteRouteChildren = {
   HerbariaIdSearchIndexRoute: HerbariaIdSearchIndexRoute,
 }
 
-const HerbariaIdSearchRouteRouteWithChildren = HerbariaIdSearchRouteRoute._addFileChildren(
-  HerbariaIdSearchRouteRouteChildren,
-)
+const HerbariaIdSearchRouteRouteWithChildren =
+  HerbariaIdSearchRouteRoute._addFileChildren(
+    HerbariaIdSearchRouteRouteChildren,
+  )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MapRoute: MapRoute,
-  TestsRoute: TestsRoute,
   HerbariaIdSearchRouteRoute: HerbariaIdSearchRouteRouteWithChildren,
   HerbariaIdIndexRoute: HerbariaIdIndexRoute,
   ExternalIndexRoute: ExternalIndexRoute,
   HerbariaIdSpecimensOccurrenceIDRoute: HerbariaIdSpecimensOccurrenceIDRoute,
 }
-export const routeTree = rootRouteImport._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>()
+export const routeTree = rootRouteImport
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()

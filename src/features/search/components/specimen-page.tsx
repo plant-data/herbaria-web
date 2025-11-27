@@ -1,30 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
-import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import { useRouter } from '@tanstack/react-router'
-import { ArrowLeft, Maximize2, RotateCcw, ZoomIn, ZoomOut } from 'lucide-react'
+import { ArrowLeft, MapPinIcon, Maximize2, RotateCcw, ZoomIn, ZoomOut } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import OpenSeadragon from 'openseadragon'
-import L from 'leaflet'
-import 'leaflet/dist/leaflet.css'
-// Fix Leaflet default marker icon issue in production
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
-import markerIcon from 'leaflet/dist/images/marker-icon.png'
-import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import type { SpecimenData } from '@/features/search/types/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Map, MapLayers, MapMarker, MapTileLayer, MapZoomControl } from '@/components/ui/map'
 import { Separator } from '@/components/ui/separator'
 import { ImageLightbox } from '@/components/image-lightbox'
 import { FLORITALY_URL } from '@/features/search/constants/constants'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import { Button } from '@/components/ui/button'
 import { BASE_PATH } from '@/config'
-
-delete (L.Icon.Default.prototype as any)._getIconUrl
-L.Icon.Default.mergeOptions({
-  iconUrl: markerIcon,
-  iconRetinaUrl: markerIcon2x,
-  shadowUrl: markerShadow,
-})
 
 // Helper function to get country name from country code
 const getCountryName = (countryCode: unknown): string => {
@@ -76,29 +63,26 @@ export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
 }
 
 function SpecimenMap({ decimalLatitude, decimalLongitude }: SpecimenMapProps) {
-  if (!decimalLatitude || !decimalLongitude) return null
-
-  const position: [number, number] = [decimalLatitude, decimalLongitude]
+  const position: [number, number] | null =
+    decimalLatitude && decimalLongitude ? [decimalLatitude, decimalLongitude] : null
 
   return (
     <Card className="overflow-hidden rounded-md p-0 shadow-xs">
       <CardContent className="p-1">
-        <div className="h-64 w-full overflow-hidden rounded-[3px]">
-          <MapContainer
-            center={position}
-            zoom={2}
-            // block touch movements
-            touchZoom={false}
-            dragging={false}
-            scrollWheelZoom={false}
-            style={{ height: '100%', width: '100%', zIndex: 0 }}
-          >
-            <TileLayer
-              attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Marker position={position}></Marker>
-          </MapContainer>
+        <div className="h-64 w-full overflow-hidden rounded-xs">
+          {position ? (
+            <Map center={position} zoom={2} className="z-0 h-full min-h-0 w-full">
+              <MapLayers>
+                <MapTileLayer />
+                <MapMarker position={position} icon={<MapPinIcon className="text-primary size-6" />} />
+              </MapLayers>
+              <MapZoomControl />
+            </Map>
+          ) : (
+            <div className="bg-muted flex h-full w-full items-center justify-center rounded-sm">
+              <span className="text-muted-foreground">Record not georeferenced</span>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

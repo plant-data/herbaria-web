@@ -404,7 +404,7 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
         {/* Darwin Core Terms Switch */}
         <div className="flex items-center justify-end gap-2 pt-2">
           <Label htmlFor="darwin-core-switch" className="text-muted-foreground text-xs">
-            {showDarwinCore ? t('specimen.show-darwin-core-terms') : t('specimen.show-common-terms')}
+            {t('specimen.show-darwin-core-terms')}
           </Label>
           <Switch id="darwin-core-switch" checked={showDarwinCore} onCheckedChange={setShowDarwinCore} />
         </div>
@@ -435,7 +435,7 @@ export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }
       <h3 className="mb-4 text-xl font-medium">{t('specimen.other-images')}</h3>
       <div className="flex w-full flex-wrap gap-4 lg:gap-8">
         {imagesData.map((imageData) => (
-          <div key={imageData.identifier} className="flex flex-shrink-0 flex-col items-center">
+          <div key={imageData.identifier} className="flex shrink-0 flex-col items-center">
             <Button
               variant="ghost"
               className="h-auto p-0 hover:opacity-80"

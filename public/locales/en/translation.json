@@ -1,5 +1,40 @@
 {
   "herbaria-hero": "test engl",
+  "specimen": {
+    "label-data": "Label Data",
+    "not-georeferenced": "Record not georeferenced",
+    "no-image": "No image available",
+    "other-images": "Other Images",
+    "open-taxon-page": "Open taxon page",
+    "show-common-terms": "Show common terms",
+    "show-darwin-core-terms": "Show Darwin Core terms",
+    "fields": {
+      "scientific-name": "Scientific Name",
+      "verbatim-identification": "Verbatim Identification",
+      "catalog-number": "Catalog Number",
+      "other-catalog-numbers": "Other Catalog Numbers",
+      "basis-of-record": "Basis of Record",
+      "recorded-by": "Recorded By",
+      "identified-by": "Identified By",
+      "floritaly-name": "Floritaly Name",
+      "year": "Year",
+      "month": "Month",
+      "event-date": "Event Date",
+      "verbatim-event-date": "Verbatim Event Date",
+      "country": "Country",
+      "country-code": "Country Code",
+      "verbatim-locality": "Verbatim Locality",
+      "locality": "Locality",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "geodetic-datum": "Geodetic Datum",
+      "coordinates-uncertainty": "Coordinates Uncertainty",
+      "georeference-protocol": "Georeference Protocol",
+      "verbatim-elevation": "Verbatim Elevation",
+      "minimum-elevation": "Minimum Elevation",
+      "maximum-elevation": "Maximum Elevation"
+    }
+  },
   "search": {
     "filters": {
       "loading-data": "Loading data",

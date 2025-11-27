@@ -1,5 +1,40 @@
 {
   "herbaria-hero": "test",
+  "specimen": {
+    "label-data": "Dati etichetta",
+    "not-georeferenced": "Record non georeferenziato",
+    "no-image": "Nessuna immagine disponibile",
+    "other-images": "Altre immagini",
+    "open-taxon-page": "Apri pagina taxon",
+    "show-common-terms": "Mostra termini comuni",
+    "show-darwin-core-terms": "Mostra termini Darwin Core",
+    "fields": {
+      "scientific-name": "Nome scientifico",
+      "verbatim-identification": "Identificazione verbatim",
+      "catalog-number": "Numero di catalogo",
+      "other-catalog-numbers": "Altri numeri di catalogo",
+      "basis-of-record": "Tipo di record",
+      "recorded-by": "Registrato da",
+      "identified-by": "Identificato da",
+      "floritaly-name": "Nome Floritaly",
+      "year": "Anno",
+      "month": "Mese",
+      "event-date": "Data evento",
+      "verbatim-event-date": "Data evento verbatim",
+      "country": "Stato",
+      "country-code": "Codice stato",
+      "verbatim-locality": "Località verbatim",
+      "locality": "Località",
+      "latitude": "Latitudine",
+      "longitude": "Longitudine",
+      "geodetic-datum": "Datum geodetico",
+      "coordinates-uncertainty": "Incertezza coordinate",
+      "georeference-protocol": "Protocollo di georeferenziazione",
+      "verbatim-elevation": "Elevazione verbatim",
+      "minimum-elevation": "Elevazione minima",
+      "maximum-elevation": "Elevazione massima"
+    }
+  },
   "search": {
     "filters": {
       "loading -data": "Recupero dati",

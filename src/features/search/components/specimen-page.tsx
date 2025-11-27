@@ -11,6 +11,8 @@ import { ImageLightbox } from '@/components/image-lightbox'
 import { FLORITALY_URL } from '@/features/search/constants/constants'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
+import { Label } from '@/components/ui/label'
 import { BASE_PATH } from '@/config'
 
 // Helper function to get country name from country code
@@ -63,6 +65,7 @@ export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
 }
 
 function SpecimenMap({ decimalLatitude, decimalLongitude }: SpecimenMapProps) {
+  const { t } = useTranslation()
   const position: [number, number] | null =
     decimalLatitude && decimalLongitude ? [decimalLatitude, decimalLongitude] : null
 
@@ -80,7 +83,7 @@ function SpecimenMap({ decimalLatitude, decimalLongitude }: SpecimenMapProps) {
             </Map>
           ) : (
             <div className="bg-muted flex h-full w-full items-center justify-center rounded-sm">
-              <span className="text-muted-foreground">Record not georeferenced</span>
+              <span className="text-muted-foreground">{t('specimen.not-georeferenced')}</span>
             </div>
           )}
         </div>
@@ -89,7 +92,7 @@ function SpecimenMap({ decimalLatitude, decimalLongitude }: SpecimenMapProps) {
   )
 }
 
-export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps) {
+export function SpecimenImage({ multimedia }: SpecimenImageProps) {
   const viewerRef = useRef<OpenSeadragon.Viewer | null>(null)
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
   const [currentImageIdentifier, setCurrentImageIdentifier] = useState('')
@@ -180,12 +183,14 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
     }
   }
 
+  const { t } = useTranslation()
+
   if (!hasImage) {
     return (
       <Card className="mx-auto max-w-full rounded-md p-0 shadow-xs">
         <CardContent className="m-0 p-1 sm:h-[370px] sm:w-[254px] md:h-[500px] md:w-[352px]">
           <div className="flex h-full w-full items-center justify-center rounded-md bg-gray-200">
-            <span className="text-gray-500">No image available</span>
+            <span className="text-gray-500">{t('specimen.no-image')}</span>
           </div>
         </CardContent>
       </Card>
@@ -250,58 +255,63 @@ export function SpecimenImage({ multimedia, scientificName }: SpecimenImageProps
 
 export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
   const { t } = useTranslation()
+  const [showDarwinCore, setShowDarwinCore] = useState(false)
+
+  // Helper to get label based on Darwin Core mode
+  const getLabel = (translationKey: string, dwcTerm: string | null): string => {
+    if (showDarwinCore && dwcTerm) {
+      return `dwc:${dwcTerm}`
+    }
+    return t(`specimen.fields.${translationKey}` as never) as string
+  }
 
   return (
     <Card className="gap-2 rounded-md shadow-xs">
       <CardHeader>
-        <CardTitle className="text-xl">LABEL DATA</CardTitle>
+        <CardTitle className="text-xl">{t('specimen.label-data').toUpperCase()}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-2 text-sm">
         {/* Taxonomic Information */}
         <div>
-          <span className="font-medium">Scientific Name</span>
+          <span className="font-medium">{getLabel('scientific-name', 'scientificName')}:</span>
           <span className="ml-2">{occurrence.scientificName ?? '-'}</span>
         </div>
-        {/* <div>
-          <span className="font-medium">GBIF Name:</span>
-          <span className="ml-2">{occurrence.gbifName ?? '-'}</span>
-        </div> */}
 
         <div>
-          <span className="font-medium">Verbatim Identification:</span>
+          <span className="font-medium">{getLabel('verbatim-identification', 'verbatimIdentification')}:</span>
           <span className="ml-2">{occurrence.verbatimIdentification ?? '-'}</span>
         </div>
         {/* Collection Information */}
         <div>
-          <span className="font-medium">Catalog Number:</span>
+          <span className="font-medium">{getLabel('catalog-number', 'catalogNumber')}:</span>
           <span className="ml-2">{occurrence.catalogNumber ?? '-'}</span>
         </div>
         <div>
-          <span className="font-medium">Other Catalog Numbers:</span>
+          <span className="font-medium">{getLabel('other-catalog-numbers', 'otherCatalogNumbers')}:</span>
           <span className="ml-2">{occurrence.otherCatalogNumbers ?? '-'}</span>
         </div>
         <div>
-          <span className="font-medium">Basis of Record:</span>
+          <span className="font-medium">{getLabel('basis-of-record', 'basisOfRecord')}:</span>
           <span className="ml-2">{occurrence.basisOfRecord ?? '-'}</span>
         </div>
         <div>
-          <span className="font-medium">Recorded By:</span>
+          <span className="font-medium">{getLabel('recorded-by', 'recordedBy')}:</span>
           <span className="ml-2">{occurrence.recordedBy ?? '-'}</span>
         </div>
         <div>
-          <span className="font-medium">Identified By:</span>
+          <span className="font-medium">{getLabel('identified-by', 'identifiedBy')}:</span>
           <span className="ml-2">{occurrence.identifiedBy ?? '-'}</span>
         </div>
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <div>
-            <span className="font-medium">Floritaly Name:</span>
+            <span className="font-medium">{getLabel('floritaly-name', null)}:</span>
             <span className="ml-2">{occurrence.floritalyName ?? '-'}</span>
           </div>
           {occurrence.floritalyID ? (
             <Button asChild className="h-6 gap-1 px-2 py-1">
               <a className="text-xs" target="_blank" href={`${FLORITALY_URL}${occurrence.floritalyID}`}>
                 <img src={`${BASE_PATH}images/flor.png`} alt="Herbaria Logo" width={18} height={18} className=""></img>
-                Open taxon page
+                {t('specimen.open-taxon-page')}
               </a>
             </Button>
           ) : null}
@@ -310,60 +320,59 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
         <Separator />
         {/* Date Information */}
         <div>
-          <span className="font-medium">Year:</span>
+          <span className="font-medium">{getLabel('year', 'year')}:</span>
           <span className="ml-2">{occurrence.year ?? '-'}</span>
         </div>
         <div>
-          <span className="font-medium">Month:</span>
+          <span className="font-medium">{getLabel('month', 'month')}:</span>
           <span className="ml-2">{occurrence.month ?? '-'}</span>
         </div>
         <div>
-          <span className="font-medium">Event Date:</span>
+          <span className="font-medium">{getLabel('event-date', 'eventDate')}:</span>
           <span className="ml-2">{occurrence.eventDate ?? '-'}</span>
         </div>
         <div>
-          <span className="font-medium">Verbatim Event Date:</span>
+          <span className="font-medium">{getLabel('verbatim-event-date', 'verbatimEventDate')}:</span>
           <span className="ml-2">{occurrence.verbatimEventDate ?? '-'}</span>
         </div>
         <Separator />
         <div>
-          <span className="font-medium">Country:</span>
-
+          <span className="font-medium">{getLabel('country', 'country')}:</span>
           <span className="ml-2">
-            {getCountryName(occurrence.countryCode) === '-' ? '-' : t(getCountryName(occurrence.countryCode))}
+            {getCountryName(occurrence.countryCode) === '-' ? '-' : t(getCountryName(occurrence.countryCode) as never)}
           </span>
         </div>
         <div>
-          <span className="font-medium">Country Code:</span>
+          <span className="font-medium">{getLabel('country-code', 'countryCode')}:</span>
           <span className="ml-2">{typeof occurrence.countryCode === 'string' ? occurrence.countryCode : '-'}</span>
         </div>
         <div>
-          <span className="font-medium">verbatimLocality:</span>
-          <span className="ml-2">{occurrence.verbatimLocality}</span>
+          <span className="font-medium">{getLabel('verbatim-locality', 'verbatimLocality')}:</span>
+          <span className="ml-2">{String(occurrence.verbatimLocality ?? '-')}</span>
         </div>
         <div>
-          <span className="font-medium">Locality:</span>
+          <span className="font-medium">{getLabel('locality', 'locality')}:</span>
           <span className="ml-2">{occurrence.locality ?? '-'}</span>
         </div>
         <div>
-          <span className="font-medium">Latitude:</span>
+          <span className="font-medium">{getLabel('latitude', 'decimalLatitude')}:</span>
           <span className="ml-2">{occurrence.decimalLatitude ?? '-'}</span>
         </div>
         <div>
-          <span className="font-medium">Longitude:</span>
+          <span className="font-medium">{getLabel('longitude', 'decimalLongitude')}:</span>
           <span className="ml-2">{occurrence.decimalLongitude ?? '-'}</span>
         </div>
         <div>
-          <span className="font-medium">Geodetic Datum:</span>
+          <span className="font-medium">{getLabel('geodetic-datum', 'geodeticDatum')}:</span>
           <span className="ml-2">{occurrence.geodeticDatum ?? '-'}</span>
         </div>
         <div>
-          <span className="font-medium">Coordinates Uncertainty:</span>
+          <span className="font-medium">{getLabel('coordinates-uncertainty', 'coordinateUncertaintyInMeters')}:</span>
           <span className="ml-2">{occurrence.coordinatesUncertaintyInMeters ?? '-'}</span>
         </div>
         {occurrence.georeferenceProtocol && (
           <div>
-            <span className="font-medium">Georeference Protocol:</span>
+            <span className="font-medium">{getLabel('georeference-protocol', 'georeferenceProtocol')}:</span>
             <span className="ml-2">{occurrence.georeferenceProtocol}</span>
           </div>
         )}
@@ -371,31 +380,41 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           <Separator />
           {occurrence.verbatimElevation && (
             <div>
-              <span className="font-medium">Verbatim Elevation:</span>
+              <span className="font-medium">{getLabel('verbatim-elevation', 'verbatimElevation')}:</span>
               <span className="ml-2">{occurrence.verbatimElevation}</span>
             </div>
           )}
 
           <div>
-            <span className="font-medium">Minimum Elevation:</span>
+            <span className="font-medium">{getLabel('minimum-elevation', 'minimumElevationInMeters')}:</span>
             <span className="ml-2">
               {occurrence.minimumElevationInMeters ? `${occurrence.minimumElevationInMeters}m` : '-'}
             </span>
           </div>
 
           <div>
-            <span className="font-medium">Maximum Elevation:</span>
+            <span className="font-medium">{getLabel('maximum-elevation', 'maximumElevationInMeters')}:</span>
             <span className="ml-2">
               {occurrence.maximumElevationInMeters ? `${occurrence.maximumElevationInMeters}m` : '-'}
             </span>
           </div>
         </>
+
+        <Separator />
+        {/* Darwin Core Terms Switch */}
+        <div className="flex items-center justify-end gap-2 pt-2">
+          <Label htmlFor="darwin-core-switch" className="text-muted-foreground text-xs">
+            {showDarwinCore ? t('specimen.show-darwin-core-terms') : t('specimen.show-common-terms')}
+          </Label>
+          <Switch id="darwin-core-switch" checked={showDarwinCore} onCheckedChange={setShowDarwinCore} />
+        </div>
       </CardContent>
     </Card>
   )
 }
 
 export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }) {
+  const { t } = useTranslation()
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
   const [currentImageIdentifier, setCurrentImageIdentifier] = useState('')
 
@@ -413,7 +432,7 @@ export function SpecimenOtherImages({ occurrence }: { occurrence: SpecimenData }
 
   return (
     <div className="mt-6">
-      <h3 className="mb-4 text-xl font-medium">Other Images</h3>
+      <h3 className="mb-4 text-xl font-medium">{t('specimen.other-images')}</h3>
       <div className="flex w-full flex-wrap gap-4 lg:gap-8">
         {imagesData.map((imageData) => (
           <div key={imageData.identifier} className="flex flex-shrink-0 flex-col items-center">

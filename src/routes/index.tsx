@@ -48,7 +48,7 @@ function HerbariumCard({
         </Link>
         <Link
           onClick={onNavigate}
-          to="/$herbariaId/search"
+          to="/$herbariaId/map"
           params={{ herbariaId: herbarium.id }}
           className="bg-foreground text-background hover:bg-primary/90 focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
         >

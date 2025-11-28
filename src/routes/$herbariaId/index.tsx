@@ -18,7 +18,7 @@ export const Route = createFileRoute('/$herbariaId/')({
 
     // all does not have a dedicated homepage
     if (herbariaId === 'all') {
-      throw redirect({ to: '/$herbariaId/search', params: { herbariaId } })
+      throw redirect({ to: '/$herbariaId/images', params: { herbariaId } })
     }
 
     if (!herbariumExists) {
@@ -42,11 +42,16 @@ function RouteComponent() {
   const resetMap = useFilterStore((state) => state.resetMap)
   const setScientificName = useFilterStore((state) => state.setScientificName)
 
-  // Find the current herbarium configuration
+  // find the current herbarium configuration
   const currentHerbarium = HERBARIA_CONFIG.find((herbarium) => herbarium.id === herbariaId.toUpperCase())
+  // this should not happen due to the loader check
+  // but typescript 
+  if (!currentHerbarium) {
+    return null 
+  }
 
   // Use homeImages if available, otherwise fallback to default images
-  const homeImages = currentHerbarium?.homeImages || [
+  const homeImages = currentHerbarium.homeImages || [
     `${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00204271.jpg`,
     `${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00206738.jpg`,
     `${BASE_IMAGE_URL}unsafe/704x1000//2024/05/06/CP2/CP2_20240506_BATCH_0001/JPG/FI-HCI-00207292.jpg`,
@@ -57,7 +62,7 @@ function RouteComponent() {
     resetMap()
     setScientificName([value])
     navigate({
-      to: '/$herbariaId/search',
+      to: '/$herbariaId/images',
       params: { herbariaId },
     })
   }
@@ -75,11 +80,11 @@ function RouteComponent() {
                   <Badge variant="outline" className="w-fit">
                     <Leaf className="mr-2 h-4 w-4" />
                     {/* Herbarium FI-HCI */}
-                    {t(currentHerbarium?.hero?.badge)}
+                    {t(currentHerbarium.hero.badge)}
                   </Badge>
                   <h1 className="text-primary text-4xl font-medium tracking-tight md:text-5xl lg:text-6xl">
                     <Trans
-                      i18nKey={currentHerbarium?.hero?.title}
+                      i18nKey={currentHerbarium.hero.title}
                       components={{
                         1: <span className="text-ring" />,
                       }}
@@ -112,7 +117,7 @@ function RouteComponent() {
                       resetMap()
                     }}
                   >
-                    <Link to="/$herbariaId/search" params={{ herbariaId }}>
+                    <Link to="/$herbariaId/images" params={{ herbariaId }}>
                       <Database className="mr-2 h-5 w-5" />
                       {t('herbaria-pages.buttons.explore-collection')}
                     </Link>
@@ -191,13 +196,13 @@ function RouteComponent() {
             <div className="order-1 space-y-6 lg:order-2">
               <div className="space-y-2">
                 <Badge variant="outline" className="w-fit text-sm">
-                  {t(currentHerbarium?.sections[0]?.badge)}
+                  {t(currentHerbarium.sections[0].badge)}
                 </Badge>
                 <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
-                  {t(currentHerbarium?.sections[0]?.title)}
+                  {t(currentHerbarium.sections[0].title)}
                 </h2>
               </div>
-              <p className="text-primary/80">{t(currentHerbarium?.sections[0]?.description)}</p>
+              <p className="text-primary/80">{t(currentHerbarium.sections[0].description)}</p>
               <Button className="bg-ring hover:bg-ring/90 text-white">{t('herbaria-pages.buttons.learn-more')}</Button>
             </div>
           </div>
@@ -210,20 +215,20 @@ function RouteComponent() {
             <div className="space-y-6">
               <div className="space-y-2">
                 <Badge variant="outline" className="w-fit text-sm">
-                  {t(currentHerbarium?.sections[1]?.badge)}
+                  {t(currentHerbarium.sections[1].badge)}
                 </Badge>
                 <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
-                  {t(currentHerbarium?.sections[1]?.title)}
+                  {t(currentHerbarium.sections[1].title)}
                 </h2>
               </div>
-              <p className="text-primary/80">{t(currentHerbarium?.sections[1]?.description)}</p>
+              <p className="text-primary/80">{t(currentHerbarium.sections[1].description)}</p>
               <Button className="bg-ring hover:bg-ring/90 text-white">{t('herbaria-pages.buttons.explore')}</Button>
             </div>
             {/* Image - Right Side */}
             <div>
               <div className="aspect-[16/10] overflow-hidden rounded-lg">
                 <img
-                  src={currentHerbarium?.sections[1]?.image}
+                  src={currentHerbarium.sections[1].image}
                   alt="A map showing global plant distribution"
                   className="h-full w-full object-cover"
                 />
@@ -239,7 +244,7 @@ function RouteComponent() {
             <div className="order-2 lg:order-1">
               <div className="border-primary/40 aspect-[16/10] overflow-hidden rounded-lg border">
                 <img
-                  src={currentHerbarium?.sections[2]?.image}
+                  src={currentHerbarium.sections[2].image}
                   alt="A historical botanical illustration"
                   className="h-full w-full object-cover"
                 />
@@ -250,13 +255,13 @@ function RouteComponent() {
             <div className="order-1 space-y-6 lg:order-2">
               <div className="space-y-2">
                 <Badge variant="outline" className="w-fit text-sm">
-                  {t(currentHerbarium?.sections[2]?.badge)}
+                  {t(currentHerbarium.sections[2].badge)}
                 </Badge>
                 <h2 className="text-3xl font-medium tracking-tight text-gray-900 md:text-4xl dark:text-white">
-                  {t(currentHerbarium?.sections[2]?.title)}
+                  {t(currentHerbarium.sections[2].title)}
                 </h2>
               </div>
-              <p className="text-primary/80">{t(currentHerbarium?.sections[2]?.description)}</p>
+              <p className="text-primary/80">{t(currentHerbarium.sections[2].description)}</p>
             </div>
           </div>
         </section>

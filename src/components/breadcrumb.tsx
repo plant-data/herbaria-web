@@ -15,7 +15,7 @@ import { useIsMobile } from '@/hooks/use-mobile'
 
 export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void }) {
   const { location } = useRouterState()
-  const { herbariaId, occurrenceID } = useParams({ strict: false })
+  const { herbariaId } = useParams({ strict: false })
   const { t } = useTranslation()
   const isMobile = useIsMobile()
   const cleanBasePath = '' // remove leading/trailing slashes
@@ -30,7 +30,7 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
   }
 
   const breadcrumbNameMap: { [key: string]: string | ((s: string) => string) } = {
-    search: t('navbar.search'),
+    images: t('search.results.nav-images'),
     map: t('navbar.map'),
     graphs: t('navbar.graphs'),
     table: t('navbar.table'),
@@ -77,8 +77,8 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
         let name = getBreadcrumbName(value)
 
         if (value === 'specimens') {
-          to = to.replace('specimens', 'search')
-          name = t('navbar.search')
+          to = to.replace('specimens', 'images')
+          name = t('search.results.nav-images')
         }
 
         return { to, name, isLast }
@@ -123,9 +123,9 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
           let name = getBreadcrumbName(value)
 
           if (value === 'specimens') {
-            // replace specimens with search
-            to = to.replace('specimens', 'search')
-            name = t('navbar.search')
+            // replace specimens with images (default search view)
+            to = to.replace('specimens', 'images')
+            name = t('search.results.nav-images')
           }
 
           return (

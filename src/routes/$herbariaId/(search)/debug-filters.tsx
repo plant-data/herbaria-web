@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 
-export const Route = createFileRoute('/$herbariaId/search/debug-filters')({
+export const Route = createFileRoute('/$herbariaId/(search)/debug-filters')({
   component: RouteComponent,
   loader: () => {
     const { setHasCoordinates } = useFilterStore.getState()

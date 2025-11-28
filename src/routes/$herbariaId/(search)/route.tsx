@@ -7,7 +7,7 @@ import { SpecimensNavbar } from '@/features/search/components/specimens-navbar'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { Footer } from '@/components/footer'
 
-export const Route = createFileRoute('/$herbariaId/search')({
+export const Route = createFileRoute('/$herbariaId/(search)')({
   component: RouteComponent,
   loader: async ({ params }) => {
     const herbariaId = params.herbariaId

@@ -430,5 +430,15 @@
     "graphs": "Grafici",
     "table": "Tabella",
     "specimen": "Dati del campione"
+  },
+  "footer": {
+    "partners": "Partner universitari",
+    "support": "In collaborazione con",
+    "mainPages": "Naviga",
+    "home": "Home",
+    "allHerbaria": "Tutti gli Erbari",
+    "contacts": "Contatti",
+    "coordinator": "Coordinatore",
+    "secretary": "Segretario"
   }
 }

@@ -21,8 +21,8 @@ const SUPPORT_LOGOS = [{ name: 'LifeWatch Italia', src: `${ORGANIZATION_BASE_PAT
 const MAIN_LOGO = { name: 'Plant Data Interuniversity Center', src: `${ORGANIZATION_BASE_PATH}plantdata.png` }
 
 const CONTACTS = [
-  { role: 'Coordinator', name: 'Stefano Martellos', email: 'martelst@units.it' },
-  { role: 'Secretary', name: 'Jury Nascimbene', email: 'juri.nascimbene@unibo.it' },
+  { roleKey: 'footer.coordinator' as const, name: 'Stefano Martellos', email: 'martelst@units.it' },
+  { roleKey: 'footer.secretary' as const, name: 'Jury Nascimbene', email: 'juri.nascimbene@unibo.it' },
 ]
 
 interface Logo {
@@ -133,7 +133,7 @@ function NavigationSection() {
         </li>
         <li>
           <Link
-            to="/$herbariaId/search"
+            to="/$herbariaId/images"
             params={{ herbariaId: 'all' }}
             className="text-muted-foreground hover:text-primary dark:hover:text-primary text-sm transition"
           >
@@ -165,9 +165,9 @@ function ContactsSection() {
         {t('footer.contacts', { defaultValue: 'Contacts' })}
       </h3>
       <ul className="text-muted-foreground space-y-4 text-sm">
-        {CONTACTS.map(({ role, name, email }) => (
-          <li key={role} className="space-y-1">
-            <p className="text-muted-foreground/80 text-xs font-semibold tracking-wide uppercase">{role}</p>
+        {CONTACTS.map(({ roleKey, name, email }) => (
+          <li key={roleKey} className="space-y-1">
+            <p className="text-muted-foreground/80 text-xs font-semibold tracking-wide uppercase">{t(roleKey)}</p>
             <p className="text-foreground/80 text-sm">{name}</p>
             <p className="text-foreground/80 text-sm">{email}</p>
           </li>

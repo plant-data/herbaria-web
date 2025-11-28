@@ -430,5 +430,15 @@
     "graphs": "Graphs",
     "table": "Table",
     "specimen": "Specimen data"
+  },
+  "footer": {
+    "partners": "University partners",
+    "support": "In collaboration with",
+    "mainPages": "Navigate",
+    "home": "Home",
+    "allHerbaria": "All Herbaria",
+    "contacts": "Contacts",
+    "coordinator": "Coordinator",
+    "secretary": "Secretary"
   }
 }

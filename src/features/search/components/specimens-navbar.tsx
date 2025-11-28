@@ -1,26 +1,19 @@
 import { Link, useParams } from '@tanstack/react-router'
-import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AlertCircle, ChartColumn, Image, LoaderCircle, MapPinned, Table } from 'lucide-react'
 import { useSpecimensCount } from '@/features/search/api/get-occurrences'
 import { Skeleton } from '@/components/ui/skeleton'
-import { cn } from '@/lib/utils'
+
+const navItems = [
+  { path: '/$herbariaId/table', icon: Table, labelKey: 'search.results.nav-table' },
+  { path: '/$herbariaId/images', icon: Image, labelKey: 'search.results.nav-images' },
+  { path: '/$herbariaId/map', icon: MapPinned, labelKey: 'search.results.nav-map' },
+  { path: '/$herbariaId/graphs', icon: ChartColumn, labelKey: 'search.results.nav-graphs' },
+] as const
 
 export function SpecimensNavbar() {
   const { t } = useTranslation()
-  const params = useParams({ strict: false })
-
-  const navItems = useMemo(() => {
-    const herbariaId = 'herbariaId' in params ? params.herbariaId : null
-    const basePath = herbariaId ? `/${herbariaId}/search` : `/search`
-
-    return [
-      { path: `${basePath}/table`, icon: Table, label: t('search.results.nav-table'), exact: false },
-      { path: basePath, icon: Image, label: t('search.results.nav-images'), exact: true },
-      { path: `${basePath}/map`, icon: MapPinned, label: t('search.results.nav-map'), exact: false },
-      { path: `${basePath}/graphs`, icon: ChartColumn, label: t('search.results.nav-graphs'), exact: false },
-    ]
-  }, [params, t])
+  const { herbariaId } = useParams({ strict: false })
 
   return (
     <div className="flex flex-col items-center justify-center gap-2 @lg:flex-row @lg:justify-between">
@@ -30,22 +23,21 @@ export function SpecimensNavbar() {
 
       <div className="flex justify-center">
         <nav className="bg-muted dark:bg-card dark:border-input flex gap-2 rounded-lg p-0.5 dark:border">
-          {navItems.map(({ path, icon: Icon, label, exact }) => (
+          {navItems.map(({ path, icon: Icon, labelKey }) => (
             <Link
               key={path}
               to={path}
-              params={{ herbariaId: params.herbariaId }}
+              params={{ herbariaId: herbariaId! }}
               className="flex items-center gap-2 rounded-md px-2 py-[7px] text-xs font-medium transition-colors"
-              activeOptions={exact ? { exact: true } : undefined}
               activeProps={{
-                className: cn('bg-background text-foreground dark:border-input shadow-sm dark:border'),
+                className: 'bg-background text-foreground dark:border-input shadow-sm dark:border',
               }}
               inactiveProps={{
-                className: cn('text-muted-foreground hover:bg-background hover:shadow-sm'),
+                className: 'text-muted-foreground hover:bg-background hover:shadow-sm',
               }}
             >
               <Icon className="h-4 w-4" />
-              {label}
+              {t(labelKey)}
             </Link>
           ))}
         </nav>

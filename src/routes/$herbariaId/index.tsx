@@ -45,9 +45,9 @@ function RouteComponent() {
   // find the current herbarium configuration
   const currentHerbarium = HERBARIA_CONFIG.find((herbarium) => herbarium.id === herbariaId.toUpperCase())
   // this should not happen due to the loader check
-  // but typescript 
+  // but typescript
   if (!currentHerbarium) {
-    return null 
+    return null
   }
 
   // Use homeImages if available, otherwise fallback to default images
@@ -151,36 +151,48 @@ function RouteComponent() {
         </section>
 
         {/* Stats Section */}
-        {/* <section className="container mx-auto mb-12 hidden grid-cols-2 gap-8 px-4 text-center sm:grid md:grid-cols-4">
-          <Card className="border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
-            <CardDescription className="flex flex-col items-center gap-2">
-              <Leaf className="text-ring size-9" />
-              <span className="text-primary/80 text-4xl font-medium">2 million+</span>
-              <span className="text-primary/80">Specimens</span>
-            </CardDescription>
-          </Card>
-          <Card className="border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
-            <CardDescription className="flex flex-col items-center gap-2">
-              <Layers className="text-ring size-9" />
-              <span className="text-primary/80 text-4xl font-medium">18,000+</span>
-              <span className="text-primary/80">Type Specimens</span>
-            </CardDescription>
-          </Card>
-          <Card className="border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
-            <CardDescription className="flex flex-col items-center gap-2">
-              <Earth className="text-ring size-9" />
-              <span className="text-primary/80 text-4xl font-medium">70%</span>
-              <span className="text-primary/80">Georeferenced records</span>
-            </CardDescription>
-          </Card>
-          <Card className="border-input/40 flex w-60 items-center justify-center space-y-2 shadow-none">
-            <CardDescription className="flex flex-col items-center gap-2">
-              <ChartSpline className="text-ring size-9" />
-              <span className="text-primary/80 text-4xl font-medium">200+</span>
-              <span className="text-primary/80">Years of Collection</span>
-            </CardDescription>
-          </Card>
-        </section> */}
+        <section className="border-border/40 bg-muted/30 border-t border-b">
+          <div className="container mx-auto px-4 py-12">
+            <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+              <div className="flex flex-col items-center gap-3 text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10">
+                  <Leaf className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <div>
+                  <p className="text-foreground text-3xl font-semibold tracking-tight md:text-4xl">2M+</p>
+                  <p className="text-muted-foreground text-sm">Specimens</p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-3 text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500/10">
+                  <Layers className="h-6 w-6 text-sky-600 dark:text-sky-400" />
+                </div>
+                <div>
+                  <p className="text-foreground text-3xl font-semibold tracking-tight md:text-4xl">18K+</p>
+                  <p className="text-muted-foreground text-sm">Type Specimens</p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-3 text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/10">
+                  <Earth className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+                </div>
+                <div>
+                  <p className="text-foreground text-3xl font-semibold tracking-tight md:text-4xl">70%</p>
+                  <p className="text-muted-foreground text-sm">Georeferenced</p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-3 text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-violet-500/10">
+                  <ChartSpline className="h-6 w-6 text-violet-600 dark:text-violet-400" />
+                </div>
+                <div>
+                  <p className="text-foreground text-3xl font-semibold tracking-tight md:text-4xl">200+</p>
+                  <p className="text-muted-foreground text-sm">Years of History</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* First Content Section - Image on Left */}
         <section className="container mx-auto px-4 py-16">

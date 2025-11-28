@@ -33,7 +33,7 @@ function HerbariumCard({
       <div className="flex flex-1 flex-col gap-6 p-6">
         <div className="space-y-3 text-left">
           <CardTitle className="text-foreground text-xl font-semibold">{t(herbarium.translationKey)}</CardTitle>
-          <p className="text-muted-foreground text-sm">{t(herbarium.description as any)}</p>
+          <p className="text-foreground/70 text-sm">{t(herbarium.description as any)}</p>
         </div>
       </div>
       <div className="mx-2 mb-6 grid gap-2 sm:grid-cols-2">
@@ -97,13 +97,13 @@ function App() {
             {/* center */}
             <div className="flex flex-col items-center gap-8 text-center lg:col-span-6">
               <div className="space-y-6">
-                <h1 className="text-foreground text-4xl font-bold tracking-tight text-balance sm:text-5xl md:text-6xl">
+                <h1 className="text-foreground text-5xl font-medium tracking-tight text-balance sm:text-5xl md:text-6xl">
                   {t('herbaria-homepage.title')}
                 </h1>
-                <p className="text-muted-foreground mx-auto max-w-[600px] text-lg leading-relaxed md:text-xl">
+                <p className="text-foreground/70 mx-auto max-w-[600px] text-lg leading-relaxed md:text-xl">
                   {t('herbaria-homepage.description')}
                 </p>
-                <p className="text-muted-foreground text-sm font-medium">{t('herbaria-homepage.sub-description')}</p>
+                <p className="text-foreground/70 text-sm font-medium">{t('herbaria-homepage.sub-description')}</p>
               </div>
               <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
                 <Link
@@ -191,7 +191,7 @@ function App() {
               <h2 className="text-foreground text-2xl font-semibold tracking-tight md:text-3xl">
                 {t('herbaria-homepage.herbaria-section-title')}
               </h2>
-              <p className="text-muted-foreground mt-3 text-base">
+              <p className="text-foreground/70 mt-3 text-base">
                 {t('herbaria-homepage.herbaria-section-description')}
               </p>
             </div>

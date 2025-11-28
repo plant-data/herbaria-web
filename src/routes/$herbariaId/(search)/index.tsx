@@ -1,11 +1,10 @@
-import { ErrorComponent, createFileRoute } from '@tanstack/react-router'
-import SpecimensGallery from '@/features/search/components/specimens-gallery'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/$herbariaId/(search)/')({
-  component: RouteComponent,
-  errorComponent: ErrorComponent,
+  beforeLoad: ({ params }) => {
+    throw redirect({
+      to: '/$herbariaId/images',
+      params: { herbariaId: params.herbariaId },
+    })
+  },
 })
-
-function RouteComponent() {
-  return <SpecimensGallery />
-}

@@ -18,6 +18,7 @@ import { Route as HerbariaIdsearchIndexRouteImport } from './routes/$herbariaId/
 import { Route as HerbariaIdSpecimensOccurrenceIDRouteImport } from './routes/$herbariaId/specimens/$occurrenceID'
 import { Route as HerbariaIdsearchTableRouteImport } from './routes/$herbariaId/(search)/table'
 import { Route as HerbariaIdsearchMapRouteImport } from './routes/$herbariaId/(search)/map'
+import { Route as HerbariaIdsearchImagesRouteImport } from './routes/$herbariaId/(search)/images'
 import { Route as HerbariaIdsearchGraphsRouteImport } from './routes/$herbariaId/(search)/graphs'
 import { Route as HerbariaIdsearchDebugFiltersRouteImport } from './routes/$herbariaId/(search)/debug-filters'
 
@@ -67,6 +68,11 @@ const HerbariaIdsearchMapRoute = HerbariaIdsearchMapRouteImport.update({
   path: '/map',
   getParentRoute: () => HerbariaIdsearchRouteRoute,
 } as any)
+const HerbariaIdsearchImagesRoute = HerbariaIdsearchImagesRouteImport.update({
+  id: '/images',
+  path: '/images',
+  getParentRoute: () => HerbariaIdsearchRouteRoute,
+} as any)
 const HerbariaIdsearchGraphsRoute = HerbariaIdsearchGraphsRouteImport.update({
   id: '/graphs',
   path: '/graphs',
@@ -86,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/external': typeof ExternalIndexRoute
   '/$herbariaId/debug-filters': typeof HerbariaIdsearchDebugFiltersRoute
   '/$herbariaId/graphs': typeof HerbariaIdsearchGraphsRoute
+  '/$herbariaId/images': typeof HerbariaIdsearchImagesRoute
   '/$herbariaId/map': typeof HerbariaIdsearchMapRoute
   '/$herbariaId/table': typeof HerbariaIdsearchTableRoute
   '/$herbariaId/specimens/$occurrenceID': typeof HerbariaIdSpecimensOccurrenceIDRoute
@@ -98,6 +105,7 @@ export interface FileRoutesByTo {
   '/external': typeof ExternalIndexRoute
   '/$herbariaId/debug-filters': typeof HerbariaIdsearchDebugFiltersRoute
   '/$herbariaId/graphs': typeof HerbariaIdsearchGraphsRoute
+  '/$herbariaId/images': typeof HerbariaIdsearchImagesRoute
   '/$herbariaId/map': typeof HerbariaIdsearchMapRoute
   '/$herbariaId/table': typeof HerbariaIdsearchTableRoute
   '/$herbariaId/specimens/$occurrenceID': typeof HerbariaIdSpecimensOccurrenceIDRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/external/': typeof ExternalIndexRoute
   '/$herbariaId/(search)/debug-filters': typeof HerbariaIdsearchDebugFiltersRoute
   '/$herbariaId/(search)/graphs': typeof HerbariaIdsearchGraphsRoute
+  '/$herbariaId/(search)/images': typeof HerbariaIdsearchImagesRoute
   '/$herbariaId/(search)/map': typeof HerbariaIdsearchMapRoute
   '/$herbariaId/(search)/table': typeof HerbariaIdsearchTableRoute
   '/$herbariaId/specimens/$occurrenceID': typeof HerbariaIdSpecimensOccurrenceIDRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/external'
     | '/$herbariaId/debug-filters'
     | '/$herbariaId/graphs'
+    | '/$herbariaId/images'
     | '/$herbariaId/map'
     | '/$herbariaId/table'
     | '/$herbariaId/specimens/$occurrenceID'
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/external'
     | '/$herbariaId/debug-filters'
     | '/$herbariaId/graphs'
+    | '/$herbariaId/images'
     | '/$herbariaId/map'
     | '/$herbariaId/table'
     | '/$herbariaId/specimens/$occurrenceID'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/external/'
     | '/$herbariaId/(search)/debug-filters'
     | '/$herbariaId/(search)/graphs'
+    | '/$herbariaId/(search)/images'
     | '/$herbariaId/(search)/map'
     | '/$herbariaId/(search)/table'
     | '/$herbariaId/specimens/$occurrenceID'
@@ -229,6 +241,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HerbariaIdsearchMapRouteImport
       parentRoute: typeof HerbariaIdsearchRouteRoute
     }
+    '/$herbariaId/(search)/images': {
+      id: '/$herbariaId/(search)/images'
+      path: '/images'
+      fullPath: '/$herbariaId/images'
+      preLoaderRoute: typeof HerbariaIdsearchImagesRouteImport
+      parentRoute: typeof HerbariaIdsearchRouteRoute
+    }
     '/$herbariaId/(search)/graphs': {
       id: '/$herbariaId/(search)/graphs'
       path: '/graphs'
@@ -249,6 +268,7 @@ declare module '@tanstack/react-router' {
 interface HerbariaIdsearchRouteRouteChildren {
   HerbariaIdsearchDebugFiltersRoute: typeof HerbariaIdsearchDebugFiltersRoute
   HerbariaIdsearchGraphsRoute: typeof HerbariaIdsearchGraphsRoute
+  HerbariaIdsearchImagesRoute: typeof HerbariaIdsearchImagesRoute
   HerbariaIdsearchMapRoute: typeof HerbariaIdsearchMapRoute
   HerbariaIdsearchTableRoute: typeof HerbariaIdsearchTableRoute
   HerbariaIdsearchIndexRoute: typeof HerbariaIdsearchIndexRoute
@@ -257,6 +277,7 @@ interface HerbariaIdsearchRouteRouteChildren {
 const HerbariaIdsearchRouteRouteChildren: HerbariaIdsearchRouteRouteChildren = {
   HerbariaIdsearchDebugFiltersRoute: HerbariaIdsearchDebugFiltersRoute,
   HerbariaIdsearchGraphsRoute: HerbariaIdsearchGraphsRoute,
+  HerbariaIdsearchImagesRoute: HerbariaIdsearchImagesRoute,
   HerbariaIdsearchMapRoute: HerbariaIdsearchMapRoute,
   HerbariaIdsearchTableRoute: HerbariaIdsearchTableRoute,
   HerbariaIdsearchIndexRoute: HerbariaIdsearchIndexRoute,

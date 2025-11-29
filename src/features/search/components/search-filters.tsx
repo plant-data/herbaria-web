@@ -12,14 +12,11 @@ import { SelectItems } from '@/features/search/components/select-items'
 import {
   MAX_YEAR,
   MIN_YEAR,
-  MONTHS,
-  MINIMAP_CENTER,
-  MINIMAP_ZOOM,
+  MONTHS
 } from '@/features/search/constants/constants'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import { SwitchOption } from '@/features/search/components/switch-option'
-import { AreaMapFilter } from '@/features/search/components/area-map-filter'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 
 const HERBARIA_FOR_FILTER = HERBARIA_CONFIG.map((herbarium) => ({
@@ -32,10 +29,10 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
     scientificName,
     floritalyName,
     genus,
-    country,
+
     countryCode,
     locality,
-    geometry,
+
     year,
     month,
     institutionCode,
@@ -43,10 +40,10 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
     setScientificName,
     setFloritalyName,
     setGenus,
-    setCountry,
+
     setCountryCode,
     setLocality,
-    setGeometry,
+
     setYear,
     setMonth,
     setInstitutionCode,
@@ -56,10 +53,10 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       scientificName: state.scientificName,
       floritalyName: state.floritalyName,
       genus: state.genus,
-      country: state.country,
+
       countryCode: state.countryCode,
       locality: state.locality,
-      geometry: state.geometry,
+
       year: state.year,
       month: state.month,
       institutionCode: state.institutionCode,
@@ -67,10 +64,10 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       setScientificName: state.setScientificName,
       setFloritalyName: state.setFloritalyName,
       setGenus: state.setGenus,
-      setCountry: state.setCountry,
+
       setCountryCode: state.setCountryCode,
       setLocality: state.setLocality,
-      setGeometry: state.setGeometry,
+
       setYear: state.setYear,
       setMonth: state.setMonth,
       setInstitutionCode: state.setInstitutionCode,
@@ -190,14 +187,6 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
           {/* <AccordionTrigger className='hover:cursor-pointer'>{t('search.filters.geometry-label')}</AccordionTrigger> */}
           <AccordionTrigger className="hover:cursor-pointer">Test</AccordionTrigger>
           <AccordionContent>
-            <AreaMapFilter
-              label={t('search.filters.geometry-description')}
-              mapHeight="h-[300px]"
-              center={MINIMAP_CENTER}
-              zoom={MINIMAP_ZOOM}
-              geometry={geometry}
-              setGeometry={setGeometry}
-            />
           </AccordionContent>
         </AccordionItem>
       </Accordion>

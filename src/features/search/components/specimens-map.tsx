@@ -221,16 +221,16 @@ function ColorLegend({ min, max, colors }: { min: number; max: number; colors: A
     { label: `${min}-${Math.round(min + step)}`, color: colors[0] },
   ]
   return (
-    <Card className="rounded-md p-2 shadow-xs md:p-2.5">
+    <Card className="flex-1 rounded-md p-1.5 shadow-xs @xl/map-settings:flex-none @xl/map-settings:p-2 md:p-2.5">
       <CardContent className="p-0">
-        <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3 md:gap-4">
+        <div className="grid grid-cols-3 gap-x-2 gap-y-1 @xl/map-settings:flex @xl/map-settings:flex-wrap @xl/map-settings:gap-3 md:gap-4">
           {ranges.map((range, index) => (
-            <div key={index} className="flex items-center gap-1.5 text-xs">
+            <div key={index} className="flex items-center gap-1 text-[10px] @xl/map-settings:gap-1.5 @xl/map-settings:text-xs">
               <div
-                className="h-3.5 w-3.5 shrink-0 rounded-sm border border-gray-300 md:h-4 md:w-4"
+                className="h-3 w-3 shrink-0 rounded-sm border border-gray-300 @xl/map-settings:h-3.5 @xl/map-settings:w-3.5 md:h-4 md:w-4"
                 style={{ backgroundColor: range.color }}
               />
-              <span className="whitespace-nowrap text-gray-700">{range.label}</span>
+              <span className="whitespace-nowrap text-gray-700 dark:text-gray-300">{range.label}</span>
             </div>
           ))}
         </div>
@@ -552,15 +552,15 @@ export function SpecimensMap() {
     return data.clusters.filter((c: ClusterData) => !isNaN(c.coordinates[0]) && !isNaN(c.coordinates[1]))
   }, [data?.clusters])
 
-  const isFetchingNewData = isFetching && !isPending
+  const isFetchingNewData = isFetching || isPending
 
-  if (isPending) return <MapSkeleton />
+  //if (isPending) return <MapSkeleton />
   if (error) return <div className="flex h-[50vh] items-center justify-center text-red-500 md:h-[70vh]">Error.</div>
 
   return (
     <>
-      <div className="relative mt-6 h-[50vh] w-full overflow-hidden rounded-lg md:h-[70vh]">
-        {isFetchingNewData && <LoadingBadge className="absolute top-3 right-3 z-[1001]" />}
+      <div className="relative mx-auto mt-6 h-[50vh] max-h-[480px] w-full max-w-[1200px] overflow-hidden rounded-lg md:h-[70vh]">
+        {isFetchingNewData && <LoadingBadge className="absolute top-3 right-1/2 z-1001" />}
         <Map center={mapCenter} zoom={zoom} preferCanvas={true}>
           <MapLayers defaultTileLayer="GBIF Geyser">
             <MapTileLayer
@@ -598,9 +598,8 @@ export function SpecimensMap() {
           />
         )}
       </div>
-
-      <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-        <div className="flex items-center gap-2">
+      <div className='w-full @container/map-settings'>
+        <div className="mt-2 flex items-start gap-2 @xl/map-settings:items-center @xl/map-settings:gap-3">
           <MapSettingsDialog
             currentPalette={activePalette}
             currentMax={maxScale}

@@ -670,6 +670,7 @@ function MapDrawControl({
 }) {
   const map = useMap()
   const featureGroupRef = useRef<L.FeatureGroup | null>(null)
+  const [featureGroup, setFeatureGroup] = useState<L.FeatureGroup | null>(null)
   const editControlRef = useRef<EditToolbar.Edit | null>(null)
   const deleteControlRef = useRef<EditToolbar.Delete | null>(null)
   const [activeMode, setActiveMode] = useState<MapDrawMode>(null)
@@ -713,8 +714,9 @@ function MapDrawControl({
     }
   }, [map, onLayersChange])
 
-  const setFeatureGroupRef = (node: L.FeatureGroup | null) => {
+  const handleFeatureGroupRef = (node: L.FeatureGroup | null) => {
     featureGroupRef.current = node
+    setFeatureGroup(node)
     if (node && onFeatureGroupReady) {
       onFeatureGroupReady(node)
     }
@@ -723,7 +725,7 @@ function MapDrawControl({
   return (
     <MapDrawContext.Provider
       value={{
-        featureGroup: featureGroupRef.current,
+        featureGroup,
         activeMode,
         setActiveMode,
         editControlRef,
@@ -731,7 +733,7 @@ function MapDrawControl({
         notifyChange,
       }}
     >
-      <LeafletFeatureGroup ref={setFeatureGroupRef} />
+      <LeafletFeatureGroup ref={handleFeatureGroupRef} />
       <ButtonGroup orientation="vertical" className={cn('absolute bottom-1 left-1 z-1000', className)} {...props} />
     </MapDrawContext.Provider>
   )

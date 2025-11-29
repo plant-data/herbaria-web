@@ -9,11 +9,21 @@ import { useTheme } from '@/components/theme-provider'
 import { cn } from '@/lib/utils'
 import { BASE_PATH } from '@/config'
 import { LoadingBadge } from '@/features/search/components/loading-badge'
+import { useInView } from '@/hooks/use-in-view'
 
 export function MapGraph({ className = '' }) {
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
-  const { data, isPending, isFetching, error: dataError } = useSpecimensGraph({ customGroupBy: 'country' })
+  const [ref, inView] = useInView<HTMLDivElement>({ rootMargin: '200px' })
+  const {
+    data,
+    isPending,
+    isFetching,
+    error: dataError,
+  } = useSpecimensGraph({
+    customGroupBy: 'country',
+    enabled: inView,
+  })
   const isFetchingNewData = isFetching && !isPending
 
   const {
@@ -131,7 +141,7 @@ export function MapGraph({ className = '' }) {
 
   if (isLoading) {
     return (
-      <Card className={cn('gap-0 overflow-hidden shadow-xs', className)}>
+      <Card ref={ref} className={cn('gap-0 overflow-hidden shadow-xs', className)}>
         <CardHeader>
           <Skeleton className="h-6 w-48" />
         </CardHeader>
@@ -144,7 +154,7 @@ export function MapGraph({ className = '' }) {
 
   if (hasError || !countryOptions) {
     return (
-      <Card className={cn('relative gap-0 overflow-hidden shadow-xs', className)}>
+      <Card ref={ref} className={cn('relative gap-0 overflow-hidden shadow-xs', className)}>
         {isFetchingNewData && <LoadingBadge className="absolute top-3 right-3" />}
         <CardHeader>
           <CardTitle>{t('search.results.specimens-country')}</CardTitle>
@@ -157,7 +167,7 @@ export function MapGraph({ className = '' }) {
   }
 
   return (
-    <Card className={cn('relative gap-0 overflow-hidden shadow-xs', className)}>
+    <Card ref={ref} className={cn('relative gap-0 overflow-hidden shadow-xs', className)}>
       {isFetchingNewData && <LoadingBadge className="absolute top-3 right-3" />}
       <CardHeader>
         <CardTitle>{t('search.results.specimens-country')}</CardTitle>

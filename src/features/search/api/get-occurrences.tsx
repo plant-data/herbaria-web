@@ -106,6 +106,7 @@ interface UseSpecimensQueryOptions {
   customSort?: Record<string, 'asc' | 'desc'>
   customGroupBy?: keyof CustomFilters | 'count'
   customSkip?: number
+  enabled?: boolean
 }
 
 function useSpecimensQuery({
@@ -114,6 +115,7 @@ function useSpecimensQuery({
   customSort,
   customGroupBy,
   customSkip,
+  enabled = true,
 }: UseSpecimensQueryOptions) {
   const filterStoreState = useFilterStore()
 
@@ -140,6 +142,7 @@ function useSpecimensQuery({
     ].filter(Boolean),
     queryFn: ({ signal }) => postApiClient(config.url, payload, signal),
     ...COMMON_QUERY_OPTIONS,
+    enabled,
   })
 }
 
@@ -159,6 +162,7 @@ interface UseSpecimensDataOptions {
 interface UseSpecimensGraphOptions {
   customFilters?: CustomFilters
   customGroupBy?: keyof CustomFilters | 'count'
+  enabled?: boolean
 }
 
 interface UseSpecimensPointOptions {
@@ -219,10 +223,11 @@ export function useSpecimensCluster(options: UseSpecimensClusterOptions = {}) {
 }
 
 export function useSpecimensGraph(options: UseSpecimensGraphOptions = {}) {
-  const { customFilters, customGroupBy } = options
+  const { customFilters, customGroupBy, enabled = true } = options
   return useSpecimensQuery({
     searchType: 'graph',
     customFilters,
     customGroupBy,
+    enabled,
   })
 }

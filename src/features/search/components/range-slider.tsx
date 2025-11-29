@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { DualSlider } from '@/components/ui/dual-slider'
@@ -22,27 +22,43 @@ export function RangeSlider({
 }: RangeSliderProps) {
   const { t } = useTranslation()
   const [currentSliderValues, setCurrentSliderValues] = useState<[number, number]>(initialValues) // Change to tuple type
+  // Track if user is currently interacting with the slider
+  const isInteractingRef = useRef(false)
+  // Store the latest onValuesChange callback to avoid stale closures
+  const onValuesChangeRef = useRef(onValuesChange)
+  onValuesChangeRef.current = onValuesChange
 
   const isChanged = currentSliderValues[0] !== min || currentSliderValues[1] !== max
 
   function handleReset() {
     const newValues: [number, number] = [min, max]
     setCurrentSliderValues(newValues)
-    if (onValuesChange) {
-      onValuesChange(newValues)
+    if (onValuesChangeRef.current) {
+      onValuesChangeRef.current(newValues)
     }
   }
 
+  // Sync from parent state only when not interacting
   useEffect(() => {
-    setCurrentSliderValues(initialValues)
+    if (!isInteractingRef.current) {
+      setCurrentSliderValues(initialValues)
+    }
   }, [initialValues])
 
   function handleSliderInteraction(newValues: Array<number>): void {
+    isInteractingRef.current = true
     setCurrentSliderValues(newValues as [number, number]) // Cast to tuple
   }
-  function handleSliderInteraction2(newValues: Array<number>): void {
-    if (onValuesChange) {
-      onValuesChange(newValues as [number, number]) // Cast to tuple
+
+  function handleSliderInteractionCommit(newValues: Array<number>): void {
+    // Mark interaction as complete after a short delay to prevent race conditions
+    // with the useEffect that syncs from initialValues
+    setTimeout(() => {
+      isInteractingRef.current = false
+    }, 100)
+
+    if (onValuesChangeRef.current) {
+      onValuesChangeRef.current(newValues as [number, number]) // Cast to tuple
     }
   }
 
@@ -73,7 +89,7 @@ export function RangeSlider({
         className="bg-background"
         value={currentSliderValues}
         onValueChange={handleSliderInteraction}
-        onValueCommit={handleSliderInteraction2}
+        onValueCommit={handleSliderInteractionCommit}
         min={min}
         max={max}
         step={step}

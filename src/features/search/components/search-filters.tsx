@@ -5,15 +5,10 @@ import type { LockedFilters } from '@/features/search/stores/use-filters-store'
 import { BASE_API_URL } from '@/config'
 import { Autocomplete } from '@/features/search/components/autocomplete'
 import { AutocompletePrefetch } from '@/features/search/components/autocomplete-prefetch'
-import { useDebouncedCallback } from '@/hooks/use-debounce'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { RangeSlider } from '@/features/search/components/range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
-import {
-  MAX_YEAR,
-  MIN_YEAR,
-  MONTHS
-} from '@/features/search/constants/constants'
+import { MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import { SwitchOption } from '@/features/search/components/switch-option'
@@ -82,10 +77,6 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
     herbariaId = ''
   }
 
-  const handleSetYear = useDebouncedCallback((value: [number, number]) => {
-    console.log('SearchFilters: Debounced setYears called with:', value)
-    setYear(value)
-  }, 500)
   return (
     <>
       <div className="pt-1"></div>
@@ -152,7 +143,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       <RangeSlider
         label={t('search.filters.year-label')}
         initialValues={year}
-        onValuesChange={handleSetYear}
+        onValuesChange={setYear}
         min={MIN_YEAR}
         max={MAX_YEAR}
         step={1}
@@ -186,8 +177,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         <AccordionItem value="area">
           {/* <AccordionTrigger className='hover:cursor-pointer'>{t('search.filters.geometry-label')}</AccordionTrigger> */}
           <AccordionTrigger className="hover:cursor-pointer">Test</AccordionTrigger>
-          <AccordionContent>
-          </AccordionContent>
+          <AccordionContent></AccordionContent>
         </AccordionItem>
       </Accordion>
 

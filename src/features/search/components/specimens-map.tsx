@@ -84,7 +84,7 @@ function MapControls() {
         size="icon"
         variant="secondary"
         onClick={handleResetView}
-        className="border"
+        className="hover:bg-secondary dark:hover:bg-secondary border bg-white dark:bg-white"
         title="Reset to initial view"
         aria-label="Reset to initial view"
       >
@@ -95,7 +95,7 @@ function MapControls() {
         size="icon"
         variant="secondary"
         onClick={handleWorldView}
-        className="border"
+        className="hover:bg-secondary dark:hover:bg-secondary border bg-white dark:bg-white"
         title="Show world view"
         aria-label="Show world view"
       >
@@ -221,13 +221,16 @@ function ColorLegend({ min, max, colors }: { min: number; max: number; colors: A
     { label: `${min}-${Math.round(min + step)}`, color: colors[0] },
   ]
   return (
-    <Card className="flex-1 rounded-md p-1.5 shadow-xs @xl/map-settings:flex-none @xl/map-settings:p-2 md:p-2.5">
+    <Card className="flex-1 rounded-md p-1.5 shadow-xs md:p-2.5 @xl/map-settings:flex-none @xl/map-settings:p-2">
       <CardContent className="p-0">
-        <div className="grid grid-cols-3 gap-x-2 gap-y-1 @xl/map-settings:flex @xl/map-settings:flex-wrap @xl/map-settings:gap-3 md:gap-4">
+        <div className="grid grid-cols-3 gap-x-2 gap-y-1 md:gap-4 @xl/map-settings:flex @xl/map-settings:flex-wrap @xl/map-settings:gap-3">
           {ranges.map((range, index) => (
-            <div key={index} className="flex items-center gap-1 text-[10px] @xl/map-settings:gap-1.5 @xl/map-settings:text-xs">
+            <div
+              key={index}
+              className="flex items-center gap-1 text-[10px] @xl/map-settings:gap-1.5 @xl/map-settings:text-xs"
+            >
               <div
-                className="h-3 w-3 shrink-0 rounded-sm border border-gray-300 @xl/map-settings:h-3.5 @xl/map-settings:w-3.5 md:h-4 md:w-4"
+                className="h-3 w-3 shrink-0 rounded-sm border border-gray-300 md:h-4 md:w-4 @xl/map-settings:h-3.5 @xl/map-settings:w-3.5"
                 style={{ backgroundColor: range.color }}
               />
               <span className="whitespace-nowrap text-gray-700 dark:text-gray-300">{range.label}</span>
@@ -598,7 +601,7 @@ export function SpecimensMap() {
           />
         )}
       </div>
-      <div className='w-full @container/map-settings'>
+      <div className="@container/map-settings w-full">
         <div className="mt-2 flex items-start gap-2 @xl/map-settings:items-center @xl/map-settings:gap-3">
           <MapSettingsDialog
             currentPalette={activePalette}

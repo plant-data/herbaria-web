@@ -379,7 +379,10 @@ function MapLayersControl({
           size="icon"
           aria-label="Select layers"
           title="Select layers"
-          className={cn('absolute top-1 right-1 z-1000 border', className)}
+          className={cn(
+            'hover:bg-secondary dark:hover:bg-secondary absolute top-1 right-1 z-1000 border bg-white dark:bg-white',
+            className,
+          )}
           {...props}
         >
           <LayersIcon />
@@ -548,7 +551,7 @@ function MapZoomControl({ className, ...props }: React.ComponentProps<'div'>) {
         variant="secondary"
         aria-label="Zoom in"
         title="Zoom in"
-        className="border"
+        className="hover:bg-secondary dark:hover:bg-secondary border bg-white dark:bg-white"
         disabled={zoomLevel >= map.getMaxZoom()}
         onClick={() => map.zoomIn()}
       >
@@ -560,7 +563,7 @@ function MapZoomControl({ className, ...props }: React.ComponentProps<'div'>) {
         variant="secondary"
         aria-label="Zoom out"
         title="Zoom out"
-        className="border"
+        className="hover:bg-secondary dark:hover:bg-secondary border bg-white dark:bg-white"
         disabled={zoomLevel <= map.getMinZoom()}
         onClick={() => map.zoomOut()}
       >
@@ -631,7 +634,11 @@ function MapLocateControl({
         disabled={isLocating}
         title={isLocating ? 'Locating...' : position ? 'Stop tracking' : 'Track location'}
         aria-label={isLocating ? 'Locating...' : position ? 'Stop location tracking' : 'Start location tracking'}
-        className={cn('absolute right-1 bottom-1 z-1000 border', className)}
+        className={cn(
+          'absolute right-1 bottom-1 z-1000 border',
+          position ? '' : 'hover:bg-secondary dark:hover:bg-secondary bg-white dark:bg-white',
+          className,
+        )}
         {...props}
       >
         {isLocating ? <LoaderCircleIcon className="animate-spin" /> : <NavigationIcon />}
@@ -797,7 +804,11 @@ function MapDrawShapeButton<T extends Draw.Feature>({
       size="icon"
       aria-label={`Draw ${drawMode}`}
       title={`Draw ${drawMode}`}
-      className={cn('border', className)}
+      className={cn(
+        'border',
+        isActive ? '' : 'hover:bg-secondary dark:hover:bg-secondary bg-white dark:bg-white',
+        className,
+      )}
       variant={isActive ? 'default' : 'secondary'}
       disabled={activeMode === 'edit' || activeMode === 'delete'}
       onClick={handleClick}
@@ -1002,7 +1013,11 @@ function MapDrawActionButton<T extends EditToolbar.Edit | EditToolbar.Delete>({
       variant={isActive ? 'default' : 'secondary'}
       disabled={!hasFeatures}
       onClick={handleClick}
-      className={cn('border', className)}
+      className={cn(
+        'border',
+        isActive ? '' : 'hover:bg-secondary dark:hover:bg-secondary bg-white dark:bg-white',
+        className,
+      )}
       {...props}
     />
   )
@@ -1086,7 +1101,7 @@ function MapDrawDelete({ className, ...props }: React.ComponentProps<'button'>) 
       title="Clear shapes"
       disabled={!hasFeatures}
       onClick={handleClick}
-      className={cn('border', className)}
+      className={cn('hover:bg-secondary dark:hover:bg-secondary border bg-white dark:bg-white', className)}
       {...props}
     >
       <Trash2Icon />
@@ -1122,7 +1137,7 @@ function MapDrawUndo({ className, ...props }: React.ComponentProps<'button'>) {
       title={`Undo ${activeMode}`}
       onClick={handleUndo}
       disabled={!isActive}
-      className={cn('border', className)}
+      className={cn('hover:bg-secondary dark:hover:bg-secondary border bg-white dark:bg-white', className)}
       {...props}
     >
       <Undo2Icon />

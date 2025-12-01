@@ -122,7 +122,7 @@ export function SelectItems({
         >
           <SelectTrigger
             ref={inputRef}
-            className={cn('bg-background h-8 w-full max-w-full', isAllSelected && 'cursor-not-allowed opacity-50')}
+            className={cn('bg-background h-8 w-full max-w-full shadow-none', isAllSelected && 'cursor-not-allowed opacity-50')}
             disabled={isAllSelected}
             onKeyDown={(e) => {
               const allowedKeys = ['ArrowDown', 'ArrowUp', 'Enter', ' ', 'Escape', 'Tab']

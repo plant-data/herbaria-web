@@ -91,7 +91,7 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
         <hr className="text-input mx-2" />
         <SidebarFooter className="h-[58px] pt-0">
           <SidebarTrigger
-            className="fixed bottom-3 left-3 z-[51] border-transparent bg-transparent text-transparent hover:bg-transparent"
+            className="rounded-full fixed bottom-3 left-3 z-[51] border-transparent bg-transparent text-transparent hover:bg-transparent"
             textShow=""
             textHide=""
           ></SidebarTrigger>

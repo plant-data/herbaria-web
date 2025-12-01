@@ -67,7 +67,7 @@ function RouteComponent() {
         </SidebarInset>
       </div>
       <SidebarTrigger
-        className="hover:bg-background fixed bottom-3 left-3 z-51"
+        className="rounded-full hover:bg-background fixed bottom-3 left-3 z-51"
         textShow={t('search.filters.show-filters')}
         textHide={t('search.filters.hide-filters')}
       ></SidebarTrigger>

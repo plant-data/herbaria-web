@@ -96,7 +96,7 @@ function App() {
       <div className="bg-background relative min-h-screen overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.15),transparent_55%),radial-gradient(circle_at_bottom,rgba(34,197,94,0.12),transparent_45%)]" />
         <div className="container mx-auto flex flex-col gap-16 px-4 pt-12 pb-24 md:gap-24">
-          <section className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
+          <section className="relative mx-auto grid max-w-[90rem] grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
             {/* left images */}
             <div className="hidden flex-col gap-8 lg:col-span-3 lg:flex">
               <div className="bg-background/50 relative aspect-3/4 w-full max-w-[220px] -rotate-6 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">

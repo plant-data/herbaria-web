@@ -33,7 +33,7 @@ interface Logo {
 export function Footer() {
   return (
     <footer className="border-border/60 bg-muted/20 text-muted-foreground dark:bg-muted/40 @container/footer mt-16 border-t text-sm">
-      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-4 py-12 @md/footer:px-6">
+      <div className="mx-auto flex max-w-[90rem] flex-col gap-12 px-4 py-12 @md/footer:px-6">
         <PartnersSection />
         <Separator className="bg-border/40 dark:bg-border/60" />
         <section className="mx-auto grid gap-10 @2xl/footer:grid-cols-[3fr_3fr_2fr]">

@@ -55,7 +55,7 @@ function RouteComponent() {
   const lockedFilters: LockedFilters = herbariaId === 'all' ? [] : ['institutionCode']
 
   return (
-    <div className='max-w-7xl mx-auto'>
+    <div className="mx-auto max-w-[90rem]">
       <SidebarProvider className="flex flex-col">
         <div className="flex flex-1">
           <SearchSidebar lockedFilters={lockedFilters} />

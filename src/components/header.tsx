@@ -33,7 +33,7 @@ export function Header() {
   if (isMobile) {
     return (
       <header className="bg-background/95 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
-        <nav className="container flex h-(--header-height) max-w-7xl items-center px-4">
+        <nav className="container flex h-(--header-height) max-w-[90rem] items-center px-4">
           <div className="flex w-full items-center justify-between">
             <div className="flex flex-1 justify-center">
               <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">
@@ -82,11 +82,7 @@ export function Header() {
   // the search page is optimized for larger screens so the navbar shouls adapt to it
   return (
     <header className="bg-background/95 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
-      <nav
-        className={cn(
-          'flex h-(--header-height) max-w-7xl mx-auto items-center justify-between pr-6 pl-4',
-        )}
-      >
+      <nav className={cn('mx-auto flex h-(--header-height) max-w-[90rem] items-center justify-between pr-6 pl-4')}>
         {/* Logo and Brand */}
         <div className="flex items-center gap-3">
           <Link to="/" className="flex items-center gap-3 transition-opacity hover:opacity-80">

@@ -99,7 +99,7 @@ function RouteComponent() {
       <div className="min-h-screen">
         {/* Hero Section */}
         <section className="overflow-x-clip py-16 lg:py-24">
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="mx-auto max-w-[90rem] px-4">
             <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[550px_1fr] lg:grid-cols-[650px_1fr]">
               {/* Hero Text - Left Side (stays aligned with container) */}
               <div className="space-y-6">

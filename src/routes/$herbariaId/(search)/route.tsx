@@ -55,22 +55,24 @@ function RouteComponent() {
   const lockedFilters: LockedFilters = herbariaId === 'all' ? [] : ['institutionCode']
 
   return (
-    <SidebarProvider className="flex flex-col">
-      <div className="flex flex-1">
-        <SearchSidebar lockedFilters={lockedFilters} />
-        <SidebarInset>
-          <div className="@container/mainresult min-h-[80vh] max-w-[1800px] px-4 pt-4 pb-2 md:px-6">
-            <SpecimensNavbar />
-            <Outlet />
-          </div>
-          <Footer />
-        </SidebarInset>
-      </div>
-      <SidebarTrigger
-        className="rounded-full hover:bg-background fixed bottom-3 left-3 z-51"
-        textShow={t('search.filters.show-filters')}
-        textHide={t('search.filters.hide-filters')}
-      ></SidebarTrigger>
-    </SidebarProvider>
+    <div className='max-w-7xl mx-auto'>
+      <SidebarProvider className="flex flex-col">
+        <div className="flex flex-1">
+          <SearchSidebar lockedFilters={lockedFilters} />
+          <SidebarInset>
+            <div className="@container/mainresult min-h-[80vh] max-w-[1800px] px-4 pt-4 pb-2 md:px-6">
+              <SpecimensNavbar />
+              <Outlet />
+            </div>
+            <Footer />
+          </SidebarInset>
+        </div>
+        <SidebarTrigger
+          className="hover:bg-background fixed bottom-3 left-3 z-51 rounded-full"
+          textShow={t('search.filters.show-filters')}
+          textHide={t('search.filters.hide-filters')}
+        ></SidebarTrigger>
+      </SidebarProvider>
+    </div>
   )
 }

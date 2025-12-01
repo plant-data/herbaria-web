@@ -4,6 +4,7 @@ import type { QueryClient } from '@tanstack/react-query'
 import TanStackQueryLayout from '@/integrations/tanstack-query/layout'
 import { Header } from '@/components/header'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
+import { BASE_PATH } from '@/config'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -59,15 +60,28 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     links: [
       {
         rel: 'icon',
-        href: '/favicon.ico',
+        type: 'image/x-icon',
+        href: `${BASE_PATH}/favicon/favicon.ico`,
+      },
+      {
+        rel: 'icon',
+        type: 'image/svg+xml',
+        href: `${BASE_PATH}/favicon/favicon.svg`,
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '96x96',
+        href: `${BASE_PATH}/favicon/favicon-96x96.png`,
       },
       {
         rel: 'apple-touch-icon',
-        href: '/logo192.png',
+        sizes: '180x180',
+        href: `${BASE_PATH}/favicon/apple-touch-icon.png`,
       },
       {
         rel: 'manifest',
-        href: '/manifest.json',
+        href: `${BASE_PATH}/favicon/site.webmanifest`,
       },
     ],
   }),

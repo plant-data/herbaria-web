@@ -142,8 +142,8 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       />
       <RangeSlider
         label={t('search.filters.year-label')}
-        initialValues={year}
-        onValuesChange={setYear}
+        value={year}
+        onValueCommit={setYear}
         min={MIN_YEAR}
         max={MAX_YEAR}
         step={1}

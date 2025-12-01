@@ -12,6 +12,33 @@ import { Footer } from '@/components/footer'
 import { HerbariumNotFound } from '@/features/search/components/herbarium-not-found'
 
 export const Route = createFileRoute('/$herbariaId/')({
+  head: ({ params }) => {
+    const herbarium = HERBARIA_CONFIG.find((h) => h.id.toLowerCase() === params.herbariaId.toLowerCase())
+    const title = herbarium ? `${herbarium.id} - Herbaria` : 'Herbaria'
+    const description = herbarium
+      ? `Explore the ${herbarium.id} herbarium collection. Access botanical specimens, research data, and scientific resources.`
+      : 'Digital Herbarium Collections Portal'
+
+    return {
+      meta: [
+        {
+          title,
+        },
+        {
+          name: 'description',
+          content: description,
+        },
+        {
+          property: 'og:title',
+          content: title,
+        },
+        {
+          property: 'og:description',
+          content: description,
+        },
+      ],
+    }
+  },
   loader: ({ params }) => {
     const { herbariaId } = params
     const herbariumExists = HERBARIA_CONFIG.some((herbarium) => herbarium.id.toLowerCase() === herbariaId.toLowerCase())

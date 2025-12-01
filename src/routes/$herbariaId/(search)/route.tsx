@@ -8,6 +8,34 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { Footer } from '@/components/footer'
 
 export const Route = createFileRoute('/$herbariaId/(search)')({
+  head: ({ params }) => {
+    const title =
+      params.herbariaId === 'all' ? 'Search All Collections - Herbaria' : `Search ${params.herbariaId} - Herbaria`
+    const description =
+      params.herbariaId === 'all'
+        ? 'Search across all herbarium collections. Filter by species, location, collector, and more.'
+        : `Search the ${params.herbariaId} herbarium collection. Filter by species, location, collector, and more.`
+
+    return {
+      meta: [
+        {
+          title,
+        },
+        {
+          name: 'description',
+          content: description,
+        },
+        {
+          property: 'og:title',
+          content: title,
+        },
+        {
+          property: 'og:description',
+          content: description,
+        },
+      ],
+    }
+  },
   component: RouteComponent,
   loader: async ({ params }) => {
     const herbariaId = params.herbariaId

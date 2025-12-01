@@ -5,6 +5,31 @@ import { Footer } from '@/components/footer'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export const Route = createFileRoute('/$herbariaId/specimens/$occurrenceID')({
+  head: ({ params, loaderData }) => {
+    const occurrenceID = params.occurrenceID
+    const title = `Specimen ${occurrenceID} - Herbaria`
+    const description = `View details for herbarium specimen ${occurrenceID}. Scientific data, images, and collection information.`
+
+    return {
+      meta: [
+        {
+          title,
+        },
+        {
+          name: 'description',
+          content: description,
+        },
+        {
+          property: 'og:title',
+          content: title,
+        },
+        {
+          property: 'og:description',
+          content: description,
+        },
+      ],
+    }
+  },
   loader: async ({ params }) => {
     const response = await fetch(`${BASE_API_URL}occurrences/${params.occurrenceID}`)
     if (!response.ok) {

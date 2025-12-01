@@ -10,6 +10,27 @@ import { Footer } from '@/components/footer'
 const HERBARIA_WITH_GLOBAL = HERBARIA_CONFIG
 
 export const Route = createFileRoute('/')({
+  head: () => ({
+    meta: [
+      {
+        title: 'Herbaria - Digital Herbarium Collections Portal',
+      },
+      {
+        name: 'description',
+        content:
+          'Explore digital herbarium collections from multiple institutions. Access botanical specimens, research data, and scientific resources.',
+      },
+      {
+        property: 'og:title',
+        content: 'Herbaria - Digital Herbarium Collections Portal',
+      },
+      {
+        property: 'og:description',
+        content:
+          'Explore digital herbarium collections from multiple institutions. Access botanical specimens, research data, and scientific resources.',
+      },
+    ],
+  }),
   component: App,
 })
 
@@ -127,9 +148,9 @@ function App() {
               </div>
 
               {/* mobile images */}
-              <div className="relative mt-8 flex h-[220px] sm:h-[280px] w-full items-center justify-center lg:hidden">
-                <div className="absolute top-1/2 left-1/2 w-32 sm:w-40 -translate-x-[125%] -translate-y-1/2 -rotate-12 transform transition-transform hover:z-10 hover:scale-110">
-                  <div className="bg-background overflow-hidden rounded-xl border p-1 lg:p-2 shadow-xl">
+              <div className="relative mt-8 flex h-[220px] w-full items-center justify-center sm:h-[280px] lg:hidden">
+                <div className="absolute top-1/2 left-1/2 w-32 -translate-x-[125%] -translate-y-1/2 -rotate-12 transform transition-transform hover:z-10 hover:scale-110 sm:w-40">
+                  <div className="bg-background overflow-hidden rounded-xl border p-1 shadow-xl lg:p-2">
                     <img
                       src="https://object.jacq.org/europeana/PI/2204769.jpg"
                       alt="Herbarium Specimen"
@@ -137,8 +158,8 @@ function App() {
                     />
                   </div>
                 </div>
-                <div className="absolute top-1/2 left-1/2 w-32 sm:w-40 -translate-x-[75%] -translate-y-1/2 -rotate-6 transform transition-transform hover:z-10 hover:scale-110">
-                  <div className="bg-background overflow-hidden rounded-xl border p-1 lg:p-2 shadow-xl">
+                <div className="absolute top-1/2 left-1/2 w-32 -translate-x-[75%] -translate-y-1/2 -rotate-6 transform transition-transform hover:z-10 hover:scale-110 sm:w-40">
+                  <div className="bg-background overflow-hidden rounded-xl border p-1 shadow-xl lg:p-2">
                     <img
                       src="https://object.jacq.org/europeana/PI/2204769.jpg"
                       alt="Herbarium Specimen"
@@ -146,8 +167,8 @@ function App() {
                     />
                   </div>
                 </div>
-                <div className="absolute top-1/2 left-1/2 w-32 sm:w-40 -translate-x-[25%] -translate-y-1/2 rotate-6 transform transition-transform hover:z-10 hover:scale-110">
-                  <div className="bg-background overflow-hidden rounded-xl border p-1 lg:p-2 shadow-xl">
+                <div className="absolute top-1/2 left-1/2 w-32 -translate-x-[25%] -translate-y-1/2 rotate-6 transform transition-transform hover:z-10 hover:scale-110 sm:w-40">
+                  <div className="bg-background overflow-hidden rounded-xl border p-1 shadow-xl lg:p-2">
                     <img
                       src="https://object.jacq.org/europeana/PI/2204769.jpg"
                       alt="Herbarium Specimen"
@@ -155,8 +176,8 @@ function App() {
                     />
                   </div>
                 </div>
-                <div className="absolute top-1/2 left-1/2 w-32 sm:w-40 translate-x-[25%] -translate-y-1/2 rotate-12 transform transition-transform hover:z-10 hover:scale-110">
-                  <div className="bg-background overflow-hidden rounded-xl border p-1 lg:p-2 shadow-xl">
+                <div className="absolute top-1/2 left-1/2 w-32 translate-x-[25%] -translate-y-1/2 rotate-12 transform transition-transform hover:z-10 hover:scale-110 sm:w-40">
+                  <div className="bg-background overflow-hidden rounded-xl border p-1 shadow-xl lg:p-2">
                     <img
                       src="https://object.jacq.org/europeana/PI/2204769.jpg"
                       alt="Herbarium Specimen"
@@ -191,9 +212,7 @@ function App() {
               <h2 className="text-foreground text-2xl font-semibold tracking-tight md:text-3xl">
                 {t('herbaria-homepage.herbaria-section-title')}
               </h2>
-              <p className="text-foreground/70 mt-3 text-base">
-                {t('herbaria-homepage.herbaria-section-description')}
-              </p>
+              <p className="text-foreground/70 mt-3 text-base">{t('herbaria-homepage.herbaria-section-description')}</p>
             </div>
 
             <div className="grid justify-items-center gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-2">

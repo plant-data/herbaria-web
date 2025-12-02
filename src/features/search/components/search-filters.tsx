@@ -34,7 +34,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
     institutionCode,
     hasCoordinates,
     floritalyName,
-    region,
+    stateProvince,
     setScientificName,
 
     setGenus,
@@ -48,7 +48,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
     setHasCoordinates,
 
     setFloritalyName,
-    setRegion,
+    setStateProvince,
   } = useFilterStore(
     useShallow((state) => ({
       scientificName: state.scientificName,
@@ -64,7 +64,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       hasCoordinates: state.hasCoordinates,
 
       floritalyName: state.floritalyName,
-      region: state.region,
+      stateProvince: state.stateProvince,
       setScientificName: state.setScientificName,
 
       setGenus: state.setGenus,
@@ -78,7 +78,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       setHasCoordinates: state.setHasCoordinates,
 
       setFloritalyName: state.setFloritalyName,
-      setRegion: state.setRegion,
+      setStateProvince: state.setStateProvince,
     })),
   )
   const { t } = useTranslation()
@@ -175,32 +175,30 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       />
       {/* qua metto i filtry x l'italia */}
       <Autocomplete
-              label={t('search.filters.floritaly-name-label')}
-              placeholder={t('search.filters.floritaly-name-placeholder')}
-              selectedValues={floritalyName}
-              onSelectedValuesChange={setFloritalyName}
-              queryKey={['floritalysearch', herbariaId ?? '']}
-              query={
-                `${BASE_API_URL}autocomplete?` +
-                (herbariaId ? `institutionCode=${herbariaId}&` : '') +
-                `field=floritalyName&value=`
-              }
-            />
-            <SelectItems
-              label={t('search.filters.region-label')}
-              placeholder={t('search.filters.region-placeholder')}
-              allSelectedMessage={t('search.filters.region-all-selected')}
-              items={REGIONS}
-              selectedValues={region}
-              onSelectedValuesChange={setRegion}
-            />
+        label={t('search.filters.floritaly-name-label')}
+        placeholder={t('search.filters.floritaly-name-placeholder')}
+        selectedValues={floritalyName}
+        onSelectedValuesChange={setFloritalyName}
+        queryKey={['floritalysearch', herbariaId ?? '']}
+        query={
+          `${BASE_API_URL}autocomplete?` +
+          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
+          `field=floritalyName&value=`
+        }
+      />
+      <SelectItems
+        label={t('search.filters.region-label')}
+        placeholder={t('search.filters.region-placeholder')}
+        allSelectedMessage={t('search.filters.region-all-selected')}
+        items={REGIONS}
+        selectedValues={stateProvince}
+        onSelectedValuesChange={setStateProvince}
+      />
       <Accordion type="multiple">
         <AccordionItem value="area">
           {/* <AccordionTrigger className='hover:cursor-pointer'>{t('search.filters.geometry-label')}</AccordionTrigger> */}
           <AccordionTrigger className="hover:cursor-pointer">Filters for Italy</AccordionTrigger>
-          <AccordionContent>
-            
-          </AccordionContent>
+          <AccordionContent></AccordionContent>
         </AccordionItem>
       </Accordion>
 

@@ -80,6 +80,7 @@
       "nav-map": "Map",
       "nav-graphs": "Graphs",
       "specimens-country": "Specimens per country",
+      "specimens-region": "Specimens per region",
       "error-graph": "Error generating the graph",
       "error-no-data": "No data",
       "map-max": "Max",

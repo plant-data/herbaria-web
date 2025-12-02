@@ -92,7 +92,7 @@ export function SelectedFiltersTree() {
     hasCoordinates,
     activeFiltersCount,
     floritalyName,
-    region,
+    stateProvince,
   } = useFilterStore()
 
   // Memoized month name mapping
@@ -171,8 +171,8 @@ export function SelectedFiltersTree() {
         label: t('search.filters.floritaly-name-label'),
       },
       {
-        key: 'region',
-        items: region,
+        key: 'stateProvince',
+        items: stateProvince,
         label: t('search.filters.region-label'),
       },
     ],

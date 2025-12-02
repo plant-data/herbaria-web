@@ -16,7 +16,7 @@ export interface FilterStateData {
   institutionCode: Array<string>
   hasCoordinates: boolean
   floritalyName: Array<string>
-  region: Array<string>
+  stateProvince: Array<string>
   activeFiltersCount: number
   skip: number
 }
@@ -44,7 +44,7 @@ interface FilterActions {
   setInstitutionCode: (institutionCode: Array<string> | ((prev: Array<string>) => Array<string>)) => void
   setInstitutionCodeNoResetSkip: (institutionCode: Array<string> | ((prev: Array<string>) => Array<string>)) => void
   setHasCoordinates: (hasCoordinates: boolean) => void
-  setRegion: (regions: Array<string> | ((prev: Array<string>) => Array<string>)) => void
+  setStateProvince: (stateProvinces: Array<string> | ((prev: Array<string>) => Array<string>)) => void
   setFloritalyName: (floritalyName: Array<string> | ((prev: Array<string>) => Array<string>)) => void
 
   resetFilters: (lockedFilters?: LockedFilters) => void
@@ -71,7 +71,7 @@ const initialState: FilterStateData = {
   institutionCode: [],
   hasCoordinates: false,
   floritalyName: [],
-  region: [],
+  stateProvince: [],
   activeFiltersCount: 0,
   skip: SKIP,
 }
@@ -96,7 +96,7 @@ function calculateActiveFiltersCount(state: FilterStateData) {
   if (state.year[0] !== initialState.year[0]) count += 1
   if (state.year[1] !== initialState.year[1]) count += 1
   if (state.hasCoordinates !== initialState.hasCoordinates) count += 1
-  count += state.region.length
+  count += state.stateProvince.length
   count += state.floritalyName.length
 
   return count
@@ -164,7 +164,7 @@ export const useFilterStore = create<FilterState>()(
       setInstitutionCodeNoResetSkip: createSetter('institutionCode', 'setInstitutionCodeNoResetSkip', set, true, false),
       setHasCoordinates: createSetter('hasCoordinates', 'setHasCoordinates', set),
       setFloritalyName: createSetter('floritalyName', 'setFloritalyName', set, true),
-      setRegion: createSetter('region', 'setRegion', set, true),
+      setStateProvince: createSetter('stateProvince', 'setStateProvince', set, true),
       // Reset all filters to initial values, preserving locked filters
       resetFilters: (lockedFilters?: LockedFilters) =>
         set(

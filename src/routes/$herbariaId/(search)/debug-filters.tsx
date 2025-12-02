@@ -15,6 +15,7 @@ function RouteComponent() {
     genus,
     floritalyName,
     countryCode,
+    stateProvince,
     locality,
     year,
     month,
@@ -35,6 +36,7 @@ function RouteComponent() {
             genus,
 
             countryCode,
+            stateProvince,
             locality,
             year,
             month,

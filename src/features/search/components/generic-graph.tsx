@@ -83,14 +83,45 @@ function createLineXAxisConfig(groupBy: string, t: any, textColor: string, chart
   }
 
   if (groupBy === 'year') {
-    // Find indices of years divisible by 20 to show as labels
+    // Calculate year range to determine appropriate tick interval
+    const years = chartData?.map((item) => parseInt(item.year)).filter((y) => !isNaN(y)) || []
+    const minYear = years.length > 0 ? Math.min(...years) : 0
+    const maxYear = years.length > 0 ? Math.max(...years) : 0
+    const yearRange = maxYear - minYear
+
+    // Determine tick interval based on range
+    let tickInterval: number
+    if (yearRange === 0) {
+      // Single year - show it
+      tickInterval = 1
+    } else if (yearRange <= 5) {
+      tickInterval = 1
+    } else if (yearRange <= 15) {
+      tickInterval = 2
+    } else if (yearRange <= 30) {
+      tickInterval = 5
+    } else if (yearRange <= 60) {
+      tickInterval = 10
+    } else {
+      tickInterval = 20
+    }
+
+    // Find indices of years to show based on the calculated interval
     const labelIndices = new Set<number>()
     chartData?.forEach((item, index) => {
       const year = parseInt(item.year)
-      if (year % 20 === 0) {
+      // For single year or very small ranges, show all years
+      // Otherwise, show years divisible by the interval
+      if (yearRange <= 5 || year % tickInterval === 0) {
         labelIndices.add(index)
       }
     })
+
+    // Ensure at least first and last years are shown for small ranges
+    if (yearRange > 0 && yearRange <= 15 && chartData && chartData.length > 0) {
+      labelIndices.add(0)
+      labelIndices.add(chartData.length - 1)
+    }
 
     return {
       ...baseConfig,
@@ -98,7 +129,8 @@ function createLineXAxisConfig(groupBy: string, t: any, textColor: string, chart
         ...baseConfig.axisLabel,
         formatter: (value: string) => {
           const year = parseInt(value)
-          return year % 20 === 0 ? value : ''
+          if (yearRange <= 5) return value
+          return year % tickInterval === 0 ? value : ''
         },
         fontSize: 11,
         rotate: 0,

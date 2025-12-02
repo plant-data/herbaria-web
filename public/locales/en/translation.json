@@ -419,6 +419,28 @@
       }
     }
   },
+  "regions": {
+    "abruzzo": "Abruzzo",
+    "basilicata": "Basilicata",
+    "calabria": "Calabria",
+    "campania": "Campania",
+    "emilia-romagna": "Emilia-Romagna",
+    "friuli-venezia-giulia": "Friuli-Venezia Giulia",
+    "lazio": "Lazio",
+    "liguria": "Liguria",
+    "lombardia": "Lombardia",
+    "marche": "Marche",
+    "molise": "Molise",
+    "piemonte": "Piemonte",
+    "puglia": "Puglia",
+    "sardegna": "Sardegna",
+    "sicilia": "Sicilia",
+    "toscana": "Toscana",
+    "trentino-alto-adige": "Trentino-Alto Adige",
+    "umbria": "Umbria",
+    "valle-d-aosta": "Valle d'Aosta",
+    "veneto": "Veneto"
+  },
   "common": {
     "yes": "Yes",
     "no": "No"

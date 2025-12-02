@@ -15,6 +15,7 @@ import { RegionMapGraph } from '@/features/search/components/region-map-graph'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 
+// !!! il geojson deve avere name
 type MapType = 'country' | 'region'
 
 export function MapGraph({ className = '' }) {
@@ -63,7 +64,7 @@ export function MapGraph({ className = '' }) {
       max = Math.max(max, logValue)
 
       return {
-        name: feature.properties.name,
+        name: feature.properties.name, // attento che lui vuole name ovunque anche nel json originale
         value: logValue,
         originalValue: count,
         displayName:
@@ -77,6 +78,8 @@ export function MapGraph({ className = '' }) {
       maxValue: max === -Infinity ? 1 : max,
     }
   }, [geoJson, countryCountMap, i18n.language])
+
+  console.log(seriesData);
 
   const countryOptions = useMemo(() => {
     if (seriesData.length === 0) return null

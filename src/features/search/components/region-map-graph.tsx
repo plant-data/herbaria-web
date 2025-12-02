@@ -36,8 +36,8 @@ export function RegionMapGraph({ className = '', inView }: RegionMapGraphProps) 
 
   const regionCountMap = useMemo(() => {
     const map = new Map<string, number>()
-    data?.occurrences?.forEach((item: { region: string; count: number }) => {
-      map.set(item.region, item.count)
+    data?.occurrences?.forEach((item: { stateProvince: string; count: number }) => {
+      map.set(item.stateProvince, item.count)
     })
     return map
   }, [data])
@@ -49,7 +49,7 @@ export function RegionMapGraph({ className = '', inView }: RegionMapGraphProps) 
     let max = -Infinity
 
     const featureData = geoJson.features.map((feature: any) => {
-      const regionName = feature.properties.den_reg
+      const regionName = feature.properties.name
       const count = regionCountMap.get(regionName) || 0
       const logValue = Math.log10(count + 1)
 
@@ -70,6 +70,9 @@ export function RegionMapGraph({ className = '', inView }: RegionMapGraphProps) 
       maxValue: max === -Infinity ? 1 : max,
     }
   }, [geoJson, regionCountMap])
+
+  console.log(seriesData);
+  
 
   const regionOptions = useMemo(() => {
     if (seriesData.length === 0) return null
@@ -123,7 +126,7 @@ export function RegionMapGraph({ className = '', inView }: RegionMapGraphProps) 
           option: {
             series: [
               {
-                layoutSize: '155%',
+                layoutSize: '100%',
               },
             ],
           },

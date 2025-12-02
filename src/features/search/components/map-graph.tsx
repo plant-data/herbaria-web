@@ -1,8 +1,9 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 import { useTranslation } from 'react-i18next'
+import { ChevronDown } from 'lucide-react'
 import { useSpecimensGraph } from '@/features/search/api/get-occurrences'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useEchartsMap } from '@/features/search/api/get-echart-map'
 import { useTheme } from '@/components/theme-provider'
@@ -10,11 +11,18 @@ import { cn } from '@/lib/utils'
 import { BASE_PATH } from '@/config'
 import { LoadingBadge } from '@/features/search/components/loading-badge'
 import { useInView } from '@/hooks/use-in-view'
+import { RegionMapGraph } from '@/features/search/components/region-map-graph'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { Button } from '@/components/ui/button'
+
+type MapType = 'country' | 'region'
 
 export function MapGraph({ className = '' }) {
   const { t, i18n } = useTranslation()
   const { theme } = useTheme()
   const [ref, inView] = useInView<HTMLDivElement>({ rootMargin: '200px' })
+  const [mapType, setMapType] = useState<MapType>('country')
+
   const {
     data,
     isPending,
@@ -22,7 +30,7 @@ export function MapGraph({ className = '' }) {
     error: dataError,
   } = useSpecimensGraph({
     customGroupBy: 'country',
-    enabled: inView,
+    enabled: inView && mapType === 'country',
   })
   const isFetchingNewData = isFetching && !isPending
 
@@ -136,15 +144,33 @@ export function MapGraph({ className = '' }) {
     }
   }, [seriesData, minValue, maxValue, theme, t])
 
-  const isLoading = isPending || isLoadingGeo
-  const hasError = !!(dataError || geoError)
+  const isLoading = (isPending || isLoadingGeo) && mapType === 'country'
+  const hasError = !!(dataError || geoError) && mapType === 'country'
+
+  const mapTypeLabel =
+    mapType === 'country' ? t('search.results.specimens-country') : t('search.results.specimens-region')
+
+  const renderMapSelector = () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="sm" className="gap-1">
+          {mapTypeLabel}
+          <ChevronDown className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <DropdownMenuItem onClick={() => setMapType('country')}>
+          {t('search.results.specimens-country')}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setMapType('region')}>{t('search.results.specimens-region')}</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
 
   if (isLoading) {
     return (
       <Card ref={ref} className={cn('gap-0 overflow-hidden shadow-xs', className)}>
-        <CardHeader>
-          <Skeleton className="h-6 w-48" />
-        </CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">{renderMapSelector()}</CardHeader>
         <CardContent className="flex items-center justify-center">
           <Skeleton className="h-[400px] w-full" />
         </CardContent>
@@ -152,13 +178,11 @@ export function MapGraph({ className = '' }) {
     )
   }
 
-  if (hasError || !countryOptions) {
+  if (mapType === 'country' && (hasError || !countryOptions)) {
     return (
       <Card ref={ref} className={cn('relative gap-0 overflow-hidden shadow-xs', className)}>
         {isFetchingNewData && <LoadingBadge className="absolute top-3 right-3" />}
-        <CardHeader>
-          <CardTitle>{t('search.results.specimens-country')}</CardTitle>
-        </CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">{renderMapSelector()}</CardHeader>
         <CardContent className="flex h-[400px] items-center justify-center">
           <p>{hasError ? t('search.results.error-graph') : t('search.results.error-no-data')}</p>
         </CardContent>
@@ -168,19 +192,21 @@ export function MapGraph({ className = '' }) {
 
   return (
     <Card ref={ref} className={cn('relative gap-0 overflow-hidden shadow-xs', className)}>
-      {isFetchingNewData && <LoadingBadge className="absolute top-3 right-3" />}
-      <CardHeader>
-        <CardTitle>{t('search.results.specimens-country')}</CardTitle>
-      </CardHeader>
+      {isFetchingNewData && mapType === 'country' && <LoadingBadge className="absolute top-3 right-3" />}
+      <CardHeader className="flex flex-row items-center justify-between">{renderMapSelector()}</CardHeader>
       <CardContent className="p-0 sm:p-2 md:p-4">
-        <div className="h-[400px] w-full">
-          <ReactECharts
-            option={countryOptions}
-            style={{ height: '100%', width: '100%' }}
-            opts={{ renderer: 'svg' }}
-            notMerge={true}
-          />
-        </div>
+        {mapType === 'country' ? (
+          <div className="h-[400px] w-full">
+            <ReactECharts
+              option={countryOptions}
+              style={{ height: '100%', width: '100%' }}
+              opts={{ renderer: 'svg' }}
+              notMerge={true}
+            />
+          </div>
+        ) : (
+          <RegionMapGraph inView={inView} />
+        )}
       </CardContent>
     </Card>
   )

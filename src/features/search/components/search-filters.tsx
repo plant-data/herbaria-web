@@ -11,6 +11,7 @@ import { SelectItems } from '@/features/search/components/select-items'
 import { MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { COUNTRIES } from '@/features/search/constants/countries'
+import { REGIONS } from '@/features/search/constants/regions'
 import { SwitchOption } from '@/features/search/components/switch-option'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 
@@ -22,7 +23,7 @@ const HERBARIA_FOR_FILTER = HERBARIA_CONFIG.map((herbarium) => ({
 export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters }) {
   const {
     scientificName,
-    floritalyName,
+
     genus,
 
     countryCode,
@@ -32,8 +33,10 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
     month,
     institutionCode,
     hasCoordinates,
+    floritalyName,
+    region,
     setScientificName,
-    setFloritalyName,
+
     setGenus,
 
     setCountryCode,
@@ -43,10 +46,13 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
     setMonth,
     setInstitutionCode,
     setHasCoordinates,
+
+    setFloritalyName,
+    setRegion,
   } = useFilterStore(
     useShallow((state) => ({
       scientificName: state.scientificName,
-      floritalyName: state.floritalyName,
+
       genus: state.genus,
 
       countryCode: state.countryCode,
@@ -56,8 +62,11 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       month: state.month,
       institutionCode: state.institutionCode,
       hasCoordinates: state.hasCoordinates,
+
+      floritalyName: state.floritalyName,
+      region: state.region,
       setScientificName: state.setScientificName,
-      setFloritalyName: state.setFloritalyName,
+
       setGenus: state.setGenus,
 
       setCountryCode: state.setCountryCode,
@@ -67,6 +76,9 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       setMonth: state.setMonth,
       setInstitutionCode: state.setInstitutionCode,
       setHasCoordinates: state.setHasCoordinates,
+
+      setFloritalyName: state.setFloritalyName,
+      setRegion: state.setRegion,
     })),
   )
   const { t } = useTranslation()
@@ -128,18 +140,6 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         }
         minLength={4}
       />
-      <Autocomplete
-        label={t('search.filters.floritaly-name-label')}
-        placeholder={t('search.filters.floritaly-name-placeholder')}
-        selectedValues={floritalyName}
-        onSelectedValuesChange={setFloritalyName}
-        queryKey={['floritalysearch', herbariaId ?? '']}
-        query={
-          `${BASE_API_URL}autocomplete?` +
-          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
-          `field=floritalyName&value=`
-        }
-      />
       <RangeSlider
         label={t('search.filters.year-label')}
         value={year}
@@ -173,11 +173,34 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         checked={hasCoordinates}
         onCheckedChange={setHasCoordinates}
       />
+      {/* qua metto i filtry x l'italia */}
+      <Autocomplete
+              label={t('search.filters.floritaly-name-label')}
+              placeholder={t('search.filters.floritaly-name-placeholder')}
+              selectedValues={floritalyName}
+              onSelectedValuesChange={setFloritalyName}
+              queryKey={['floritalysearch', herbariaId ?? '']}
+              query={
+                `${BASE_API_URL}autocomplete?` +
+                (herbariaId ? `institutionCode=${herbariaId}&` : '') +
+                `field=floritalyName&value=`
+              }
+            />
+            <SelectItems
+              label={t('search.filters.region-label')}
+              placeholder={t('search.filters.region-placeholder')}
+              allSelectedMessage={t('search.filters.region-all-selected')}
+              items={REGIONS}
+              selectedValues={region}
+              onSelectedValuesChange={setRegion}
+            />
       <Accordion type="multiple">
         <AccordionItem value="area">
           {/* <AccordionTrigger className='hover:cursor-pointer'>{t('search.filters.geometry-label')}</AccordionTrigger> */}
-          <AccordionTrigger className="hover:cursor-pointer">Test</AccordionTrigger>
-          <AccordionContent></AccordionContent>
+          <AccordionTrigger className="hover:cursor-pointer">Filters for Italy</AccordionTrigger>
+          <AccordionContent>
+            
+          </AccordionContent>
         </AccordionItem>
       </Accordion>
 

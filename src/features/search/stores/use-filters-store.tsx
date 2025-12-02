@@ -5,7 +5,7 @@ import { BBOX, MAP_CENTER, MAX_YEAR, MIN_YEAR, SKIP, ZOOM } from '@/features/sea
 // skip zoom and bb aren't considered visible filters
 export interface FilterStateData {
   scientificName: Array<string>
-  floritalyName: Array<string>
+
   genus: Array<string>
   country: Array<string>
   countryCode: Array<string>
@@ -15,6 +15,8 @@ export interface FilterStateData {
   month: Array<number>
   institutionCode: Array<string>
   hasCoordinates: boolean
+  floritalyName: Array<string>
+  region: Array<string>
   activeFiltersCount: number
   skip: number
 }
@@ -30,7 +32,6 @@ export interface FilterMapData {
 
 interface FilterActions {
   setScientificName: (scientificName: Array<string> | ((prev: Array<string>) => Array<string>)) => void
-  setFloritalyName: (floritalyName: Array<string> | ((prev: Array<string>) => Array<string>)) => void
   setGenus: (genus: Array<string> | ((prev: Array<string>) => Array<string>)) => void
   setCountry: (country: Array<string> | ((prev: Array<string>) => Array<string>)) => void
   setCountryCode: (countryCode: Array<string> | ((prev: Array<string>) => Array<string>)) => void
@@ -43,6 +44,9 @@ interface FilterActions {
   setInstitutionCode: (institutionCode: Array<string> | ((prev: Array<string>) => Array<string>)) => void
   setInstitutionCodeNoResetSkip: (institutionCode: Array<string> | ((prev: Array<string>) => Array<string>)) => void
   setHasCoordinates: (hasCoordinates: boolean) => void
+  setRegion: (regions: Array<string> | ((prev: Array<string>) => Array<string>)) => void
+  setFloritalyName: (floritalyName: Array<string> | ((prev: Array<string>) => Array<string>)) => void
+
   resetFilters: (lockedFilters?: LockedFilters) => void
   setSkip: (skip: number) => void
   setZoom: (zoom: number) => void
@@ -56,7 +60,7 @@ export interface FilterState extends FilterStateData, FilterMapData, FilterActio
 // Initial state values
 const initialState: FilterStateData = {
   scientificName: [],
-  floritalyName: [],
+
   genus: [],
   country: [],
   countryCode: [],
@@ -66,6 +70,8 @@ const initialState: FilterStateData = {
   month: [],
   institutionCode: [],
   hasCoordinates: false,
+  floritalyName: [],
+  region: [],
   activeFiltersCount: 0,
   skip: SKIP,
 }
@@ -80,7 +86,6 @@ function calculateActiveFiltersCount(state: FilterStateData) {
   let count = 0
 
   count += state.scientificName.length
-  count += state.floritalyName.length
   count += state.genus.length
   count += state.country.length
   count += state.countryCode.length
@@ -91,6 +96,8 @@ function calculateActiveFiltersCount(state: FilterStateData) {
   if (state.year[0] !== initialState.year[0]) count += 1
   if (state.year[1] !== initialState.year[1]) count += 1
   if (state.hasCoordinates !== initialState.hasCoordinates) count += 1
+  count += state.region.length
+  count += state.floritalyName.length
 
   return count
 }
@@ -146,7 +153,6 @@ export const useFilterStore = create<FilterState>()(
 
       // Actions using the helper
       setScientificName: createSetter('scientificName', 'setScientificName', set, true),
-      setFloritalyName: createSetter('floritalyName', 'setFloritalyName', set, true),
       setGenus: createSetter('genus', 'setGenus', set, true),
       setCountry: createSetter('country', 'setCountry', set, true),
       setCountryCode: createSetter('countryCode', 'setCountryCode', set, true),
@@ -157,7 +163,8 @@ export const useFilterStore = create<FilterState>()(
       setInstitutionCode: createSetter('institutionCode', 'setInstitutionCode', set, true),
       setInstitutionCodeNoResetSkip: createSetter('institutionCode', 'setInstitutionCodeNoResetSkip', set, true, false),
       setHasCoordinates: createSetter('hasCoordinates', 'setHasCoordinates', set),
-
+      setFloritalyName: createSetter('floritalyName', 'setFloritalyName', set, true),
+      setRegion: createSetter('region', 'setRegion', set, true),
       // Reset all filters to initial values, preserving locked filters
       resetFilters: (lockedFilters?: LockedFilters) =>
         set(

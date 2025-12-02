@@ -5,6 +5,7 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { COUNTRIES } from '@/features/search/constants/countries'
+import { REGIONS } from '@/features/search/constants/regions'
 
 interface FilterGroupProps {
   label: string
@@ -79,7 +80,7 @@ export function SelectedFiltersTree() {
   const { t } = useTranslation()
   const {
     scientificName,
-    floritalyName,
+
     genus,
     country,
     countryCode,
@@ -90,12 +91,20 @@ export function SelectedFiltersTree() {
     institutionCode,
     hasCoordinates,
     activeFiltersCount,
+    floritalyName,
+    region,
   } = useFilterStore()
 
   // Memoized month name mapping
   const monthNameMap = useMemo(() => new Map(MONTHS.map((monthData) => [monthData.id, t(monthData.value)])), [t])
-  const herbariaMap = useMemo(() => new Map(HERBARIA_CONFIG.map((herbarium) => [herbarium.id, t(herbarium.translationKey)])), [t])
-  const countryCodeMap = useMemo(() => new Map(COUNTRIES.map((countryData) => [countryData.id, t(countryData.value)])), [t])
+  const herbariaMap = useMemo(
+    () => new Map(HERBARIA_CONFIG.map((herbarium) => [herbarium.id, t(herbarium.translationKey)])),
+    [t],
+  )
+  const countryCodeMap = useMemo(
+    () => new Map(COUNTRIES.map((countryData) => [countryData.id, t(countryData.value)])),
+    [t],
+  )
   // Unified filter configuration
   const filterConfigs: Array<FilterConfig> = useMemo(
     () => [
@@ -104,11 +113,7 @@ export function SelectedFiltersTree() {
         items: scientificName,
         label: t('search.filters.scientific-name-label'),
       },
-      {
-        key: 'floritalyName',
-        items: floritalyName,
-        label: t('search.filters.floritaly-name-label'),
-      },
+
       {
         key: 'genus',
         items: genus,
@@ -159,6 +164,16 @@ export function SelectedFiltersTree() {
         items: hasCoordinates ? [hasCoordinates] : [],
         label: t('search.filters.has-coordinates-label'),
         displayValue: () => t('common.yes'),
+      },
+      {
+        key: 'floritalyName',
+        items: floritalyName,
+        label: t('search.filters.floritaly-name-label'),
+      },
+      {
+        key: 'region',
+        items: region,
+        label: t('search.filters.region-label'),
       },
     ],
     [t, scientificName, floritalyName, genus, country, countryCode, locality, geometry, year, month, hasCoordinates],

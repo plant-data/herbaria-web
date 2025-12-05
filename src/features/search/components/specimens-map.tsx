@@ -69,6 +69,7 @@ function MapEventHandler() {
 }
 
 function MapControls() {
+  const { t } = useTranslation()
   const map = useMap()
   const handleResetView = () => map.setView(INITIAL_VIEW_STATE.center, INITIAL_VIEW_STATE.zoom)
   const handleWorldView = () => map.setView([20, 5], 2)
@@ -84,8 +85,8 @@ function MapControls() {
         variant="secondary"
         onClick={handleResetView}
         className="hover:bg-secondary dark:hover:bg-secondary border bg-white dark:bg-white"
-        title="Reset to initial view"
-        aria-label="Reset to initial view"
+        title={t('search.map.reset-view')}
+        aria-label={t('search.map.reset-view')}
       >
         <House />
       </Button>
@@ -95,8 +96,8 @@ function MapControls() {
         variant="secondary"
         onClick={handleWorldView}
         className="hover:bg-secondary dark:hover:bg-secondary border bg-white dark:bg-white"
-        title="Show world view"
-        aria-label="Show world view"
+        title={t('search.map.world-view')}
+        aria-label={t('search.map.world-view')}
       >
         <Earth />
       </Button>
@@ -242,6 +243,7 @@ function ColorLegend({ min, max, colors }: { min: number; max: number; colors: A
 }
 
 function PointPopupContent({ coordinates, count }: { coordinates: [number, number]; count: number }) {
+  const { t } = useTranslation()
   const [skip, setSkip] = useState(0)
   const { herbariaId } = useParams({ strict: false })
 
@@ -253,16 +255,16 @@ function PointPopupContent({ coordinates, count }: { coordinates: [number, numbe
     customSkip: skip,
   })
 
-  if (isPending) return <div>Loading details...</div>
-  if (error) return <div className="text-red-500">Error fetching details.</div>
-  if (!data?.occurrences?.length) return <div>No specimen details found.</div>
+  if (isPending) return <div>{t('search.map.loading-details')}</div>
+  if (error) return <div className="text-red-500">{t('search.map.error-details')}</div>
+  if (!data?.occurrences?.length) return <div>{t('search.map.no-details')}</div>
 
   return (
     <div className="min-w-[300px] text-sm">
       <ul className="max-h-64 space-y-1.5 overflow-y-auto pr-2">
         {data.occurrences.map((occ: SpecimenData) => (
           <li key={occ.occurrenceID}>
-            <span>{occ.scientificName || 'Unknown Species'}</span>{' '}
+            <span>{occ.scientificName || t('search.map.unknown-species')}</span>{' '}
             <Link
               className="text-blue-400"
               to="/$herbariaId/specimens/$occurrenceID"
@@ -275,13 +277,13 @@ function PointPopupContent({ coordinates, count }: { coordinates: [number, numbe
       </ul>
       <div className="mt-4 flex items-center justify-between">
         <Button onClick={() => setSkip((prev) => Math.max(0, prev - 10))} disabled={skip === 0}>
-          Previous
+          {t('search.map.previous')}
         </Button>
         <span className="text-xs text-gray-500">
-          Showing {skip + 1}-{Math.min(skip + 10, count)} of {count}
+          {t('search.map.showing', { start: skip + 1, end: Math.min(skip + 10, count), total: count })}
         </span>
         <Button onClick={() => setSkip((prev) => prev + 10)} disabled={skip + 10 >= count}>
-          Next
+          {t('search.map.next')}
         </Button>
       </div>
     </div>
@@ -297,6 +299,7 @@ function ClusterPopupContent({
   clusterCode: string
   count: number
 }) {
+  const { t } = useTranslation()
   const [skip, setSkip] = useState(0)
   const { herbariaId } = useParams({ strict: false })
 
@@ -308,16 +311,16 @@ function ClusterPopupContent({
     customSkip: skip,
   })
 
-  if (isPending) return <div>Loading details...</div>
-  if (error) return <div className="text-red-500">Error fetching details.</div>
-  if (!data?.occurrences?.length) return <div>No specimen details found.</div>
+  if (isPending) return <div>{t('search.map.loading-details')}</div>
+  if (error) return <div className="text-red-500">{t('search.map.error-details')}</div>
+  if (!data?.occurrences?.length) return <div>{t('search.map.no-details')}</div>
 
   return (
     <div className="min-w-[300px] text-sm">
       <ul className="max-h-64 space-y-1.5 overflow-y-auto pr-2">
         {data.occurrences.map((occ: SpecimenData) => (
           <li key={occ.occurrenceID}>
-            <span>{occ.scientificName || 'Unknown Species'}</span>{' '}
+            <span>{occ.scientificName || t('search.map.unknown-species')}</span>{' '}
             <Link
               className="text-blue-400"
               to="/$herbariaId/specimens/$occurrenceID"
@@ -330,13 +333,13 @@ function ClusterPopupContent({
       </ul>
       <div className="mt-4 flex items-center justify-between">
         <Button onClick={() => setSkip((prev) => Math.max(0, prev - 10))} disabled={skip === 0}>
-          Previous
+          {t('search.map.previous')}
         </Button>
         <span className="text-xs text-gray-500">
-          Showing {skip + 1}-{Math.min(skip + 10, count)} of {count}
+          {t('search.map.showing', { start: skip + 1, end: Math.min(skip + 10, count), total: count })}
         </span>
         <Button onClick={() => setSkip((prev) => prev + 10)} disabled={skip + 10 >= count}>
-          Next
+          {t('search.map.next')}
         </Button>
       </div>
     </div>
@@ -441,8 +444,11 @@ function SpecimenPointDialog({
   isOpen: boolean
   onClose: () => void
 }) {
+  const { t } = useTranslation()
   const isPoint = cluster.gridCode === undefined && cluster.clusterCode === undefined
-  const title = isPoint ? `Specimens (${cluster.count})` : `Cluster Specimens (${cluster.count})`
+  const title = isPoint
+    ? `${t('search.map.specimens')} (${cluster.count})`
+    : `${t('search.map.cluster-specimens')} (${cluster.count})`
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -469,6 +475,7 @@ function MapSettingsDialog({
   currentMax: number
   onApply: (palette: PaletteName, max: number) => void
 }) {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [palette, setPalette] = useState<PaletteName>(currentPalette)
   const [max, setMax] = useState(currentMax)
@@ -493,20 +500,20 @@ function MapSettingsDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon" className="shrink-0" title="Map Settings">
+        <Button variant="outline" size="icon" className="shrink-0" title={t('search.map.settings.title')}>
           <Settings className="h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Map Settings</DialogTitle>
+          <DialogTitle>{t('search.map.settings.title')}</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <Label htmlFor="palette">Color Palette</Label>
+            <Label htmlFor="palette">{t('search.map.settings.palette')}</Label>
             <Select value={palette} onValueChange={(value: PaletteName) => setPalette(value)}>
               <SelectTrigger id="palette">
-                <SelectValue placeholder="Select a palette" />
+                <SelectValue placeholder={t('search.map.settings.select-palette')} />
               </SelectTrigger>
               <SelectContent className="z-99999999">
                 {Object.keys(palettes).map((paletteName) => (
@@ -518,15 +525,15 @@ function MapSettingsDialog({
             </Select>
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="max-scale">Max Scale Value</Label>
+            <Label htmlFor="max-scale">{t('search.map.settings.max-scale')}</Label>
             <Input id="max-scale" type="number" value={max} onChange={(e) => setMax(Number(e.target.value))} />
           </div>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={handleReset}>
-            Reset
+            {t('search.map.settings.reset')}
           </Button>
-          <Button onClick={handleConfirm}>Confirm</Button>
+          <Button onClick={handleConfirm}>{t('search.map.settings.confirm')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -535,6 +542,7 @@ function MapSettingsDialog({
 
 // Main component with simplified rendering
 export function SpecimensMap() {
+  const { t } = useTranslation()
   const { zoom, mapCenter, geometry, setGeometry } = useFilterStore(
     useShallow((state) => ({
       zoom: state.zoom,
@@ -557,7 +565,10 @@ export function SpecimensMap() {
   const isFetchingNewData = isFetching || isPending
 
   // if (isPending) return <MapSkeleton />
-  if (error) return <div className="flex h-[50vh] items-center justify-center text-red-500 md:h-[70vh]">Error.</div>
+  if (error)
+    return (
+      <div className="flex h-[50vh] items-center justify-center text-red-500 md:h-[70vh]">{t('search.map.error')}</div>
+    )
 
   return (
     <>

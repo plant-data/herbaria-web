@@ -95,6 +95,28 @@
       "count": "Count",
       "page": "Page",
       "of": "of"
+    },
+    "map": {
+      "reset-view": "Reset to initial view",
+      "world-view": "Show world view",
+      "loading-details": "Loading details...",
+      "error-details": "Error fetching details.",
+      "no-details": "No specimen details found.",
+      "unknown-species": "Unknown Species",
+      "previous": "Previous",
+      "next": "Next",
+      "showing": "Showing {{start}}-{{end}} of {{total}}",
+      "cluster-specimens": "Cluster Specimens",
+      "specimens": "Specimens",
+      "settings": {
+        "title": "Map Settings",
+        "palette": "Color Palette",
+        "select-palette": "Select a palette",
+        "max-scale": "Max Scale Value",
+        "reset": "Reset",
+        "confirm": "Confirm"
+      },
+      "error": "Error."
     }
   },
   "months": {

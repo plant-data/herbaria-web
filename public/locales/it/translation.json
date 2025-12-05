@@ -95,6 +95,28 @@
       "count": "Records",
       "page": "Pagina",
       "of": "di"
+    },
+    "map": {
+      "reset-view": "Reimposta vista iniziale",
+      "world-view": "Mostra vista globale",
+      "loading-details": "Caricamento dettagli...",
+      "error-details": "Errore nel recupero dei dettagli.",
+      "no-details": "Nessun dettaglio trovato.",
+      "unknown-species": "Specie sconosciuta",
+      "previous": "Precedente",
+      "next": "Successivo",
+      "showing": "Mostrati {{start}}-{{end}} di {{total}}",
+      "cluster-specimens": "Campioni nel cluster",
+      "specimens": "Campioni",
+      "settings": {
+        "title": "Impostazioni Mappa",
+        "palette": "Palette colori",
+        "select-palette": "Seleziona una palette",
+        "max-scale": "Limite massimo della scala",
+        "reset": "Reimposta",
+        "confirm": "Conferma"
+      },
+      "error": "Errore."
     }
   },
   "months": {

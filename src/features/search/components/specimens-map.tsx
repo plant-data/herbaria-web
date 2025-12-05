@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { CircleMarker, useMap, useMapEvents } from 'react-leaflet'
+import { CircleMarker, Marker, useMap, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
 import { Earth, House, Settings } from 'lucide-react'
 import { useShallow } from 'zustand/react/shallow'
@@ -411,6 +411,31 @@ const LeafletMarkers = memo(function LeafletMarkers({
         if (isNaN(lat) || isNaN(lng)) return null
 
         const markerColor = getDynamicColor(cluster.count, thresholds, colors)
+        // isPoint is in testing remove this part if doesn't work
+        const isPoint = cluster.gridCode === undefined && cluster.clusterCode === undefined
+
+        if (isPoint) {
+          const icon = L.divIcon({
+            className: '!bg-transparent !border-0',
+            html: `<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="${markerColor}" fill-opacity="0.6" stroke="${markerColor}" stroke-opacity="0.8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>`,
+            iconSize: [30, 30],
+            iconAnchor: [15, 30],
+            popupAnchor: [0, -30],
+          })
+          return (
+            <Marker
+              key={`${lat}-${lng}-${index}-${colors[0]}-${min}-${max}`}
+              position={[lat, lng]}
+              icon={icon}
+              eventHandlers={{
+                click: () => {
+                  onMarkerClick(cluster)
+                },
+              }}
+            />
+          )
+        }
+
         const radius = getMarkerRadius(zoom)
 
         return (

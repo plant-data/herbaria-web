@@ -52,7 +52,7 @@ function ResultOccurrencesCounter() {
   if (isPending) {
     return (
       <div className="text-muted-foreground flex gap-2 text-sm">
-        <Skeleton className="h-4 w-24" />
+        <Skeleton className="h-5 w-24" />
       </div>
     )
   }

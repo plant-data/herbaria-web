@@ -91,6 +91,19 @@ function App() {
     resetMap()
   }
 
+  function scrollToHerbariaSection() {
+    const collectionsSection = document.getElementById('collections')
+    if (collectionsSection) {
+      const headerHeight =
+        parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 64
+      const elementPosition = collectionsSection.getBoundingClientRect().top + window.scrollY
+      window.scrollTo({
+        top: elementPosition - headerHeight - 16,
+        behavior: 'smooth',
+      })
+    }
+  }
+
   return (
     <>
       <div className="bg-background relative min-h-screen overflow-hidden">
@@ -127,15 +140,13 @@ function App() {
                 <p className="text-foreground/70 text-sm font-medium">{t('herbaria-homepage.sub-description')}</p>
               </div>
               <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-                <Link
-                  to="/"
-                  hash="collections"
-                  preload={false}
-                  className="border-border/70 text-foreground hover:bg-accent focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium shadow-xs transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                <button
+                  onClick={scrollToHerbariaSection}
+                  className="border-border/70 text-foreground hover:bg-accent hover:cursor-pointer focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium shadow-xs transition-colors focus-visible:ring-2 focus-visible:outline-none"
                 >
                   <ArrowRight className="h-5 w-5" />
                   {t('herbaria-homepage.browse-herbaria-button')}
-                </Link>
+                </button>
                 <Link
                   to="/$herbariaId/images"
                   params={{ herbariaId: 'all' }}

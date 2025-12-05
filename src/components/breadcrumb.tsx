@@ -55,7 +55,7 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
     return name || segment
   }
 
-  if (pathnames.length === 0) {
+  /* if (pathnames.length === 0) {
     if (isMobile) {
       return (
         <div className="bg-muted/30 flex items-center gap-3 rounded-lg px-3 py-2">
@@ -65,7 +65,7 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
       )
     }
     return null
-  }
+  } */
 
   // Mobile view - vertical layout
   if (isMobile) {
@@ -93,7 +93,7 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
               <ChevronRight className="text-muted-foreground h-3 w-3" />
               <div className="flex-1">
                 {segment.isLast ? (
-                  <div className="bg-muted/50 border-input rounded-lg border px-3 py-2">
+                  <div className=" px-3 py-2">
                     <span className="text-ring text-sm font-medium">{segment.name}</span>
                   </div>
                 ) : (

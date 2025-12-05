@@ -563,7 +563,7 @@ export function SpecimensMap() {
   return (
     <>
       <div className="relative mx-auto mt-6 h-[50vh] max-h-[480px] w-full max-w-[1200px] overflow-hidden rounded-lg md:h-[70vh]">
-        {isFetchingNewData && <LoadingBadge className="absolute top-3 right-1/2 z-1001" />}
+        {isFetchingNewData && <LoadingBadge className="absolute top-3 left-1/2 z-10 -translate-x-1/2" />}
         <Map center={mapCenter} zoom={zoom} preferCanvas={true}>
           <MapLayers defaultTileLayer="GBIF Geyser">
             <MapTileLayer

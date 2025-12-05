@@ -16,7 +16,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button'
 import { ButtonGroup } from '@/components/ui/button-group'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Skeleton } from '@/components/ui/skeleton'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { MAP_CENTER, ZOOM } from '@/features/search/constants/constants'
@@ -77,7 +76,7 @@ function MapControls() {
     <ButtonGroup
       orientation="vertical"
       aria-label="Map navigation controls"
-      className="absolute top-20 left-1 z-[1000] h-fit"
+      className="absolute top-20 left-1 z-1000 h-fit"
     >
       <Button
         type="button"
@@ -509,7 +508,7 @@ function MapSettingsDialog({
               <SelectTrigger id="palette">
                 <SelectValue placeholder="Select a palette" />
               </SelectTrigger>
-              <SelectContent className="z-[99999999]">
+              <SelectContent className="z-99999999">
                 {Object.keys(palettes).map((paletteName) => (
                   <SelectItem key={paletteName} value={paletteName}>
                     {paletteName}
@@ -557,7 +556,7 @@ export function SpecimensMap() {
 
   const isFetchingNewData = isFetching || isPending
 
-  //if (isPending) return <MapSkeleton />
+  // if (isPending) return <MapSkeleton />
   if (error) return <div className="flex h-[50vh] items-center justify-center text-red-500 md:h-[70vh]">Error.</div>
 
   return (
@@ -618,21 +617,21 @@ export function SpecimensMap() {
   )
 }
 
-function MapSkeleton() {
+/* function MapSkeleton() {
   return (
     <>
       <div className="relative mt-6 h-[50vh] w-full overflow-hidden rounded-lg border border-gray-200 @sm/mainresult:h-[70vh]">
-        {/* Main map skeleton */}
+
         <div className="h-full w-full">
           <Skeleton className="h-full w-full" />
 
-          {/* Mock map controls */}
+
           <div className="absolute top-20 left-3 z-10 flex flex-col gap-2">
             <Skeleton className="size-[30px] rounded-[3px]" />
             <Skeleton className="size-[30px] rounded-[3px]" />
           </div>
 
-          {/* Mock map markers scattered across the map */}
+
           <div className="absolute inset-0">
             <div className="absolute top-[20%] left-[25%]">
               <Skeleton className="h-3 w-3 rounded-full" />
@@ -668,14 +667,14 @@ function MapSkeleton() {
         </div>
       </div>
 
-      {/* Skeleton for controls below the map */}
+
       <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        {/* Palette selector skeleton */}
+
         <div className="flex items-center gap-2">
           <Skeleton className="h-10 w-full sm:w-32" />
         </div>
 
-        {/* Color legend skeleton */}
+    
         <Card className="rounded-sm p-2 shadow-xs md:p-2.5">
           <CardContent className="p-0">
             <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3 md:gap-4">
@@ -692,3 +691,4 @@ function MapSkeleton() {
     </>
   )
 }
+ */

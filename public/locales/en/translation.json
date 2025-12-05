@@ -19,6 +19,7 @@
       "floritaly-name": "Floritaly Name",
       "year": "Year",
       "month": "Month",
+      "date": "Date",
       "event-date": "Event Date",
       "verbatim-event-date": "Verbatim Event Date",
       "country": "Country",
@@ -86,11 +87,14 @@
       "map-max": "Max",
       "map-min": "Min",
       "specimens": "Specimens",
+      "specimen": "Specimen",
       "specimens-by-scientific-name": "Specimens by Scientific Name",
       "specimens-by-year": "Specimens by Year",
       "specimens-by-floritaly-name": "Specimens by Floritaly Name",
       "specimens-by-month": "Specimens by Month",
-      "count": "Count"
+      "count": "Count",
+      "page": "Page",
+      "of": "of"
     }
   },
   "months": {

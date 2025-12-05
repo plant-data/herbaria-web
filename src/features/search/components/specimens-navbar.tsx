@@ -48,6 +48,7 @@ export function SpecimensNavbar() {
 
 function ResultOccurrencesCounter() {
   const { data, isPending, isFetching, error } = useSpecimensCount()
+  const { t } = useTranslation()
 
   if (isPending) {
     return (
@@ -68,7 +69,7 @@ function ResultOccurrencesCounter() {
 
   return (
     <div className="text-muted-foreground flex gap-2 text-sm">
-      {data.count} Occurrences
+      {data.count} {data.count === 1 ? t('search.results.specimen') : t('search.results.specimens')}
       {isFetching && <LoaderCircle className="text-ring h-4 w-4 shrink-0 animate-spin opacity-80" />}
     </div>
   )

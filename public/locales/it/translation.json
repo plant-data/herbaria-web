@@ -1,7 +1,7 @@
 {
   "herbaria-hero": "test",
   "specimen": {
-    "label-data": "Dati etichetta",
+    "label-data": "Dati cartellino",
     "not-georeferenced": "Record non georeferenziato",
     "no-image": "Nessuna immagine disponibile",
     "other-images": "Altre immagini",
@@ -19,20 +19,21 @@
       "floritaly-name": "Nome Floritaly",
       "year": "Anno",
       "month": "Mese",
-      "event-date": "Data evento",
-      "verbatim-event-date": "Data evento verbatim",
+      "date": "Data",
+      "event-date": "Data",
+      "verbatim-event-date": "Data verbatim",
       "country": "Stato",
       "country-code": "Codice stato",
       "verbatim-locality": "Località verbatim",
       "locality": "Località",
       "latitude": "Latitudine",
       "longitude": "Longitudine",
-      "geodetic-datum": "Datum geodetico",
+      "geodetic-datum": "Datum",
       "coordinates-uncertainty": "Incertezza coordinate",
       "georeference-protocol": "Protocollo di georeferenziazione",
-      "verbatim-elevation": "Elevazione verbatim",
-      "minimum-elevation": "Elevazione minima",
-      "maximum-elevation": "Elevazione massima"
+      "verbatim-elevation": "Altitudine verbatim",
+      "minimum-elevation": "Altitudine minima",
+      "maximum-elevation": "Altitudine massima"
     }
   },
   "search": {
@@ -86,11 +87,14 @@
       "map-max": "Max",
       "map-min": "Min",
       "specimens": "Campioni",
+      "specimen": "Campione",
       "specimens-by-scientific-name": "Campioni per Nome Scientifico",
       "specimens-by-year": "Campioni per Anno",
       "specimens-by-floritaly-name": "Campioni per Nome Floritaly",
       "specimens-by-month": "Campioni per Mese",
-      "count": "Records"
+      "count": "Records",
+      "page": "Pagina",
+      "of": "di"
     }
   },
   "months": {

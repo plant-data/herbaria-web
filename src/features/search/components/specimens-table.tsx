@@ -47,10 +47,10 @@ function SpecimenImage({ thumbnail, alt }: { thumbnail?: string; alt: string }) 
   columns: Array<ColumnDef<TData, TValue>>
 } */
 
-const createColumns = (herbariaId: string, t?: any): Array<ColumnDef<SpecimenData>> => [
+const createColumns = (herbariaId: string = '', t?: any): Array<ColumnDef<SpecimenData>> => [
   {
     accessorKey: 'catalogNumber',
-    header: 'ID',
+    header: t ? t('specimen.fields.catalog-number') : 'ID',
 
     cell: ({ row }) => {
       const thumbnail = row.original.multimedia.find((media) => media.imageRole === 'primary')?.thumbnailUrl
@@ -72,15 +72,15 @@ const createColumns = (herbariaId: string, t?: any): Array<ColumnDef<SpecimenDat
   },
   {
     accessorKey: 'scientificName',
-    header: 'Name',
+    header: t ? t('specimen.fields.scientific-name') : 'Name',
   },
   {
     accessorKey: 'eventDate',
-    header: 'Date',
+    header: t ? t('specimen.fields.event-date') : 'Date',
   },
   {
     accessorKey: 'locality',
-    header: 'Locality',
+    header: t ? t('specimen.fields.locality') : 'Locality',
     cell: ({ row }) => (
       <div className="w-[300px] truncate" title={row.getValue('locality')}>
         {row.getValue('locality')}
@@ -89,7 +89,7 @@ const createColumns = (herbariaId: string, t?: any): Array<ColumnDef<SpecimenDat
   },
   {
     accessorKey: 'countryCode',
-    header: 'Country',
+    header: t ? t('specimen.fields.country') : 'Country',
     cell: ({ row }) => {
       const countryName = getCountryName(row.original.countryCode)
       return countryName === '-' ? '-' : t?.(countryName as any) || countryName
@@ -97,23 +97,23 @@ const createColumns = (herbariaId: string, t?: any): Array<ColumnDef<SpecimenDat
   },
   {
     accessorKey: 'decimalLatitude',
-    header: 'Latitude',
+    header: t ? t('specimen.fields.latitude') : 'Latitude',
   },
   {
     accessorKey: 'decimalLongitude',
-    header: 'Longitude',
+    header: t ? t('specimen.fields.longitude') : 'Longitude',
   },
   {
     accessorKey: 'floritalyName',
-    header: 'Name in FlorItaly',
+    header: t ? t('specimen.fields.floritaly-name') : 'Name in FlorItaly',
   },
   {
     accessorKey: 'recordedBy',
-    header: 'Recorded By',
+    header: t ? t('specimen.fields.recorded-by') : 'Recorded By',
   },
   {
     accessorKey: 'identifiedBy',
-    header: 'Identified By',
+    header: t ? t('specimen.fields.identified-by') : 'Identified By',
   },
 ]
 

@@ -101,9 +101,9 @@ function DataItemCard({ item }: { item: SpecimenData }) {
         {/* Text Content Area */}
         <div className="flex min-h-full w-full flex-col space-y-1 pt-4 pr-1">
           <p className="pb-1 text-sm font-semibold">{item.scientificName || 'Unknown Species'}</p>
-          <p className="text-muted-foreground text-xs">Country: {countryName}</p>
+          <p className="text-muted-foreground text-xs">{t('specimen.fields.country')}: {countryName}</p>
 
-          <p className="text-muted-foreground text-xs">Date: {item.eventDate ? item.eventDate : '-'}</p>
+          <p className="text-muted-foreground text-xs">{t('specimen.fields.date')}: {item.eventDate ? item.eventDate : '-'}</p>
           <p className="flex-grow"></p>
           <p className="text-muted-foreground pr-1 text-right text-xs">{item.catalogNumber || 'N/A'}</p>
         </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight, ChevronsLeft, MoreHorizontalIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { useDebouncedCallback } from '@/hooks/use-debounce'
 
@@ -12,6 +13,7 @@ interface PaginationProps {
 
 export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
   const [localSkip, setLocalSkip] = useState(skip)
+  const { t } = useTranslation()
 
   useEffect(() => {
     setLocalSkip(skip)
@@ -42,7 +44,7 @@ export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
   return (
     <div className="my-2 flex h-[50px] items-center justify-between">
       <div className="text-muted-foreground flex-1 text-sm">
-        Page {page} of {totalPages}
+        {t('search.results.page')} {page} {t('search.results.of')} {totalPages}
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">

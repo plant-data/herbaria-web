@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight, ChevronsLeft, MoreHorizontalIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useDebouncedCallback } from '@/hooks/use-debounce'
 
 interface PaginationProps {
   count: number
@@ -9,20 +11,31 @@ interface PaginationProps {
 }
 
 export function Pagination({ count, limit, skip, setSkip }: PaginationProps) {
+  const [localSkip, setLocalSkip] = useState(skip)
+
+  useEffect(() => {
+    setLocalSkip(skip)
+  }, [skip])
+
+  const debouncedSetSkip = useDebouncedCallback((value: number) => {
+    setSkip(value)
+  }, 300)
+
   // Validate inputs
   if (count === 0 || limit <= 0) {
     return null
   }
 
   // Normalize skip to ensure it's aligned with limit and non-negative
-  const normalizedSkip = Math.max(0, Math.floor(skip / limit) * limit)
+  const normalizedSkip = Math.max(0, Math.floor(localSkip / limit) * limit)
   const page = Math.floor(normalizedSkip / limit) + 1
   const totalPages = Math.ceil(count / limit)
   const firstPageSkip = 0
 
   // Helper function to handle pagination click with scroll to top
   const handlePageChange = (newSkip: number) => {
-    setSkip(newSkip)
+    setLocalSkip(newSkip)
+    debouncedSetSkip(newSkip)
     window.scrollTo({ top: 0, behavior: 'instant' })
   }
 

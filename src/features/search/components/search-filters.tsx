@@ -99,7 +99,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         onSelectedValuesChange={setScientificName}
         queryKey={['plantscientificnamesearch', herbariaId ?? '']}
         query={
-          `${BASE_API_URL}autocomplete?` +
+          `${BASE_API_URL}specimens/suggestions?` +
           (herbariaId ? `institutionCode=${herbariaId}&` : '') +
           `field=scientificName&value=`
         }
@@ -111,7 +111,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         onSelectedValuesChange={setGenus}
         queryKey={['genussearch', herbariaId ?? '']}
         query={
-          `${BASE_API_URL}autocomplete?` + (herbariaId ? `institutionCode=${herbariaId}&` : '') + `field=genus&value=`
+          `${BASE_API_URL}specimens/suggestions?` + (herbariaId ? `institutionCode=${herbariaId}&` : '') + `field=genus&value=`
         }
       />
       <AutocompletePrefetch
@@ -122,7 +122,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         onSelectedValuesChange={setCountryCode}
         queryKeys={['countryCode', herbariaId ?? '']}
         query={
-          `${BASE_API_URL}autocomplete?` +
+          `${BASE_API_URL}specimens/suggestions?` +
           (herbariaId ? `institutionCode=${herbariaId}&` : '') +
           `limit=999&field=countryCode&value=`
         }
@@ -134,7 +134,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         onSelectedValuesChange={setLocality}
         queryKey={['localitysearch', herbariaId ?? '']}
         query={
-          `${BASE_API_URL}autocomplete?` +
+          `${BASE_API_URL}specimens/suggestions?` +
           (herbariaId ? `institutionCode=${herbariaId}&` : '') +
           `field=locality&value=`
         }
@@ -181,7 +181,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         onSelectedValuesChange={setFloritalyName}
         queryKey={['floritalysearch', herbariaId ?? '']}
         query={
-          `${BASE_API_URL}autocomplete?` +
+          `${BASE_API_URL}specimens/suggestions?` +
           (herbariaId ? `institutionCode=${herbariaId}&` : '') +
           `field=floritalyName&value=`
         }

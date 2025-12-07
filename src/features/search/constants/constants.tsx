@@ -56,27 +56,27 @@ const SKIP = 0
 
 const SEARCH_CONFIG = {
   data: {
-    url: `${BASE_API_URL}occurrences/search`,
+    url: `${BASE_API_URL}specimens/search`,
     key: 'specimens-data',
   },
   map: {
-    url: `${BASE_API_URL}map/clusters`,
+    url: `${BASE_API_URL}specimens/map/clusters`,
     key: 'specimens-map',
   },
   graph: {
-    url: `${BASE_API_URL}group/search`,
+    url: `${BASE_API_URL}specimens/stats/groups`,
     key: 'specimens-graph',
   },
   point: {
-    url: `${BASE_API_URL}occurrences/search`,
+    url: `${BASE_API_URL}specimens/search`,
     key: 'point-data',
   },
   cluster: {
-    url: `${BASE_API_URL}occurrences/search`,
+    url: `${BASE_API_URL}specimens/search`,
     key: 'cluster-data',
   },
   count: {
-    url: `${BASE_API_URL}occurrences/count`,
+    url: `${BASE_API_URL}specimens/stats/count`,
     key: 'specimens-count',
   },
 } as const

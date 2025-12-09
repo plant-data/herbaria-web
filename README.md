@@ -4,9 +4,6 @@
 
 ## TODO
 
-- [ ] set autocomplete to search only in a specific herbarium
-- [ ] add real countries
-- [ ] fiz map at high zoom levels
-- [ ] improve header layout
-- [ ] improve herbarium selection layout
-- [ ] improve layout of herbaria homepage
+su chrome col trackpad a volte lo slider degli anni non aggiorna il filtro
+questo è un bug di radix-ui https://github.com/radix-ui/primitives/issues/1760
+prima o poi sarà il caso di passare a base-ui

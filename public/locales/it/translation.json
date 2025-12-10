@@ -1,5 +1,33 @@
 {
   "herbaria-hero": "test",
+  "about": {
+    "title": "Il Progetto",
+    "subtitle": "Scopri il patrimonio digitale delle collezioni botaniche italiane attraverso il portale FlorItaly Herbaria.",
+    "project": {
+      "title": "Il Portale FlorItaly Herbaria",
+      "description_1": "Il portale FlorItaly Herbaria è una piattaforma digitale centralizzata progettata per aggregare e mostrare le collezioni di erbari di varie istituzioni italiane. Serve come risorsa vitale per ricercatori, botanici e pubblico, fornendo accesso a immagini digitali di alta qualità e dati scientifici di campioni vegetali conservati.",
+      "description_2": "Digitalizzando questi tesori storici e scientifici, il progetto mira a preservare il patrimonio botanico, facilitare la ricerca tassonomica e promuovere lo studio della biodiversità. La piattaforma si integra con il database FlorItaly per fornire nomenclatura e dati di distribuzione aggiornati."
+    },
+    "guide": {
+      "title": "Come Usare il Portale",
+      "collections": {
+        "title": "Esplora le Collezioni",
+        "description": "Inizia dalla homepage per esplorare specifiche collezioni di Erbari (es. Herbarium PI, TSB) o scegli 'Tutti gli Erbari' per cercare nell'intero database."
+      },
+      "search": {
+        "title": "Cerca Campioni",
+        "description": "Usa la barra di ricerca per trovare campioni per Nome Scientifico, Genere o Famiglia. La funzione di autocompletamento ti aiuta a trovare rapidamente nomi tassonomici validi."
+      },
+      "filters": {
+        "title": "Applica Filtri",
+        "description": "Affina la tua ricerca usando i filtri laterali. Puoi filtrare per Paese, Regione, Raccoglitore e Anno di Raccolta. Attiva 'Ha Coordinate' per vedere solo i campioni georeferenziati."
+      },
+      "map": {
+        "title": "Mappa Interattiva",
+        "description": "Passa alla vista Mappa per visualizzare la distribuzione dei campioni. Usa gli strumenti di disegno per cercare campioni all'interno di un'area geografica specifica (poligono, cerchio o rettangolo)."
+      }
+    }
+  },
   "specimen": {
     "label-data": "Dati cartellino",
     "not-georeferenced": "Record non georeferenziato",

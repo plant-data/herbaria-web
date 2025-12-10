@@ -1,5 +1,33 @@
 {
   "herbaria-hero": "test engl",
+  "about": {
+    "title": "About the Project",
+    "subtitle": "Discover the digital heritage of Italian botanical collections through the FlorItaly Herbaria portal.",
+    "project": {
+      "title": "The FlorItaly Herbaria Portal",
+      "description_1": "The FlorItaly Herbaria portal is a centralized digital platform designed to aggregate and showcase herbarium collections from various Italian institutions. It serves as a vital resource for researchers, botanists, and the public, providing access to high-quality digital images and scientific data of preserved plant specimens.",
+      "description_2": "By digitizing these historical and scientific treasures, the project aims to preserve botanical heritage, facilitate taxonomic research, and promote the study of biodiversity. The platform integrates with the FlorItaly database to provide up-to-date nomenclature and distribution data."
+    },
+    "guide": {
+      "title": "How to Use the Portal",
+      "collections": {
+        "title": "Browse Collections",
+        "description": "Start from the homepage to explore specific Herbarium collections (e.g., Herbarium PI, TSB) or choose 'All Herbaria' to search across the entire database."
+      },
+      "search": {
+        "title": "Search Specimens",
+        "description": "Use the search bar to find specimens by Scientific Name, Genus, or Family. The autocomplete feature helps you find valid taxonomic names quickly."
+      },
+      "filters": {
+        "title": "Apply Filters",
+        "description": "Refine your search using the sidebar filters. You can filter by Country, Region, Collector, and Collection Year. Toggle 'Has Coordinates' to see only georeferenced specimens."
+      },
+      "map": {
+        "title": "Interactive Map",
+        "description": "Switch to the Map view to visualize specimen distribution. Use the drawing tools to search for specimens within a specific geographic area (polygon, circle, or rectangle)."
+      }
+    }
+  },
   "specimen": {
     "label-data": "Label Data",
     "not-georeferenced": "Record not georeferenced",

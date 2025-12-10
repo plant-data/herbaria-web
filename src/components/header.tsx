@@ -9,12 +9,7 @@ import { LanguageToggle } from '@/components/language-toggle'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { cn } from '@/lib/utils'
 import { BASE_PATH } from '@/config'

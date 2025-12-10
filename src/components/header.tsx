@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useParams, useRouterState } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { Menu } from 'lucide-react'
+import { ChevronDown, Menu } from 'lucide-react'
 
 import { BreadcrumbResponsive } from '@/components/breadcrumb'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -9,6 +9,12 @@ import { LanguageToggle } from '@/components/language-toggle'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { cn } from '@/lib/utils'
 import { BASE_PATH } from '@/config'
@@ -61,6 +67,40 @@ export function Header() {
                   <div className="flex flex-col gap-4">
                     <h3 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">Menu</h3>
                     <BreadcrumbResponsive onLinkClick={() => setIsMenuOpen(false)} />
+
+                    <div className="mt-4 flex flex-col gap-2">
+                      <h4 className="text-sm font-medium">{t('header.herbaria')}</h4>
+                      {HERBARIA_CONFIG.map((herbarium) => (
+                        <Link
+                          key={herbarium.id}
+                          to="/$herbariaId"
+                          params={{ herbariaId: herbarium.id }}
+                          className="text-muted-foreground hover:text-foreground text-sm"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {t(herbarium.translationKey)}
+                        </Link>
+                      ))}
+                    </div>
+
+                    <div className="mt-4 flex flex-col gap-2">
+                      <h4 className="text-sm font-medium">{t('header.other')}</h4>
+                      <Link
+                        to="/about"
+                        className="text-muted-foreground hover:text-foreground text-sm"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {t('header.about')}
+                      </Link>
+                      <a
+                        href="https://florytaly.plantdata.it"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-foreground text-sm"
+                      >
+                        {t('header.returnToFlorItaly')}
+                      </a>
+                    </div>
                   </div>
 
                   {/* Controls */}
@@ -98,6 +138,43 @@ export function Header() {
 
         {/* Theme and Language Controls */}
         <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="gap-1">
+                {t('header.herbaria')}
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {HERBARIA_CONFIG.map((herbarium) => (
+                <DropdownMenuItem key={herbarium.id} asChild>
+                  <Link to="/$herbariaId" params={{ herbariaId: herbarium.id }}>
+                    {t(herbarium.translationKey)}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="gap-1">
+                {t('header.other')}
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link to="/about">{t('header.about')}</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="https://florytaly.plantdata.it" target="_blank" rel="noopener noreferrer">
+                  {t('header.returnToFlorItaly')}
+                </a>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {/*  <ThemeToggle /> */}
           <LanguageToggle />
         </div>

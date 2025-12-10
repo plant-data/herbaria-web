@@ -1,5 +1,11 @@
 {
   "herbaria-hero": "test engl",
+  "header": {
+    "herbaria": "Herbaria",
+    "other": "Other",
+    "about": "About",
+    "returnToFlorItaly": "Return to FlorItaly Home"
+  },
   "about": {
     "title": "About the Project",
     "subtitle": "Discover the digital heritage of Italian botanical collections through the FlorItaly Herbaria portal.",

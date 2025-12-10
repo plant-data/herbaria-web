@@ -1,5 +1,11 @@
 {
   "herbaria-hero": "test",
+  "header": {
+    "herbaria": "Erbari",
+    "other": "Altro",
+    "about": "Info",
+    "returnToFlorItaly": "Ritorna alla Home di FlorItaly"
+  },
   "about": {
     "title": "Il Progetto",
     "subtitle": "Scopri il patrimonio digitale delle collezioni botaniche italiane attraverso il portale FlorItaly Herbaria.",

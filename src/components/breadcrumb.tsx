@@ -4,12 +4,14 @@ import { useTranslation } from 'react-i18next'
 import { ChevronRight, Home } from 'lucide-react'
 import {
   Breadcrumb,
+  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { useIsMobile } from '@/hooks/use-mobile'
 
@@ -18,6 +20,17 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
   const { herbariaId } = useParams({ strict: false })
   const { t } = useTranslation()
   const isMobile = useIsMobile()
+  const [isSmallDesktop, setIsSmallDesktop] = React.useState(false)
+
+  React.useEffect(() => {
+    const checkSize = () => {
+      setIsSmallDesktop(window.innerWidth < 940)
+    }
+    checkSize()
+    window.addEventListener('resize', checkSize)
+    return () => window.removeEventListener('resize', checkSize)
+  }, [])
+
   const cleanBasePath = '' // remove leading/trailing slashes
   const pathnames = location.pathname.split('/').filter((x) => x !== cleanBasePath && x !== '')
 
@@ -101,7 +114,7 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
               <ChevronRight className="text-muted-foreground h-3 w-3" />
               <div className="flex-1">
                 {segment.isLast ? (
-                  <div className=" px-3 py-2">
+                  <div className="px-3 py-2">
                     <span className="text-ring text-sm font-medium">{segment.name}</span>
                   </div>
                 ) : (
@@ -125,34 +138,79 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {pathnames.map((value, index) => {
-          let to = `/${pathnames.slice(0, index + 1).join('/')}`
-          const isLast = index === pathnames.length - 1
-          let name = getBreadcrumbName(value)
+        {pathnames.length > 2 && isSmallDesktop ? (
+          <>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center gap-1 hover:cursor-pointer hover:bg-accent/50 rounded-md p-1 transition-colors">
+                  <BreadcrumbEllipsis className="h-4 w-4" />
+                  <span className="sr-only">Toggle menu</span>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                  {pathnames.slice(0, -1).map((value, index) => {
+                    const originalIndex = index
+                    let to = `/${pathnames.slice(0, originalIndex + 1).join('/')}`
+                    let name = getBreadcrumbName(value)
+                    if (value === 'specimens') {
+                      to = to.replace('specimens', 'images')
+                      name = t('navbar.search')
+                    }
+                    return (
+                      <DropdownMenuItem key={to} asChild>
+                        <Link to={to as any} className='hover:cursor-pointer' onClick={onLinkClick}>
+                          {name}
+                        </Link>
+                      </DropdownMenuItem>
+                    )
+                  })}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>
+                {(() => {
+                  const value = pathnames[pathnames.length - 1]
+                  let name = getBreadcrumbName(value)
+                  if (value === 'specimens') {
+                    name = t('navbar.search')
+                  }
+                  return name
+                })()}
+              </BreadcrumbPage>
+            </BreadcrumbItem>
+          </>
+        ) : (
+          pathnames.map((value, index) => {
+            let to = `/${pathnames.slice(0, index + 1).join('/')}`
+            const isLast = index === pathnames.length - 1
+            let name = getBreadcrumbName(value)
 
-          if (value === 'specimens') {
-            // replace specimens with images (default search view)
-            to = to.replace('specimens', 'images')
-            name = t('navbar.search')
-          }
+            if (value === 'specimens') {
+              // replace specimens with images (default search view)
+              to = to.replace('specimens', 'images')
+              name = t('navbar.search')
+            }
 
-          return (
-            <React.Fragment key={to + index}>
-              <BreadcrumbSeparator key={to + index} />
-              <BreadcrumbItem key={to}>
-                {isLast ? (
-                  <BreadcrumbPage>{name}</BreadcrumbPage>
-                ) : (
-                  <BreadcrumbLink asChild>
-                    <Link to={to} onClick={onLinkClick}>
-                      {name}
-                    </Link>
-                  </BreadcrumbLink>
-                )}
-              </BreadcrumbItem>
-            </React.Fragment>
-          )
-        })}
+            return (
+              <React.Fragment key={to + index}>
+                <BreadcrumbSeparator key={to + index} />
+                <BreadcrumbItem key={to}>
+                  {isLast ? (
+                    <BreadcrumbPage>{name}</BreadcrumbPage>
+                  ) : (
+                    <BreadcrumbLink asChild>
+                      <Link to={to as any} onClick={onLinkClick}>
+                        {name}
+                      </Link>
+                    </BreadcrumbLink>
+                  )}
+                </BreadcrumbItem>
+              </React.Fragment>
+            )
+          })
+        )}
       </BreadcrumbList>
     </Breadcrumb>
   )

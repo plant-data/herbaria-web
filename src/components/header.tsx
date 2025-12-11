@@ -53,11 +53,14 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-80 p-6 sm:w-96">
-                <SheetHeader className="pb-6">
-                  <SheetTitle className="text-left text-lg">FlorItaly Herbaria</SheetTitle>
+                <SheetHeader className="p-0">
+                  <div className="flex items-center gap-3">
+                    <img src={`${BASE_PATH}images/flor.png`} alt="Herbaria Logo" width={32} height={32} />
+                    <SheetTitle className="text-left text-lg">FlorItaly Herbaria</SheetTitle>
+                  </div>
                 </SheetHeader>
 
-                <div className="flex h-full flex-col justify-between gap-8">
+                <div className="flex flex-1 flex-col justify-between gap-8 overflow-y-auto">
                   {/* Breadcrumb Navigation */}
                   <div className="flex flex-col gap-4">
                     <h3 className="text-muted-foreground text-sm font-semibold tracking-wide uppercase">Menu</h3>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useParams, useRouterState } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { ChevronRight, Home } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -107,27 +107,21 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
     ]
 
     return (
-      <div className="flex flex-col gap-2">
+      <div className="flex max-h-[40vh] flex-col gap-2 overflow-y-auto">
         {allSegments.map((segment, index) => (
-          <div key={segment.to + index} className="flex flex-col">
-            <div className="flex items-center gap-2">
-              <ChevronRight className="text-muted-foreground h-3 w-3" />
-              <div className="flex-1">
-                {segment.isLast ? (
-                  <div className="px-3 py-2">
-                    <span className="text-ring text-sm font-medium">{segment.name}</span>
-                  </div>
-                ) : (
-                  <Link
-                    to={segment.to}
-                    className="hover:bg-muted/50 group block rounded-lg px-3 py-2 transition-colors"
-                    onClick={onLinkClick}
-                  >
-                    <span className="group-hover:text-foreground text-sm font-medium">{segment.name}</span>
-                  </Link>
-                )}
-              </div>
-            </div>
+          <div key={segment.to + index} className="flex items-center gap-1">
+            <ChevronRight className="text-muted-foreground/60 h-3.5 w-3.5" />
+            {segment.isLast ? (
+              <span className="text-foreground text-sm font-medium">{segment.name}</span>
+            ) : (
+              <Link
+                to={segment.to}
+                className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                onClick={onLinkClick}
+              >
+                {segment.name}
+              </Link>
+            )}
           </div>
         ))}
       </div>
@@ -143,7 +137,7 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center gap-1 hover:cursor-pointer hover:bg-accent/50 rounded-md p-1 transition-colors">
+                <DropdownMenuTrigger className="hover:bg-accent/50 flex items-center gap-1 rounded-md p-1 transition-colors hover:cursor-pointer">
                   <BreadcrumbEllipsis className="h-4 w-4" />
                   <span className="sr-only">Toggle menu</span>
                 </DropdownMenuTrigger>
@@ -158,7 +152,7 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
                     }
                     return (
                       <DropdownMenuItem key={to} asChild>
-                        <Link to={to as any} className='hover:cursor-pointer' onClick={onLinkClick}>
+                        <Link to={to as any} className="hover:cursor-pointer" onClick={onLinkClick}>
                           {name}
                         </Link>
                       </DropdownMenuItem>

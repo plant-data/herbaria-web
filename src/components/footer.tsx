@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
+import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { Separator } from '@/components/ui/separator'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { BASE_PATH } from '@/config'
@@ -117,6 +118,13 @@ function AboutSection() {
 
 function NavigationSection() {
   const { t } = useTranslation()
+  const resetFilters = useFilterStore((state) => state.resetFilters)
+  const resetMap = useFilterStore((state) => state.resetMap)
+
+  const handleNavigate = () => {
+    resetFilters()
+    resetMap()
+  }
 
   return (
     <nav className="space-y-4">
@@ -135,6 +143,7 @@ function NavigationSection() {
           <Link
             to="/$herbariaId/images"
             params={{ herbariaId: 'all' }}
+            onClick={handleNavigate}
             className="text-muted-foreground hover:text-primary dark:hover:text-primary text-sm transition"
           >
             {t('footer.allHerbaria', { defaultValue: 'All Herbaria' })}

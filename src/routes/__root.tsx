@@ -25,7 +25,7 @@ function RootComponent() {
         <Header />
 
         <Outlet />
-        <TanStackRouterDevtools position="top-right" />
+        {/* <TanStackRouterDevtools position="top-right" /> */}
 
         <TanStackQueryLayout />
       </div>

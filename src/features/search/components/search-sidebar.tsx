@@ -16,6 +16,7 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { ResetFilterButton } from '@/features/search/components/reset-filter-button'
 import { SelectedFiltersTree } from '@/features/search/components/selected-filters-tree'
 import { SearchFilters } from '@/features/search/components/search-filters'
+import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 
 interface SearchSidebarProps extends React.ComponentProps<typeof Sidebar> {
   lockedFilters?: LockedFilters
@@ -31,14 +32,17 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
     })),
   )
 
+  const ringColor = HERBARIA_CONFIG.find((h) => h.id === herbariaId)?.ringColor
+  const style = { '--ring': ringColor } as React.CSSProperties
+
   // in the search of each herbarium i need to substract 1 from the active filters count
   const trueActiveFiltersCount = herbariaId !== 'all' ? activeFiltersCount - 1 : activeFiltersCount
   const lockedFiltersPresent = lockedFilters && lockedFilters.length > 0
 
   return (
     <Tabs defaultValue="filters" asChild>
-      <Sidebar className="top-[var(--header-height)] !h-[calc(100svh-var(--header-height))]" {...props}>
-        <SidebarHeader>
+      <Sidebar  className="top-[var(--header-height)] !h-[calc(100svh-var(--header-height))]" {...props}>
+        <SidebarHeader style={style}>
           <SidebarMenu className="relative">
             <SidebarMenuItem className="flex items-center justify-center">
               <TabsList className="bg-background border-input h-auto gap-1 border p-0.5">
@@ -70,7 +74,7 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
           </SidebarMenu>
         </SidebarHeader>
         <hr className="text-input mx-2" />
-        <SidebarContent className="gap-4">
+        <SidebarContent style={style} className="gap-4">
           <TabsContent
             key="filters"
             value="filters"
@@ -91,7 +95,7 @@ export function SearchSidebar({ lockedFilters, ...props }: SearchSidebarProps) {
         <hr className="text-input mx-2" />
         <SidebarFooter className="h-[58px] pt-0">
           <SidebarTrigger
-            className="rounded-full fixed bottom-3 left-3 z-[51] border-transparent bg-transparent text-transparent hover:bg-transparent"
+            className="fixed bottom-3 left-3 z-[51] rounded-full border-transparent bg-transparent text-transparent hover:bg-transparent"
             textShow=""
             textHide=""
           ></SidebarTrigger>

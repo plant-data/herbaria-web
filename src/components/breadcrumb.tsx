@@ -29,11 +29,19 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
     return herbarium ? t(herbarium.translationKey) : id
   }
 
-  const breadcrumbNameMap: { [key: string]: string | ((s: string) => string) } = {
+  /* const breadcrumbNameMap: { [key: string]: string | ((s: string) => string) } = {
     images: t('search.results.nav-images'),
     map: t('navbar.map'),
     graphs: t('navbar.graphs'),
     table: t('navbar.table'),
+    specimens: t('navbar.specimen'),
+  } */
+
+  const breadcrumbNameMap: { [key: string]: string | ((s: string) => string) } = {
+    images: t('navbar.search'),
+    map: t('navbar.search'),
+    graphs: t('navbar.search'),
+    table: t('navbar.search'),
     specimens: t('navbar.specimen'),
   }
 
@@ -78,7 +86,7 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
 
         if (value === 'specimens') {
           to = to.replace('specimens', 'images')
-          name = t('search.results.nav-images')
+          name = t('navbar.search')
         }
 
         return { to, name, isLast }
@@ -125,7 +133,7 @@ export function BreadcrumbResponsive({ onLinkClick }: { onLinkClick?: () => void
           if (value === 'specimens') {
             // replace specimens with images (default search view)
             to = to.replace('specimens', 'images')
-            name = t('search.results.nav-images')
+            name = t('navbar.search')
           }
 
           return (

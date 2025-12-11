@@ -51,7 +51,7 @@ const createColumns = (herbariaId: string = '', t?: any): Array<ColumnDef<Specim
   {
     accessorKey: 'catalogNumber',
     header: t ? t('specimen.fields.catalog-number') : 'ID',
-
+    size: 180,
     cell: ({ row }) => {
       const thumbnail = row.original.multimedia.find((media) => media.imageRole === 'primary')?.thumbnailUrl
       return (
@@ -60,12 +60,12 @@ const createColumns = (herbariaId: string = '', t?: any): Array<ColumnDef<Specim
           params={{ herbariaId, occurrenceID: row.original.occurrenceID }}
           className="text-blue-500 hover:underline"
         >
-          <span className="flex min-w-50 items-center gap-2">
-            <span className="flex h-8 w-6 gap-2">
+          <div className="flex items-center gap-2" title={row.getValue('catalogNumber')}>
+            <div className="flex h-8 w-6 shrink-0 gap-2">
               <SpecimenImage key={thumbnail} thumbnail={thumbnail} alt={`Specimen ${row.getValue('catalogNumber')}`} />
-            </span>
-            {row.getValue('catalogNumber')}
-          </span>
+            </div>
+            <span className="truncate">{row.getValue('catalogNumber')}</span>
+          </div>
         </Link>
       )
     },
@@ -73,16 +73,29 @@ const createColumns = (herbariaId: string = '', t?: any): Array<ColumnDef<Specim
   {
     accessorKey: 'scientificName',
     header: t ? t('specimen.fields.scientific-name') : 'Name',
+    size: 320,
+    cell: ({ row }) => (
+      <div className="truncate" title={row.getValue('scientificName')}>
+        {row.getValue('scientificName')}
+      </div>
+    ),
   },
   {
     accessorKey: 'eventDate',
     header: t ? t('specimen.fields.event-date') : 'Date',
+    size: 120,
+    cell: ({ row }) => (
+      <div className="truncate" title={row.getValue('eventDate')}>
+        {row.getValue('eventDate')}
+      </div>
+    ),
   },
   {
     accessorKey: 'locality',
     header: t ? t('specimen.fields.locality') : 'Locality',
+    size: 300,
     cell: ({ row }) => (
-      <div className="w-[300px] truncate" title={row.getValue('locality')}>
+      <div className="truncate" title={row.getValue('locality')}>
         {row.getValue('locality')}
       </div>
     ),
@@ -90,30 +103,66 @@ const createColumns = (herbariaId: string = '', t?: any): Array<ColumnDef<Specim
   {
     accessorKey: 'countryCode',
     header: t ? t('specimen.fields.country') : 'Country',
+    size: 160,
     cell: ({ row }) => {
       const countryName = getCountryName(row.original.countryCode)
-      return countryName === '-' ? '-' : t?.(countryName as any) || countryName
+      const display = countryName === '-' ? '-' : t?.(countryName as any) || countryName
+      return (
+        <div className="truncate" title={display}>
+          {display}
+        </div>
+      )
     },
   },
   {
     accessorKey: 'decimalLatitude',
     header: t ? t('specimen.fields.latitude') : 'Latitude',
+    size: 100,
+    cell: ({ row }) => (
+      <div className="truncate" title={row.getValue('decimalLatitude')}>
+        {row.getValue('decimalLatitude')}
+      </div>
+    ),
   },
   {
     accessorKey: 'decimalLongitude',
     header: t ? t('specimen.fields.longitude') : 'Longitude',
+    size: 100,
+    cell: ({ row }) => (
+      <div className="truncate" title={row.getValue('decimalLongitude')}>
+        {row.getValue('decimalLongitude')}
+      </div>
+    ),
   },
   {
     accessorKey: 'floritalyName',
     header: t ? t('specimen.fields.floritaly-name') : 'Name in FlorItaly',
+    size: 200,
+    cell: ({ row }) => (
+      <div className="truncate" title={row.getValue('floritalyName')}>
+        {row.getValue('floritalyName')}
+      </div>
+    ),
   },
   {
     accessorKey: 'recordedBy',
     header: t ? t('specimen.fields.recorded-by') : 'Recorded By',
+    size: 180,
+    cell: ({ row }) => (
+      <div className="truncate" title={row.getValue('recordedBy')}>
+        {row.getValue('recordedBy')}
+      </div>
+    ),
   },
   {
     accessorKey: 'identifiedBy',
     header: t ? t('specimen.fields.identified-by') : 'Identified By',
+    size: 180,
+    cell: ({ row }) => (
+      <div className="truncate" title={row.getValue('identifiedBy')}>
+        {row.getValue('identifiedBy')}
+      </div>
+    ),
   },
 ]
 
@@ -165,7 +214,15 @@ export function SpecimensTable() {
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    key={header.id}
+                    className="px-4"
+                    style={{
+                      width: header.getSize(),
+                      minWidth: header.getSize(),
+                      maxWidth: header.getSize(),
+                    }}
+                  >
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
@@ -177,7 +234,15 @@ export function SpecimensTable() {
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell className="min-w-40 py-2" key={cell.id}>
+                    <TableCell
+                      className="px-4 py-2 text-sm"
+                      key={cell.id}
+                      style={{
+                        width: cell.column.getSize(),
+                        minWidth: cell.column.getSize(),
+                        maxWidth: cell.column.getSize(),
+                      }}
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -209,7 +274,15 @@ function TableSkeleton() {
           <TableHeader className="bg-muted">
             <TableRow>
               {columns.map((column, index) => (
-                <TableHead key={index}>
+                <TableHead
+                  key={index}
+                  className="px-4"
+                  style={{
+                    width: column.size,
+                    minWidth: column.size,
+                    maxWidth: column.size,
+                  }}
+                >
                   <Skeleton className="h-4 w-20" />
                 </TableHead>
               ))}
@@ -219,10 +292,18 @@ function TableSkeleton() {
             {Array.from({ length: ITEMS_PER_PAGE }).map((_, rowIndex) => (
               <TableRow key={rowIndex}>
                 {columns.map((column, colIndex) => (
-                  <TableCell className="min-w-40 py-2" key={colIndex}>
+                  <TableCell
+                    className="px-4 py-2"
+                    key={colIndex}
+                    style={{
+                      width: column.size,
+                      minWidth: column.size,
+                      maxWidth: column.size,
+                    }}
+                  >
                     {colIndex === 0 ? (
                       // First column with image and ID
-                      <div className="flex min-w-50 items-center gap-2">
+                      <div className="flex items-center gap-2">
                         <div className="flex h-8 w-7 gap-2">
                           <Skeleton className="h-8 w-7" />
                         </div>

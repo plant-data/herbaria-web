@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Link, useParams } from '@tanstack/react-router'
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +13,7 @@ import { LoadingBadge } from '@/features/search/components/loading-badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ITEMS_PER_PAGE } from '@/config'
 import { COUNTRIES } from '@/features/search/constants/countries'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 // helper function to get country name from country code
 const getCountryName = (countryCode: unknown): string => {
@@ -47,11 +48,37 @@ function SpecimenImage({ thumbnail, alt }: { thumbnail?: string; alt: string }) 
   columns: Array<ColumnDef<TData, TValue>>
 } */
 
+const TruncatedCell = ({ content }: { content: string | number | null | undefined }) => {
+  const [isTruncated, setIsTruncated] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  const checkTruncation = () => {
+    if (ref.current) {
+      setIsTruncated(ref.current.scrollWidth > ref.current.clientWidth)
+    }
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div ref={ref} className="truncate" onMouseEnter={checkTruncation}>
+          {content}
+        </div>
+      </TooltipTrigger>
+      {isTruncated && (
+        <TooltipContent>
+          <p>{content}</p>
+        </TooltipContent>
+      )}
+    </Tooltip>
+  )
+}
+
 const createColumns = (herbariaId: string = '', t?: any): Array<ColumnDef<SpecimenData>> => [
   {
     accessorKey: 'catalogNumber',
     header: t ? t('specimen.fields.catalog-number') : 'ID',
-    size: 180,
+    size: 200,
     cell: ({ row }) => {
       const thumbnail = row.original.multimedia.find((media) => media.imageRole === 'primary')?.thumbnailUrl
       return (
@@ -60,11 +87,11 @@ const createColumns = (herbariaId: string = '', t?: any): Array<ColumnDef<Specim
           params={{ herbariaId, occurrenceID: row.original.occurrenceID }}
           className="text-blue-500 hover:underline"
         >
-          <div className="flex items-center gap-2" title={row.getValue('catalogNumber')}>
+          <div className="flex items-center gap-2">
             <div className="flex h-8 w-6 shrink-0 gap-2">
               <SpecimenImage key={thumbnail} thumbnail={thumbnail} alt={`Specimen ${row.getValue('catalogNumber')}`} />
             </div>
-            <span className="truncate">{row.getValue('catalogNumber')}</span>
+            <TruncatedCell content={row.getValue('catalogNumber')} />
           </div>
         </Link>
       )
@@ -73,32 +100,14 @@ const createColumns = (herbariaId: string = '', t?: any): Array<ColumnDef<Specim
   {
     accessorKey: 'scientificName',
     header: t ? t('specimen.fields.scientific-name') : 'Name',
-    size: 320,
-    cell: ({ row }) => (
-      <div className="truncate" title={row.getValue('scientificName')}>
-        {row.getValue('scientificName')}
-      </div>
-    ),
+    size: 340,
+    cell: ({ row }) => <TruncatedCell content={row.getValue('scientificName')} />,
   },
   {
     accessorKey: 'eventDate',
     header: t ? t('specimen.fields.event-date') : 'Date',
-    size: 120,
-    cell: ({ row }) => (
-      <div className="truncate" title={row.getValue('eventDate')}>
-        {row.getValue('eventDate')}
-      </div>
-    ),
-  },
-  {
-    accessorKey: 'locality',
-    header: t ? t('specimen.fields.locality') : 'Locality',
-    size: 300,
-    cell: ({ row }) => (
-      <div className="truncate" title={row.getValue('locality')}>
-        {row.getValue('locality')}
-      </div>
-    ),
+    size: 160,
+    cell: ({ row }) => <TruncatedCell content={row.getValue('eventDate')} />,
   },
   {
     accessorKey: 'countryCode',
@@ -107,62 +116,44 @@ const createColumns = (herbariaId: string = '', t?: any): Array<ColumnDef<Specim
     cell: ({ row }) => {
       const countryName = getCountryName(row.original.countryCode)
       const display = countryName === '-' ? '-' : t?.(countryName as any) || countryName
-      return (
-        <div className="truncate" title={display}>
-          {display}
-        </div>
-      )
+      return <TruncatedCell content={display} />
     },
+  },
+  {
+    accessorKey: 'verbatimLocality',
+    header: t ? t('specimen.fields.locality') : 'Locality',
+    size: 400,
+    cell: ({ row }) => <TruncatedCell content={row.getValue('verbatimLocality')} />,
   },
   {
     accessorKey: 'decimalLatitude',
     header: t ? t('specimen.fields.latitude') : 'Latitude',
-    size: 100,
-    cell: ({ row }) => (
-      <div className="truncate" title={row.getValue('decimalLatitude')}>
-        {row.getValue('decimalLatitude')}
-      </div>
-    ),
+    size: 160,
+    cell: ({ row }) => <TruncatedCell content={row.getValue('decimalLatitude')} />,
   },
   {
     accessorKey: 'decimalLongitude',
     header: t ? t('specimen.fields.longitude') : 'Longitude',
-    size: 100,
-    cell: ({ row }) => (
-      <div className="truncate" title={row.getValue('decimalLongitude')}>
-        {row.getValue('decimalLongitude')}
-      </div>
-    ),
+    size: 160,
+    cell: ({ row }) => <TruncatedCell content={row.getValue('decimalLongitude')} />,
   },
   {
     accessorKey: 'floritalyName',
     header: t ? t('specimen.fields.floritaly-name') : 'Name in FlorItaly',
-    size: 200,
-    cell: ({ row }) => (
-      <div className="truncate" title={row.getValue('floritalyName')}>
-        {row.getValue('floritalyName')}
-      </div>
-    ),
+    size: 340,
+    cell: ({ row }) => <TruncatedCell content={row.getValue('floritalyName')} />,
   },
   {
     accessorKey: 'recordedBy',
     header: t ? t('specimen.fields.recorded-by') : 'Recorded By',
     size: 180,
-    cell: ({ row }) => (
-      <div className="truncate" title={row.getValue('recordedBy')}>
-        {row.getValue('recordedBy')}
-      </div>
-    ),
+    cell: ({ row }) => <TruncatedCell content={row.getValue('recordedBy')} />,
   },
   {
     accessorKey: 'identifiedBy',
     header: t ? t('specimen.fields.identified-by') : 'Identified By',
     size: 180,
-    cell: ({ row }) => (
-      <div className="truncate" title={row.getValue('identifiedBy')}>
-        {row.getValue('identifiedBy')}
-      </div>
-    ),
+    cell: ({ row }) => <TruncatedCell content={row.getValue('identifiedBy')} />,
   },
 ]
 

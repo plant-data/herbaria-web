@@ -24,7 +24,7 @@ export const Route = createFileRoute('/external/')({
       useFilterStore.getState().setFloritalyName([floritalyName])
       useFilterStore.getState().setCountryCode(['IT'])
       throw redirect({
-        to: '/$herbariaId/search',
+        to: '/$herbariaId/images',
         params: { herbariaId: 'all'},
       })
     }

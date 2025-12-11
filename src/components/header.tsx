@@ -166,8 +166,11 @@ export function Header() {
                 <Link to="/about">{t('header.about')}</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <a href="https://florytaly.plantdata.it" target="_blank" rel="noopener noreferrer">
-                  {t('header.returnToFlorItaly')}
+                <Link to="/how-to-use">{t('header.how-to-use')}</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="https://florytaly.plantdata.it" target="_blank">
+                  {t('header.go-to-floritaly')}
                 </a>
               </DropdownMenuItem>
             </DropdownMenuContent>

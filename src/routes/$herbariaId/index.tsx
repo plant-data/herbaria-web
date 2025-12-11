@@ -127,7 +127,7 @@ function RouteComponent() {
                       placeholder={t('search.filters.scientific-name-placeholder')}
                       queryKey={['simplesearch', herbariaId]}
                       query={
-                        `${BASE_API_URL}autocomplete?` +
+                        `${BASE_API_URL}specimens/suggestions?` +
                         (herbariaId ? `institutionCode=${herbariaId}&` : '') +
                         `field=scientificName&value=`
                       }

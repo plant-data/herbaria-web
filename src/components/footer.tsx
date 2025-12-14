@@ -40,7 +40,7 @@ export function Footer() {
         <Separator className="bg-border/40 dark:bg-border/60" />
         <section className="mx-auto grid gap-10 @2xl/footer:grid-cols-[4fr_2fr_2fr]">
           <AboutSection />
-          <div className="flex flex-col gap-10 w-fit mx-auto @2xl/footer:contents">
+          <div className="mx-auto flex w-fit flex-col gap-10 @2xl/footer:contents">
             <NavigationSection />
             <ContactsSection />
           </div>

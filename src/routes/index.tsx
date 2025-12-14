@@ -112,18 +112,18 @@ function App() {
           <section className="relative mx-auto grid max-w-[90rem] grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
             {/* left images */}
             <div className="hidden flex-col gap-8 lg:col-span-3 lg:flex">
-              <div className="bg-background/50 relative aspect-3/4 w-full max-w-[220px] -rotate-6 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
+              <div className="bg-background/50 relative aspect-3/4 w-full max-w-[220px] -rotate-6 overflow-hidden rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
                 <img
-                  src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                  src="public/images/herb-imgs/fi-hci/FI-HCI-00035529.jpg"
                   alt="Herbarium Specimen"
-                  className="h-full w-full rounded-xl object-cover"
+                  className="h-full w-full rounded-sm object-cover border"
                 />
               </div>
-              <div className="bg-background/50 relative ml-12 aspect-3/4 w-full max-w-[220px] rotate-3 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
+              <div className="bg-background/50 relative ml-12 aspect-3/4 w-full max-w-[220px] rotate-3 overflow-hidden rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
                 <img
-                  src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                  src="public/images/herb-imgs/fi-hci/FI-HCI-00308337.jpg"
                   alt="Herbarium Specimen"
-                  className="h-full w-full rounded-xl object-cover"
+                  className="h-full w-full rounded-md object-cover border"
                 />
               </div>
             </div>
@@ -163,36 +163,36 @@ function App() {
                 <div className="absolute top-1/2 left-1/2 w-32 -translate-x-[125%] -translate-y-1/2 -rotate-12 transform transition-transform hover:z-10 hover:scale-110 sm:w-40">
                   <div className="bg-background overflow-hidden rounded-xl border p-1 shadow-xl lg:p-2">
                     <img
-                      src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                      src="public/images/herb-imgs/fi-hci/FI-HCI-00035529.jpg"
                       alt="Herbarium Specimen"
-                      className="aspect-3/4 w-full rounded-lg object-cover"
+                      className="aspect-3/4 w-full rounded-lg object-cover border"
                     />
                   </div>
                 </div>
                 <div className="absolute top-1/2 left-1/2 w-32 -translate-x-[75%] -translate-y-1/2 -rotate-6 transform transition-transform hover:z-10 hover:scale-110 sm:w-40">
                   <div className="bg-background overflow-hidden rounded-xl border p-1 shadow-xl lg:p-2">
                     <img
-                      src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                      src="public/images/herb-imgs/fi-hci/FI-HCI-00308337.jpg"
                       alt="Herbarium Specimen"
-                      className="aspect-3/4 w-full rounded-lg object-cover"
+                      className="aspect-3/4 w-full rounded-lg object-cover border"
                     />
                   </div>
                 </div>
                 <div className="absolute top-1/2 left-1/2 w-32 -translate-x-[25%] -translate-y-1/2 rotate-6 transform transition-transform hover:z-10 hover:scale-110 sm:w-40">
                   <div className="bg-background overflow-hidden rounded-xl border p-1 shadow-xl lg:p-2">
                     <img
-                      src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                      src="public/images/herb-imgs/fi-hci/FI-HCI-00109221.jpg"
                       alt="Herbarium Specimen"
-                      className="aspect-3/4 w-full rounded-lg object-cover"
+                      className="aspect-3/4 w-full rounded-lg object-cover border"
                     />
                   </div>
                 </div>
                 <div className="absolute top-1/2 left-1/2 w-32 translate-x-[25%] -translate-y-1/2 rotate-12 transform transition-transform hover:z-10 hover:scale-110 sm:w-40">
                   <div className="bg-background overflow-hidden rounded-xl border p-1 shadow-xl lg:p-2">
                     <img
-                      src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                      src="images/herb-imgs/fi-hci/FI-HCI-00230552.jpg"
                       alt="Herbarium Specimen"
-                      className="aspect-3/4 w-full rounded-lg object-cover"
+                      className="aspect-3/4 w-full rounded-lg object-cover border"
                     />
                   </div>
                 </div>
@@ -201,18 +201,18 @@ function App() {
 
             {/* right images */}
             <div className="hidden flex-col gap-8 lg:col-span-3 lg:flex">
-              <div className="bg-background/50 relative mt-12 aspect-3/4 w-full max-w-[220px] rotate-6 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
+              <div className="bg-background/50 relative mt-12 aspect-3/4 w-full max-w-[220px] rotate-6 overflow-hidden rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
                 <img
-                  src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                  src="images/herb-imgs/fi-hci/FI-HCI-00230552.jpg"
                   alt="Herbarium Specimen"
-                  className="h-full w-full rounded-xl object-cover"
+                  className="h-full w-full rounded-sm object-cover border"
                 />
               </div>
-              <div className="bg-background/50 relative -ml-8 aspect-3/4 w-full max-w-[220px] -rotate-4 overflow-hidden rounded-2xl border p-2 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
+              <div className="bg-background/50 relative -ml-8 aspect-3/4 w-full max-w-[220px] -rotate-4 overflow-hidden rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
                 <img
-                  src="https://object.jacq.org/europeana/PI/2204769.jpg"
+                  src="public/images/herb-imgs/fi-hci/FI-HCI-00109221.jpg"
                   alt="Herbarium Specimen"
-                  className="h-full w-full rounded-xl object-cover"
+                  className="h-full w-full rounded-sm object-cover border"
                 />
               </div>
             </div>

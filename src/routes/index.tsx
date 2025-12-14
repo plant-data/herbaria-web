@@ -114,16 +114,16 @@ function App() {
             <div className="hidden flex-col gap-8 lg:col-span-3 lg:flex">
               <div className="bg-background/50 relative aspect-3/4 w-full max-w-[220px] -rotate-6 overflow-hidden rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
                 <img
-                  src="public/images/herb-imgs/fi-hci/FI-HCI-00035529.jpg"
+                  src="images/herb-imgs/fi-hci/FI-HCI-00035529.jpg"
                   alt="Herbarium Specimen"
-                  className="h-full w-full rounded-sm object-cover border"
+                  className="h-full w-full rounded-sm border object-cover"
                 />
               </div>
               <div className="bg-background/50 relative ml-12 aspect-3/4 w-full max-w-[220px] rotate-3 overflow-hidden rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
                 <img
-                  src="public/images/herb-imgs/fi-hci/FI-HCI-00308337.jpg"
+                  src="images/herb-imgs/fi-hci/FI-HCI-00308337.jpg"
                   alt="Herbarium Specimen"
-                  className="h-full w-full rounded-md object-cover border"
+                  className="h-full w-full rounded-md border object-cover"
                 />
               </div>
             </div>
@@ -142,7 +142,7 @@ function App() {
               <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
                 <button
                   onClick={scrollToHerbariaSection}
-                  className="border-border/70 text-foreground hover:bg-accent hover:cursor-pointer focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium shadow-xs transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                  className="border-border/70 text-foreground hover:bg-accent focus-visible:ring/50 focus-visible:ring-[2px]-ring focus-visible:ring-ring/50 inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-medium shadow-xs transition-colors hover:cursor-pointer focus-visible:ring-2 focus-visible:outline-none"
                 >
                   <ArrowRight className="h-5 w-5" />
                   {t('herbaria-homepage.browse-herbaria-button')}
@@ -163,27 +163,27 @@ function App() {
                 <div className="absolute top-1/2 left-1/2 w-32 -translate-x-[125%] -translate-y-1/2 -rotate-12 transform transition-transform hover:z-10 hover:scale-110 sm:w-40">
                   <div className="bg-background overflow-hidden rounded-xl border p-1 shadow-xl lg:p-2">
                     <img
-                      src="public/images/herb-imgs/fi-hci/FI-HCI-00035529.jpg"
+                      src="images/herb-imgs/fi-hci/FI-HCI-00035529.jpg"
                       alt="Herbarium Specimen"
-                      className="aspect-3/4 w-full rounded-lg object-cover border"
+                      className="aspect-3/4 w-full rounded-lg border object-cover"
                     />
                   </div>
                 </div>
                 <div className="absolute top-1/2 left-1/2 w-32 -translate-x-[75%] -translate-y-1/2 -rotate-6 transform transition-transform hover:z-10 hover:scale-110 sm:w-40">
                   <div className="bg-background overflow-hidden rounded-xl border p-1 shadow-xl lg:p-2">
                     <img
-                      src="public/images/herb-imgs/fi-hci/FI-HCI-00308337.jpg"
+                      src="images/herb-imgs/fi-hci/FI-HCI-00308337.jpg"
                       alt="Herbarium Specimen"
-                      className="aspect-3/4 w-full rounded-lg object-cover border"
+                      className="aspect-3/4 w-full rounded-lg border object-cover"
                     />
                   </div>
                 </div>
                 <div className="absolute top-1/2 left-1/2 w-32 -translate-x-[25%] -translate-y-1/2 rotate-6 transform transition-transform hover:z-10 hover:scale-110 sm:w-40">
                   <div className="bg-background overflow-hidden rounded-xl border p-1 shadow-xl lg:p-2">
                     <img
-                      src="public/images/herb-imgs/fi-hci/FI-HCI-00109221.jpg"
+                      src="images/herb-imgs/fi-hci/FI-HCI-00109221.jpg"
                       alt="Herbarium Specimen"
-                      className="aspect-3/4 w-full rounded-lg object-cover border"
+                      className="aspect-3/4 w-full rounded-lg border object-cover"
                     />
                   </div>
                 </div>
@@ -192,7 +192,7 @@ function App() {
                     <img
                       src="images/herb-imgs/fi-hci/FI-HCI-00230552.jpg"
                       alt="Herbarium Specimen"
-                      className="aspect-3/4 w-full rounded-lg object-cover border"
+                      className="aspect-3/4 w-full rounded-lg border object-cover"
                     />
                   </div>
                 </div>
@@ -205,14 +205,14 @@ function App() {
                 <img
                   src="images/herb-imgs/fi-hci/FI-HCI-00230552.jpg"
                   alt="Herbarium Specimen"
-                  className="h-full w-full rounded-sm object-cover border"
+                  className="h-full w-full rounded-sm border object-cover"
                 />
               </div>
               <div className="bg-background/50 relative -ml-8 aspect-3/4 w-full max-w-[220px] -rotate-4 overflow-hidden rounded-lg border p-1 shadow-lg backdrop-blur-sm transition-transform hover:scale-105 hover:rotate-0">
                 <img
-                  src="public/images/herb-imgs/fi-hci/FI-HCI-00109221.jpg"
+                  src="images/herb-imgs/fi-hci/FI-HCI-00109221.jpg"
                   alt="Herbarium Specimen"
-                  className="h-full w-full rounded-sm object-cover border"
+                  className="h-full w-full rounded-sm border object-cover"
                 />
               </div>
             </div>

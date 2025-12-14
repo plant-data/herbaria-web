@@ -176,7 +176,7 @@ export function SelectedFiltersTree() {
         label: t('search.filters.region-label'),
       },
     ],
-    [t, scientificName, floritalyName, genus, country, countryCode, locality, geometry, year, month, hasCoordinates],
+    [t, scientificName, floritalyName, genus, country, countryCode, locality, geometry, year, month, hasCoordinates, stateProvince],
   )
 
   if (activeFiltersCount === 0) {

@@ -20,6 +20,7 @@ const UNIVERSITY_LOGOS = [
 const SUPPORT_LOGOS = [{ name: 'LifeWatch Italia', src: `${ORGANIZATION_BASE_PATH}lw-ita.png` }]
 
 const MAIN_LOGO = { name: 'Plant Data Interuniversity Center', src: `${ORGANIZATION_BASE_PATH}plantdata.png` }
+const FLORITALY_LOGO = { name: 'Floritaly', src: `${ORGANIZATION_BASE_PATH}floritaly.png` }
 
 const CONTACTS = [
   { roleKey: 'footer.coordinator' as const, name: 'Stefano Martellos', email: 'martelst@units.it' },
@@ -37,7 +38,7 @@ export function Footer() {
       <div className="mx-auto flex max-w-[90rem] flex-col gap-12 px-4 py-12 @md/footer:px-6">
         <PartnersSection />
         <Separator className="bg-border/40 dark:bg-border/60" />
-        <section className="mx-auto grid gap-10 @2xl/footer:grid-cols-[3fr_3fr_2fr]">
+        <section className="mx-auto grid gap-10 @2xl/footer:grid-cols-[4fr_2fr_2fr]">
           <AboutSection />
           <NavigationSection />
           <ContactsSection />
@@ -105,13 +106,9 @@ function PartnersSection() {
 
 function AboutSection() {
   return (
-    <div className="mt-1 flex w-full items-start justify-center">
-      <img
-        src={MAIN_LOGO.src}
-        alt={MAIN_LOGO.name}
-        className="h-30 object-contain opacity-100 transition hover:opacity-80 dark:invert-100"
-        loading="lazy"
-      />
+    <div className="mt-1 flex w-full flex-row items-center justify-center gap-8 @2xl/footer:-mt-12">
+      <img src={FLORITALY_LOGO.src} alt={FLORITALY_LOGO.name} className="h-30 object-contain" loading="lazy" />
+      <img src={MAIN_LOGO.src} alt={MAIN_LOGO.name} className="h-25 object-contain dark:invert-100" loading="lazy" />
     </div>
   )
 }

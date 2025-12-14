@@ -174,6 +174,8 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         onCheckedChange={setHasCoordinates}
       />
       {/* qua metto i filtry x l'italia */}
+      <hr className="text-input mx-2 mt-3 mb-2" />
+      <span className='ml-1 mb-1 text-sm font-semibold'>{t('search.filters.filters-for-italy')}</span>
       <Autocomplete
         label={t('search.filters.floritaly-name-label')}
         placeholder={t('search.filters.floritaly-name-placeholder')}
@@ -194,13 +196,13 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         selectedValues={stateProvince}
         onSelectedValuesChange={setStateProvince}
       />
-      <Accordion type="multiple">
+      {/* <Accordion type="multiple">
         <AccordionItem value="area">
-          {/* <AccordionTrigger className='hover:cursor-pointer'>{t('search.filters.geometry-label')}</AccordionTrigger> */}
+
           <AccordionTrigger className="hover:cursor-pointer">Filters for Italy</AccordionTrigger>
           <AccordionContent></AccordionContent>
         </AccordionItem>
-      </Accordion>
+      </Accordion> */}
 
       <div className="min-h-60 w-full"></div>
     </>

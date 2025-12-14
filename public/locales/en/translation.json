@@ -99,6 +99,7 @@
       "institution-code-label": "Herbarium",
       "institution-code-placeholder": "Select an herbarium",
       "has-coordinates-label": "Show only georeferenced records",
+      "filters-for-italy": "Filters for Italy",
       "region-label": "Region",
       "region-placeholder": "Select a region",
       "region-all-selected": "All regions selected",

@@ -29,6 +29,7 @@ type SpecimenMapProps = Pick<SpecimenData, 'decimalLatitude' | 'decimalLongitude
 export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
   const router = useRouter()
   const backRef = useRef<HTMLButtonElement>(null)
+  const canGoBack = typeof window !== 'undefined' && window.history.length > 1
 
   useEffect(() => {
     if (backRef.current) {
@@ -41,14 +42,16 @@ export function SpecimenPage({ occurrence }: { occurrence: SpecimenData }) {
       <div className="mb-6 grid grid-cols-[1fr_2.5rem] items-center">
         <h1 className="px-2 text-2xl font-bold sm:px-0 sm:text-3xl">{occurrence.scientificName}</h1>
 
-        <Button
-          ref={backRef}
-          variant="outline"
-          onClick={() => router.history.back()}
-          className="border-input bg-background h-9 w-9 rounded-full border shadow-xs"
-        >
-          <ArrowLeft className="size-4" />
-        </Button>
+        {canGoBack && (
+          <Button
+            ref={backRef}
+            variant="outline"
+            onClick={() => router.history.back()}
+            className="border-input bg-background h-9 w-9 rounded-full border shadow-xs"
+          >
+            <ArrowLeft className="size-4" />
+          </Button>
+        )}
       </div>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-[254px_1fr] md:grid-cols-[354px_1fr]">
         <div className="space-y-6">

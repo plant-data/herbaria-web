@@ -440,6 +440,11 @@
           "description": "Established in 1822, the Herbarium Horti Botanici Pisani (PI) is one of the oldest botanical institutions in Italy.",
           "short-description": "Established in 1822, the Herbarium Horti Botanici Pisani (PI) is one of the oldest botanical institutions in Italy."
         },
+        "stats": {
+          "specimens": "Specimens",
+          "georeferenced": "Georeferenced",
+          "years": "Years"
+        },
         "section-1": {
           "badge": "History",
           "title": "About the Herbarium",

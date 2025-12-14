@@ -440,6 +440,11 @@
           "description": "Fondato nel 1822, l'Herbarium Horti Botanici Pisani (PI) è una delle più antiche istituzioni botaniche in Italia.",
           "short-description": "Fondato nel 1822, l'Herbarium Horti Botanici Pisani (PI) è una delle più antiche istituzioni botaniche in Italia."
         },
+        "stats": {
+          "specimens": "Campioni",
+          "georeferenced": "Georeferenziati",
+          "years": "Anni"
+        },
         "section-1": {
           "badge": "Storia",
           "title": "L'Erbario",

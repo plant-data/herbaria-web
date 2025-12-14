@@ -102,7 +102,7 @@ function RouteComponent() {
           <div className="mx-auto max-w-[90rem] px-4">
             <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[550px_1fr] lg:grid-cols-[650px_1fr]">
               {/* Hero Text - Left Side (stays aligned with container) */}
-              <div className="space-y-6">
+              <div className="space-y-6 lg:pl-10 lg:pr-6">
                 <div className="space-y-2">
                   <Badge variant="outline" className="w-fit">
                     <Leaf className="mr-2 h-4 w-4" />
@@ -119,7 +119,7 @@ function RouteComponent() {
                   </h1>
                 </div>
 
-                <p className="text-primary/80 max-w-lg">{t(currentHerbarium?.hero?.description)}</p>
+                <p className="text-primary/80 max-w-lg">{t(currentHerbarium.hero.description)}</p>
 
                 <div className="flex flex-col gap-4 sm:flex-row">
                   <div className="relative min-w-[300px]">
@@ -156,17 +156,17 @@ function RouteComponent() {
               <div className="md:-mr-[calc(50vw-50%+1rem)] md:pr-[calc(50vw-50%+1rem)]">
                 <div className="flex w-full items-center justify-around gap-4 sm:justify-start">
                   <div className="mt-8">
-                    <div className=" aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
+                    <div className=" aspect-[12/17] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                       <img src={homeImages[0]} alt="Herbarium specimen" className="h-full w-full object-cover" />
                     </div>
                   </div>
                   <div className="-mt-4">
-                    <div className=" aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
+                    <div className=" aspect-[12/17] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                       <img src={homeImages[1]} alt="Herbarium specimen" className="h-full w-full object-cover" />
                     </div>
                   </div>
                   <div className="mt-6">
-                    <div className=" aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
+                    <div className=" aspect-[12/17] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                       <img src={homeImages[2]} alt="Herbarium specimen" className="h-full w-full object-cover" />
                     </div>
                   </div>
@@ -180,25 +180,17 @@ function RouteComponent() {
         {/* Stats Section */}
         <section className="border-border/40 bg-muted/30 border-t border-b">
           <div className="container mx-auto px-4 py-12">
-            <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-8 md:grid-cols-3">
               <div className="flex flex-col items-center gap-3 text-center">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10">
-                  <Leaf className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                  <Layers className="h-6 w-6 text-sky-600 dark:text-sky-400" />
                 </div>
                 <div>
                   <p className="text-foreground text-3xl font-semibold tracking-tight md:text-4xl">2M+</p>
                   <p className="text-muted-foreground text-sm">Specimens</p>
                 </div>
               </div>
-              <div className="flex flex-col items-center gap-3 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500/10">
-                  <Layers className="h-6 w-6 text-sky-600 dark:text-sky-400" />
-                </div>
-                <div>
-                  <p className="text-foreground text-3xl font-semibold tracking-tight md:text-4xl">18K+</p>
-                  <p className="text-muted-foreground text-sm">Type Specimens</p>
-                </div>
-              </div>
+              
               <div className="flex flex-col items-center gap-3 text-center">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/10">
                   <Earth className="h-6 w-6 text-amber-600 dark:text-amber-400" />

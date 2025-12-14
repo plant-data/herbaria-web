@@ -21,6 +21,20 @@ export const HERBARIA_CONFIG = [
         'https://object.jacq.org/europeana/PI/2204769.jpg',
       ],
     },
+    stats: [
+      {
+        label: 'herbaria-pages.pi.home.stats.specimens',
+        value: '57000+'
+      },
+      {
+        label: 'herbaria-pages.pi.home.stats.georeferenced',
+        value: '96%'
+      },
+      {
+        label: 'herbaria-pages.pi.home.stats.years',
+        value: '200+'
+      }
+    ],
     sections: [
       {
         badge: 'herbaria-pages.pi.home.section-1.badge',
@@ -77,6 +91,20 @@ export const HERBARIA_CONFIG = [
         'public/images/herb-imgs/fi-hci/FI-HCI-00035529.jpg',
       ],
     },
+    stats: [
+      {
+        label: 'herbaria-pages.pi.home.stats.specimens',
+        value: '1M+'
+      },
+      {
+        label: 'herbaria-pages.pi.home.stats.georeferenced',
+        value: '12%'
+      },
+      {
+        label: 'herbaria-pages.pi.home.stats.years',
+        value: '200+'
+      }
+    ],
     sections: [
       {
         badge: 'herbaria-pages.fi-hci.home.section-1.badge',

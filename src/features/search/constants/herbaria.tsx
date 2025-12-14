@@ -44,13 +44,13 @@ export const HERBARIA_CONFIG = [
       },
       {
         badge: 'herbaria-pages.pi.home.section-2.badge',
-        image: 'images/herb-imgs/pi-map.png',
+        image: 'images/herb-imgs/pi/pi-map.png',
         title: 'herbaria-pages.pi.home.section-2.title',
         description: 'herbaria-pages.pi.home.section-2.description',
       },
       {
         badge: 'herbaria-pages.pi.home.section-3.badge',
-        image: 'images/herb-imgs/pi-time.png',
+        image: 'images/herb-imgs/pi/pi-time.png',
         title: 'herbaria-pages.pi.home.section-3.title',
         description: 'herbaria-pages.pi.home.section-3.description',
       },
@@ -114,13 +114,13 @@ export const HERBARIA_CONFIG = [
       },
       {
         badge: 'herbaria-pages.fi-hci.home.section-2.badge',
-        image: 'images/herb-imgs/fi-map.png',
+        image: 'images/herb-imgs/fi-hci/fi-map.png',
         title: 'herbaria-pages.fi-hci.home.section-2.title',
         description: 'herbaria-pages.fi-hci.home.section-2.description',
       },
       {
         badge: 'herbaria-pages.fi-hci.home.section-3.badge',
-        image: 'images/herb-imgs/fi-time.png',
+        image: 'images/herb-imgs/fi-hci/fi-time.png',
         title: 'herbaria-pages.fi-hci.home.section-3.title',
         description: 'herbaria-pages.fi-hci.home.section-3.description',
       },

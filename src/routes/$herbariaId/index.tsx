@@ -181,34 +181,41 @@ function RouteComponent() {
         <section className="border-border/40 bg-muted/30 border-t border-b">
           <div className="container mx-auto px-4 py-12">
             <div className="grid grid-cols-3 gap-2 md:gap-8">
-              <div className="flex flex-col items-center justify-center gap-4 text-center md:flex-row md:text-left">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-500/10">
-                  <Layers className="h-6 w-6 text-sky-600 dark:text-sky-400" />
-                </div>
-                <div>
-                  <p className="text-foreground text-xl font-semibold tracking-tight md:text-4xl">2M+</p>
-                  <p className="text-muted-foreground text-xs md:text-sm">Specimens</p>
-                </div>
-              </div>
+              {currentHerbarium.stats.map((stat, index) => {
+                const icons = [
+                  {
+                    Icon: Layers,
+                    bgClass: 'bg-ring/5',
+                    iconClass: 'text-ring',
+                  },
+                  {
+                    Icon: Earth,
+                    bgClass: 'bg-ring/5',
+                    iconClass: 'text-ring',
+                  },
+                  {
+                    Icon: ChartSpline,
+                    bgClass: 'bg-ring/5',
+                    iconClass: 'text-ring',
+                  },
+                ]
+                const { Icon, bgClass, iconClass } = icons[index] || icons[0]
 
-              <div className="flex flex-col items-center justify-center gap-4 text-center md:flex-row md:text-left">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-500/10">
-                  <Earth className="h-6 w-6 text-amber-600 dark:text-amber-400" />
-                </div>
-                <div>
-                  <p className="text-foreground text-xl font-semibold tracking-tight md:text-4xl">70%</p>
-                  <p className="text-muted-foreground text-xs md:text-sm">Georeferenced</p>
-                </div>
-              </div>
-              <div className="flex flex-col items-center justify-center gap-4 text-center md:flex-row md:text-left">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-violet-500/10">
-                  <ChartSpline className="h-6 w-6 text-violet-600 dark:text-violet-400" />
-                </div>
-                <div>
-                  <p className="text-foreground text-xl font-semibold tracking-tight md:text-4xl">200+</p>
-                  <p className="text-muted-foreground text-xs md:text-sm">Years of History</p>
-                </div>
-              </div>
+                return (
+                  <div
+                    key={index}
+                    className="flex flex-col items-center justify-center gap-4 text-center md:flex-row md:text-left"
+                  >
+                    <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${bgClass}`}>
+                      <Icon className={`h-6 w-6 ${iconClass}`} />
+                    </div>
+                    <div>
+                      <p className="text-foreground text-xl font-semibold tracking-tight md:text-4xl">{stat.value}</p>
+                      <p className="text-muted-foreground text-xs md:text-sm">{t(stat.label)}</p>
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </section>
@@ -277,7 +284,7 @@ function RouteComponent() {
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
             {/* Image - Left Side */}
             <div className="order-2 lg:order-1">
-              <div className="border-primary/40 aspect-[16/10] overflow-hidden rounded-lg border">
+              <div className="border-muted aspect-[16/10] overflow-hidden rounded-lg border">
                 <img
                   src={currentHerbarium.sections[2].image}
                   alt="A historical botanical illustration"
@@ -286,7 +293,6 @@ function RouteComponent() {
               </div>
             </div>
             {/* Content - Right Side */}
-            {/* UPDATED: More scientific language */}
             <div className="order-1 space-y-6 lg:order-2">
               <div className="space-y-2">
                 <Badge variant="outline" className="w-fit text-sm">

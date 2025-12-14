@@ -189,7 +189,7 @@ export function SpecimenImage({ multimedia }: SpecimenImageProps) {
     return (
       <Card className="mx-auto max-w-full rounded-md p-0 shadow-xs">
         <CardContent className="m-0 p-1 sm:h-[370px] sm:w-[254px] md:h-[500px] md:w-[352px]">
-          <div className="flex h-full w-full items-center justify-center rounded-md bg-gray-200">
+          <div className="bg-muted flex h-full w-full items-center justify-center rounded-md">
             <span className="text-gray-500">{t('specimen.no-image')}</span>
           </div>
         </CardContent>
@@ -203,14 +203,14 @@ export function SpecimenImage({ multimedia }: SpecimenImageProps) {
         <div className="flex w-full flex-col">
           <div className="flex flex-1 justify-center p-1">
             <div className="border-input h-[370px] w-full max-w-[250px] overflow-hidden rounded-[4px] border sm:h-[340px] sm:w-[250px] sm:max-w-full md:h-[480px] md:w-[350px]">
-              <div id="specimen-seadragon-viewer" className="h-full w-full" style={{ backgroundColor: '#f5f5f5' }} />
+              <div id="specimen-seadragon-viewer" className="bg-muted h-full w-full" />
             </div>
           </div>
           <div className="border-input flex items-center justify-between border-t px-2 py-1">
             <div className="flex items-center gap-1">
               <button
                 onClick={handleZoomOut}
-                className="cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
+                className="hover:bg-muted cursor-pointer rounded p-1 transition-colors"
                 aria-label="Zoom Out"
               >
                 <ZoomOut size={16} />
@@ -218,14 +218,14 @@ export function SpecimenImage({ multimedia }: SpecimenImageProps) {
               <span className="min-w-[2.5rem] text-center text-xs font-medium">{zoomPercentage}%</span>
               <button
                 onClick={handleZoomIn}
-                className="cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
+                className="hover:bg-muted cursor-pointer rounded p-1 transition-colors"
                 aria-label="Zoom In"
               >
                 <ZoomIn size={16} />
               </button>
               <button
                 onClick={handleResetView}
-                className="ml-1 cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
+                className="hover:bg-muted ml-1 cursor-pointer rounded p-1 transition-colors"
                 aria-label="Reset View"
               >
                 <RotateCcw size={16} />
@@ -233,7 +233,7 @@ export function SpecimenImage({ multimedia }: SpecimenImageProps) {
             </div>
             <button
               onClick={handleFullScreen}
-              className="cursor-pointer rounded p-1 transition-colors hover:bg-gray-200"
+              className="hover:bg-muted cursor-pointer rounded p-1 transition-colors"
               aria-label="Full Screen"
             >
               <Maximize2 size={16} />

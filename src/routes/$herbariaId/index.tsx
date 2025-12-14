@@ -137,7 +137,7 @@ function RouteComponent() {
                   <Button
                     asChild
                     variant="default"
-                    className="bg-ring"
+                    className="bg-ring rounded-full hover:bg-ring/80"
                     size="lg"
                     onClick={() => {
                       resetFilters()
@@ -156,17 +156,17 @@ function RouteComponent() {
               <div className="md:-mr-[calc(50vw-50%+1rem)] md:pr-[calc(50vw-50%+1rem)]">
                 <div className="flex w-full items-center justify-around gap-4 sm:justify-start">
                   <div className="mt-8">
-                    <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
+                    <div className=" aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                       <img src={homeImages[0]} alt="Herbarium specimen" className="h-full w-full object-cover" />
                     </div>
                   </div>
                   <div className="-mt-4">
-                    <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
+                    <div className=" aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                       <img src={homeImages[1]} alt="Herbarium specimen" className="h-full w-full object-cover" />
                     </div>
                   </div>
                   <div className="mt-6">
-                    <div className="border-primary/30 aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
+                    <div className=" aspect-[4/6] w-[28vw] overflow-hidden rounded-sm border sm:w-60 lg:w-64">
                       <img src={homeImages[2]} alt="Herbarium specimen" className="h-full w-full object-cover" />
                     </div>
                   </div>
@@ -242,7 +242,7 @@ function RouteComponent() {
                 </h2>
               </div>
               <p className="text-primary/80">{t(currentHerbarium.sections[0].description)}</p>
-              <Button className="bg-ring hover:bg-ring/90 text-white">{t('herbaria-pages.buttons.learn-more')}</Button>
+              <Button className="bg-ring hover:bg-ring/80 rounded-full px-6 py-5 text-white">{t('herbaria-pages.buttons.learn-more')}</Button>
             </div>
           </div>
         </section>
@@ -261,7 +261,7 @@ function RouteComponent() {
                 </h2>
               </div>
               <p className="text-primary/80">{t(currentHerbarium.sections[1].description)}</p>
-              <Button className="bg-ring hover:bg-ring/90 text-white">{t('herbaria-pages.buttons.explore')}</Button>
+              <Button className="bg-ring hover:bg-ring/80 rounded-full px-6 py-5 text-white">{t('herbaria-pages.buttons.explore')}</Button>
             </div>
             {/* Image - Right Side */}
             <div>

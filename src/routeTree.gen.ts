@@ -15,6 +15,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ExternalIndexRouteImport } from './routes/external/index'
 import { Route as HerbariaIdIndexRouteImport } from './routes/$herbariaId/index'
+import { Route as HerbariaIdAboutRouteImport } from './routes/$herbariaId/about'
 import { Route as HerbariaIdsearchRouteRouteImport } from './routes/$herbariaId/(search)/route'
 import { Route as HerbariaIdSpecimensOccurrenceIDRouteImport } from './routes/$herbariaId/specimens/$occurrenceID'
 import { Route as HerbariaIdsearchTableRouteImport } from './routes/$herbariaId/(search)/table'
@@ -51,6 +52,11 @@ const ExternalIndexRoute = ExternalIndexRouteImport.update({
 const HerbariaIdIndexRoute = HerbariaIdIndexRouteImport.update({
   id: '/$herbariaId/',
   path: '/$herbariaId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HerbariaIdAboutRoute = HerbariaIdAboutRouteImport.update({
+  id: '/$herbariaId/about',
+  path: '/$herbariaId/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HerbariaIdsearchRouteRoute = HerbariaIdsearchRouteRouteImport.update({
@@ -97,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/how-to-use': typeof HowToUseRoute
   '/map': typeof MapRoute
   '/$herbariaId': typeof HerbariaIdIndexRoute
+  '/$herbariaId/about': typeof HerbariaIdAboutRoute
   '/external': typeof ExternalIndexRoute
   '/$herbariaId/debug-filters': typeof HerbariaIdsearchDebugFiltersRoute
   '/$herbariaId/graphs': typeof HerbariaIdsearchGraphsRoute
@@ -111,6 +118,7 @@ export interface FileRoutesByTo {
   '/how-to-use': typeof HowToUseRoute
   '/map': typeof MapRoute
   '/$herbariaId': typeof HerbariaIdIndexRoute
+  '/$herbariaId/about': typeof HerbariaIdAboutRoute
   '/external': typeof ExternalIndexRoute
   '/$herbariaId/debug-filters': typeof HerbariaIdsearchDebugFiltersRoute
   '/$herbariaId/graphs': typeof HerbariaIdsearchGraphsRoute
@@ -126,6 +134,7 @@ export interface FileRoutesById {
   '/how-to-use': typeof HowToUseRoute
   '/map': typeof MapRoute
   '/$herbariaId/(search)': typeof HerbariaIdsearchRouteRouteWithChildren
+  '/$herbariaId/about': typeof HerbariaIdAboutRoute
   '/$herbariaId/': typeof HerbariaIdIndexRoute
   '/external/': typeof ExternalIndexRoute
   '/$herbariaId/(search)/debug-filters': typeof HerbariaIdsearchDebugFiltersRoute
@@ -143,6 +152,7 @@ export interface FileRouteTypes {
     | '/how-to-use'
     | '/map'
     | '/$herbariaId'
+    | '/$herbariaId/about'
     | '/external'
     | '/$herbariaId/debug-filters'
     | '/$herbariaId/graphs'
@@ -157,6 +167,7 @@ export interface FileRouteTypes {
     | '/how-to-use'
     | '/map'
     | '/$herbariaId'
+    | '/$herbariaId/about'
     | '/external'
     | '/$herbariaId/debug-filters'
     | '/$herbariaId/graphs'
@@ -171,6 +182,7 @@ export interface FileRouteTypes {
     | '/how-to-use'
     | '/map'
     | '/$herbariaId/(search)'
+    | '/$herbariaId/about'
     | '/$herbariaId/'
     | '/external/'
     | '/$herbariaId/(search)/debug-filters'
@@ -187,6 +199,7 @@ export interface RootRouteChildren {
   HowToUseRoute: typeof HowToUseRoute
   MapRoute: typeof MapRoute
   HerbariaIdsearchRouteRoute: typeof HerbariaIdsearchRouteRouteWithChildren
+  HerbariaIdAboutRoute: typeof HerbariaIdAboutRoute
   HerbariaIdIndexRoute: typeof HerbariaIdIndexRoute
   ExternalIndexRoute: typeof ExternalIndexRoute
   HerbariaIdSpecimensOccurrenceIDRoute: typeof HerbariaIdSpecimensOccurrenceIDRoute
@@ -234,6 +247,13 @@ declare module '@tanstack/react-router' {
       path: '/$herbariaId'
       fullPath: '/$herbariaId'
       preLoaderRoute: typeof HerbariaIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$herbariaId/about': {
+      id: '/$herbariaId/about'
+      path: '/$herbariaId/about'
+      fullPath: '/$herbariaId/about'
+      preLoaderRoute: typeof HerbariaIdAboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$herbariaId/(search)': {
@@ -315,6 +335,7 @@ const rootRouteChildren: RootRouteChildren = {
   HowToUseRoute: HowToUseRoute,
   MapRoute: MapRoute,
   HerbariaIdsearchRouteRoute: HerbariaIdsearchRouteRouteWithChildren,
+  HerbariaIdAboutRoute: HerbariaIdAboutRoute,
   HerbariaIdIndexRoute: HerbariaIdIndexRoute,
   ExternalIndexRoute: ExternalIndexRoute,
   HerbariaIdSpecimensOccurrenceIDRoute: HerbariaIdSpecimensOccurrenceIDRoute,

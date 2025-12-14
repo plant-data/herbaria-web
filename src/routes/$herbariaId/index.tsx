@@ -262,8 +262,18 @@ function RouteComponent() {
                 </h2>
               </div>
               <p className="text-primary/80">{t(currentHerbarium.sections[1].description)}</p>
-              <Button className="bg-ring hover:bg-ring/80 rounded-full px-6 py-5 text-white">
-                {t('herbaria-pages.buttons.explore')}
+              <Button
+                asChild
+                onClick={() => {
+                  resetFilters()
+                  resetMap()
+                }}
+                className="bg-ring hover:bg-ring/80 rounded-full px-6 py-5 text-white"
+              >
+                <Link to="/$herbariaId/map" params={{ herbariaId }}>
+            
+                  {t('herbaria-pages.buttons.explore')}
+                </Link>
               </Button>
             </div>
             {/* Image - Right Side */}
@@ -284,11 +294,11 @@ function RouteComponent() {
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
             {/* Image - Left Side */}
             <div className="order-2 lg:order-1">
-              <div className="border-muted aspect-[16/10] overflow-hidden rounded-lg border">
+              <div className="border-border aspect-[16/10] overflow-hidden rounded-lg border">
                 <img
                   src={currentHerbarium.sections[2].image}
                   alt="A historical botanical illustration"
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-contain"
                 />
               </div>
             </div>

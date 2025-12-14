@@ -138,14 +138,18 @@ export function Header() {
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="gap-1">
+              <Button variant="ghost" size="sm" className="gap-1.5 font-medium [&[data-state=open]>svg]:rotate-180">
                 {t('header.herbaria')}
-                <ChevronDown className="h-4 w-4" />
+                <ChevronDown className="h-4 w-4 transition-transform duration-200" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" className="dark:border-input dark:bg-background min-w-[10rem] dark:border">
               {HERBARIA_CONFIG.map((herbarium) => (
-                <DropdownMenuItem key={herbarium.id} asChild>
+                <DropdownMenuItem
+                  key={herbarium.id}
+                  asChild
+                  className={cn(herbariaId === herbarium.id && 'bg-accent font-medium')}
+                >
                   <Link to="/$herbariaId" params={{ herbariaId: herbarium.id }}>
                     {t(herbarium.translationKey)}
                   </Link>
@@ -156,20 +160,20 @@ export function Header() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="gap-1">
+              <Button variant="ghost" size="sm" className="gap-1.5 font-medium [&[data-state=open]>svg]:rotate-180">
                 {t('header.other')}
-                <ChevronDown className="h-4 w-4" />
+                <ChevronDown className="h-4 w-4 transition-transform duration-200" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem asChild>
+            <DropdownMenuContent align="end" className="dark:border-input dark:bg-background min-w-[10rem] dark:border">
+              <DropdownMenuItem asChild className={cn(location.pathname === '/about' && 'bg-accent font-medium')}>
                 <Link to="/about">{t('header.about')}</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
+              <DropdownMenuItem asChild className={cn(location.pathname === '/how-to-use' && 'bg-accent font-medium')}>
                 <Link to="/how-to-use">{t('header.how-to-use')}</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <a href="https://floritaly.plantdata.it/" target="_blank">
+                <a href="https://floritaly.plantdata.it/" target="_blank" rel="noopener noreferrer">
                   {t('header.go-to-floritaly')}
                 </a>
               </DropdownMenuItem>

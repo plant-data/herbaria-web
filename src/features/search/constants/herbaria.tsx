@@ -6,8 +6,8 @@ export const HERBARIA_CONFIG = [
     description: 'herbaria-pages.pi.home.hero.short-description',
     badgeLabel: 'Herbarium PI',
     homeImages: [
-      'https://object.jacq.org/europeana/PI/1310678.jpg',
-      'https://object.jacq.org/europeana/PI/2145582.jpg',
+      'public/images/herb-imgs/pi/1619743.jpg',
+      'public/images/herb-imgs/pi/2139006.jpg',
       'https://object.jacq.org/europeana/PI/2204769.jpg',
     ],
     ringColor: 'oklch(0.6 0.15 240)', // blue
@@ -16,8 +16,8 @@ export const HERBARIA_CONFIG = [
       title: 'herbaria-pages.pi.home.hero.title',
       description: 'herbaria-pages.pi.home.hero.description',
       images: [
-        'https://object.jacq.org/europeana/PI/1310678.jpg',
-        'https://object.jacq.org/europeana/PI/2145582.jpg',
+        'public/images/herb-imgs/pi/1619743.jpg',
+        'public/images/herb-imgs/pi/2139006.jpg',
         'https://object.jacq.org/europeana/PI/2204769.jpg',
       ],
     },
@@ -62,9 +62,9 @@ export const HERBARIA_CONFIG = [
     description: 'herbaria-pages.fi-hci.home.hero.short-description',
     badgeLabel: 'Herbarium FI-HCI',
     homeImages: [
-      'https://object.jacq.org/europeana/PI/1310678.jpg',
-      'https://object.jacq.org/europeana/PI/2145582.jpg',
-      'https://object.jacq.org/europeana/PI/2204769.jpg',
+      'public/images/herb-imgs/fi-hci/FI-HCI-00230552.jpg',
+      'public/images/herb-imgs/fi-hci/FI-HCI-00308337.jpg',
+      'public/images/herb-imgs/fi-hci/FI-HCI-00035529.jpg',
     ],
     ringColor: 'oklch(0.6 0.2541 175.76)',
     hero: {
@@ -72,9 +72,9 @@ export const HERBARIA_CONFIG = [
       title: 'herbaria-pages.fi-hci.home.hero.title',
       description: 'herbaria-pages.fi-hci.home.hero.description',
       images: [
-        'https://object.jacq.org/europeana/PI/1310678.jpg',
-        'https://object.jacq.org/europeana/PI/2145582.jpg',
-        'https://object.jacq.org/europeana/PI/2204769.jpg',
+        'public/images/herb-imgs/fi-hci/FI-HCI-00230552.jpg',
+        'public/images/herb-imgs/fi-hci/FI-HCI-00308337.jpg',
+        'public/images/herb-imgs/fi-hci/FI-HCI-00035529.jpg',
       ],
     },
     sections: [

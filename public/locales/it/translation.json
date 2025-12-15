@@ -453,18 +453,18 @@
         },
         "section-1": {
           "badge": "Storia",
-          "title": "L'Erbario",
-          "description": "Proposto nel 1841 da Filippo Parlatore per centralizzare le collezioni botaniche d'Italia, l'Herbarium fu ufficialmente istituito nel 1842 sotto la sua direzione, con l'approvazione del Granduca di Toscana."
+          "title": "Storia",
+          "description": "L’Erbario dell’Orto Botanico di Pisa nasce alla fine del XVIII secolo e si struttura nel corso dell’Ottocento grazie soprattutto all’opera di Gaetano Savi. Nel tempo si è consolidato come una delle principali collezioni botaniche storiche universitarie italiane."
         },
         "section-2": {
           "badge": "Distribuzione geografica",
-          "title": "Una Collezione Globale",
-          "description": "L'ambito dell'herbarium non si limita ai confini dell'Italia. Include importanti collezioni internazionali di collezionisti come Philip Barker Webb, Antonio Figari e Joseph Dalton Hooker."
+          "title": "Distribuzione geografica",
+          "description": "La collezione è prevalentemente europea e mediterranea, con una forte rappresentazione della flora italiana. Non mancano però esemplari provenienti da altri continenti, frutto di scambi scientifici e attività di ricerca internazionale."
         },
         "section-3": {
-          "badge": "Patrimonio",
-          "title": "Più di 180 anni di ricerca botanica",
-          "description": "La crescita della collezione si è rivelata esponenziale sin dalle origini. I 40.000 esemplari iniziali del 1842 si sono rapidamente moltiplicati fino a superare il milione di unità."
+          "badge": "Distribuzione temporale",
+          "title": "Distribuzione temporale",
+          "description": "L’erbario copre oltre due secoli di raccolte, dalla fine del Settecento a oggi. Sono attualmente digitalizzati circa 57.000 campioni di piante vascolari, che documentano l’evoluzione della ricerca botanica nel tempo."
         }
       }
     },

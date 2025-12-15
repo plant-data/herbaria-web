@@ -453,18 +453,18 @@
         },
         "section-1": {
           "badge": "History",
-          "title": "About the Herbarium",
-          "description": "Proposed in 1841 by Filippo Parlatore to centralize Italy's botanical collections, the Herbarium was officially established in 1842 under his direction, with the approval of the Grand Duke of Tuscany."
+          "title": "History",
+          "description": "The Herbarium of the Botanic Garden of Pisa was founded at the end of the 18th century and took shape during the 19th century, thanks primarily to the work of Gaetano Savi. Over time, it has established itself as one of the main historical university botanical collections in Italy."
         },
         "section-2": {
           "badge": "Geographic distribution",
-          "title": "A Global Collection",
-          "description": "The herbarium scope is not limited to the boundaries of Italy. It includes significant international holdings from collectors like Philip Barker Webb, Antonio Figari, and Joseph Dalton Hooker."
+          "title": "Geographic Distribution",
+          "description": "The collection is predominantly European and Mediterranean, with a strong representation of Italian flora. However, there are also specimens from other continents, the result of scientific exchanges and international research activities."
         },
         "section-3": {
-          "badge": "Heritage",
-          "title": "More than 180 years of botanical research",
-          "description": "Growth was exponential from the start. The 40,000 specimens in 1842 quickly became over one million, providing material necessary to support the creation of the \"Flora Italiana\"."
+          "badge": "Temporal distribution",
+          "title": "Temporal Distribution",
+          "description": "The herbarium covers over two centuries of collections, from the late 18th century to the present day. Currently, about 57,000 specimens of vascular plants are digitized, documenting the evolution of botanical research over time."
         }
       }
     },

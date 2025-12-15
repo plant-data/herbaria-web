@@ -70,6 +70,9 @@
       "verbatim-elevation": "Altitudine verbatim",
       "minimum-elevation": "Altitudine minima",
       "maximum-elevation": "Altitudine massima"
+    },
+    "georeference-protocol-values": {
+      "georeferenced-a-posteriori-with-openstreetmap": "Georeferenziato a posteriori con OpenStreetMap"
     }
   },
   "search": {

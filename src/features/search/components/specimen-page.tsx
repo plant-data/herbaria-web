@@ -373,12 +373,14 @@ export function SpecimenData({ occurrence }: { occurrence: SpecimenData }) {
           <span className="font-medium">{getLabel('coordinates-uncertainty', 'coordinateUncertaintyInMeters')}:</span>
           <span className="ml-2">{occurrence.coordinatesUncertaintyInMeters ?? '-'}</span>
         </div>
-        {occurrence.georeferenceProtocol && (
-          <div>
-            <span className="font-medium">{getLabel('georeference-protocol', 'georeferenceProtocol')}:</span>
-            <span className="ml-2">{occurrence.georeferenceProtocol}</span>
-          </div>
-        )}
+        <div>
+          <span className="font-medium">{getLabel('georeference-protocol', 'georeferenceProtocol')}:</span>
+          <span className="ml-2">
+            {occurrence.georeferenceProtocol === 'Georeferenced a posteriori with OpenStreetMap'
+              ? t('specimen.georeference-protocol-values.georeferenced-a-posteriori-with-openstreetmap')
+              : '-'}
+          </span>
+        </div>
         <>
           <Separator />
           {occurrence.verbatimElevation && (

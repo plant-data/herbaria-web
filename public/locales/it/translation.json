@@ -428,7 +428,7 @@
   "herbaria-homepage": {
     "title": "FlorItaly Herbaria",
     "description": "Scopri i campioni digitalizzati dagli erbari italiani.",
-    "sub-description": "Versione di sviluppo, attualmente aggrega 2 erbari.",
+    "sub-description": "Versione di sviluppo, attualmente aggrega 3 erbari.",
     "herbaria-section-title": "Erbari",
     "herbaria-section-description": "Esplora i dati degli erbari aggregati e filtra per nome, località o metadati del campione.",
     "explore-button": "Esplora",
@@ -438,7 +438,8 @@
   "herbaria": {
     "all": "Tutti gli Erbari",
     "ro": "Erbario RO",
-    "siena-hus": "Erbario SIENA-HUS"
+    "siena-hus": "Erbario SIENA-HUS",
+    "pi": "Erbario PI"
   },
   "herbaria-pages": {
     "buttons": {
@@ -477,6 +478,31 @@
       }
     },
     "siena-hus": {
+      "home": {
+        "hero": {
+          "badge": "Herbarium FI-HCI",
+          "title": "Herbarium Centrale Italicum di <1> Firenze</1>",
+          "description": "Fondato nel 1842, l'Herbarium Centrale Italicum (FI-HCI) è stato concepito come istituzione nazionale per la ricerca botanica.",
+          "short-description": "Fondato nel 1842, l'Herbarium Centrale Italicum (FI-HCI) è stato concepito come istituzione nazionale per la ricerca botanica."
+        },
+        "section-1": {
+          "badge": "Storia",
+          "title": "L'Erbario",
+          "description": "Proposto nel 1841 da Filippo Parlatore per centralizzare le collezioni botaniche d'Italia, l'Herbarium fu ufficialmente istituito nel 1842 sotto la sua direzione, con l'approvazione del Granduca di Toscana."
+        },
+        "section-2": {
+          "badge": "Distribuzione geografica",
+          "title": "Una Collezione Globale",
+          "description": "L'ambito dell'herbarium non si limita ai confini dell'Italia. Include importanti collezioni internazionali."
+        },
+        "section-3": {
+          "badge": "Patrimonio",
+          "title": "Più di 180 anni di ricerca botanica",
+          "description": "La crescita fu esponenziale fin dall'inizio. I 40.000 esemplari del 1842 divennero rapidamente più di un milione, fornendo il materiale necessario per sostenere la creazione della \"Flora Italiana\"."
+        }
+      }
+    },
+    "pi": {
       "home": {
         "hero": {
           "badge": "Herbarium FI-HCI",

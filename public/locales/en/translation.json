@@ -428,7 +428,7 @@
   "herbaria-homepage": {
     "title": "FlorItaly Herbaria",
     "description": "Discover digitised specimens from Italy's herbaria.",
-    "sub-description": "Development version, currently showcasing 2 herbaria.",
+    "sub-description": "Development version, currently showcasing 3 herbaria.",
     "herbaria-section-title": "Herbaria",
     "herbaria-section-description": "Explore the data of the aggregated herbaria and filter by taxonomy, location or specimen metadata.",
     "explore-button": "Explore",
@@ -438,7 +438,8 @@
   "herbaria": {
     "all": "All Herbaria",
     "ro": "Herbarium RO",
-    "siena-hus": "Herbarium SIENA-HUS"
+    "siena-hus": "Herbarium SIENA-HUS",
+    "pi": "Herbarium PI"
   },
   "herbaria-pages": {
     "buttons": {
@@ -480,6 +481,31 @@
       "home": {
         "hero": {
           "badge": "Herbarium FI-HCI",
+          "title": "Herbarium Centrale Italicum of <1>Florence</1>",
+          "description": "Established in 1842, the Herbarium Centrale Italicum (FI-HCI) was conceived as a national institution to centralize botanical research.",
+          "short-description": "Established in 1842, the Herbarium Centrale Italicum (FI-HCI) was conceived as a national institution to centralize botanical research."
+        },
+        "section-1": {
+          "badge": "History",
+          "title": "About the Herbarium",
+          "description": "Proposed in 1841 by Filippo Parlatore to centralize Italy's botanical collections, the Herbarium was officially established in 1842 under his direction, with the approval of the Grand Duke of Tuscany."
+        },
+        "section-2": {
+          "badge": "Geographic distribution",
+          "title": "A Global Collection",
+          "description": "The herbarium scope is not limited to the boundaries of Italy. It includes significant international holdings from collectors like Philip Barker Webb, Antonio Figari, and Joseph Dalton Hooker."
+        },
+        "section-3": {
+          "badge": "Heritage",
+          "title": "More than 180 years of botanical research",
+          "description": "Growth was exponential from the start. The 40,000 specimens in 1842 quickly became over one million, providing material necessary to support the creation of the \"Flora Italiana\"."
+        }
+      }
+    },
+    "pi": {
+      "home": {
+        "hero": {
+          "badge": "Herbarium PI",
           "title": "Herbarium Centrale Italicum of <1>Florence</1>",
           "description": "Established in 1842, the Herbarium Centrale Italicum (FI-HCI) was conceived as a national institution to centralize botanical research.",
           "short-description": "Established in 1842, the Herbarium Centrale Italicum (FI-HCI) was conceived as a national institution to centralize botanical research."

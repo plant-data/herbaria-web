@@ -118,6 +118,65 @@ export const HERBARIA_CONFIG = [
       },
     ],
   },
+  {
+    id: 'PI',
+    // PI = dataset 4.
+    datasetId: 4,
+    translationKey: 'herbaria.pi',
+    image: 'images/pi.png',
+    description: 'herbaria-pages.pi.home.hero.short-description',
+    badgeLabel: 'Herbarium PI',
+    homeImages: [
+      'images/herb-imgs/pi/1619743.jpg',
+      'images/herb-imgs/pi/2139006.jpg',
+      'https://object.jacq.org/europeana/PI/2204769.jpg',
+    ],
+    ringColor: 'oklch(0.65 0.18 140)',
+    hero: {
+      badge: 'Herbarium PI',
+      title: 'herbaria-pages.pi.home.hero.title',
+      description: 'herbaria-pages.pi.home.hero.description',
+      images: [
+        'images/herb-imgs/pi/1619743.jpg',
+        'images/herb-imgs/pi/2139006.jpg',
+        'https://object.jacq.org/europeana/PI/2204769.jpg',
+      ],
+    },
+    stats: [
+      {
+        label: 'herbaria-pages.ro.home.stats.specimens',
+        value: '57,000+',
+      },
+      {
+        label: 'herbaria-pages.ro.home.stats.georeferenced',
+        value: '96%',
+      },
+      {
+        label: 'herbaria-pages.ro.home.stats.years',
+        value: '200+',
+      },
+    ],
+    sections: [
+      {
+        badge: 'herbaria-pages.pi.home.section-1.badge',
+        image: '',
+        title: 'herbaria-pages.pi.home.section-1.title',
+        description: 'herbaria-pages.pi.home.section-1.description',
+      },
+      {
+        badge: 'herbaria-pages.pi.home.section-2.badge',
+        image: 'images/herb-imgs/pi/pi-map.png',
+        title: 'herbaria-pages.pi.home.section-2.title',
+        description: 'herbaria-pages.pi.home.section-2.description',
+      },
+      {
+        badge: 'herbaria-pages.pi.home.section-3.badge',
+        image: 'images/herb-imgs/pi/pi-time.png',
+        title: 'herbaria-pages.pi.home.section-3.title',
+        description: 'herbaria-pages.pi.home.section-3.description',
+      },
+    ],
+  },
 ] as const
 
 /**

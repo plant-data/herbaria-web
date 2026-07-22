@@ -111,6 +111,7 @@
       "has-coordinates-label": "Mostra solo i record georeferenziati",
       "only-multisheet-label": "Solo esemplari con più fogli",
       "filters-for-italy": "Filtri per l'Italia",
+      "filters-for-italy-wip": "(in lavorazione — non disponibile per questa collezione)",
       "region-label": "Regione",
       "region-placeholder": "Seleziona una regione",
       "region-all-selected": "Tutte le regioni selezionate",

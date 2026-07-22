@@ -205,6 +205,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       {/* qua metto i filtry x l'italia */}
       <hr className="text-input mx-2 mt-3 mb-2" />
       <span className="mb-1 ml-1 text-sm font-semibold">{t('search.filters.filters-for-italy')}</span>
+      <span className="text-muted-foreground mb-1 ml-1 text-xs">{t('search.filters.filters-for-italy-wip')}</span>
       <Autocomplete
         label={t('search.filters.floritaly-name-label')}
         placeholder={t('search.filters.floritaly-name-placeholder')}

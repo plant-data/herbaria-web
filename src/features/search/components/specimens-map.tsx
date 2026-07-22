@@ -37,6 +37,8 @@ type ClusterData = {
   count: number
   gridCode?: string
   clusterCode?: string
+  // The density-cell size (km), so a click can search the cell's area.
+  cellKm?: number
 }
 
 const INITIAL_VIEW_STATE = {
@@ -291,22 +293,25 @@ function PointPopupContent({ coordinates, count }: { coordinates: [number, numbe
 }
 
 function ClusterPopupContent({
-  gridCode,
-  clusterCode,
+  coordinates,
+  cellKm,
   count,
 }: {
-  gridCode: string
-  clusterCode: string
+  coordinates: [number, number]
+  cellKm: number
   count: number
 }) {
   const { t } = useTranslation()
   const [skip, setSkip] = useState(0)
   const { herbariaId } = useParams({ strict: false })
 
+  // The local backend has no cell lookup, so the drill-down searches the cell's
+  // geographic area (a rectangle around its centre, sized by cellKm).
   const { data, isPending, error } = useSpecimensCluster({
     customFilters: {
-      gridCode,
-      clusterCode,
+      lat: coordinates[1],
+      lng: coordinates[0],
+      cellKm,
     },
     customSkip: skip,
   })
@@ -484,7 +489,7 @@ function SpecimenPointDialog({
         {isPoint ? (
           <PointPopupContent coordinates={cluster.coordinates} count={cluster.count} />
         ) : (
-          <ClusterPopupContent gridCode={cluster.gridCode!} clusterCode={cluster.clusterCode!} count={cluster.count} />
+          <ClusterPopupContent coordinates={cluster.coordinates} cellKm={cluster.cellKm ?? 0} count={cluster.count} />
         )}
       </DialogContent>
     </Dialog>

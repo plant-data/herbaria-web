@@ -63,9 +63,12 @@ export function buildLocalFilterParams(source: LocalFilterSource, opts: BuildOpt
   const params: LocalFilterParams = {}
   if (Object.keys(filters).length > 0) params.filters = filters
 
-  // Locality is free text, not a facet: the committed value (if any) rides on
-  // the top-level `locality` param, matched full-text like the dashboard.
-  if (!opts.excludeLocality && source.locality.length > 0) params.locality = source.locality[0]
+  // Locality is free text, not a facet: the committed fragments ride on the
+  // top-level `locality` param, matched full-text like the dashboard. Several
+  // badges are sent together as one space-joined query — the backend's locality
+  // search already token-matches, so it needs no schema change to take more
+  // than one place.
+  if (!opts.excludeLocality && source.locality.length > 0) params.locality = source.locality.join(' ')
 
   // A range equal to its full extent is not a filter — sending the bound would
   // silently drop specimens dated/measured outside the slider's window.

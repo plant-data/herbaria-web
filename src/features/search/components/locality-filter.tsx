@@ -12,7 +12,7 @@ import { buildLocalFilterParams, fetchLocalityCount } from '@/features/search/ap
 interface LocalityFilterProps {
   label: string
   placeholder: string
-  // The committed locality: zero or one free-text value.
+  // The committed localities: zero or more free-text fragments, each a chip.
   value: Array<string>
   onValueChange: React.Dispatch<React.SetStateAction<Array<string>>>
   minLength?: number
@@ -23,7 +23,7 @@ interface LocalityFilterProps {
  * a facet dropdown. Type a place fragment (at least `minLength` characters), see
  * how many specimens carry it under the other applied filters, then press Enter
  * or click the count to commit it — matched full-text against the locality field.
- * The committed value shows as a removable chip.
+ * Each committed fragment shows as a removable chip, and several can be added.
  */
 export function LocalityFilter({ label, placeholder, value, onValueChange, minLength = 3 }: LocalityFilterProps) {
   const { t } = useTranslation()
@@ -73,14 +73,23 @@ export function LocalityFilter({ label, placeholder, value, onValueChange, minLe
   const commit = useCallback(
     (q: string) => {
       if (q.length < minLength) return
-      onValueChange([q])
+      // Append as another chip, skipping a duplicate of one already committed.
+      onValueChange((prev) => (prev.includes(q) ? prev : [...prev, q]))
       setText('')
       setOpen(false)
     },
     [minLength, onValueChange],
   )
 
-  const handleRemove = useCallback(() => {
+  const handleUnselect = useCallback(
+    (item: string) => {
+      onValueChange((prev) => prev.filter((v) => v !== item))
+      inputRef.current?.focus()
+    },
+    [onValueChange],
+  )
+
+  const handleClearAll = useCallback(() => {
     onValueChange([])
     inputRef.current?.focus()
   }, [onValueChange])
@@ -98,7 +107,12 @@ export function LocalityFilter({ label, placeholder, value, onValueChange, minLe
     <div>
       <div className="pl-1 text-sm font-semibold">{label}</div>
 
-      <BadgeSelected items={value} onItemRemove={handleRemove} onClearAll={handleRemove} showClearAll={false} />
+      <BadgeSelected
+        items={value}
+        onItemRemove={handleUnselect}
+        onClearAll={handleClearAll}
+        showClearAll={value.length > 1}
+      />
 
       <div className="relative">
         <div className="relative py-1">
@@ -145,7 +159,7 @@ export function LocalityFilter({ label, placeholder, value, onValueChange, minLe
               <div
                 role="button"
                 tabIndex={0}
-                className="hover:bg-accent flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5"
+                className="bg-accent text-accent-foreground flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5"
                 onMouseDown={(e) => {
                   // Before blur closes the dropdown, or the click lands on nothing.
                   e.preventDefault()

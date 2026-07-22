@@ -2,9 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import { useShallow } from 'zustand/react/shallow'
 import type { FilterMapData, FilterStateData } from '@/features/search/stores/use-filters-store'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
+import { useLocalFilterSource } from '@/features/search/stores/use-local-source'
 import { ITEMS_PER_PAGE } from '@/config'
 import { COMMON_QUERY_OPTIONS } from '@/features/search/constants/constants'
-import type { LocalFilterSource, SortClause } from '@/features/search/api/local-backend'
+import type { SortClause } from '@/features/search/api/local-backend'
 import {
   fetchGroupAs,
   fetchMapCells,
@@ -29,26 +30,6 @@ function toSortClauses(sort: Record<string, 'asc' | 'desc'>): Array<SortClause> 
   return Object.entries(sort)
     .map(([field, direction]) => ({ field: SORT_FIELD_MAP[field], direction }))
     .filter((clause): clause is SortClause => Boolean(clause.field))
-}
-
-// The slice of the store the local API reads. Zustand keeps array references
-// stable until a setter changes them, so useShallow avoids needless refetches.
-function useLocalSource(): LocalFilterSource {
-  return useFilterStore(
-    useShallow((state) => ({
-      scientificName: state.scientificName,
-      genus: state.genus,
-      countryCode: state.countryCode,
-      locality: state.locality,
-      recordedBy: state.recordedBy,
-      year: state.year,
-      altitude: state.altitude,
-      onlyMultisheet: state.onlyMultisheet,
-      month: state.month,
-      institutionCode: state.institutionCode,
-      geometry: state.geometry,
-    })),
-  )
 }
 
 // ============================================================================
@@ -94,7 +75,7 @@ interface UseSpecimensCountOptions {
 
 export function useSpecimensData(options: UseSpecimensDataOptions = {}) {
   const { customFilters, customSort = { scientificName: 'asc' } } = options
-  const source = useLocalSource()
+  const source = useLocalFilterSource()
   const skip = useFilterStore((state) => state.skip)
   const merged = { ...source, ...customFilters }
   const sort = toSortClauses(customSort)
@@ -108,7 +89,7 @@ export function useSpecimensData(options: UseSpecimensDataOptions = {}) {
 
 export function useSpecimensCount(options: UseSpecimensCountOptions = {}) {
   const { customFilters } = options
-  const source = useLocalSource()
+  const source = useLocalFilterSource()
   const merged = { ...source, ...customFilters }
 
   return useQuery({
@@ -120,7 +101,7 @@ export function useSpecimensCount(options: UseSpecimensCountOptions = {}) {
 
 export function useSpecimensMap(options: UseSpecimensMapOptions = {}) {
   const { customFilters } = options
-  const source = useLocalSource()
+  const source = useLocalFilterSource()
   const { zoom, bbox } = useFilterStore(useShallow((state) => ({ zoom: state.zoom, bbox: state.bbox })))
   const merged = { ...source, ...customFilters }
 
@@ -133,7 +114,7 @@ export function useSpecimensMap(options: UseSpecimensMapOptions = {}) {
 
 export function useSpecimensGraph(options: UseSpecimensGraphOptions = {}) {
   const { customFilters, customGroupBy, enabled = true } = options
-  const source = useLocalSource()
+  const source = useLocalFilterSource()
   const merged = { ...source, ...customFilters }
   const groupBy = String(customGroupBy ?? '')
 
@@ -147,7 +128,7 @@ export function useSpecimensGraph(options: UseSpecimensGraphOptions = {}) {
 
 export function useSpecimensPoint(options: UseSpecimensPointOptions = {}) {
   const { customFilters, customSkip = 0 } = options
-  const source = useLocalSource()
+  const source = useLocalFilterSource()
   const lat = customFilters?.decimalLatitude ?? 0
   const lng = customFilters?.decimalLongitude ?? 0
 
@@ -161,7 +142,7 @@ export function useSpecimensPoint(options: UseSpecimensPointOptions = {}) {
 
 export function useSpecimensCluster(options: UseSpecimensClusterOptions = {}) {
   const { customFilters, customSkip = 0 } = options
-  const source = useLocalSource()
+  const source = useLocalFilterSource()
   const lat = customFilters?.lat ?? 0
   const lng = customFilters?.lng ?? 0
   const cellKm = customFilters?.cellKm ?? 0

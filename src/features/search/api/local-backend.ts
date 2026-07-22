@@ -69,6 +69,8 @@ export function buildLocalFilterParams(source: LocalFilterSource, opts: BuildOpt
     if (values.length > 0) filters[field] = values
   }
 
+  // Some callers (the filter panel) pass only a subset, so the fields added
+  // here are read defensively.
   add('scientificName', source.scientificName)
   add('genus', source.genus)
   add('countryCode', source.countryCode)
@@ -76,13 +78,13 @@ export function buildLocalFilterParams(source: LocalFilterSource, opts: BuildOpt
   // Month picks map to the `eventMonth` facet (integers as strings).
   add(
     'eventMonth',
-    source.month.map((m) => String(m)),
+    (source.month ?? []).map((m) => String(m)),
   )
   // Collection scope: the institution code (URL segment / filter) resolves to
   // the backend's integer dataset_id.
   add(
     'dataset_id',
-    source.institutionCode
+    (source.institutionCode ?? [])
       .map(datasetIdForCode)
       .filter((id): id is number => id != null)
       .map(String),
@@ -93,8 +95,9 @@ export function buildLocalFilterParams(source: LocalFilterSource, opts: BuildOpt
 
   // A drawn polygon becomes a `geo` shape (lat,lng pairs). Needs at least three
   // vertices to enclose anything.
-  if (source.geometry.length >= 3) {
-    params.geo = 'polygon:' + source.geometry.map(([lat, lng]) => `${lat},${lng}`).join(',')
+  const geometry = source.geometry ?? []
+  if (geometry.length >= 3) {
+    params.geo = 'polygon:' + geometry.map(([lat, lng]) => `${lat},${lng}`).join(',')
   }
 
   // Locality is free text, not a facet: the committed fragments ride on the

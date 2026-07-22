@@ -1,12 +1,11 @@
 import { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
-import { useShallow } from 'zustand/react/shallow'
 import { LoaderCircle, Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useDebounce } from '@/hooks/use-debounce'
 import { BadgeSelected } from '@/features/search/components/badge-selected'
-import { useFilterStore } from '@/features/search/stores/use-filters-store'
+import { useLocalFilterSource } from '@/features/search/stores/use-local-source'
 import { buildLocalFilterParams, fetchLocalityCount } from '@/features/search/api/local-backend'
 
 interface LocalityFilterProps {
@@ -35,18 +34,7 @@ export function LocalityFilter({ label, placeholder, value, onValueChange, minLe
 
   // The other applied filters, so the previewed count is conditional; the
   // committed locality is dropped so the number is for the text being typed.
-  const source = useFilterStore(
-    useShallow((state) => ({
-      scientificName: state.scientificName,
-      genus: state.genus,
-      countryCode: state.countryCode,
-      locality: state.locality,
-      recordedBy: state.recordedBy,
-      year: state.year,
-      altitude: state.altitude,
-      onlyMultisheet: state.onlyMultisheet,
-    })),
-  )
+  const source = useLocalFilterSource()
   const params = buildLocalFilterParams(source, { excludeLocality: true })
 
   const enabled = open && debouncedQuery.length >= minLength

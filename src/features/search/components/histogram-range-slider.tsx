@@ -1,11 +1,10 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
-import { useShallow } from 'zustand/react/shallow'
 import { Badge } from '@/components/ui/badge'
 import { DualSlider } from '@/components/ui/dual-slider'
 import { Input } from '@/components/ui/input'
-import { useFilterStore } from '@/features/search/stores/use-filters-store'
+import { useLocalFilterSource } from '@/features/search/stores/use-local-source'
 import { buildLocalFilterParams, fetchGroup } from '@/features/search/api/local-backend'
 
 /** Tallest bar, in pixels. */
@@ -107,18 +106,7 @@ export function HistogramRangeSlider({
   const [isDragging, setIsDragging] = useState(false)
 
   // The other applied filters, so the distribution reflects them.
-  const source = useFilterStore(
-    useShallow((state) => ({
-      scientificName: state.scientificName,
-      genus: state.genus,
-      countryCode: state.countryCode,
-      locality: state.locality,
-      recordedBy: state.recordedBy,
-      year: state.year,
-      altitude: state.altitude,
-      onlyMultisheet: state.onlyMultisheet,
-    })),
-  )
+  const source = useLocalFilterSource()
   const params = buildLocalFilterParams(source, {
     excludeYear: excludeKey === 'year',
     excludeAltitude: excludeKey === 'altitude',

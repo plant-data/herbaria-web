@@ -1,14 +1,13 @@
 import { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useShallow } from 'zustand/react/shallow'
 import { LoaderCircle, Search } from 'lucide-react'
 import { Command as CommandPrimitive } from 'cmdk'
 import { cn } from '@/lib/utils'
 import { useDebounce } from '@/hooks/use-debounce'
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from '@/components/ui/command'
 import { BadgeSelected } from '@/features/search/components/badge-selected'
-import { useFilterStore } from '@/features/search/stores/use-filters-store'
+import { useLocalFilterSource } from '@/features/search/stores/use-local-source'
 import { buildLocalFilterParams, fetchFacet } from '@/features/search/api/local-backend'
 
 interface FacetAutocompleteProps {
@@ -46,18 +45,7 @@ export function FacetAutocomplete({
   const queryClient = useQueryClient()
 
   // The other applied filters, so the suggestion counts are conditional.
-  const source = useFilterStore(
-    useShallow((state) => ({
-      scientificName: state.scientificName,
-      genus: state.genus,
-      countryCode: state.countryCode,
-      locality: state.locality,
-      recordedBy: state.recordedBy,
-      year: state.year,
-      altitude: state.altitude,
-      onlyMultisheet: state.onlyMultisheet,
-    })),
-  )
+  const source = useLocalFilterSource()
   const params = buildLocalFilterParams(source, { excludeField: field })
 
   const { data, error, isFetching } = useQuery({

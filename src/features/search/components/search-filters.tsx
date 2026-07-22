@@ -100,17 +100,12 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         selectedValues={scientificName}
         onSelectedValuesChange={setScientificName}
       />
-      <Autocomplete
+      <FacetAutocomplete
         label={t('search.filters.genus-label')}
         placeholder={t('search.filters.genus-placeholder')}
+        field="genus"
         selectedValues={genus}
         onSelectedValuesChange={setGenus}
-        queryKey={['genussearch', herbariaId ?? '']}
-        query={
-          `${BASE_API_URL}specimens/suggestions?` +
-          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
-          `field=genus&value=`
-        }
       />
       <AutocompletePrefetch
         label={t('search.filters.country-code-label')}

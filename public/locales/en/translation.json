@@ -98,6 +98,7 @@
       "floritaly-name-label": "Name in Floritaly",
       "floritaly-name-placeholder": "Search by name in Floritaly",
       "year-label": "Year range",
+      "altitude-label": "Altitude range",
       "month-label": "Month",
       "month-placeholder": "Select a month",
       "month-all-selected": "All months selected",

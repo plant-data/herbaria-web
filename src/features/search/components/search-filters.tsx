@@ -9,7 +9,15 @@ import { CountryFacet } from '@/features/search/components/country-facet'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { HistogramRangeSlider } from '@/features/search/components/histogram-range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
-import { MAX_YEAR, MIN_YEAR, MONTHS, YEAR_BIN } from '@/features/search/constants/constants'
+import {
+  ALTITUDE_BAND,
+  ALTITUDE_MAX,
+  ALTITUDE_MIN,
+  MAX_YEAR,
+  MIN_YEAR,
+  MONTHS,
+  YEAR_BIN,
+} from '@/features/search/constants/constants'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import { REGIONS } from '@/features/search/constants/regions'
@@ -31,6 +39,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
     locality,
 
     year,
+    altitude,
     month,
     institutionCode,
     hasCoordinates,
@@ -44,6 +53,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
     setLocality,
 
     setYear,
+    setAltitude,
     setMonth,
     setInstitutionCode,
     setHasCoordinates,
@@ -60,6 +70,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       locality: state.locality,
 
       year: state.year,
+      altitude: state.altitude,
       month: state.month,
       institutionCode: state.institutionCode,
       hasCoordinates: state.hasCoordinates,
@@ -74,6 +85,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       setLocality: state.setLocality,
 
       setYear: state.setYear,
+      setAltitude: state.setAltitude,
       setMonth: state.setMonth,
       setInstitutionCode: state.setInstitutionCode,
       setHasCoordinates: state.setHasCoordinates,
@@ -132,6 +144,18 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         step={1}
         binWidth={YEAR_BIN}
         excludeKey="year"
+      />
+      <HistogramRangeSlider
+        label={t('search.filters.altitude-label')}
+        field="elevation_band"
+        value={altitude}
+        onValueCommit={setAltitude}
+        min={ALTITUDE_MIN}
+        max={ALTITUDE_MAX}
+        step={10}
+        binWidth={ALTITUDE_BAND}
+        excludeKey="altitude"
+        unit="m"
       />
       <SelectItems
         label={t('search.filters.month-label')}

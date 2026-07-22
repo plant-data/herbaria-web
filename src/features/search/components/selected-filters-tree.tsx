@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-import { MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
+import { ALTITUDE_MAX, ALTITUDE_MIN, MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import { REGIONS } from '@/features/search/constants/regions'
@@ -87,6 +87,7 @@ export function SelectedFiltersTree() {
     locality,
     geometry,
     year,
+    altitude,
     month,
     institutionCode,
     hasCoordinates,
@@ -148,6 +149,13 @@ export function SelectedFiltersTree() {
         condition: () => year[0] !== MIN_YEAR || year[1] !== MAX_YEAR,
       },
       {
+        key: 'altitude',
+        items: altitude,
+        label: t('search.filters.altitude-label'),
+        displayValue: (metres) => `${metres} m`,
+        condition: () => altitude[0] !== ALTITUDE_MIN || altitude[1] !== ALTITUDE_MAX,
+      },
+      {
         key: 'month',
         items: month,
         label: t('search.filters.month-label'),
@@ -176,7 +184,21 @@ export function SelectedFiltersTree() {
         label: t('search.filters.region-label'),
       },
     ],
-    [t, scientificName, floritalyName, genus, country, countryCode, locality, geometry, year, month, hasCoordinates, stateProvince],
+    [
+      t,
+      scientificName,
+      floritalyName,
+      genus,
+      country,
+      countryCode,
+      locality,
+      geometry,
+      year,
+      altitude,
+      month,
+      hasCoordinates,
+      stateProvince,
+    ],
   )
 
   if (activeFiltersCount === 0) {

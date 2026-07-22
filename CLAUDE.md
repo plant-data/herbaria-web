@@ -23,7 +23,8 @@ Prettier enforces no semicolons, single quotes, `printWidth: 120`, trailing comm
 
 Config is read from Vite env vars in [src/config.ts](src/config.ts). `.env` is gitignored (no `.env.example` is tracked). Required vars:
 
-- `VITE_API_BASE_URL` — base URL of the specimens API (must end with `/`)
+- `VITE_API_BASE_URL` — base URL of the online specimens API (must end with `/`)
+- `VITE_LOCAL_API_BASE_URL` — base URL of the local plantdata-resources public API (must end with `/`); optional, defaults to `http://localhost:8000/api/v1/`. Currently only the search **filter panel** (option suggestions/counts and the year/altitude histograms) reads from here, via [src/features/search/api/local-backend.ts](src/features/search/api/local-backend.ts); results, map and graphs still use `VITE_API_BASE_URL`.
 - `VITE_IMAGE_BASE_URL` — base URL for specimen images
 - `VITE_ITEMS_PER_PAGE` — page size (parsed as Number)
 - `VITE_BASE_PATH` — public path prefix; used for locale loading and favicon/asset hrefs

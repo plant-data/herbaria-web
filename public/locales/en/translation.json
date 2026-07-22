@@ -91,6 +91,8 @@
       "country-code-placeholder": "Search by country",
       "locality-label": "Locality",
       "locality-placeholder": "Search by locality",
+      "locality-matches": "{{count}} specimens",
+      "locality-count-unavailable": "Count unavailable — press Enter to filter",
       "collected-by-label": "Collected by",
       "collected-by-placeholder": "Search by collector",
       "geometry-label": "Geographic Area",

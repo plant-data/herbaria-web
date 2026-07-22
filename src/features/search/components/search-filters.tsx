@@ -6,6 +6,7 @@ import { BASE_API_URL } from '@/config'
 import { Autocomplete } from '@/features/search/components/autocomplete'
 import { FacetAutocomplete } from '@/features/search/components/facet-autocomplete'
 import { CountryFacet } from '@/features/search/components/country-facet'
+import { LocalityFilter } from '@/features/search/components/locality-filter'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { HistogramRangeSlider } from '@/features/search/components/histogram-range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
@@ -133,13 +134,12 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         selectedValues={countryCode}
         onSelectedValuesChange={setCountryCode}
       />
-      <FacetAutocomplete
+      <LocalityFilter
         label={t('search.filters.locality-label')}
         placeholder={t('search.filters.locality-placeholder')}
-        field="locality"
-        selectedValues={locality}
-        onSelectedValuesChange={setLocality}
-        minLength={4}
+        value={locality}
+        onValueChange={setLocality}
+        minLength={3}
       />
       <FacetAutocomplete
         label={t('search.filters.collected-by-label')}

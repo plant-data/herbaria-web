@@ -91,6 +91,8 @@
       "country-code-placeholder": "Seleziona uno stato",
       "locality-label": "Località",
       "locality-placeholder": "Cerca una località",
+      "locality-matches": "{{count}} esemplari",
+      "locality-count-unavailable": "Conteggio non disponibile — premi Invio per filtrare",
       "collected-by-label": "Raccolto da",
       "collected-by-placeholder": "Cerca un raccoglitore",
       "geometry-label": "Area",

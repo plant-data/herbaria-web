@@ -29,6 +29,9 @@ export interface LocalFilterParams {
   year_to?: number
   minimumAltitude?: number
   maximumAltitude?: number
+  // Free-text place fragment, matched full-text against the locality field —
+  // not a facet value. This is the dashboard's locality behaviour.
+  locality?: string
   only_multisheet?: boolean
 }
 
@@ -40,6 +43,9 @@ interface BuildOptions {
   // filters rather than only the selected span.
   excludeYear?: boolean
   excludeAltitude?: boolean
+  // Drop the committed locality, so its own preview count is for the text being
+  // typed rather than doubly constrained by what is already committed.
+  excludeLocality?: boolean
 }
 
 export function buildLocalFilterParams(source: LocalFilterSource, opts: BuildOptions = {}): LocalFilterParams {
@@ -52,11 +58,14 @@ export function buildLocalFilterParams(source: LocalFilterSource, opts: BuildOpt
   add('scientificName', source.scientificName)
   add('genus', source.genus)
   add('countryCode', source.countryCode)
-  add('locality', source.locality)
   add('recordedBy', source.recordedBy)
 
   const params: LocalFilterParams = {}
   if (Object.keys(filters).length > 0) params.filters = filters
+
+  // Locality is free text, not a facet: the committed value (if any) rides on
+  // the top-level `locality` param, matched full-text like the dashboard.
+  if (!opts.excludeLocality && source.locality.length > 0) params.locality = source.locality[0]
 
   // A range equal to its full extent is not a filter — sending the bound would
   // silently drop specimens dated/measured outside the slider's window.
@@ -104,6 +113,7 @@ export function buildFacetUrl(field: string, prefix: string, params: LocalFilter
   if (params.year_to != null) search.set('year_to', String(params.year_to))
   if (params.minimumAltitude != null) search.set('minimumAltitude', String(params.minimumAltitude))
   if (params.maximumAltitude != null) search.set('maximumAltitude', String(params.maximumAltitude))
+  if (params.locality) search.set('locality', params.locality)
   if (params.only_multisheet) search.set('only_multisheet', '1')
 
   return `${BASE_LOCAL_API_URL}herbaria/facets?${search.toString()}`
@@ -148,4 +158,25 @@ export async function fetchGroup(
   const body = { field, order, limit, ...params }
   const res: GroupResponse = await postApiClient(`${BASE_LOCAL_API_URL}herbaria/group`, body, signal)
   return res.data.map((bucket) => ({ value: String(bucket.value), count: bucket.count }))
+}
+
+interface SearchMetaResponse {
+  meta: { total: number }
+}
+
+/**
+ * How many specimens match a locality fragment under the other applied filters.
+ * The public API has no dedicated count endpoint, so this asks `search` for a
+ * single row and reads the total — the cheapest way to get the number the
+ * dashboard's locality box shows. Throws on a 503 (index down); the caller
+ * treats that as "count unavailable".
+ */
+export async function fetchLocalityCount(
+  query: string,
+  params: LocalFilterParams,
+  signal: AbortSignal,
+): Promise<number> {
+  const body = { ...params, locality: query, per_page: 1 }
+  const res: SearchMetaResponse = await postApiClient(`${BASE_LOCAL_API_URL}herbaria/search`, body, signal)
+  return res.meta.total
 }

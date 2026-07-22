@@ -1,153 +1,58 @@
 import { useQuery } from '@tanstack/react-query'
+import { useShallow } from 'zustand/react/shallow'
 import type { FilterMapData, FilterStateData } from '@/features/search/stores/use-filters-store'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-import { postApiClient } from '@/api/post-api-client'
 import { ITEMS_PER_PAGE } from '@/config'
-import { COMMON_QUERY_OPTIONS, MAX_YEAR, MIN_YEAR, SEARCH_CONFIG } from '@/features/search/constants/constants'
-
-// ============================================================================
-// 1. Configuration & Constants
-// ============================================================================
-
-type SearchType = 'data' | 'map' | 'graph' | 'point' | 'cluster' | 'count'
+import { COMMON_QUERY_OPTIONS } from '@/features/search/constants/constants'
+import type { LocalFilterSource, SortClause } from '@/features/search/api/local-backend'
+import {
+  fetchGroupAs,
+  fetchMapCells,
+  fetchSpecimens,
+  fetchSpecimensCount,
+  fetchSpecimensInCell,
+} from '@/features/search/api/local-backend'
 
 export type CustomFilters = Partial<FilterStateData & FilterMapData & { sortBy: string }>
 
-// ============================================================================
-// Utility Functions
-// ============================================================================
+// Online sort keys -> the backend's sortable fields (HerbariaSearchSchema::SORT_FIELDS).
+const SORT_FIELD_MAP: Record<string, string> = {
+  scientificName: 'scientificName',
+  family: 'family',
+  year: 'eventYear',
+  eventYear: 'eventYear',
+  month: 'eventMonth',
+  eventMonth: 'eventMonth',
+}
 
-/**
- * A pure utility function to prepare the request payload.
- * It's decoupled from React hooks, making it easily testable.
- * @param storeState - The current state from useFilterStore.
- * @param options - Configuration for the payload preparation.
- * @returns The payload for the API request.
- */
-const prepareQueryPayload = (
-  storeState: FilterStateData & FilterMapData,
-  options: {
-    searchType: SearchType
-    customFilters?: CustomFilters
-    customSort?: Record<string, 'asc' | 'desc'>
-    customGroupBy?: keyof CustomFilters | 'count'
-    customSkip?: number
-  },
-) => {
-  const { searchType, customFilters = {}, customSort = {}, customGroupBy = {}, customSkip = 0 } = options
+function toSortClauses(sort: Record<string, 'asc' | 'desc'>): Array<SortClause> {
+  return Object.entries(sort)
+    .map(([field, direction]) => ({ field: SORT_FIELD_MAP[field], direction }))
+    .filter((clause): clause is SortClause => Boolean(clause.field))
+}
 
-  // costruiamo il filter
-  const filters: CustomFilters = {
-    ...storeState,
-    ...customFilters,
-  }
-
-  delete filters.skip
-  delete filters.activeFiltersCount
-
-  if (filters.year && filters.year[0] === MIN_YEAR && filters.year[1] === MAX_YEAR) {
-    delete filters.year
-  }
-
-  if (searchType !== 'map') {
-    delete filters.zoom
-    delete filters.bbox
-    delete filters.mapCenter
-  } else {
-    // Ensure zoom is an integer for the map API
-    if (filters.zoom !== undefined) {
-      filters.zoom = Math.round(filters.zoom)
-    }
-  }
-
-  // Construct the final payload based on the search type.
-  switch (searchType) {
-    case 'data':
-      return {
-        filters,
-        sort: customSort,
-        limit: ITEMS_PER_PAGE,
-        skip: storeState.skip,
-      }
-    case 'graph':
-      return {
-        filters,
-        groupBy: customGroupBy,
-      }
-    case 'point':
-      return {
-        filters,
-        limit: 10,
-        skip: customSkip,
-      }
-    case 'cluster':
-      return {
-        filters,
-        limit: 10,
-        skip: customSkip,
-      }
-    case 'count':
-      return {
-        filters,
-      }
-    default:
-      // 'map' and 'graph' only require filters.
-      return { filters }
-  }
+// The slice of the store the local API reads. Zustand keeps array references
+// stable until a setter changes them, so useShallow avoids needless refetches.
+function useLocalSource(): LocalFilterSource {
+  return useFilterStore(
+    useShallow((state) => ({
+      scientificName: state.scientificName,
+      genus: state.genus,
+      countryCode: state.countryCode,
+      locality: state.locality,
+      recordedBy: state.recordedBy,
+      year: state.year,
+      altitude: state.altitude,
+      onlyMultisheet: state.onlyMultisheet,
+      month: state.month,
+      institutionCode: state.institutionCode,
+      geometry: state.geometry,
+    })),
+  )
 }
 
 // ============================================================================
-// 3. Generic Data Fetching Hook
-// ============================================================================
-
-interface UseSpecimensQueryOptions {
-  searchType: SearchType
-  customFilters?: CustomFilters
-  customSort?: Record<string, 'asc' | 'desc'>
-  customGroupBy?: keyof CustomFilters | 'count'
-  customSkip?: number
-  enabled?: boolean
-}
-
-function useSpecimensQuery({
-  searchType,
-  customFilters,
-  customSort,
-  customGroupBy,
-  customSkip,
-  enabled = true,
-}: UseSpecimensQueryOptions) {
-  const filterStoreState = useFilterStore()
-
-  const payload = prepareQueryPayload(filterStoreState, {
-    searchType,
-    customFilters,
-    customSort,
-    customGroupBy,
-    customSkip,
-  })
-
-  const config = SEARCH_CONFIG[searchType]
-
-  return useQuery({
-    // The query key should uniquely identify the data being fetched.
-    // The payload's filters object is a good candidate for this.
-    queryKey: [
-      config.key,
-      payload.filters,
-      payload.sort,
-      payload.limit,
-      payload.skip,
-      payload.groupBy, // Add this for graph queries
-    ].filter(Boolean),
-    queryFn: ({ signal }) => postApiClient(config.url, payload, signal),
-    ...COMMON_QUERY_OPTIONS,
-    enabled,
-  })
-}
-
-// ============================================================================
-// 4. Specific, Public-Facing Hooks (The API for our components)
+// Public hooks — same return shapes the components already read
 // ============================================================================
 
 interface UseSpecimensMapOptions {
@@ -161,20 +66,22 @@ interface UseSpecimensDataOptions {
 
 interface UseSpecimensGraphOptions {
   customFilters?: CustomFilters
-  customGroupBy?: keyof CustomFilters | 'count'
+  customGroupBy?: string
   enabled?: boolean
 }
 
 interface UseSpecimensPointOptions {
-  customFilters?: CustomFilters & {
-    decimalLatitude?: number
-    decimalLongitude?: number
-  }
+  customFilters?: CustomFilters & { decimalLatitude?: number; decimalLongitude?: number }
   customSkip?: number
 }
 
 interface UseSpecimensClusterOptions {
+  // The map cell to drill into: its centre + size (older gridCode/clusterCode
+  // kept optional so callers compile during the migration).
   customFilters?: CustomFilters & {
+    lat?: number
+    lng?: number
+    cellKm?: number
     gridCode?: string
     clusterCode?: string
   }
@@ -185,49 +92,84 @@ interface UseSpecimensCountOptions {
   customFilters?: CustomFilters
 }
 
-export function useSpecimensMap(options: UseSpecimensMapOptions = {}) {
-  const { customFilters } = options
-  return useSpecimensQuery({ searchType: 'map', customFilters })
+export function useSpecimensData(options: UseSpecimensDataOptions = {}) {
+  const { customFilters, customSort = { scientificName: 'asc' } } = options
+  const source = useLocalSource()
+  const skip = useFilterStore((state) => state.skip)
+  const merged = { ...source, ...customFilters }
+  const sort = toSortClauses(customSort)
+
+  return useQuery({
+    queryKey: ['local-data', JSON.stringify(merged), JSON.stringify(sort), skip],
+    queryFn: ({ signal }) => fetchSpecimens(merged, { skip, perPage: ITEMS_PER_PAGE, sort }, signal),
+    ...COMMON_QUERY_OPTIONS,
+  })
 }
 
 export function useSpecimensCount(options: UseSpecimensCountOptions = {}) {
   const { customFilters } = options
-  return useSpecimensQuery({ searchType: 'count', customFilters })
-}
+  const source = useLocalSource()
+  const merged = { ...source, ...customFilters }
 
-export function useSpecimensData(options: UseSpecimensDataOptions = {}) {
-  const { customFilters, customSort = { scientificName: 'asc' } } = options
-  return useSpecimensQuery({
-    searchType: 'data',
-    customFilters,
-    customSort,
+  return useQuery({
+    queryKey: ['local-count', JSON.stringify(merged)],
+    queryFn: ({ signal }) => fetchSpecimensCount(merged, signal),
+    ...COMMON_QUERY_OPTIONS,
   })
 }
 
-export function useSpecimensPoint(options: UseSpecimensPointOptions = {}) {
-  const { customFilters, customSkip } = options
-  return useSpecimensQuery({
-    searchType: 'point',
-    customFilters,
-    customSkip,
-  })
-}
+export function useSpecimensMap(options: UseSpecimensMapOptions = {}) {
+  const { customFilters } = options
+  const source = useLocalSource()
+  const { zoom, bbox } = useFilterStore(useShallow((state) => ({ zoom: state.zoom, bbox: state.bbox })))
+  const merged = { ...source, ...customFilters }
 
-export function useSpecimensCluster(options: UseSpecimensClusterOptions = {}) {
-  const { customFilters, customSkip } = options
-  return useSpecimensQuery({
-    searchType: 'cluster',
-    customFilters,
-    customSkip,
+  return useQuery({
+    queryKey: ['local-map', JSON.stringify(merged), Math.round(zoom), JSON.stringify(bbox)],
+    queryFn: ({ signal }) => fetchMapCells(merged, { zoom, bbox }, signal),
+    ...COMMON_QUERY_OPTIONS,
   })
 }
 
 export function useSpecimensGraph(options: UseSpecimensGraphOptions = {}) {
   const { customFilters, customGroupBy, enabled = true } = options
-  return useSpecimensQuery({
-    searchType: 'graph',
-    customFilters,
-    customGroupBy,
+  const source = useLocalSource()
+  const merged = { ...source, ...customFilters }
+  const groupBy = String(customGroupBy ?? '')
+
+  return useQuery({
+    queryKey: ['local-graph', groupBy, JSON.stringify(merged)],
+    queryFn: ({ signal }) => fetchGroupAs(merged, groupBy, signal),
+    ...COMMON_QUERY_OPTIONS,
     enabled,
+  })
+}
+
+export function useSpecimensPoint(options: UseSpecimensPointOptions = {}) {
+  const { customFilters, customSkip = 0 } = options
+  const source = useLocalSource()
+  const lat = customFilters?.decimalLatitude ?? 0
+  const lng = customFilters?.decimalLongitude ?? 0
+
+  return useQuery({
+    queryKey: ['local-point', lat, lng, customSkip, JSON.stringify(source)],
+    // A single map point is a tiny cell (~1 km) around the coordinate.
+    queryFn: ({ signal }) => fetchSpecimensInCell(source, { lat, lng, cellKm: 1, skip: customSkip }, signal),
+    ...COMMON_QUERY_OPTIONS,
+  })
+}
+
+export function useSpecimensCluster(options: UseSpecimensClusterOptions = {}) {
+  const { customFilters, customSkip = 0 } = options
+  const source = useLocalSource()
+  const lat = customFilters?.lat ?? 0
+  const lng = customFilters?.lng ?? 0
+  const cellKm = customFilters?.cellKm ?? 0
+
+  return useQuery({
+    queryKey: ['local-cluster', lat, lng, cellKm, customSkip, JSON.stringify(source)],
+    queryFn: ({ signal }) => fetchSpecimensInCell(source, { lat, lng, cellKm, skip: customSkip }, signal),
+    ...COMMON_QUERY_OPTIONS,
+    enabled: cellKm > 0,
   })
 }

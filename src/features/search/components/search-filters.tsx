@@ -114,17 +114,12 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         selectedValues={countryCode}
         onSelectedValuesChange={setCountryCode}
       />
-      <Autocomplete
+      <FacetAutocomplete
         label={t('search.filters.locality-label')}
         placeholder={t('search.filters.locality-placeholder')}
+        field="locality"
         selectedValues={locality}
         onSelectedValuesChange={setLocality}
-        queryKey={['localitysearch', herbariaId ?? '']}
-        query={
-          `${BASE_API_URL}specimens/suggestions?` +
-          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
-          `field=locality&value=`
-        }
         minLength={4}
       />
       <RangeSlider

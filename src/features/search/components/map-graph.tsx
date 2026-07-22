@@ -79,8 +79,6 @@ export function MapGraph({ className = '' }) {
     }
   }, [geoJson, countryCountMap, i18n.language])
 
-  console.log(seriesData);
-
   const countryOptions = useMemo(() => {
     if (seriesData.length === 0) return null
 
@@ -165,7 +163,10 @@ export function MapGraph({ className = '' }) {
         <DropdownMenuItem onClick={() => setMapType('country')}>
           {t('search.results.specimens-country')}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setMapType('region')}>{t('search.results.specimens-region')}</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setMapType('region')}>
+          {t('search.results.specimens-region')}
+          <span className="text-muted-foreground ml-1 text-xs">(work in progress)</span>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { HistogramGraph, LineGraph } from '@/features/search/components/generic-graph'
+import { AltitudeBeltGraph, HistogramGraph, LineGraph } from '@/features/search/components/generic-graph'
 import { MapGraph } from '@/features/search/components/map-graph'
 
 export function SpecimensGraphs() {
@@ -18,13 +18,7 @@ export function SpecimensGraphs() {
         <LineGraph title={t('search.results.specimens-by-year')} groupBy="year" xAxisKey="year" color="#91cc75" />
         <MapGraph className="col-span-1 @min-4xl/mainresult:col-span-2" />
 
-        <HistogramGraph
-          title={t('search.results.specimens-by-floritaly-name')}
-          groupBy="floritalyName"
-          yAxisKey="floritalyName"
-          color="#fac858"
-          topN={20}
-        />
+        <AltitudeBeltGraph title={t('search.results.specimens-by-altitude')} />
 
         <LineGraph title={t('search.results.specimens-by-month')} groupBy="month" xAxisKey="month" color="#fa4858" />
       </div>

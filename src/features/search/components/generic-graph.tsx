@@ -284,6 +284,137 @@ export function HistogramGraph({ title, groupBy, yAxisKey, color, topN = null }:
   )
 }
 
+// Elevation "belt" colours, low → high, like mountain vegetation belts:
+// below-sea blue, lowland green, montane tan, subalpine brown, alpine grey,
+// nival white.
+const ELEVATION_BELTS: Array<{ below: number; color: string }> = [
+  { below: 0, color: '#3b6ea5' },
+  { below: 500, color: '#2e7d32' },
+  { below: 1000, color: '#66bb6a' },
+  { below: 1500, color: '#9ccc65' },
+  { below: 2000, color: '#d4c04a' },
+  { below: 2500, color: '#b08a3e' },
+  { below: 3000, color: '#8d6e63' },
+  { below: 4000, color: '#9e9e9e' },
+  { below: Infinity, color: '#e0e0e0' },
+]
+
+function beltColor(band: number): string {
+  return ELEVATION_BELTS.find((belt) => band < belt.below)?.color ?? '#e0e0e0'
+}
+
+const ELEVATION_BAND_WIDTH = 200
+
+// Altitude Belt Graph — horizontal bars per elevation band (low at the bottom),
+// each coloured by its belt, so the collection's altitude distribution reads
+// like a mountain cross-section. Replaces the (Italy-only) Floritaly histogram.
+export function AltitudeBeltGraph({ title }: { title: string }) {
+  const { t } = useTranslation()
+  const { theme } = useTheme()
+  const [ref, inView] = useInView<HTMLDivElement>({ rootMargin: '50px' })
+  const { data, isPending, isFetching } = useSpecimensGraph({ customGroupBy: 'elevationBand', enabled: inView })
+  const isFetchingNewData = isFetching && !isPending
+
+  const chartOptions = useMemo(() => {
+    if (!data?.occurrences || data.occurrences.length === 0) {
+      return null
+    }
+
+    const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    const textColor = isDark ? '#ffffff' : '#000000'
+
+    // Keep the plausible window (the data holds a few nonsense bands to 90,000 m),
+    // sorted low → high so the lowest belt sits at the bottom.
+    const bands = (data.occurrences as Array<{ elevationBand: string | number; count: number }>)
+      .map((item) => ({ band: Number(item.elevationBand), count: item.count }))
+      .filter((item) => Number.isFinite(item.band) && item.band >= -500 && item.band <= 6000)
+      .sort((a, b) => a.band - b.band)
+
+    if (bands.length === 0) {
+      return null
+    }
+
+    return {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'shadow' },
+        formatter: (params: any) => {
+          const band = Number(params[0].axisValue)
+          const label = `${band.toLocaleString()}–${(band + ELEVATION_BAND_WIDTH).toLocaleString()} m`
+          return `${label}<br/>${t('search.results.specimens')}: ${params[0].value}`
+        },
+      },
+      grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+      xAxis: {
+        type: 'value',
+        name: t('search.results.count'),
+        nameTextStyle: { color: textColor },
+        axisLabel: { color: textColor },
+        axisLine: { lineStyle: { color: textColor } },
+        axisTick: { lineStyle: { color: textColor } },
+        splitLine: { lineStyle: { color: isDark ? '#333' : '#e0e0e0' } },
+        minInterval: 1,
+      },
+      yAxis: {
+        type: 'category',
+        data: bands.map((item) => item.band),
+        axisLabel: {
+          color: textColor,
+          formatter: (value: string) => `${Number(value).toLocaleString()} m`,
+          fontSize: 10,
+        },
+        axisLine: { lineStyle: { color: textColor } },
+        axisTick: { lineStyle: { color: textColor } },
+      },
+      series: [
+        {
+          name: t('search.results.specimens'),
+          type: 'bar',
+          data: bands.map((item) => ({ value: item.count, itemStyle: { color: beltColor(item.band) } })),
+        },
+      ],
+    }
+  }, [data, t, theme])
+
+  if (!chartOptions && !isPending) {
+    return (
+      <Card ref={ref} className="relative gap-0 pb-1 shadow-xs">
+        {isFetchingNewData && <LoadingBadge className="absolute top-3 right-3" />}
+        <CardHeader>
+          <CardTitle className="h-6">{title}</CardTitle>
+        </CardHeader>
+        <CardContent className="px-1">
+          <p className="flex h-[400px] w-full items-center justify-center">{t('search.results.error-no-data')}</p>
+        </CardContent>
+      </Card>
+    )
+  }
+  if (isPending) {
+    return (
+      <Card ref={ref} className="gap-0 pb-1 shadow-xs">
+        <CardHeader>
+          <Skeleton className="h-6 w-48" />
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-[400px] w-full" />
+        </CardContent>
+      </Card>
+    )
+  }
+
+  return (
+    <Card ref={ref} className="relative gap-0 pb-1 shadow-xs">
+      {isFetchingNewData && <LoadingBadge className="absolute top-3 right-3" />}
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+      </CardHeader>
+      <CardContent className="px-1">
+        <ReactECharts option={chartOptions} style={{ height: '400px', width: '100%' }} opts={{ renderer: 'svg' }} />
+      </CardContent>
+    </Card>
+  )
+}
+
 // Line Graph Component
 export function LineGraph({ title, groupBy, xAxisKey, color }: LineGraphProps) {
   const { t } = useTranslation()

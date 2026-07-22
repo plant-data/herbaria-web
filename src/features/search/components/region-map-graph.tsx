@@ -71,9 +71,6 @@ export function RegionMapGraph({ className = '', inView }: RegionMapGraphProps) 
     }
   }, [geoJson, regionCountMap])
 
-  console.log(seriesData);
-  
-
   const regionOptions = useMemo(() => {
     if (seriesData.length === 0) return null
 

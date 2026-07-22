@@ -430,7 +430,10 @@ const GROUP_FIELD_MAP: Record<string, { field: string; outKey: string; order: 'c
 }
 
 export interface GraphResult {
-  occurrences: Array<Record<string, string | number>>
+  // Buckets keyed by the chart's out-key plus `count`; each consumer casts to
+  // its own shape, so this stays permissive (as the online API was, untyped).
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  occurrences: Array<any>
 }
 
 /**

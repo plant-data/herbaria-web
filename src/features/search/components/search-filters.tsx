@@ -10,13 +10,12 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { HistogramRangeSlider } from '@/features/search/components/histogram-range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
 import {
-  ALTITUDE_BAND,
   ALTITUDE_MAX,
   ALTITUDE_MIN,
+  HISTOGRAM_BARS,
   MAX_YEAR,
   MIN_YEAR,
   MONTHS,
-  YEAR_BIN,
 } from '@/features/search/constants/constants'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { COUNTRIES } from '@/features/search/constants/countries'
@@ -157,7 +156,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         min={MIN_YEAR}
         max={MAX_YEAR}
         step={1}
-        binWidth={YEAR_BIN}
+        bars={HISTOGRAM_BARS}
         excludeKey="year"
       />
       <HistogramRangeSlider
@@ -168,7 +167,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         min={ALTITUDE_MIN}
         max={ALTITUDE_MAX}
         step={10}
-        binWidth={ALTITUDE_BAND}
+        bars={HISTOGRAM_BARS}
         excludeKey="altitude"
         unit="m"
       />

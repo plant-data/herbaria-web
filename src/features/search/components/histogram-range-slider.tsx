@@ -9,7 +9,7 @@ import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { buildLocalFilterParams, fetchGroup } from '@/features/search/api/local-backend'
 
 /** Tallest bar, in pixels. */
-const BAR_HEIGHT = 48
+const BAR_HEIGHT = 36
 /** Floor for a bar that has anything in it, so "present but tiny" stays visible. */
 const MIN_BAR = 3
 
@@ -20,35 +20,31 @@ interface Bucket {
 }
 
 /**
- * Lay per-value counts out as a contiguous row of bins across the slider span.
- * Works for both the year histogram (one bar per decade, counts binned) and the
- * altitude histogram (one bar per band, values already floored to a multiple of
- * the width) — floor indexing collapses to an exact match in the latter case.
+ * Divide the slider span into a fixed number of equal-width bins and tally the
+ * counts into them. A fixed bar count (rather than a fixed bin width) keeps the
+ * year and altitude histograms visually identical — the same number of bars —
+ * however different their ranges are.
  */
 function bucketize(
   data: Array<{ value: number; count: number }>,
   min: number,
   max: number,
-  binWidth: number,
+  bars: number,
 ): Array<Bucket> {
-  const step = Math.max(1, binWidth)
-  const start = Math.floor(min / step) * step
-  const end = Math.ceil((max + 1) / step) * step
-  const total = Math.max(1, Math.round((end - start) / step))
+  const step = (max - min) / bars
 
-  const buckets: Array<Bucket> = Array.from({ length: total }, (_, index) => ({
-    from: start + index * step,
-    to: start + index * step + step - 1,
+  const buckets: Array<Bucket> = Array.from({ length: bars }, (_, index) => ({
+    from: min + index * step,
+    to: min + (index + 1) * step,
     count: 0,
   }))
 
   for (const { value, count } of data) {
-    const index = Math.floor((value - start) / step)
-    // Values outside the window are not folded into the end bars — that would
-    // draw an outlier as if it sat at the edge.
-    if (index >= 0 && index < total) {
-      buckets[index].count += count
-    }
+    // Values outside the window are dropped, not folded into the end bars —
+    // that would draw an outlier as if it sat at the edge.
+    if (value < min || value > max) continue
+    const index = Math.min(bars - 1, Math.floor((value - min) / step))
+    buckets[index].count += count
   }
 
   return buckets
@@ -77,7 +73,8 @@ interface HistogramRangeSliderProps {
   min: number
   max: number
   step: number
-  binWidth: number
+  // Number of equal-width histogram bars.
+  bars: number
   // Which range to lift from the histogram query, so the bars show the full
   // distribution under the *other* filters rather than only the selected span.
   excludeKey: 'year' | 'altitude'
@@ -101,7 +98,7 @@ export function HistogramRangeSlider({
   min,
   max,
   step,
-  binWidth,
+  bars,
   excludeKey,
   unit,
 }: HistogramRangeSliderProps) {
@@ -139,8 +136,8 @@ export function HistogramRangeSlider({
 
   const buckets = useMemo(() => {
     const numeric = (data ?? []).map((bucket) => ({ value: Number(bucket.value), count: bucket.count }))
-    return bucketize(numeric, min, max, binWidth)
-  }, [data, min, max, binWidth])
+    return bucketize(numeric, min, max, bars)
+  }, [data, min, max, bars])
 
   const peak = useMemo(() => Math.max(1, ...buckets.map((bucket) => bucket.count)), [buckets])
 
@@ -156,30 +153,35 @@ export function HistogramRangeSlider({
     onValueCommit(resetValue)
   }
 
-  const fmt = (n: number) => `${n.toLocaleString()}${unit ? ` ${unit}` : ''}`
+  const fmt = (n: number) => `${Math.round(n).toLocaleString()}${unit ? ` ${unit}` : ''}`
+  // The live selection, unit shown once. Reflects the drag in progress.
+  const rangeLabel = `${Math.round(sliderValue[0]).toLocaleString()}–${Math.round(sliderValue[1]).toLocaleString()}${unit ? ` ${unit}` : ''}`
 
   return (
     <div className="max-w-full">
       <div className="flex min-h-9 items-center justify-between pb-1 pl-1">
         <div className="text-sm font-semibold">{label}</div>
-        {active && (
-          <Badge
-            variant="destructive"
-            onClick={handleReset}
-            className="focus-visible:border-destructive focus:ring-destructive cursor-pointer border-red-600/60 bg-red-600/10 text-xs font-normal text-red-500 shadow-none transition-colors hover:bg-red-600/5 focus:ring-2 focus:outline-none dark:bg-red-600/20"
-            tabIndex={0}
-            role="button"
-            aria-label="Reset range filter"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault()
-                handleReset()
-              }
-            }}
-          >
-            {t('search.filters.clear')}
-          </Badge>
-        )}
+        <div className="flex items-center gap-2">
+          <span className="text-muted-foreground text-xs tabular-nums">{rangeLabel}</span>
+          {active && (
+            <Badge
+              variant="destructive"
+              onClick={handleReset}
+              className="focus-visible:border-destructive focus:ring-destructive cursor-pointer border-red-600/60 bg-red-600/10 text-xs font-normal text-red-500 shadow-none transition-colors hover:bg-red-600/5 focus:ring-2 focus:outline-none dark:bg-red-600/20"
+              tabIndex={0}
+              role="button"
+              aria-label="Reset range filter"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  handleReset()
+                }
+              }}
+            >
+              {t('search.filters.clear')}
+            </Badge>
+          )}
+        </div>
       </div>
 
       {/* Histogram. aria-hidden: the counts are in each bar's tooltip, and a row

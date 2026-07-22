@@ -91,6 +91,8 @@
       "country-code-placeholder": "Seleziona uno stato",
       "locality-label": "Località",
       "locality-placeholder": "Cerca una località",
+      "collected-by-label": "Raccolto da",
+      "collected-by-placeholder": "Cerca un raccoglitore",
       "geometry-label": "Area",
       "geometry-description": "Disegna un'area sulla mappa",
       "geometry-selected": "Area selezionata",

@@ -85,6 +85,7 @@ export function SelectedFiltersTree() {
     country,
     countryCode,
     locality,
+    recordedBy,
     geometry,
     year,
     altitude,
@@ -135,6 +136,11 @@ export function SelectedFiltersTree() {
         key: 'locality',
         items: locality,
         label: t('search.filters.locality-label'),
+      },
+      {
+        key: 'recordedBy',
+        items: recordedBy,
+        label: t('search.filters.collected-by-label'),
       },
       {
         key: 'geometry',
@@ -192,6 +198,7 @@ export function SelectedFiltersTree() {
       country,
       countryCode,
       locality,
+      recordedBy,
       geometry,
       year,
       altitude,

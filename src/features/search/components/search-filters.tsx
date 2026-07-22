@@ -37,6 +37,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
 
     countryCode,
     locality,
+    recordedBy,
 
     year,
     altitude,
@@ -51,6 +52,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
 
     setCountryCode,
     setLocality,
+    setRecordedBy,
 
     setYear,
     setAltitude,
@@ -68,6 +70,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
 
       countryCode: state.countryCode,
       locality: state.locality,
+      recordedBy: state.recordedBy,
 
       year: state.year,
       altitude: state.altitude,
@@ -83,6 +86,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
 
       setCountryCode: state.setCountryCode,
       setLocality: state.setLocality,
+      setRecordedBy: state.setRecordedBy,
 
       setYear: state.setYear,
       setAltitude: state.setAltitude,
@@ -133,6 +137,13 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         selectedValues={locality}
         onSelectedValuesChange={setLocality}
         minLength={4}
+      />
+      <FacetAutocomplete
+        label={t('search.filters.collected-by-label')}
+        placeholder={t('search.filters.collected-by-placeholder')}
+        field="recordedBy"
+        selectedValues={recordedBy}
+        onSelectedValuesChange={setRecordedBy}
       />
       <HistogramRangeSlider
         label={t('search.filters.year-label')}

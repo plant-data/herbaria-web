@@ -7,9 +7,9 @@ import { Autocomplete } from '@/features/search/components/autocomplete'
 import { FacetAutocomplete } from '@/features/search/components/facet-autocomplete'
 import { CountryFacet } from '@/features/search/components/country-facet'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
-import { RangeSlider } from '@/features/search/components/range-slider'
+import { HistogramRangeSlider } from '@/features/search/components/histogram-range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
-import { MAX_YEAR, MIN_YEAR, MONTHS } from '@/features/search/constants/constants'
+import { MAX_YEAR, MIN_YEAR, MONTHS, YEAR_BIN } from '@/features/search/constants/constants'
 import { HERBARIA_CONFIG } from '@/features/search/constants/herbaria'
 import { COUNTRIES } from '@/features/search/constants/countries'
 import { REGIONS } from '@/features/search/constants/regions'
@@ -122,13 +122,16 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         onSelectedValuesChange={setLocality}
         minLength={4}
       />
-      <RangeSlider
+      <HistogramRangeSlider
         label={t('search.filters.year-label')}
+        field="eventYear"
         value={year}
         onValueCommit={setYear}
         min={MIN_YEAR}
         max={MAX_YEAR}
         step={1}
+        binWidth={YEAR_BIN}
+        excludeKey="year"
       />
       <SelectItems
         label={t('search.filters.month-label')}

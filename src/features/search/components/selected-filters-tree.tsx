@@ -92,6 +92,7 @@ export function SelectedFiltersTree() {
     month,
     institutionCode,
     hasCoordinates,
+    onlyMultisheet,
     activeFiltersCount,
     floritalyName,
     stateProvince,
@@ -180,6 +181,12 @@ export function SelectedFiltersTree() {
         displayValue: () => t('common.yes'),
       },
       {
+        key: 'onlyMultisheet',
+        items: onlyMultisheet ? [onlyMultisheet] : [],
+        label: t('search.filters.only-multisheet-label'),
+        displayValue: () => t('common.yes'),
+      },
+      {
         key: 'floritalyName',
         items: floritalyName,
         label: t('search.filters.floritaly-name-label'),
@@ -204,6 +211,7 @@ export function SelectedFiltersTree() {
       altitude,
       month,
       hasCoordinates,
+      onlyMultisheet,
       stateProvince,
     ],
   )

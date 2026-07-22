@@ -44,6 +44,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
     month,
     institutionCode,
     hasCoordinates,
+    onlyMultisheet,
     floritalyName,
     stateProvince,
     setScientificName,
@@ -59,6 +60,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
     setMonth,
     setInstitutionCode,
     setHasCoordinates,
+    setOnlyMultisheet,
 
     setFloritalyName,
     setStateProvince,
@@ -77,6 +79,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       month: state.month,
       institutionCode: state.institutionCode,
       hasCoordinates: state.hasCoordinates,
+      onlyMultisheet: state.onlyMultisheet,
 
       floritalyName: state.floritalyName,
       stateProvince: state.stateProvince,
@@ -93,6 +96,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       setMonth: state.setMonth,
       setInstitutionCode: state.setInstitutionCode,
       setHasCoordinates: state.setHasCoordinates,
+      setOnlyMultisheet: state.setOnlyMultisheet,
 
       setFloritalyName: state.setFloritalyName,
       setStateProvince: state.setStateProvince,
@@ -192,6 +196,12 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         field="coordinates"
         checked={hasCoordinates}
         onCheckedChange={setHasCoordinates}
+      />
+      <SwitchOption
+        label={t('search.filters.only-multisheet-label')}
+        field="only-multisheet"
+        checked={onlyMultisheet}
+        onCheckedChange={setOnlyMultisheet}
       />
       {/* qua metto i filtry x l'italia */}
       <hr className="text-input mx-2 mt-3 mb-2" />

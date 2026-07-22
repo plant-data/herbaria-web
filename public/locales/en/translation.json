@@ -107,6 +107,7 @@
       "institution-code-label": "Herbarium",
       "institution-code-placeholder": "Select an herbarium",
       "has-coordinates-label": "Show only georeferenced records",
+      "only-multisheet-label": "Only specimens with multiple sheets",
       "filters-for-italy": "Filters for Italy",
       "region-label": "Region",
       "region-placeholder": "Select a region",

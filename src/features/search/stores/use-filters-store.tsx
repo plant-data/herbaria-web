@@ -1,6 +1,15 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import { BBOX, MAP_CENTER, MAX_YEAR, MIN_YEAR, SKIP, ZOOM } from '@/features/search/constants/constants'
+import {
+  ALTITUDE_MAX,
+  ALTITUDE_MIN,
+  BBOX,
+  MAP_CENTER,
+  MAX_YEAR,
+  MIN_YEAR,
+  SKIP,
+  ZOOM,
+} from '@/features/search/constants/constants'
 
 // skip zoom and bb aren't considered visible filters
 export interface FilterStateData {
@@ -12,9 +21,15 @@ export interface FilterStateData {
   locality: Array<string>
   geometry: Array<[number, number]>
   year: [number, number]
+  // Altitude range in metres, [ALTITUDE_MIN, ALTITUDE_MAX] means "no filter".
+  altitude: [number, number]
   month: Array<number>
   institutionCode: Array<string>
   hasCoordinates: boolean
+  // "Collected by" — maps to the local backend `recordedBy` facet.
+  recordedBy: Array<string>
+  // "Only specimens with multiple sheets" — maps to `only_multisheet`.
+  onlyMultisheet: boolean
   floritalyName: Array<string>
   stateProvince: Array<string>
   activeFiltersCount: number
@@ -40,10 +55,13 @@ interface FilterActions {
     geometry: Array<[number, number]> | ((prev: Array<[number, number]>) => Array<[number, number]>),
   ) => void
   setYear: (year: [number, number] | ((prev: [number, number]) => [number, number])) => void
+  setAltitude: (altitude: [number, number] | ((prev: [number, number]) => [number, number])) => void
   setMonth: (month: Array<number> | ((prev: Array<number>) => Array<number>)) => void
   setInstitutionCode: (institutionCode: Array<string> | ((prev: Array<string>) => Array<string>)) => void
   setInstitutionCodeNoResetSkip: (institutionCode: Array<string> | ((prev: Array<string>) => Array<string>)) => void
   setHasCoordinates: (hasCoordinates: boolean) => void
+  setRecordedBy: (recordedBy: Array<string> | ((prev: Array<string>) => Array<string>)) => void
+  setOnlyMultisheet: (onlyMultisheet: boolean) => void
   setStateProvince: (stateProvinces: Array<string> | ((prev: Array<string>) => Array<string>)) => void
   setFloritalyName: (floritalyName: Array<string> | ((prev: Array<string>) => Array<string>)) => void
 
@@ -67,9 +85,12 @@ const initialState: FilterStateData = {
   locality: [],
   geometry: [],
   year: [MIN_YEAR, MAX_YEAR],
+  altitude: [ALTITUDE_MIN, ALTITUDE_MAX],
   month: [],
   institutionCode: [],
   hasCoordinates: false,
+  recordedBy: [],
+  onlyMultisheet: false,
   floritalyName: [],
   stateProvince: [],
   activeFiltersCount: 0,
@@ -93,9 +114,13 @@ function calculateActiveFiltersCount(state: FilterStateData) {
   if (state.geometry.length > 0) count += 1
   count += state.month.length
   count += state.institutionCode.length
+  count += state.recordedBy.length
   if (state.year[0] !== initialState.year[0]) count += 1
   if (state.year[1] !== initialState.year[1]) count += 1
+  if (state.altitude[0] !== initialState.altitude[0]) count += 1
+  if (state.altitude[1] !== initialState.altitude[1]) count += 1
   if (state.hasCoordinates !== initialState.hasCoordinates) count += 1
+  if (state.onlyMultisheet !== initialState.onlyMultisheet) count += 1
   count += state.stateProvince.length
   count += state.floritalyName.length
 
@@ -159,10 +184,13 @@ export const useFilterStore = create<FilterState>()(
       setLocality: createSetter('locality', 'setLocality', set, true),
       setGeometry: createSetter('geometry', 'setGeometry', set, false),
       setYear: createSetter('year', 'setYear', set),
+      setAltitude: createSetter('altitude', 'setAltitude', set),
       setMonth: createSetter('month', 'setMonth', set, true),
       setInstitutionCode: createSetter('institutionCode', 'setInstitutionCode', set, true),
       setInstitutionCodeNoResetSkip: createSetter('institutionCode', 'setInstitutionCodeNoResetSkip', set, true, false),
       setHasCoordinates: createSetter('hasCoordinates', 'setHasCoordinates', set),
+      setRecordedBy: createSetter('recordedBy', 'setRecordedBy', set, true),
+      setOnlyMultisheet: createSetter('onlyMultisheet', 'setOnlyMultisheet', set),
       setFloritalyName: createSetter('floritalyName', 'setFloritalyName', set, true),
       setStateProvince: createSetter('stateProvince', 'setStateProvince', set, true),
       // Reset all filters to initial values, preserving locked filters

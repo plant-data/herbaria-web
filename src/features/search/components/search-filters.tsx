@@ -5,6 +5,7 @@ import type { LockedFilters } from '@/features/search/stores/use-filters-store'
 import { BASE_API_URL } from '@/config'
 import { Autocomplete } from '@/features/search/components/autocomplete'
 import { AutocompletePrefetch } from '@/features/search/components/autocomplete-prefetch'
+import { FacetAutocomplete } from '@/features/search/components/facet-autocomplete'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { RangeSlider } from '@/features/search/components/range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
@@ -92,17 +93,12 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
   return (
     <>
       <div className="pt-1"></div>
-      <Autocomplete
+      <FacetAutocomplete
         label={t('search.filters.scientific-name-label')}
         placeholder={t('search.filters.scientific-name-placeholder')}
+        field="scientificName"
         selectedValues={scientificName}
         onSelectedValuesChange={setScientificName}
-        queryKey={['plantscientificnamesearch', herbariaId ?? '']}
-        query={
-          `${BASE_API_URL}specimens/suggestions?` +
-          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
-          `field=scientificName&value=`
-        }
       />
       <Autocomplete
         label={t('search.filters.genus-label')}
@@ -111,7 +107,9 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         onSelectedValuesChange={setGenus}
         queryKey={['genussearch', herbariaId ?? '']}
         query={
-          `${BASE_API_URL}specimens/suggestions?` + (herbariaId ? `institutionCode=${herbariaId}&` : '') + `field=genus&value=`
+          `${BASE_API_URL}specimens/suggestions?` +
+          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
+          `field=genus&value=`
         }
       />
       <AutocompletePrefetch
@@ -175,7 +173,7 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
       />
       {/* qua metto i filtry x l'italia */}
       <hr className="text-input mx-2 mt-3 mb-2" />
-      <span className='ml-1 mb-1 text-sm font-semibold'>{t('search.filters.filters-for-italy')}</span>
+      <span className="mb-1 ml-1 text-sm font-semibold">{t('search.filters.filters-for-italy')}</span>
       <Autocomplete
         label={t('search.filters.floritaly-name-label')}
         placeholder={t('search.filters.floritaly-name-placeholder')}

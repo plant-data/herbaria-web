@@ -3,6 +3,17 @@ import { BASE_API_URL } from '@/config'
 const FLORITALY_URL = 'https://dryades.units.it/floritaly/index.php?procedure=taxon_page&tipo=all&id='
 const MIN_YEAR = 1800
 const MAX_YEAR = new Date().getFullYear()
+// Year histogram bin width — one bar per decade, matching the reference dashboard.
+const YEAR_BIN = 10
+
+// Altitude range bounds (metres) and band width. Mirror the local backend's
+// `elevation_bounds` (-500..6000) and `elevation_band_width` (200) so the slider
+// span and the `elevation_band` histogram buckets line up. A value equal to
+// [ALTITUDE_MIN, ALTITUDE_MAX] means "no filter"; the numeric boxes can reach
+// beyond the slider for out-of-window specimens.
+const ALTITUDE_MIN = -500
+const ALTITUDE_MAX = 6000
+const ALTITUDE_BAND = 200
 
 const MONTHS = [
   { id: 1, value: 'months.january' },
@@ -18,7 +29,6 @@ const MONTHS = [
   { id: 11, value: 'months.november' },
   { id: 12, value: 'months.december' },
 ] as const
-
 
 const MAP_STYLE = {
   version: 8,
@@ -94,6 +104,10 @@ export {
   FLORITALY_URL,
   MIN_YEAR,
   MAX_YEAR,
+  YEAR_BIN,
+  ALTITUDE_MIN,
+  ALTITUDE_MAX,
+  ALTITUDE_BAND,
   MONTHS,
   MAP_STYLE,
   ZOOM,

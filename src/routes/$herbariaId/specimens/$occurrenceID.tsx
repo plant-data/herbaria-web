@@ -1,11 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, notFound } from '@tanstack/react-router'
 import { SpecimenPage } from '@/features/search/components/specimen-page'
-import { BASE_API_URL } from '@/config'
+import { fetchSpecimenById } from '@/features/search/api/local-backend'
 import { Footer } from '@/components/footer'
 import { Skeleton } from '@/components/ui/skeleton'
 
 export const Route = createFileRoute('/$herbariaId/specimens/$occurrenceID')({
-  head: ({ params, loaderData }) => {
+  head: ({ params }) => {
     const occurrenceID = params.occurrenceID
     const title = `Specimen ${occurrenceID} - Herbaria`
     const description = `View details for herbarium specimen ${occurrenceID}. Scientific data, images, and collection information.`
@@ -31,11 +31,12 @@ export const Route = createFileRoute('/$herbariaId/specimens/$occurrenceID')({
     }
   },
   loader: async ({ params }) => {
-    const response = await fetch(`${BASE_API_URL}specimens/${params.occurrenceID}`)
-    if (!response.ok) {
-      throw new Error('Failed to fetch occurrence data')
+    // The public API has no by-id route; fetchSpecimenById does a `q` lookup.
+    const specimen = await fetchSpecimenById(params.occurrenceID)
+    if (!specimen) {
+      throw notFound()
     }
-    return response.json()
+    return specimen
   },
   component: OccurrenceDetail,
   pendingComponent: () => (
@@ -53,6 +54,9 @@ export const Route = createFileRoute('/$herbariaId/specimens/$occurrenceID')({
 
 function OccurrenceDetail() {
   const occurrence = Route.useLoaderData()
+  if (!occurrence) {
+    return null
+  }
   return (
     <>
       <SpecimenPage occurrence={occurrence} />

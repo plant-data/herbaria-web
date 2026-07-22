@@ -4,8 +4,8 @@ import { useShallow } from 'zustand/react/shallow'
 import type { LockedFilters } from '@/features/search/stores/use-filters-store'
 import { BASE_API_URL } from '@/config'
 import { Autocomplete } from '@/features/search/components/autocomplete'
-import { AutocompletePrefetch } from '@/features/search/components/autocomplete-prefetch'
 import { FacetAutocomplete } from '@/features/search/components/facet-autocomplete'
+import { CountryFacet } from '@/features/search/components/country-facet'
 import { useFilterStore } from '@/features/search/stores/use-filters-store'
 import { RangeSlider } from '@/features/search/components/range-slider'
 import { SelectItems } from '@/features/search/components/select-items'
@@ -107,18 +107,12 @@ export function SearchFilters({ lockedFilters }: { lockedFilters?: LockedFilters
         selectedValues={genus}
         onSelectedValuesChange={setGenus}
       />
-      <AutocompletePrefetch
+      <CountryFacet
         label={t('search.filters.country-code-label')}
         placeholder={t('search.filters.country-code-placeholder')}
         translationArray={COUNTRIES}
         selectedValues={countryCode}
         onSelectedValuesChange={setCountryCode}
-        queryKeys={['countryCode', herbariaId ?? '']}
-        query={
-          `${BASE_API_URL}specimens/suggestions?` +
-          (herbariaId ? `institutionCode=${herbariaId}&` : '') +
-          `limit=999&field=countryCode&value=`
-        }
       />
       <Autocomplete
         label={t('search.filters.locality-label')}

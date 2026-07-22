@@ -435,8 +435,8 @@
   },
   "herbaria": {
     "all": "All Herbaria",
-    "pi": "Herbarium Horti Botanici Pisani",
-    "fi-hci": "Herbarium Centrale Italicum"
+    "ro": "Herbarium RO",
+    "siena-hus": "Herbarium SIENA-HUS"
   },
   "herbaria-pages": {
     "buttons": {
@@ -444,7 +444,7 @@
       "learn-more": "Learn More",
       "explore": "Explore"
     },
-    "pi": {
+    "ro": {
       "home": {
         "hero": {
           "badge": "Herbarium PI",
@@ -474,7 +474,7 @@
         }
       }
     },
-    "fi-hci": {
+    "siena-hus": {
       "home": {
         "hero": {
           "badge": "Herbarium FI-HCI",
